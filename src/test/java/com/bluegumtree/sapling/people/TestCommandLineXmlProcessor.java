@@ -5,6 +5,7 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Test;
 
 public class TestCommandLineXmlProcessor {
@@ -17,6 +18,8 @@ public class TestCommandLineXmlProcessor {
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 		
 		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/get_person_data.xpl");			
+		
+		XMLUnit.setIgnoreWhitespace(true);
 		
 		assertXMLEqual(expected, runtime.getResponse());
 		
