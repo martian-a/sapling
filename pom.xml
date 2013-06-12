@@ -4,19 +4,26 @@
   <artifactId>sapling</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build> 
-    <resources>
-      <resource>
-        <directory>src/main/xslt</directory>
-        <includes>
-        	<include>*.xsl</include>
-        	<include>**/*.xsl</include>
-        </includes>
-      </resource>
+    <resources>     
       <resource>
         <directory>src/main/xproc</directory>
         <includes>
           <include>*.xpl</include>
           <include>**/*.xpl</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/xquery</directory>
+        <includes>
+          <include>*.xq</include>
+          <include>**/*.xq</include>
+        </includes>
+      </resource> 
+      <resource>
+        <directory>src/main/xslt</directory>
+        <includes>
+          <include>*.xsl</include>
+          <include>**/*.xsl</include>
         </includes>
       </resource>      
       <resource>
@@ -31,8 +38,8 @@
       <testResource>
         <directory>src/test/data</directory>
         <includes>
-        	<include>*.xml</include>
         	<include>**/*.xml</include>
+            <include>**/*.html</include>
         </includes>
       </testResource>
     </testResources>
