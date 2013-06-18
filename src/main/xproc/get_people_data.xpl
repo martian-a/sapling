@@ -5,7 +5,7 @@
 		<p:document href="http://localhost:8080/exist/apps/sapling-test/queries/people_index.xq" />
 	</p:input>
 	
-	<p:output port="result"/>
+	<p:output port="result" sequence="false" />
 	
 	<p:identity/>
 	

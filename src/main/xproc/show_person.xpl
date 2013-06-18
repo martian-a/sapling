@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:generate-person-profile" name="generate-person-profile" version="1.0">
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:show-person" name="show-person" version="1.0">
 	
-	<p:output port="result">
+	<p:output port="result" sequence="false">
 		<p:pipe step="transform" port="result" />
 	</p:output>
 	
-	<p:option name="root-publication-directory" required="false" />
+	<p:option name="root-publication-directory" required="false" />		
 	
-	<p:input port="parameters" kind="parameter" primary="false" sequence="true"/>  
+	<p:import href="library.xpl"/>
 	
-	<p:import href="library.xpl"/>	
-	
-	<k:get-person-data name="get-person-data" />			 
+	<k:get-person-data name="get-person-data"/>			 
 
 	<p:xslt version="1.0" name="transform">			
 		
@@ -28,7 +26,7 @@
 			<p:empty />
 		</p:input>
 		
-		<p:with-param name="root-publication-directory" select="$root-publication-directory" />
+		<p:with-param name="root-publication-directory" select="$root-publication-directory" />		
 		
 	</p:xslt>
 	
@@ -40,6 +38,6 @@
 		<p:store>
 			<p:with-option name="href" select="p:base-uri()"/>
 		</p:store>
-	</p:for-each>
+	</p:for-each>	
 	
 </p:declare-step>

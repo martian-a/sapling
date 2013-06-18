@@ -21,7 +21,13 @@
     </xsl:template>
     
     <xsl:template match="people" mode="index">
-        <xsl:result-document href="{$root-publication-directory}people/index.html" format="xhtml" encoding="utf-8">
+        <xsl:variable name="publication-path" select="concat($root-publication-directory, 'people/index.html')" />
+        
+        <sapling>
+            <link href="{$publication-path}" />
+        </sapling>
+        
+        <xsl:result-document href="{$publication-path}" format="xhtml" encoding="utf-8">
             <html>
                 <head>
                     <title>People</title>             

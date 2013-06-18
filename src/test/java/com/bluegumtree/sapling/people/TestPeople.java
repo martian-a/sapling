@@ -6,11 +6,17 @@ import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 
 public class TestPeople {
 
+	@BeforeClass
+	public static void oneTimeSetup() {
+		FileUtils.deleteQuietly(new File("/home/sheila/Software/Sapling/people"));
+	}
+	
 	@Test
 	public void testGetPeopleData() throws Exception {			
 		
@@ -59,7 +65,7 @@ public class TestPeople {
 		assertXMLEqual(expected, runtime.getResponse());
 		
 	}
-	
+		
 	@Test
 	public void testShowPerson() throws Exception {			
 		

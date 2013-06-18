@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:generate-person-profile" name="generate-person-profile" version="1.0">
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:show-people" name="show-people" version="1.0">
 	
-	<p:output port="result">
+	<p:output port="result" sequence="false">
 		<p:pipe step="transform" port="result" />
 	</p:output>
 	
-	<p:option name="root-publication-directory" required="false" />
-	
-	<p:input port="parameters" kind="parameter" primary="false" sequence="true"/>  
+	<p:option name="root-publication-directory" required="false" />  
 	
 	<p:import href="library.xpl"/>	
 	
-	<k:get-person-data name="get-people-data" />			 
+	<k:get-people-data name="get-people-data" />			 
 
 	<p:xslt version="1.0" name="transform">			
 		

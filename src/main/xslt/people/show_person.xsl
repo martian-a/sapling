@@ -22,7 +22,13 @@
     </xsl:template>
     
     <xsl:template match="person" mode="profile">
-        <xsl:result-document href="{$root-publication-directory}people/{fn:getPersonId(@id)}.html" format="xhtml" encoding="utf-8">
+    	<xsl:variable name="publication-path" select="concat($root-publication-directory, 'people/', fn:getPersonId(@id), '.html')" />
+    
+    	<sapling>
+    		<link href="{$publication-path}" />
+    	</sapling>
+    
+        <xsl:result-document href="{$publication-path}" format="xhtml" encoding="utf-8">
             <html>
                 <head>
                     <title><xsl:apply-templates select="persona[1]/name" /></title>             
