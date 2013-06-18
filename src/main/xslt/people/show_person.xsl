@@ -4,15 +4,14 @@
     xmlns:fn="http://ns.kaikoda.com/xslt/functions"
     exclude-result-prefixes="xs fn"
     version="2.0">
-    
-    <xsl:import href="person.xsl"/>
+   
+    <xsl:import href="../global.xsl" />
+    <xsl:import href="person.xsl"/>       
     
     <xsl:param name="root-publication-directory" select="''" />
     
     <xsl:variable name="person-id" select="/sapling/person/@id" />
     <xsl:variable name="primary-doc" select="/sapling" /> 
-    
-    <xsl:output method="xml" indent="no" name="xhtml" />
     
     <xsl:template match="/">
         <xsl:apply-templates select="sapling" />
@@ -24,7 +23,7 @@
     
     <xsl:template match="person" mode="profile">
         <xsl:result-document href="{$root-publication-directory}people/{fn:getPersonId(@id)}.html" format="xhtml" encoding="utf-8">
-        <html>
+            <html>
                 <head>
                     <title><xsl:apply-templates select="persona[1]/name" /></title>             
                 </head>
@@ -33,14 +32,14 @@
                         <section class="personas">
                             <xsl:apply-templates select="persona" />
                         </section>
-                    	<xsl:if test="related/event[@type = ('marriage', 'birth')]">
+                    	<xsl:if test="related/events/event[@type = ('marriage', 'birth')]">
                     		<section class="family">
-                    			<xsl:apply-templates select="self::person[related/event[@type = 'birth'][person/@ref = $person-id]]" mode="family.parents" />
-                    			<xsl:apply-templates select="self::person[related/event[@type = 'marriage'][person/@ref = $person-id]]" mode="family.partners" />
-                    			<xsl:apply-templates select="self::person[related/event[@type = 'birth'][parent/@ref = $person-id]]" mode="family.children" />
+                    			<xsl:apply-templates select="self::person[related/events/event[@type = 'birth'][person/@ref = $person-id]]" mode="family.parents" />
+                    		    <xsl:apply-templates select="self::person[related/events/event[@type = 'marriage'][person/@ref = $person-id]]" mode="family.partners" />
+                    		    <xsl:apply-templates select="self::person[related/events/event[@type = 'birth'][parent/@ref = $person-id]]" mode="family.children" />
                     		</section>
                     	</xsl:if>
-                        <xsl:if test="related/event">
+                        <xsl:if test="related/events/event">
                             <section class="timeline">
                                 <table>
                                     <caption>Timeline</caption>
@@ -54,7 +53,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <xsl:apply-templates select="related/event">
+                                        <xsl:apply-templates select="related/events/event">
                                         	<xsl:sort select="date/@year" data-type="number" order="ascending" />
                                         	<xsl:sort select="date/@month" data-type="number" order="ascending" />
                                         	<xsl:sort select="date/@day" data-type="number" order="ascending" />
@@ -82,7 +81,7 @@
         <xsl:variable name="parents" as="document-node()">
             <xsl:document>
                 <list>
-                    <xsl:for-each select="related/event[@type = 'birth'][person/@ref = $person-id]">
+                    <xsl:for-each select="related/events/event[@type = 'birth'][person/@ref = $person-id]">
                         <xsl:sort select="date/@year" data-type="number" order="ascending" />
                         <xsl:sort select="date/@month" data-type="number" order="ascending" />
                         <xsl:sort select="date/@day" data-type="number" order="ascending" />
@@ -108,7 +107,7 @@
         <xsl:variable name="partners" as="document-node()">
             <xsl:document>
                 <list>
-                    <xsl:for-each select="related/event[@type = 'marriage'][person/@ref = $person-id]">
+                    <xsl:for-each select="related/events/event[@type = 'marriage'][person/@ref = $person-id]">
                         <xsl:sort select="date/@year" data-type="number" order="ascending" />
                         <xsl:sort select="date/@month" data-type="number" order="ascending" />
                         <xsl:sort select="date/@day" data-type="number" order="ascending" />						
@@ -134,11 +133,11 @@
         <xsl:variable name="children" as="document-node()">
             <xsl:document>
                 <list>
-                    <xsl:for-each select="related/event[@type = 'birth'][parent/@ref = $person-id]">
+                    <xsl:for-each select="related/events/event[@type = 'birth'][parent/@ref = $person-id]">
                         <xsl:sort select="date/@year" data-type="number" order="ascending" />
                         <xsl:sort select="date/@month" data-type="number" order="ascending" />
                         <xsl:sort select="date/@day" data-type="number" order="ascending" />
-                        <xsl:sort select="$primary-doc/related/person[@id = current()/person/@ref]/@year" data-type="number" order="ascending" />
+                        <xsl:sort select="$primary-doc/related/people/person[@id = current()/person/@ref]/@year" data-type="number" order="ascending" />
                         <xsl:copy-of select="person" />
                     </xsl:for-each>										
                 </list>
@@ -158,12 +157,12 @@
     </xsl:template>
     
     
-    <xsl:template match="related/event">
+    <xsl:template match="related/events/event">
         <tr>
             <td class="year"><xsl:value-of select="date/@year" /></td>
             <td class="month"><xsl:value-of select="fn:getShortMonthName(date/@month)" /></td>
             <td class="day"><xsl:value-of select="date/@day" /></td>
-            <td class="location"><xsl:apply-templates select="ancestor::related[1]/location[@id = current()/location/@ref]" /></td>
+            <td class="location"><xsl:apply-templates select="ancestor::related[1]/locations/location[@id = current()/location/@ref]" /></td>
             <td class="description"><xsl:apply-templates select="." mode="description" /></td>
         </tr>
     </xsl:template>

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locations xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <location id="LOC1">
+        <type>Continent</type>
+        <name>Europe</name>
+        <location id="LOC15">
+            <type>Country</type>
+            <name>Holland</name>
+        </location>
+        <location id="LOC16">
+            <type>Country</type>
+            <name>Germany</name>
+            <location id="LOC41">
+                <type>County</type>
+                <name>Saxony</name>
+                <location id="LOC86">
+                    <type>City</type>
+                    <name>Chemnitz</name>
+                </location>
+            </location>
+        </location>
+        <location id="LOC191">
+            <type>Country</type>
+            <name>United Kingdom</name>
+            <location id="LOC10">
+                <type>Country</type>
+                <name>Northern Ireland</name>
+                <location id="LOC32">
+                    <type>County</type>
+                    <name>Armagh</name>
+                    <location id="LOC118">
+                        <name>Keady</name>
+                    </location>
+                </location>
+                <location id="LOC33">
+                    <type>County</type>
+                    <name>Banbridge</name>
+                </location>
+            </location>
+            <location id="LOC7">
+                <type>Country</type>
+                <name>England</name>
+                <location id="LOC19">
+                    <type>County</type>
+                    <name>Dorset</name>
+                    <location id="LOC78">
+                        <type>City</type>
+                        <name>Bournemouth</name>
+                    </location>
+                    <location id="LOC79">
+                        <type>Town</type>
+                        <name>Bridport</name>
+                        <location id="LOC81">
+                            <type>Village</type>
+                            <name>Burton Bradstock</name>
+                        </location>
+                    </location>
+                </location>
+                <location id="LOC24">
+                    <type>County</type>
+                    <name>Greater London</name>
+                    <location id="LOC128">
+                        <type>City</type>
+                        <name>London</name>
+                        <location id="LOC175">
+                            <type>District</type>
+                            <name>Highbury</name>
+                        </location>
+                        <location id="LOC177">
+                            <type>District</type>
+                            <name>Finchley</name>
+                        </location>
+                        <location id="LOC179">
+                            <type>District</type>
+                            <name>Hampton Court</name>
+                        </location>
+                        <location id="LOC180">
+                            <type>District</type>
+                            <name>Belsize Park</name>
+                        </location>
+                    </location>
+                </location>
+                <location id="LOC29">
+                    <type>County</type>
+                    <name>Yorkshire</name>
+                    <location id="LOC114">
+                        <name>Heptonstall</name>
+                    </location>
+                    <location id="LOC130">
+                        <name>Mallestang</name>
+                    </location>
+                    <location id="LOC154">
+                        <name>Stansfield</name>
+                    </location>
+                    <location id="LOC87">
+                        <type>Town</type>
+                        <name>Clapham</name>
+                        <location id="LOC190">
+                            <type>Address</type>
+                            <name>Clapham Wood Hall</name>
+                        </location>
+                    </location>
+                </location>
+                <location id="LOC30">
+                    <type>County</type>
+                    <name>Sussex</name>
+                    <location id="LOC160">
+                        <type>Village</type>
+                        <name>Tidebrook</name>
+                    </location>
+                </location>
+                <location id="LOC35">
+                    <type>County</type>
+                    <name>Gloucestershire</name>
+                    <location id="LOC157">
+                        <type>Town</type>
+                        <name>Stroud</name>
+                    </location>
+                </location>
+                <location id="LOC38">
+                    <type>County</type>
+                    <name>Surrey</name>
+                    <location id="LOC137">
+                        <name>Newington</name>
+                    </location>
+                </location>
+                <location id="LOC40">
+                    <type>County</type>
+                    <name>Cheshire</name>
+                    <location id="LOC163">
+                        <name>Tranmere</name>
+                    </location>
+                </location>
+                <location id="LOC60">
+                    <type>County</type>
+                    <name>Essex</name>
+                    <location id="LOC142">
+                        <type>Village</type>
+                        <name>Panfield</name>
+                    </location>
+                </location>
+            </location>
+            <location id="LOC9">
+                <type>Country</type>
+                <name>Scotland</name>
+                <location id="LOC20">
+                    <type>County</type>
+                    <name>Morrayshire</name>
+                    <location id="LOC101">
+                        <name>Dyke</name>
+                    </location>
+                    <location id="LOC136">
+                        <name>New Spynie</name>
+                    </location>
+                    <location id="LOC95">
+                        <name>Duffus</name>
+                    </location>
+                    <location id="LOC97">
+                        <type>Village</type>
+                        <name>Dunearn</name>
+                    </location>
+                </location>
+                <location id="LOC25">
+                    <type>County</type>
+                    <name>East Lothian</name>
+                    <location id="LOC162">
+                        <name>Tranent</name>
+                    </location>
+                </location>
+                <location id="LOC26">
+                    <type>County</type>
+                    <name>Roxburghshire</name>
+                    <location id="LOC107">
+                        <type>Village</type>
+                        <name>Galashiels</name>
+                    </location>
+                    <location id="LOC108">
+                        <type>Village</type>
+                        <name>Gateshaw</name>
+                    </location>
+                    <location id="LOC117">
+                        <name>Jedburgh</name>
+                    </location>
+                </location>
+                <location id="LOC27">
+                    <type>County</type>
+                    <name>Ayrshire</name>
+                    <location id="LOC120">
+                        <name>Kilmarnock</name>
+                    </location>
+                    <location id="LOC135">
+                        <name>Muirkirk</name>
+                    </location>
+                    <location id="LOC152">
+                        <type>Village</type>
+                        <name>Sorn</name>
+                    </location>
+                    <location id="LOC66">
+                        <name>Auchenleck</name>
+                    </location>
+                    <location id="LOC68">
+                        <type>Town</type>
+                        <name>Ayr</name>
+                    </location>
+                    <location id="LOC85">
+                        <name>Catrine</name>
+                    </location>
+                </location>
+                <location id="LOC28">
+                    <type>County</type>
+                    <name>Invernesshire</name>
+                    <location id="LOC116">
+                        <type>Town</type>
+                        <name>Inverness</name>
+                    </location>
+                    <location id="LOC89">
+                        <type>Village</type>
+                        <name>Corrimony</name>
+                    </location>
+                </location>
+                <location id="LOC31">
+                    <type>County</type>
+                    <name>Perthshire</name>
+                    <location id="LOC104">
+                        <name>Findhu Glen</name>
+                    </location>
+                    <location id="LOC147">
+                        <name>Redgorton</name>
+                    </location>
+                    <location id="LOC76">
+                        <name>Bleacher</name>
+                    </location>
+                    <location id="LOC90">
+                        <type>Village</type>
+                        <name>Crianlarich</name>
+                    </location>
+                    <location id="LOC99">
+                        <type>Town</type>
+                        <name>Dunkeld</name>
+                    </location>
+                </location>
+                <location id="LOC42">
+                    <type>County</type>
+                    <name>Midlothian</name>
+                    <location id="LOC102">
+                        <type>City</type>
+                        <name>Edinburgh</name>
+                        <location id="LOC178">
+                            <type>District</type>
+                            <name>Portobello</name>
+                        </location>
+                    </location>
+                </location>
+                <location id="LOC44">
+                    <type>County</type>
+                    <name>Sutherland</name>
+                    <location id="LOC111">
+                        <type>Village</type>
+                        <name>Golspie</name>
+                    </location>
+                    <location id="LOC80">
+                        <type>Village</type>
+                        <name>Brora</name>
+                        <location id="LOC186">
+                            <type>District</type>
+                            <name>Clyne</name>
+                        </location>
+                    </location>
+                </location>
+                <location id="LOC45">
+                    <type>County</type>
+                    <name>Stirlingshire</name>
+                    <location id="LOC132">
+                        <type>Town</type>
+                        <name>Milngavie</name>
+                    </location>
+                </location>
+                <location id="LOC46">
+                    <type>County</type>
+                    <name>Dumfriesshire</name>
+                    <location id="LOC123">
+                        <name>Kirkmahoe</name>
+                        <location id="LOC67">
+                            <type>Village</type>
+                            <name>Auchenrath</name>
+                        </location>
+                    </location>
+                    <location id="LOC64">
+                        <name>Annan</name>
+                    </location>
+                    <location id="LOC71">
+                        <type>Village</type>
+                        <name>Balloch</name>
+                    </location>
+                </location>
+                <location id="LOC48">
+                    <type>County</type>
+                    <name>Orkney</name>
+                    <location id="LOC148">
+                        <name>Rendall</name>
+                    </location>
+                </location>
+                <location id="LOC52">
+                    <type>County</type>
+                    <name>Dunbartonshire</name>
+                    <location id="LOC62">
+                        <type>Town</type>
+                        <name>Alexandria</name>
+                    </location>
+                </location>
+                <location id="LOC53">
+                    <type>County</type>
+                    <name>Argyll</name>
+                    <location id="LOC113">
+                        <type>Town</type>
+                        <name>Helensburgh</name>
+                    </location>
+                    <location id="LOC65">
+                        <name>Ardlui</name>
+                    </location>
+                </location>
+                <location id="LOC54">
+                    <type>County</type>
+                    <name>Lanarkshire</name>
+                    <location id="LOC109">
+                        <type>City</type>
+                        <name>Glasgow</name>
+                    </location>
+                </location>
+                <location id="LOC55">
+                    <type>County</type>
+                    <name>Angus</name>
+                    <location id="LOC96">
+                        <type>City</type>
+                        <name>Dundee</name>
+                    </location>
+                </location>
+                <location id="LOC57">
+                    <type>County</type>
+                    <name>West Lothian</name>
+                    <location id="LOC127">
+                        <type>Town</type>
+                        <name>Linlithgow</name>
+                    </location>
+                </location>
+            </location>
+        </location>
+    </location>
+    <location id="LOC3">
+        <type>Continent</type>
+        <name>Asia</name>
+        <location id="LOC13">
+            <type>Country</type>
+            <name>India</name>
+            <location id="LOC23">
+                <type>County</type>
+                <name>Bengal</name>
+                <location id="LOC82">
+                    <type>City</type>
+                    <name>Calcutta</name>
+                </location>
+                <location id="LOC91">
+                    <name>Darjeeling</name>
+                </location>
+            </location>
+        </location>
+    </location>
+    <location id="LOC6">
+        <type>Continent</type>
+        <name>Oceania</name>
+        <location id="LOC12">
+            <type>Country</type>
+            <name>New Zealand</name>
+            <location id="LOC22">
+                <type>County</type>
+                <name>Otago</name>
+                <location id="LOC63">
+                    <type>Town</type>
+                    <name>Allanton</name>
+                </location>
+                <location id="LOC70">
+                    <name>Balclutha</name>
+                </location>
+                <location id="LOC98">
+                    <type>Town</type>
+                    <name>Dunedin</name>
+                </location>
+            </location>
+            <location id="LOC43">
+                <type>County</type>
+                <name>Waikato</name>
+                <location id="LOC112">
+                    <type>City</type>
+                    <name>Hamilton</name>
+                </location>
+            </location>
+            <location id="LOC50">
+                <type>County</type>
+                <name>Wellington</name>
+                <location id="LOC168">
+                    <type>City</type>
+                    <name>Wellington City</name>
+                </location>
+            </location>
+        </location>
+        <location id="LOC17">
+            <type>Country</type>
+            <name>Australia</name>
+        </location>
+    </location>
+</locations>

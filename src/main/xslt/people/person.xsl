@@ -19,8 +19,28 @@
     <xsl:template match="persona/gender">
         <p class="gender"><xsl:value-of select="." /></p>
     </xsl:template>    	 
+    
+    <xsl:template match="person" mode="birth-year-approx">
+        <xsl:variable name="dates" as="document-node()">
+            <xsl:document>
+                <list>
+                    <xsl:copy-of select="//event[@type = 'birth'][person/@ref = current()/@id]" />
+                    <xsl:copy-of select="//event[@type = 'christening'][person/@ref = current()/@id]" />
+                    <event type="approximate-birth">
+                        <date year="{current()/@year}" />
+                    </event>
+                </list>
+            </xsl:document>
+        </xsl:variable>        
+        
+        <xsl:value-of select="$dates/list/event[date/@year[. != '']][1]/date/@year" />
+    </xsl:template>
+    
+    <xsl:template match="person" mode="death-year">
+        <xsl:value-of select="//event[@type = 'death'][person/@ref = current()/@id]/date/@year" />
+    </xsl:template>
 
-    <xsl:template match="related/event[@type = 'birth'][person/@ref = $person-id]" mode="description">
+    <xsl:template match="related/events/event[@type = 'birth'][person/@ref = $person-id]" mode="description">
         <xsl:variable name="parents" as="document-node()">
             <xsl:document>
                 <list>
@@ -34,7 +54,7 @@
         <xsl:text>.</xsl:text>        
     </xsl:template>
     
-    <xsl:template match="related/event[@type = 'birth'][parent[@type = 'biological']/@ref = $person-id]" mode="description">
+    <xsl:template match="related/events/event[@type = 'birth'][parent[@type = 'biological']/@ref = $person-id]" mode="description">
         <xsl:variable name="parents" as="document-node()">
             <xsl:document>
                 <list>
@@ -46,7 +66,7 @@
         
         <xsl:choose>
             <xsl:when test="normalize-space(person/@ref) != ''">
-                <xsl:apply-templates select="ancestor::related[1]/person[@id = current()/person/@ref]" />
+                <xsl:apply-templates select="ancestor::related[1]/people/person[@id = current()/person/@ref]" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>A child</xsl:text>
@@ -60,7 +80,7 @@
         <xsl:text >.</xsl:text>
     </xsl:template>
 
-    <xsl:template match="related/event[@type = 'marriage'][person/@ref = $person-id]" mode="description">
+    <xsl:template match="related/events/event[@type = 'marriage'][person/@ref = $person-id]" mode="description">
         <xsl:variable name="partners" as="document-node()">
             <xsl:document>
                 <list>
@@ -75,12 +95,20 @@
         <xsl:text>.</xsl:text>        
     </xsl:template>
 
-    <xsl:template match="related/location">        
+    <xsl:template match="location[@id]">        
         <a class="location" href="/locations/{substring-after(@id, 'LOC')}"><xsl:value-of select="name" /></a>
     </xsl:template>
     
-    <xsl:template match="related/person">        
+    <xsl:template match="location[@ref]">
+        <xsl:apply-templates select="//location[@id = current()/@ref]" />
+    </xsl:template>
+    
+    <xsl:template match="person[@id]">        
         <a class="person" href="/people/{substring-after(@id, 'PER')}"><xsl:apply-templates select="persona[1]/name" /></a>
+    </xsl:template>
+    
+    <xsl:template match="person[@id]/persona">        
+        <a class="person" href="/people/{substring-after(ancestor::person[1]/@id, 'PER')}"><xsl:apply-templates select="name" /></a>
     </xsl:template>
     
     <xsl:template match="person[@ref] | parent[@ref]">
@@ -89,7 +117,7 @@
                 <xsl:apply-templates select="$primary-doc/person[@id = $person-id]/persona[1]/name" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates select="$primary-doc/*/related[1]/person[@id = current()/@ref]" />
+                <xsl:apply-templates select="$primary-doc/*/related[1]/people/person[@id = current()/@ref]" />
             </xsl:otherwise>
         </xsl:choose>        
     </xsl:template>
