@@ -63,11 +63,11 @@ public class TestPeople {
 	@Test
 	public void testShowPerson() throws Exception {			
 		
-		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/person_profile.html").getFile()), "UTF-8");
+		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_person.html").getFile()), "UTF-8");
 		
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 				
-		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/generate_person_profile.xpl root-publication-directory=/home/sheila/Software/Sapling/");					
+		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl root-publication-directory=/home/sheila/Software/Sapling/");					
 		
 		XMLUnit.setIgnoreWhitespace(true);
 		
