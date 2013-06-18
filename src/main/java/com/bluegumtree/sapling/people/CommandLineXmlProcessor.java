@@ -39,6 +39,7 @@ public class CommandLineXmlProcessor {
 	public String getResponse() {
 		return this.response;
 	}
+	
     public void execute(String args) {
     	
     	this.ready = false;
@@ -62,15 +63,22 @@ public class CommandLineXmlProcessor {
             String errorLine = null;
             
             this.errorMessage = "";
-            while ((errorLine = bufferedErrorStreamReader.readLine()) != null) {
-            	this.errorMessage = this.errorMessage + errorLine + "\n";
+            if (errorStream.available() > 0) {
+	        	while ((errorLine = bufferedErrorStreamReader.readLine()) != null) {
+	        		this.errorMessage = this.errorMessage + errorLine + "\n";
+	            }	
             }
+            
             
             String resultLine = null;
             
-            this.response = "";
-            while ((resultLine = bufferedOutputStreamReader.readLine()) != null) {
-            	this.response = this.response + resultLine + "\n";
+            if (errorMessage.equals("")) {
+            
+	            this.response = "";
+	            while ((resultLine = bufferedOutputStreamReader.readLine()) != null) {
+	            	this.response = this.response + resultLine + "\n";
+	            }
+            
             }
             	            	       
             int exitVal = proc.waitFor();
