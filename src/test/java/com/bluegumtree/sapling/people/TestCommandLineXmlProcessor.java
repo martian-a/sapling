@@ -13,7 +13,7 @@ public class TestCommandLineXmlProcessor {
 	@Test
 	public void testExecute() throws Exception {		
 		
-		String expected = FileUtils.readFileToString(new File(TestGetPersonData.class.getResource("/person_data.xml").getFile()), "UTF-8");
+		String expected = FileUtils.readFileToString(new File(TestCommandLineXmlProcessor.class.getResource("/person_data.xml").getFile()), "UTF-8");
 		
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 		
