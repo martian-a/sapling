@@ -1,6 +1,7 @@
 package com.bluegumtree.sapling.people;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -13,6 +14,7 @@ public class CommandLineXmlProcessor {
 	private Boolean ready;
 	private String errorMessage;
 	private String response;
+	private int exitValue;
 	
 	public CommandLineXmlProcessor() {
 		this(CommandLineXmlProcessor.DEFAULT_PATH_TO_PROCESSOR);
@@ -25,6 +27,7 @@ public class CommandLineXmlProcessor {
         this.ready = true;
         this.errorMessage = null;
         this.response = null;
+        this.exitValue = 0;
 		
 	}
 	
@@ -40,54 +43,67 @@ public class CommandLineXmlProcessor {
 		return this.response;
 	}
 	
-    public void execute(String args) {
+	public int getExitValue() {
+		return this.exitValue;
+	}
+	
+    public void execute(String args) throws CommandLineXmlProcessorException, IOException, InterruptedException {
     	
     	this.ready = false;
     	this.errorMessage = null;
     	this.response = null;
     
-    	String command = "java -jar " + this.pathToXmlProcessor + " -P he " + args;    	
-    	
-        try {            
+    	String command = "java -jar " + this.pathToXmlProcessor + " -P he " + args;    	    	
         	           
-            Process proc = runtime.exec(command);
-            
-            InputStream errorStream = proc.getErrorStream();
-            InputStreamReader errorStreamReader = new InputStreamReader(errorStream);
-            BufferedReader bufferedErrorStreamReader = new BufferedReader(errorStreamReader);
-            
-            InputStream outputStream = proc.getInputStream();
-            InputStreamReader outputStreamReader = new InputStreamReader(outputStream);
-            BufferedReader bufferedOutputStreamReader = new BufferedReader(outputStreamReader);
-            
-            String errorLine = null;
-            
-            this.errorMessage = "";
-            if (errorStream.available() > 0) {
-	        	while ((errorLine = bufferedErrorStreamReader.readLine()) != null) {
-	        		this.errorMessage = this.errorMessage + errorLine + "\n";
-	            }	
-            }
-            
-            
-            String resultLine = null;
-            
-            if (errorMessage.equals("")) {
-            
-	            this.response = "";
-	            while ((resultLine = bufferedOutputStreamReader.readLine()) != null) {
-	            	this.response = this.response + resultLine + "\n";
-	            }
-            
-            }
-            	            	       
-            int exitVal = proc.waitFor();
+        Process proc = runtime.exec(command);
         
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        InputStream errorStream = proc.getErrorStream();
+        InputStreamReader errorStreamReader = new InputStreamReader(errorStream);
+        BufferedReader bufferedErrorStreamReader = new BufferedReader(errorStreamReader);                                       
         
+        
+        if (bufferedErrorStreamReader.ready()) {
+        	this.errorMessage = this.readStream(bufferedErrorStreamReader);	
+        }        
+                
+        if (this.errorMessage != null && this.errorMessage != "") {
+        	throw new CommandLineXmlProcessorException(this.errorMessage);
+        }        
+        
+        InputStream outputStream = proc.getInputStream();
+        InputStreamReader outputStreamReader = new InputStreamReader(outputStream);
+        BufferedReader bufferedOutputStreamReader = new BufferedReader(outputStreamReader);                  
+        
+        this.response = this.readStream(bufferedOutputStreamReader);        
+        
+        if (bufferedErrorStreamReader.ready()) {
+        	this.errorMessage = this.readStream(bufferedErrorStreamReader);	
+        }        
+                
+        if (this.errorMessage != null && this.errorMessage != "") {
+        	throw new CommandLineXmlProcessorException(this.errorMessage);
+        }   
+        
+        this.exitValue = proc.waitFor();                
         this.ready = true;
+    }
+    
+    private String readStream(BufferedReader reader) {
+    	
+    	String output = "";
+    	String resultLine = null;
+    	
+        try {
+        	
+			while ((resultLine = reader.readLine()) != null) {
+				output = output + resultLine + "\n";
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	return output;
     }
 	
 }

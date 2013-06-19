@@ -85,4 +85,23 @@ public class TestPeople {
 		
 	}	
 	
+	@Test
+	public void testShowPerson_noRootPublicationDirectory() throws Exception {			
+		
+		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_person.html").getFile()), "UTF-8");
+		
+		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
+				
+		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl");					
+		
+		XMLUnit.setIgnoreWhitespace(true);
+		
+		String result = FileUtils.readFileToString(new File("/home/sheila/Software/Sapling/people/78.html"), "UTF-8");
+		
+		// String result = runtime.getResult();
+		
+		assertXMLEqual(expected, result);
+		
+	}
+	
 }
