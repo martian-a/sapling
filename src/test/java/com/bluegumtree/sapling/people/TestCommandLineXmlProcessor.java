@@ -43,15 +43,17 @@ public class TestCommandLineXmlProcessor {
 	}
 	
 	@Test
-	public void testExecute_fail_missingParameter_notRequiredButUsed() throws Exception {		
+	public void testExecute_fail_missingParameter_required() throws Exception {		
 			
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 		
 		exception.expect(CommandLineXmlProcessorException.class);
 		exception.expectMessage("err:XD0023:Undeclared variable in XPath expression:");			
 		
-		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl");						
+		String pathToSource = new File(TestPeople.class.getResource("/person_data.xml").getFile()).getAbsolutePath();	
+				
+		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl");							
 		
-	}
+	}	
 	
 }

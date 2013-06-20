@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:show-person" name="show-person" version="1.0">
 	
-	<p:output port="result" sequence="false">
+	<p:input port="source" sequence="false" primary="true" select="/sapling/person"  />
+	
+	<p:output port="result" sequence="false" primary="true">
 		<p:pipe step="transform" port="result" />
 	</p:output>
 	
 	<p:option name="root-publication-directory" required="false" />		
 	
 	<p:import href="library.xpl"/>
-	
-	<k:get-person-data name="get-person-data"/>			 
-
-	<p:xslt version="1.0" name="transform">			
-		
+				 
+	<p:xslt version="1.0" name="transform">					
+					
 		<p:input port="source">
-			<p:pipe step="get-person-data" port="result" />
-		</p:input>
-		
+			<p:pipe step="show-person" port="source" />
+		</p:input>			
+					
 		<p:input port="stylesheet">
 			<p:document href="../xslt/people/show_person.xsl"/>
 			<!-- The xsl:result-document is output to the (default) secondary output port of this step -->
