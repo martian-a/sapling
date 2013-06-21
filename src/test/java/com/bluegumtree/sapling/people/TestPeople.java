@@ -7,7 +7,6 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,19 +40,24 @@ public class TestPeople {
 	@Test
 	public void testShowPeople() throws Exception {			
 		
-		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_people.html").getFile()), "UTF-8");
+		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
+		String pathToResultFile = rootPublicationDirectory + "people/index.html";
 		
+		String pathToSource = new File(TestPeople.class.getResource("/people_data.xml").getFile()).getAbsolutePath();
+		
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_people.html").getFile()), "UTF-8");
+		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";
+				
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 				
-		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/show_people.xpl root-publication-directory=/home/sheila/Software/Sapling/");					
-		
+		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/xproc/show_people.xpl root-publication-directory=" + rootPublicationDirectory);		
 		XMLUnit.setIgnoreWhitespace(true);
 		
-		String result = FileUtils.readFileToString(new File("/home/sheila/Software/Sapling/people/index.html"), "UTF-8");
 		
-		// String result = runtime.getResponse();
+		String resultFile = FileUtils.readFileToString(new File(pathToResultFile), "UTF-8");
 		
-		assertXMLEqual(expected, result);
+		assertXMLEqual(expectedFile, resultFile);
+		assertXMLEqual(expectedResponse, runtime.getResponse());
 		
 	}
 	
