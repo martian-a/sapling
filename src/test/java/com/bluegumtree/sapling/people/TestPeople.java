@@ -101,18 +101,4 @@ public class TestPeople {
 		
 	}	
 	
-	@Test
-	public void testShowPerson_noRootPublicationDirectory() throws Exception {
-		
-		exception.expect(CommandLineXmlProcessorException.class);
-		exception.expectMessage("err:XD0023:Undeclared variable in XPath expression: $root-publication-directory");				
-		
-		String pathToSource = new File(TestPeople.class.getResource("/person_data.xml").getFile()).getAbsolutePath();
-						
-		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
-				
-		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl");					
-		
-	}
-	
 }
