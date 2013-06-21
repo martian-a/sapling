@@ -7,9 +7,7 @@
 		<p:pipe step="transform" port="result" />
 	</p:output>
 	
-	<p:option name="root-publication-directory" required="false" />		
-	
-	<p:import href="library.xpl"/>
+	<p:option name="root-publication-directory" required="true" />		
 				 
 	<p:xslt version="1.0" name="transform">					
 					
