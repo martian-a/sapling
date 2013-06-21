@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:k="http://schema.kaikoda.com/ns/xproc" type="k:show-people" name="show-people" version="1.0">
-		
-	<p:output port="result" sequence="false">
+
+	<p:input port="source" sequence="false" primary="true" />
+
+	<p:output port="result" sequence="false" primary="true">
 		<p:pipe step="transform" port="result" />
 	</p:output>
 	
-	<p:option name="root-publication-directory" required="true" />  
-	
-	<p:import href="library.xpl"/>	
-	
-	<k:get-people-data name="get-people-data" />			 
+	<p:option name="root-publication-directory" required="true" />  		 
 
 	<p:xslt version="1.0" name="transform">			
 		
 		<p:input port="source">
-			<p:pipe step="get-people-data" port="result" />
-		</p:input>
+			<p:pipe step="show-people" port="source" />
+		</p:input>	
 		
 		<p:input port="stylesheet">
 			<p:document href="../xslt/people/show_people.xsl"/>
@@ -26,7 +24,7 @@
 			<p:empty />
 		</p:input>
 		
-		<p:with-param name="root-publication-directory" select="$root-publication-directory" />
+		<p:with-param name="root-publication-directory" select="$root-publication-directory" />		
 		
 	</p:xslt>
 	
