@@ -13,13 +13,9 @@
     <xsl:variable name="primary-doc" select="/sapling" /> 
     
     <xsl:template match="/">
-        <xsl:apply-templates select="sapling" />
+        <xsl:apply-templates select="/sapling/people" mode="index" />
     </xsl:template>
-    
-    <xsl:template match="sapling">
-        <xsl:apply-templates select="people" mode="index" />
-    </xsl:template>
-    
+        
     <xsl:template match="people" mode="index">
         <xsl:variable name="publication-path" select="concat($root-publication-directory, 'people/index.html')" />
         

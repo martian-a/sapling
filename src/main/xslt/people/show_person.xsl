@@ -14,11 +14,7 @@
     <xsl:variable name="primary-doc" select="/sapling" /> 
     
     <xsl:template match="/">
-        <xsl:apply-templates select="sapling" />
-    </xsl:template>
-    
-    <xsl:template match="sapling">
-        <xsl:apply-templates select="person" mode="profile" />
+        <xsl:apply-templates select="/sapling/person" mode="profile" />
     </xsl:template>
     
     <xsl:template match="person" mode="profile">
