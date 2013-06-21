@@ -1,6 +1,7 @@
 package com.bluegumtree.sapling.people;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
@@ -48,12 +49,24 @@ public class TestCommandLineXmlProcessor {
 		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
 		
 		exception.expect(CommandLineXmlProcessorException.class);
-		exception.expectMessage("err:XD0023:Undeclared variable in XPath expression:");			
+		exception.expectMessage("err:XS0018:No value provided for required option \"id\"");			
 		
 		String pathToSource = new File(TestPeople.class.getResource("/person_data.xml").getFile()).getAbsolutePath();	
 				
-		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/xproc/show_person.xpl");							
+		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/test/xproc/parameter_required_none.xpl");							
 		
 	}	
+
+	@Test
+	public void testExecute_input_source_select() throws Exception {		
+			
+		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
+			
+		String pathToSource = new File(TestPeople.class.getResource("/person_data.xml").getFile()).getAbsolutePath();	
+				
+		runtime.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/test/xproc/input_source_select.xpl");
+		
+		assertXMLEqual("<person />", runtime.getResponse());
+	}
 	
 }
