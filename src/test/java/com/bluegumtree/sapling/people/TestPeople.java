@@ -100,5 +100,25 @@ public class TestPeople {
 		assertXMLEqual(expectedResponse, runtime.getResponse());
 		
 	}	
-	
+
+	@Test
+	public void testPublishPeople() throws Exception {			
+		
+		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
+		String pathToResultFileIndex = rootPublicationDirectory + "people/index.html";		
+		
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_people.html").getFile()), "UTF-8");
+		String expectedResponse = "<sapling><link href=\"" + pathToResultFileIndex + "\" /></sapling>";
+				
+		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
+				
+		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/publish_people.xpl root-publication-directory=" + rootPublicationDirectory);		
+		XMLUnit.setIgnoreWhitespace(true);		
+		
+		// String resultFile = FileUtils.readFileToString(new File(pathToResultFileIndex), "UTF-8");
+		
+		assertXMLEqual(expectedResponse, runtime.getResponse());
+		// assertXMLEqual(expectedFile, resultFile);
+		
+	}
 }

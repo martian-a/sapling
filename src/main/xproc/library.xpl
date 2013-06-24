@@ -4,5 +4,7 @@
     <p:import href="xquery_request.xpl" />
     <p:import href="get_person_data.xpl" />
     <p:import href="get_people_data.xpl" />
+    <p:import href="show_people.xpl" />
+    <p:import href="show_person.xpl" />
     
 </p:library>    
