@@ -1,46 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project 
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>sapling</groupId>
   <artifactId>sapling</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <build> 
-    <resources>     
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <resources>
       <resource>
-        <directory>src/main/xproc</directory>
-        <includes>
-          <include>*.xpl</include>
-          <include>**/*.xpl</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/xquery</directory>
-        <includes>
-          <include>*.xq</include>
-          <include>**/*.xq</include>
-        </includes>
-      </resource> 
-      <resource>
-        <directory>src/main/xslt</directory>
-        <includes>
-          <include>*.xsl</include>
-          <include>**/*.xsl</include>
-        </includes>
-      </resource>      
-      <resource>
-        <directory>src/main/data</directory>
-        <includes>
-        	<include>*.xml</include>
-        	<include>**/*.xml</include>
-        </includes>
+        <directory>src/main/resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-        <directory>src/test/data</directory>
-        <includes>
-        	<include>**/*.xml</include>
-            <include>**/*.html</include>
-        </includes>
+        <directory>src/test/resources</directory>
       </testResource>
     </testResources>
     <plugins>
@@ -55,20 +34,27 @@
     </plugins>
   </build>
   <dependencies>
-  	<dependency>
-  		<groupId>commons-io</groupId>
-  		<artifactId>commons-io</artifactId>
-  		<version>2.4</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>xmlunit</groupId>
-  		<artifactId>xmlunit</artifactId>
-  		<version>1.4</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.11</version>
-  	</dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-gourd</groupId>
+      <artifactId>gourd</artifactId>
+      <version>0.0.1</version>
+      <scope>system</scope>
+      <systemPath>/home/sheila/Software/gourd/gourd-0.0.1/gourd-0.0.1.jar</systemPath>
+    </dependency>
   </dependencies>
 </project>
