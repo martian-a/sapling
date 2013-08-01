@@ -5,7 +5,6 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
