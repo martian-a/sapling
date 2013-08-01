@@ -1,0 +1,21 @@
+<sapling>
+    <event id="EVE66" type="birth">               
+        <person ref="PER40"/>
+        <parent type="biological" ref="PER78"/>
+        <parent type="biological" ref="PER39"/>
+        <date year="1873" month="1" day="31"/>
+        <location ref="LOC152"/>
+        <related>
+            <people>
+                <person id="PER40" year="1873"><persona><name><name>William</name><name>Murdoch</name><name family="yes">Girvan</name></name><gender>Male</gender></persona><notes><p>William is known to have been receiving an education at the age of 8.</p></notes></person>
+                <person id="PER78" year="1835"><persona><name><name>Janet</name><name family="yes">Davidson</name></name><gender>Female</gender></persona><notes><p>Family lore has it that her grandmother was Janet Barrie of Stonehouse, Lanark, related to the writer J.M. Barrie whose ancestors left Stonehouse for Kirriemuir.</p><p>It is believed that the family name, Davidson, originates from Aberdeen, of the Chatton Clan.</p></notes></person>
+                <person id="PER39" year="1827"><persona><name><name>William</name><name family="yes">Girvan</name></name><gender>Male</gender></persona><notes><p>Farmed 50 acres in North Logan, Sorn, with the assistance of his family and farmhand, Alexander Morton.</p></notes></person>
+            </people>
+            <locations>
+                <location id="LOC152">
+                    <name>Sorn</name>
+                </location>              
+            </locations>
+        </related>
+    </event>        
+</sapling>
