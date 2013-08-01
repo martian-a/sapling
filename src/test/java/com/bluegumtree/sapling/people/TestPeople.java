@@ -44,7 +44,7 @@ public class TestPeople {
 		
 		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/get_people_data.xpl"));
 		
-		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people_data.xml").getFile()), "UTF-8");		
+		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people/people_data.xml").getFile()), "UTF-8");		
 		
 		processor.execute();			
 		
@@ -60,7 +60,7 @@ public class TestPeople {
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFile = rootPublicationDirectory + "people/index.html";
 		
-		File inputFile = new File(TestPeople.class.getResource("/control/people_data.xml").getFile());
+		File inputFile = new File(TestPeople.class.getResource("/control/people/people_data.xml").getFile());
 		
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
@@ -69,7 +69,7 @@ public class TestPeople {
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_people.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people/show_people.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
 		processor.execute();		
@@ -92,7 +92,7 @@ public class TestPeople {
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/get_person_data.xpl").toURI());
 		processor.setOptions(options);
 		
-		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/person_data.xml").getFile()), "UTF-8");		
+		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people/person_data.xml").getFile()), "UTF-8");		
 		
 		processor.execute();			
 		
@@ -112,13 +112,13 @@ public class TestPeople {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		File inputFile = new File(TestPeople.class.getResource("/control/person_data.xml").getFile());
+		File inputFile = new File(TestPeople.class.getResource("/control/people/person_data.xml").getFile());
 		
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/show_person.xpl").toURI());		
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_person.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people/show_person.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
 		processor.execute();					
@@ -137,7 +137,7 @@ public class TestPeople {
 		
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFileIndex = rootPublicationDirectory + "people/index.html";
-		File pathToResultFileList = new File(TestPeople.class.getResource("/control/publish_people_file_list.xml").getFile());
+		File pathToResultFileList = new File(TestPeople.class.getResource("/control/people/publish_people_file_list.xml").getFile());
 		
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
@@ -145,7 +145,7 @@ public class TestPeople {
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/publish_people.xpl").toURI());
 		processor.setOptions(options);		
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_people.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people/show_people.html").getFile()), "UTF-8");
 		String expectedResponse = FileUtils.readFileToString(pathToResultFileList, "UTF-8");			
 		
 		processor.execute();		

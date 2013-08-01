@@ -44,7 +44,7 @@ public class TestEvents {
 		
 		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/get_events_data.xpl"));
 		
-		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events_data.xml").getFile()), "UTF-8");		
+		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events/events_data.xml").getFile()), "UTF-8");		
 		
 		processor.execute();			
 		
@@ -60,7 +60,7 @@ public class TestEvents {
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFile = rootPublicationDirectory + "events/index.html";
 		
-		File inputFile = new File(TestEvents.class.getResource("/control/events_data.xml").getFile());
+		File inputFile = new File(TestEvents.class.getResource("/control/events/events_data.xml").getFile());
 		
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
@@ -69,7 +69,7 @@ public class TestEvents {
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/show_events.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events/show_events.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
 		processor.execute();		
@@ -92,7 +92,7 @@ public class TestEvents {
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/get_event_data.xpl").toURI());
 		processor.setOptions(options);
 		
-		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/event_data.xml").getFile()), "UTF-8");		
+		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events/event_data.xml").getFile()), "UTF-8");		
 		
 		processor.execute();			
 		
@@ -113,13 +113,13 @@ public class TestEvents {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		File inputFile = new File(TestEvents.class.getResource("/control/event_data.xml").getFile());
+		File inputFile = new File(TestEvents.class.getResource("/control/events/event_data.xml").getFile());
 		
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/show_event.xpl").toURI());		
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/show_event.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events/show_event.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
 		processor.execute();					
@@ -138,7 +138,7 @@ public class TestEvents {
 		
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFileIndex = rootPublicationDirectory + "events/index.html";
-		File pathToResultFileList = new File(TestEvents.class.getResource("/control/publish_events_file_list.xml").getFile());
+		File pathToResultFileList = new File(TestEvents.class.getResource("/control/events/publish_events_file_list.xml").getFile());
 		
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
@@ -146,7 +146,7 @@ public class TestEvents {
 		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/publish_events.xpl").toURI());
 		processor.setOptions(options);		
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/show_events.html").getFile()), "UTF-8");
+		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events/show_events.html").getFile()), "UTF-8");
 		String expectedResponse = FileUtils.readFileToString(pathToResultFileList, "UTF-8");			
 		
 		processor.execute();		

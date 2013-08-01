@@ -48,7 +48,7 @@ static private CommandLineXmlProcessorCalabash processor;
 		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/xquery_request.xpl"));
 		processor.setOptions(options);
 		
-		String expected = FileUtils.readFileToString(new File(TestLibrary.class.getResource("/control/person_data.xml").getFile()), "UTF-8");			
+		String expected = FileUtils.readFileToString(new File(TestLibrary.class.getResource("/control/people/person_data.xml").getFile()), "UTF-8");			
 		
 		processor.execute();
 		
