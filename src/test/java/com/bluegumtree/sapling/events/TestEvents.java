@@ -42,7 +42,7 @@ public class TestEvents {
 	@Test
 	public void testGetEventsData() throws Exception {			
 		
-		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_events_data.xpl"));
+		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/get_events_data.xpl"));
 		
 		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/events_data.xml").getFile()), "UTF-8");		
 		
@@ -65,7 +65,7 @@ public class TestEvents {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_events.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/show_events.xpl").toURI());
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
@@ -87,9 +87,9 @@ public class TestEvents {
 	public void testGetEventData() throws Exception {					
 		
 		TreeMap<String, String> options = new TreeMap<String, String>();
-		options.put("id", "EVE78");		
+		options.put("id", "EVE66");		
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_event_data.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/get_event_data.xpl").toURI());
 		processor.setOptions(options);
 		
 		String expected = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/event_data.xml").getFile()), "UTF-8");		
@@ -97,6 +97,7 @@ public class TestEvents {
 		processor.execute();			
 		
 		XMLUnit.setIgnoreWhitespace(true);
+		XMLUnit.setIgnoreAttributeOrder(true);
 		
 		assertXMLEqual(expected, processor.getResponse());
 		
@@ -114,7 +115,7 @@ public class TestEvents {
 		
 		File inputFile = new File(TestEvents.class.getResource("/control/event_data.xml").getFile());
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_event.xpl").toURI());		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/show_event.xpl").toURI());		
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
@@ -142,7 +143,7 @@ public class TestEvents {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/publish_events.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/events/publish_events.xpl").toURI());
 		processor.setOptions(options);		
 		
 		String expectedFile = FileUtils.readFileToString(new File(TestEvents.class.getResource("/control/show_events.html").getFile()), "UTF-8");
