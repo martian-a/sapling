@@ -136,7 +136,7 @@
         </xsl:for-each>                
     </xsl:template>
         
-    <xsl:template match="notes/descendant::*">
+    <xsl:template match="notes/descendant::*[not(name() = ('person', 'parent') and @ref)]">
         <xsl:element name="{name()}"><xsl:apply-templates /></xsl:element>
     </xsl:template>
     

@@ -4,6 +4,9 @@ import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLUnit;
@@ -13,12 +16,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.kaikoda.gourd.CommandLineXmlProcessor;
+import com.kaikoda.gourd.CommandLineXmlProcessorCalabash;
 
 
 public class TestPeople {
 
-	static private CommandLineXmlProcessor processor;
+	static private CommandLineXmlProcessorCalabash processor;
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
@@ -28,7 +31,7 @@ public class TestPeople {
 		
 		FileUtils.deleteQuietly(new File("/home/sheila/Software/Sapling/people"));
 		
-		processor = new CommandLineXmlProcessor();
+		processor = new CommandLineXmlProcessorCalabash();
 		
 	}
 	
@@ -40,9 +43,11 @@ public class TestPeople {
 	@Test
 	public void testGetPeopleData() throws Exception {			
 		
+		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_people_data.xpl"));
+		
 		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people_data.xml").getFile()), "UTF-8");		
 		
-		processor.execute("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_people_data.xpl");			
+		processor.execute();			
 		
 		XMLUnit.setIgnoreWhitespace(true);
 		
@@ -56,12 +61,19 @@ public class TestPeople {
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFile = rootPublicationDirectory + "people/index.html";
 		
-		String pathToSource = new File(TestPeople.class.getResource("/control/people_data.xml").getFile()).getAbsolutePath();
+		File inputFile = new File(TestPeople.class.getResource("/control/people_data.xml").getFile());
+		
+		TreeMap<String, String> options = new TreeMap<String, String>();
+		options.put("root-publication-directory", rootPublicationDirectory);
+		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_people.xpl").toURI());
+		processor.setInput(inputFile.toURI());
+		processor.setOptions(options);
 		
 		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_people.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
-		processor.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_people.xpl root-publication-directory=" + rootPublicationDirectory);		
+		processor.execute();		
 		XMLUnit.setIgnoreWhitespace(true);
 		
 		
@@ -73,11 +85,17 @@ public class TestPeople {
 	}
 	
 	@Test
-	public void testGetPersonData() throws Exception {			
+	public void testGetPersonData() throws Exception {					
+		
+		TreeMap<String, String> options = new TreeMap<String, String>();
+		options.put("id", "PER78");		
+		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_person_data.xpl").toURI());
+		processor.setOptions(options);
 		
 		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/person_data.xml").getFile()), "UTF-8");		
 		
-		processor.execute("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_person_data.xpl id=PER78");			
+		processor.execute();			
 		
 		XMLUnit.setIgnoreWhitespace(true);
 		
@@ -92,12 +110,19 @@ public class TestPeople {
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
 		String pathToResultFile = rootPublicationDirectory + "people/" + idNumber + ".html";
 		
-		String pathToSource = new File(TestPeople.class.getResource("/control/person_data.xml").getFile()).getAbsolutePath();
+		TreeMap<String, String> options = new TreeMap<String, String>();
+		options.put("root-publication-directory", rootPublicationDirectory);
+		
+		File inputFile = new File(TestPeople.class.getResource("/control/person_data.xml").getFile());
+		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_person.xpl").toURI());		
+		processor.setInput(inputFile.toURI());
+		processor.setOptions(options);
 		
 		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_person.html").getFile()), "UTF-8");
 		String expectedResponse = "<sapling><link href=\"" + pathToResultFile + "\" /></sapling>";				
 				
-		processor.execute("--input source=" + pathToSource + " /home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_person.xpl root-publication-directory=" + rootPublicationDirectory);					
+		processor.execute();					
 		
 		XMLUnit.setIgnoreWhitespace(true);
 		
@@ -112,20 +137,25 @@ public class TestPeople {
 	public void testPublishPeople() throws Exception {			
 		
 		String rootPublicationDirectory = "/home/sheila/Software/Sapling/";
-		String pathToResultFileIndex = rootPublicationDirectory + "people/index.html";		
+		String pathToResultFileIndex = rootPublicationDirectory + "people/index.html";
+		File pathToResultFileList = new File(TestPeople.class.getResource("/control/publish_people_file_list.xml").getFile());
 		
-		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/show_people.html").getFile()), "UTF-8");
-		String expectedResponse = "<sapling><link href=\"" + pathToResultFileIndex + "\" /></sapling>";
-				
-		CommandLineXmlProcessor runtime = new CommandLineXmlProcessor();
-				
-		runtime.execute("/home/sheila/Repositories/git/sapling/src/main/xproc/publish_people.xpl root-publication-directory=" + rootPublicationDirectory);		
+		TreeMap<String, String> options = new TreeMap<String, String>();
+		options.put("root-publication-directory", rootPublicationDirectory);
+		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/publish_people.xpl").toURI());
+		processor.setOptions(options);		
+		
+		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_people.html").getFile()), "UTF-8");
+		String expectedResponse = FileUtils.readFileToString(pathToResultFileList, "UTF-8");			
+		
+		processor.execute();		
 		XMLUnit.setIgnoreWhitespace(true);		
 		
-		// String resultFile = FileUtils.readFileToString(new File(pathToResultFileIndex), "UTF-8");
+		String resultFile = FileUtils.readFileToString(new File(pathToResultFileIndex), "UTF-8");
 		
-		assertXMLEqual(expectedResponse, runtime.getResponse());
-		// assertXMLEqual(expectedFile, resultFile);
+		assertXMLEqual(expectedFile, resultFile);
+		assertXMLEqual(expectedResponse, processor.getResponse());
 		
 	}
 }

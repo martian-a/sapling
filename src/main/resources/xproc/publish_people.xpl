@@ -9,7 +9,9 @@
 	
 	<p:import href="library.xpl"/>	
 
+
 	<k:get-people-data name="get-people-data" />
+
 	
 	<k:show-people name="show-people">
 		
@@ -19,7 +21,9 @@
 		
 		<p:with-option name="root-publication-directory" select="$root-publication-directory" />
 		
-	</k:show-people>
+	</k:show-people>	
+	
+	<p:sink />
 	
 	<p:for-each name="publish-person">
 		
@@ -29,36 +33,33 @@
 		
 		<p:output port="result" sequence="true" primary="true">
 			<p:pipe step="show-person" port="result" />
-		</p:output>			
-		
-		<p:variable name="id" select="@id" />
+		</p:output>	
 		
 		<k:get-person-data name="get-person-data">
-			<p:with-option name="id" select="$id" />			
-		</k:get-person-data>
-				
+			<p:with-option name="id" select="person/@id" />			
+		</k:get-person-data>		
+
 		<k:show-person name="show-person">
 			
 			<p:input port="source">
 				<p:pipe step="get-person-data" port="result" />
-			</p:input>								
+			</p:input>											
 			
 			<p:with-option name="root-publication-directory" select="$root-publication-directory" />			
-			
-		</k:show-person>							
+
+		</k:show-person>
 		
 	</p:for-each>
 	
-	<p:pack wrapper="sapling" name="links-to-published-files">
+	<p:sink />
+	
+	<p:wrap-sequence wrapper="sapling" name="links-to-published-files">
 		
 		<p:input port="source" select="/sapling/link">
-			<p:pipe step="show-people" port="result" />	
-		</p:input>
-		
-		<p:input port="alternate" select="/sapling/link">
+			<p:pipe step="show-people" port="result" />
 			<p:pipe step="publish-person" port="result" />
-		</p:input>				
+		</p:input>					
 		
-	</p:pack>
+	</p:wrap-sequence>
 	
 </p:declare-step>
