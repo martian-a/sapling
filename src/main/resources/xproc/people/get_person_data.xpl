@@ -7,7 +7,7 @@
 		<p:pipe step="xquery-request" port="result" />
 	</p:output>
 	
-	<p:import href="library.xpl"/>	
+	<p:import href="../library.xpl"/>	
 
 	<k:xquery-request name="xquery-request">
 		<p:with-option name="uri" select="concat('http://localhost:8080/exist/apps/sapling-test/queries/person.xq?id=', $id)"></p:with-option>

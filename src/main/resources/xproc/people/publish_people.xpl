@@ -7,7 +7,7 @@
 		<p:pipe step="links-to-published-files" port="result" />
 	</p:output>
 	
-	<p:import href="library.xpl"/>	
+	<p:import href="../library.xpl"/>
 
 
 	<k:get-people-data name="get-people-data" />

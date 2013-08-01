@@ -42,7 +42,7 @@ public class TestPeople {
 	@Test
 	public void testGetPeopleData() throws Exception {			
 		
-		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_people_data.xpl"));
+		processor.setPipeline(new URI("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/get_people_data.xpl"));
 		
 		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/people_data.xml").getFile()), "UTF-8");		
 		
@@ -65,7 +65,7 @@ public class TestPeople {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_people.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/show_people.xpl").toURI());
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
@@ -89,7 +89,7 @@ public class TestPeople {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("id", "PER78");		
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/get_person_data.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/get_person_data.xpl").toURI());
 		processor.setOptions(options);
 		
 		String expected = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/person_data.xml").getFile()), "UTF-8");		
@@ -114,7 +114,7 @@ public class TestPeople {
 		
 		File inputFile = new File(TestPeople.class.getResource("/control/person_data.xml").getFile());
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/show_person.xpl").toURI());		
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/show_person.xpl").toURI());		
 		processor.setInput(inputFile.toURI());
 		processor.setOptions(options);
 		
@@ -142,7 +142,7 @@ public class TestPeople {
 		TreeMap<String, String> options = new TreeMap<String, String>();
 		options.put("root-publication-directory", rootPublicationDirectory);
 		
-		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/publish_people.xpl").toURI());
+		processor.setPipeline(new File("/home/sheila/Repositories/git/sapling/src/main/resources/xproc/people/publish_people.xpl").toURI());
 		processor.setOptions(options);		
 		
 		String expectedFile = FileUtils.readFileToString(new File(TestPeople.class.getResource("/control/show_people.html").getFile()), "UTF-8");

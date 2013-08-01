@@ -5,7 +5,7 @@
 		<p:pipe step="xquery-request" port="result" />
 	</p:output>
 	
-	<p:import href="library.xpl"/>	
+	<p:import href="../library.xpl"/>	
 	
 	<k:xquery-request name="xquery-request">
 		<p:with-option name="uri" select="'http://localhost:8080/exist/apps/sapling-test/queries/people_index.xq'"></p:with-option>
