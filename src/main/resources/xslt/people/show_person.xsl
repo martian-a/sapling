@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:fn="http://ns.kaikoda.com/xslt/functions"
-    exclude-result-prefixes="xs fn"
+    xmlns:kai="http://ns.kaikoda.com/xslt/functions"
+    exclude-result-prefixes="xs kai"
     version="2.0">
    
-    <xsl:import href="../global.xsl" />
-    <xsl:import href="person.xsl"/>       
+    <xsl:import href="../global.xsl" />    
     
     <xsl:param name="root-publication-directory" select="''" />
     
@@ -18,7 +17,7 @@
     </xsl:template>
     
     <xsl:template match="person" mode="profile">
-    	<xsl:variable name="publication-path" select="concat($root-publication-directory, 'people/', fn:getPersonId(@id), '.html')" />
+    	<xsl:variable name="publication-path" select="concat($root-publication-directory, 'people/', kai:getPersonId(@id), '.html')" />
     
     	<sapling>
     		<link href="{$publication-path}" />
@@ -162,7 +161,7 @@
     <xsl:template match="related/events/event">
         <tr>
             <td class="year"><xsl:value-of select="date/@year" /></td>
-            <td class="month"><xsl:value-of select="fn:getShortMonthName(date/@month)" /></td>
+            <td class="month"><xsl:value-of select="kai:getShortMonthName(date)" /></td>
             <td class="day"><xsl:value-of select="date/@day" /></td>
             <td class="location"><xsl:apply-templates select="ancestor::related[1]/locations/location[@id = current()/location/@ref]" /></td>
             <td class="description"><xsl:apply-templates select="." mode="description" /></td>

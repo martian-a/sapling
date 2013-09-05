@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.TreeMap;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+
 import org.apache.commons.io.FileUtils;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
@@ -16,27 +19,32 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.kaikoda.gourd.CommandLineXmlProcessorCalabash;
+import com.kaikoda.willow.PrimedTransformer;
 
 
 public class TestPeople {
 
 	static private CommandLineXmlProcessorCalabash processor;
+	static private PrimedTransformer transformer;
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
 	@BeforeClass
-	static public void setupOnce() throws IOException {
+	static public void setupOnce() throws IOException, TransformerConfigurationException, ParserConfigurationException {
 		
 		FileUtils.deleteQuietly(new File("/home/sheila/Software/Sapling/people"));
 		
 		processor = new CommandLineXmlProcessorCalabash();
+		transformer = new PrimedTransformer();
 		
 	}
 	
 	@Before
 	public void setup() {
 		processor.reset();
+		XMLUnit.setControlEntityResolver(transformer.getCatalogResolver());
+		XMLUnit.setTestEntityResolver(transformer.getCatalogResolver());
 	}
 	
 	@Test

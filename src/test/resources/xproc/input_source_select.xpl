@@ -15,8 +15,8 @@
 			<p:inline>
 				<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 					xmlns:xs="http://www.w3.org/2001/XMLSchema"
-					xmlns:fn="http://ns.kaikoda.com/xslt/functions"
-					exclude-result-prefixes="xs fn"
+					xmlns:kai="http://ns.kaikoda.com/xslt/functions"
+					exclude-result-prefixes="xs kai"
 					version="2.0">
 					
 					<xsl:template match="/">

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:fn="http://ns.kaikoda.com/xslt/functions"
-    exclude-result-prefixes="xs fn"
+    xmlns:kai="http://ns.kaikoda.com/xslt/functions"
+    exclude-result-prefixes="xs kai"
     version="2.0">
     
     <xsl:variable name="person-id" select="/sapling/person/@id" />
@@ -140,33 +140,6 @@
         <xsl:element name="{name()}"><xsl:apply-templates /></xsl:element>
     </xsl:template>
     
-    <xsl:template match="notes/descendant::text()"><xsl:value-of select="." /></xsl:template>
-	
-	<xsl:function name="fn:getShortMonthName" as="text()">
-		<xsl:param name="monthNumber" as="xs:integer?" />
-	
-		<xsl:choose>
-			<xsl:when test="$monthNumber = 1">Jan</xsl:when>
-			<xsl:when test="$monthNumber = 2">Feb</xsl:when>
-			<xsl:when test="$monthNumber = 3">Mar</xsl:when>
-			<xsl:when test="$monthNumber = 4">Apr</xsl:when>
-			<xsl:when test="$monthNumber = 5">May</xsl:when>
-			<xsl:when test="$monthNumber = 6">Jun</xsl:when>
-			<xsl:when test="$monthNumber = 7">Jul</xsl:when>
-			<xsl:when test="$monthNumber = 8">Aug</xsl:when>
-			<xsl:when test="$monthNumber = 9">Sep</xsl:when>
-			<xsl:when test="$monthNumber = 10">Oct</xsl:when>
-			<xsl:when test="$monthNumber = 11">Nov</xsl:when>
-			<xsl:when test="$monthNumber = 12">Dec</xsl:when>
-			<xsl:otherwise><xsl:value-of select="$monthNumber" /></xsl:otherwise>
-		</xsl:choose>
-		
-	</xsl:function>
-    
-    <xsl:function name="fn:getPersonId" as="xs:integer?">
-        <xsl:param name="prefixedId" as="xs:string?" />
-        
-        <xsl:value-of select="substring-after($prefixedId, 'PER')" />        
-    </xsl:function>    
+    <xsl:template match="notes/descendant::text()"><xsl:value-of select="." /></xsl:template> 
     
 </xsl:stylesheet>
