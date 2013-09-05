@@ -12,9 +12,12 @@
                 <person id="PER78" year="1835"><persona><name><name>Janet</name><name family="yes">Davidson</name></name><gender>Female</gender></persona><notes><p>Family lore has it that her grandmother was Janet Barrie of Stonehouse, Lanark, related to the writer J.M. Barrie whose ancestors left Stonehouse for Kirriemuir.</p><p>It is believed that the family name, Davidson, originates from Aberdeen, of the Chatton Clan.</p></notes></person>               
             </people>
             <locations>
-                <location id="LOC152">
-                    <name>Sorn</name>
-                </location>              
+                <location id="LOC9">
+                    <name>Scotland</name>
+                    <location id="LOC152">
+                        <name>Sorn</name>
+                    </location>  
+                </location>        
             </locations>
         </related>
     </event>        

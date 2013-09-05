@@ -12,9 +12,9 @@ return
     	{
     		for $event in $events/event[@id = $id]
     		let $related-people := $event/*[self::person or self::parent]
-    		let $related-locations := $event/location
+    		let $related-locations := $locations//(location[@id = $event/location/@ref] | location[@id = $event/location/@ref]/ancestor::location[type = 'Country'][1])
 			let $related-people-ids := distinct-values($related-people/@ref)
-			let $related-location-ids := distinct-values($related-locations/@ref)
+			let $related-location-ids := distinct-values($related-locations/@id)
 			return
         		<event id="{$event/@id}" type="{$event/@type}">               
             		{$event/*}
@@ -28,12 +28,26 @@ return
 		                </people>
 		                <locations>
 		                    {
+		                        (:
 		                        for $location in $locations//location[@id = $related-location-ids]
-		                        order by xs:integer(substring-after($location/@id, 'LOC')) ascending
+		                        order by $location/count(ancestor::*) ascending
 		                        return
 		                            <location id="{$location/@id}">
 		                                {$location/name}
-		                            </location>                
+		                            </location>
+		                        :)		       
+                                for $country in $locations//location[@id = $event/location/@ref]/ancestor::location[type = 'Country'][1]		                        
+		                        return 
+    		                        <location id="{$country/@id}">
+    		                            {$country/name}
+                                        {
+    		                                for $birth-place in $locations//location[@id = $event/location/@ref]
+    		                                return
+    		                                    <location id="{$birth-place/@id}">
+    		                                        {$birth-place/name}
+    		                                    </location>    		                                    
+    		                            }
+    		                        </location>	
 		                    }
 		                </locations>
 		            </related>
