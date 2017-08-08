@@ -205,6 +205,6 @@ declare function data:build-entity-reference($entity as element()) as element()*
 		return
 			element {$entity/name()} {
 				attribute ref {$entity/@id},
-				$entity/title
+				$entity/*[name() = ('title', 'name')]
 			}
 };

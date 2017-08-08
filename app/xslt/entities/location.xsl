@@ -14,12 +14,12 @@
 	
 	
 	<xsl:template match="/app/view[data/entities/location]" mode="view.title">
-		<xsl:text>location</xsl:text>
+		<xsl:text>Locations</xsl:text>
 	</xsl:template>
 	
 	
 	<xsl:template match="/app/view[data/location]" mode="view.title">
-		<xsl:value-of select="xs:string(data/location/title)"/>
+		<xsl:value-of select="xs:string(data/location/name)"/>
 	</xsl:template>
 	
 	
@@ -30,7 +30,7 @@
 	</xsl:template>
 	
 
-	<xsl:template match="location/title"/>
+	<xsl:template match="location/name"/>
 	
 
 	<xsl:template match="entities/location">
@@ -44,7 +44,7 @@
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('location/', @ref)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
-				<xsl:apply-templates select="title" mode="href-html"/>
+				<xsl:apply-templates select="name" mode="href-html"/>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>

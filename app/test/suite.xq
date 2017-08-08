@@ -7,6 +7,7 @@ test:suite(
     inspect:module-functions(xs:anyURI("generic/action.xq")),
     inspect:module-functions(xs:anyURI("generic/data.xq")),
     inspect:module-functions(xs:anyURI("custom/person.xq")),
-    inspect:module-functions(xs:anyURI("custom/name.xq"))
+    inspect:module-functions(xs:anyURI("custom/name.xq")),
+    inspect:module-functions(xs:anyURI("custom/location.xq"))
 	)
 )
