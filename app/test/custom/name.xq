@@ -22,7 +22,7 @@ declare
 			
 	(: Valid id :)
 	%test:args('josiah')
-	%test:assertEquals('<name id="josiah"><name>Josiah</name><person ref="PER100"/></name>') 
+	%test:assertEquals('<name id="josiah"><name>Josiah</name><related><person ref="PER100"/></related></name>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
