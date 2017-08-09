@@ -4,6 +4,7 @@
 	<xsl:import href="entities/location.xsl"/>
 	<xsl:import href="entities/person.xsl"/>
 	<xsl:import href="entities/name.xsl"/>
+	<xsl:import href="entities/event.xsl"/>
 
 
 	<doc:doc>

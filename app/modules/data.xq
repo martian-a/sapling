@@ -56,7 +56,16 @@ declare function data:get-augmented-entity($simple as element()?) as element()? 
 	
 	if (not($simple))
 	then ()
-	else $simple
+	else 
+		switch ($simple/name())
+		case "event" return
+			switch ($simple/@type)
+			case "christening" return
+				"test"
+			default return
+				"test"
+		default return
+			$simple
 };
 
 
@@ -201,6 +210,39 @@ declare function data:build-entity-reference($entity as element()) as element()*
 					attribute ref {$entity/@id},
 					xs:string($name)
 				}
+	case "event"
+		return
+			element {$entity/name()} {
+				attribute ref {$entity/@id},
+				let $summary :=
+					if ($entity/summary)
+					then xs:string($entity/summary)
+					else
+						switch ($entity/@type)
+						case "birth"
+							return 
+								let $subject := data:get-entity($entity/person/@ref)
+								return concat($subject/persona/name/xs:string(.), ' is born.')
+						case "christening"
+							return 
+								let $subject := data:get-entity($entity/person/@ref)
+								return concat($subject/persona/name/xs:string(.), ' is christened.')
+						case "death"
+							return 
+								let $subject := data:get-entity($entity/person/@ref)
+								return concat($subject/persona/name/xs:string(.), ' dies.')
+						case "marriage"
+							return 
+								let $subjects := 
+									for $person in $entity/person/data:get-entity(@ref)
+									order by $person/persona/name/name[@family = 'yes']/xs:string(.) ascending
+									return $person
+								return concat(string-join($subjects[position() != last()]/persona/name/xs:string(.), ', '), if (count($subjects) > 1) then concat(' and ', $subjects[position() = last()]/persona/name/xs:string(.)) else (), ' marry.')
+						default
+							return xs:string($entity/@type)
+				return
+					<summary>{normalize-space($summary)}</summary>
+			}
 	default
 		return
 			element {$entity/name()} {
