@@ -4,19 +4,28 @@ module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data";
 import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 
 
-
 (:==================
   Anonymous Entities 
 ====================:)
 
 
 (: Less direct that with path. Uses entity-specific methods for consistency as they return different content to raw DB. :) 
-declare function data:get-entity($id as xs:string?) as element()? {
+declare function data:get-entity($param as item()?) as element()? {
 	
-	if ($id != '')
-	then data:get-entities()/self::*[@id = $id]
-	else ()
-	
+	let $id as xs:string? := 
+		if ($param instance of xs:string)
+		then $param
+		else if ($param instance of element() and $param[@id or @ref])
+		then 
+			if ($param/@id)
+			then $param/@id/xs:string(.)
+			else $param/@ref/xs:string(.)
+		else ''
+	return
+		if ($id != '')
+		then data:get-entities()/self::*[@id = $id]
+		else ()
+
 };
 
 declare function data:get-entities() as element()* {
@@ -50,24 +59,6 @@ declare function data:is-valid-id($path as xs:string?, $id as xs:string?) as xs:
 		then true()
 		else false()	
 };
-
-
-declare function data:get-augmented-entity($simple as element()?) as element()? {  
-	
-	if (not($simple))
-	then ()
-	else 
-		switch ($simple/name())
-		case "event" return
-			switch ($simple/@type)
-			case "christening" return
-				"test"
-			default return
-				"test"
-		default return
-			$simple
-};
-
 
 
 (:=========
@@ -133,7 +124,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 		else
 			<app>
 				{
-					data:get-app()/name,
+					data:get-app()/name, 
 					element view {
 						attribute path {
 							if ($id != '') 
@@ -153,7 +144,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 						    else data:view-index-xml($path)			
 						}
 						</data>
-					}	
+					}
 				}
 				{
 					data:get-app()/views,
@@ -165,16 +156,10 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 
 
 
-declare function data:view-entity-xml($param as item()?) {
+declare function data:view-entity-xml($param as item()?) as element()? {
 	
-	let $entity :=
-		if ($param instance of xs:string)
-		then data:get-entity($param)
-		else if ($param instance of element())
-		then $param
-		else ()
-	
-	return data:get-augmented-entity($entity)
+	for $entity in data:get-entity($param)/self::*
+	return data:augment-entity($entity)
 	
 };
 
@@ -187,66 +172,242 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 		return
 			<entities>{
 				for $entity in $entities
-				return data:build-entity-reference($entity)
+				return $entity 
+					(:
+					switch ($entity/name()) 
+					case "person" return data:simplify-person($entity)
+					case "event" return data:simplify-event($entity)
+					case "location" return data:simplify-location($entity)
+					case "name" return data:simplify-name($entity)
+					default return ()
+					:)
 			}</entities>
 };
 
-declare function data:build-entity-reference($entity as element()) as element()* {
 
-	switch ($entity/name()) 
-	case "person"
-		return
-			for $persona in $entity/persona
-			return
-				element {$entity/name()} {
-					attribute ref {$entity/@id},
-					$persona/name
-				}
-	case "name"
-		return
-			for $name in $entity/name
-			return
-				element {$entity/name()} {
-					attribute ref {$entity/@id},
-					xs:string($name)
-				}
-	case "event"
-		return
-			element {$entity/name()} {
-				attribute ref {$entity/@id},
-				let $summary :=
-					if ($entity/summary)
-					then xs:string($entity/summary)
-					else
-						switch ($entity/@type)
-						case "birth"
-							return 
-								let $subject := data:get-entity($entity/person/@ref)
-								return concat($subject/persona/name/xs:string(.), ' is born.')
-						case "christening"
-							return 
-								let $subject := data:get-entity($entity/person/@ref)
-								return concat($subject/persona/name/xs:string(.), ' is christened.')
-						case "death"
-							return 
-								let $subject := data:get-entity($entity/person/@ref)
-								return concat($subject/persona/name/xs:string(.), ' dies.')
-						case "marriage"
-							return 
-								let $subjects := 
-									for $person in $entity/person/data:get-entity(@ref)
-									order by $person/persona/name/name[@family = 'yes']/xs:string(.) ascending
-									return $person
-								return concat(string-join($subjects[position() != last()]/persona/name/xs:string(.), ', '), if (count($subjects) > 1) then concat(' and ', $subjects[position() = last()]/persona/name/xs:string(.)) else (), ' marry.')
-						default
-							return xs:string($entity/@type)
+
+
+
+(:==============
+  Custom Methods
+================:)
+
+(:
+declare function data:build-event-summary($event as element()) as element()* {
+
+	if ($event/summary)
+	then $event/summary
+	else
+		<summary>{
+			switch ($event/@type)
+			case "birth"
+			case "christening"
+			case "death"
+				return 
+					let $subject := 
+						if ($event/person)
+						then $event/person
+						else <person><name>Someone</name></person>
+					return (
+						$subject,
+						switch ($event/@type)
+						case "birth" return " is born."
+						case "christening" return " is christened."
+						case "death" return " dies."
+						default return " is involved in an event."
+					)
+			case "marriage"
 				return
-					<summary>{normalize-space($summary)}</summary>
-			}
-	default
-		return
-			element {$entity/name()} {
-				attribute ref {$entity/@id},
-				$entity/*[name() = ('title', 'name')]
-			}
+					let $subjects as element()* :=
+						for $entity-ref in $event/person
+						let $person := data:get-entity($entity-ref)
+						order by 
+							$person/persona[1]/name/name[@family = 'yes']/xs:string(.) ascending, 
+							string-join($person/persona[1]/name/name[not(@family = 'yes')], ' ')/xs:string(.) ascending
+						return $entity-ref
+					let $total-subjects := count($subjects)
+					return 
+						switch ($total-subjects)
+						case 0 
+							return "Someone marries"
+						case 1 
+							return ($subjects[1], "marries.")
+						case 2 
+							return ($subjects[1], " and ", $subjects[2], " marry.")
+						default 
+							return (
+								for $subject in $subjects[position() < ($total-subjects - 2)]
+								return ($subject, ", "),
+								$subjects[position() = $total-subjects - 1],
+								" and ",
+								$subjects[position() = last()],
+								" marry."
+							)
+			default return ()
+		}</summary>
+};
+:)
+
+declare function data:simplify-person($param as element()) as element()? {
+	
+	for $entity in $param/self::person[starts-with(@id, 'PER')]
+	return
+		<person>{
+			$entity/@*,
+			$entity/persona[1]
+		}</person>
+};
+
+(:
+declare function data:simplify-event($param as element()) as element()? {
+	
+	for $entity in $param/self::event[starts-with(@id, 'EVE')]
+	return
+		<event>{
+			$entity/@*,
+			$entity/*[name() != 'summary'],
+			data:build-event-summary($entity)
+		}</event>
+};
+:)
+
+declare function data:augment-entity($param as element()) as element()? {
+	
+	for $entity in $param/self::*
+	let $related :=
+		switch ($entity/name())
+		case "location" return 
+			let $events := data:get-related-events($entity)
+			let $people := data:get-related-people($entity, $events)
+			let $organisations := data:get-related-organisations($entity, $events)
+			let $locations := data:get-related-locations($entity)[@id != $entity/@id]
+			return (
+				$events,
+				for $person in $people
+				return data:simplify-person($person), 
+				$organisations,
+				$locations
+			)
+		default return 
+			let $events := data:get-related-events($entity)
+			let $people := data:get-related-people($entity)
+			let $organisations := data:get-related-organisations($entity)
+			let $locations := data:get-related-locations($entity)
+			return (
+				$events, 
+				for $person in $people
+				return data:simplify-person($person), 
+				$organisations,
+				$locations
+			)
+			
+return
+		element {$entity/name()} {
+			
+			(: Deep copy of existing entity :)
+			$entity/@*,
+			$entity/*,
+			
+			if (count($related) > 0)
+			then
+				(: Data for referenced entities :)
+				<related>{$related}</related>
+			else ()
+		}
+};
+
+
+declare function data:get-related-events($entity as element()) as element()* {
+
+	let $unsorted :=
+		switch ($entity/name()) 
+		case "event" return
+			for $ref in distinct-values($entity/descendant::preceded-by/@ref/xs:string(.))
+			return data:get-entity($ref)
+		case "person" return
+			for $event in data:get-entities("event")[descendant::*[name() = ('person', 'parent')]/@ref = $entity/@id]
+			return $event
+		case "location" return
+			let $locations := ($entity, data:get-locations-within($entity))
+			for $event in data:get-entities("event")[descendant::location/@ref = $locations/@id]
+			return $event
+		default return ()
+	for $event in $unsorted/self::event
+	order by $event/number(substring-after(@id, 'EVE')) ascending
+	return $event
+
+};
+
+
+declare function data:get-related-people($entity as element()) as element()* {
+	data:get-related-people($entity, data:get-related-events($entity))
+};
+
+declare function data:get-related-people($entity as element(), $related-events as element()*) as element()* {
+
+	let $entities := ($entity, $related-events)
+	for $ref in distinct-values($entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.))
+	let $person := data:get-entity($ref)
+	order by $person/number(substring-after(@id, 'PER')) ascending
+	return $person
+
+};
+
+
+declare function data:get-related-locations($entity as element()) as element()* {
+	data:get-related-locations($entity, data:get-related-events($entity), data:get-related-people($entity))
+};
+
+declare function data:get-related-locations($entity as element(), $related-events as element()*, $related-people as element()*) as element()* {
+
+	let $entities := ($entity, $related-events, $related-people)
+	let $related := (
+		let $direct :=
+			for $ref in distinct-values($entities/descendant::location/@ref/xs:string(.)) 
+			return data:get-entity($ref)
+		let $indirect :=
+			for $location in $direct
+			return data:get-location-context($location)
+		let $within :=
+			if ($entity/name() = 'location')
+			then data:get-locations-within($entity)
+			else ()
+		return ($direct, $indirect, $within)
+	)
+	for $location in $related/self::location
+	let $id := $location/@id
+	group by $id
+	order by $location/number(substring-after(@id, 'LOC')) ascending
+	return $location[1]
+
+};
+
+
+declare function data:get-related-organisations($entity as element()) as element()* {
+	data:get-related-organisations($entity, data:get-related-events($entity))
+};
+
+declare function data:get-related-organisations($entity as element(), $related-events as element()*) as element()* {
+
+	let $entities := ($entity, $related-events)
+	for $ref in distinct-values($entities/descendant::organisation/@ref/xs:string(.))
+	let $organisation := data:get-entity($ref)
+	order by $organisation/number(substring-after(@id, 'ORG')) ascending
+	return $organisation
+
+};
+
+
+declare function data:get-location-context($location as element()?) as element()* {
+
+	for $ancestor in $location/self::location[starts-with(@id, 'LOC')]/descendant::within/data:get-entity(@ref/xs:string(.))
+	return ($ancestor, data:get-location-context($ancestor))
+			
+};
+
+declare function data:get-locations-within($location as element()?) as element()* {
+
+	for $descendant in data:get-entities('location')[within/@ref = $location/@id]
+	return ($descendant, data:get-locations-within($descendant))
+
 };

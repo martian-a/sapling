@@ -83,13 +83,10 @@
 	</doc:doc>
 	<xsl:template match="/app/view" mode="html.body" priority="100">
 		<div class="main">
-			<h1>
-                <xsl:apply-templates select="self::*" mode="view.title"/>
-            </h1>
+			<xsl:apply-templates select="self::*" mode="html.body.title" />
 			<xsl:next-match/>
 		</div>
 	</xsl:template>
-	
 	
 	
 	<doc:doc>
@@ -98,31 +95,28 @@
 	</doc:doc>
 	<xsl:template match="/app" mode="nav.site">
 		<header class="header">
-			<xsl:apply-templates select="assets/image[@role = 'site-logo']" mode="nav.site"/>
-                <div class="nav nav-site">
-                	<xsl:apply-templates select="views" mode="nav.site"/>
-					</div>
+			<xsl:apply-templates select="assets/image[@role = 'site-logo']" mode="nav.site" />
+			<div class="nav nav-site">
+				<xsl:apply-templates select="views" mode="nav.site" />
+			</div>
 		</header>
 	</xsl:template>
 	
 	
 	<doc:doc>
-                        <doc:title>Site Logo.</doc:title>
-                    <doc:desc>In page header.</doc:desc>
+		<doc:title>Site Logo.</doc:title>
+		<doc:desc>In page header.</doc:desc>
 	</doc:doc>
-                	<xsl:template match="image[@role = 'site-logo']" mode="nav.site">
+	<xsl:template match="image[@role = 'site-logo']" mode="nav.site">
 		<h2 class="logo">
-                <xsl:call-template name="href-html">
-            <xsl:with-param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string"/>
-			<xsl:with-param name="content" as="item()*">
-				<img src="{$normalised-path-to-images}{file[1]/@path}" alt="{title}"/>
-			</xsl:with-param>
-		<xsl:with-param name="is-index" select="true()" as="xs:boolean?"/>
-	</xsl:call-template>
-	
-	
-
-	</h2>
+			<xsl:call-template name="href-html">
+				<xsl:with-param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string" />
+				<xsl:with-param name="content" as="item()*">
+					<img src="{$normalised-path-to-images}{file[1]/@path}" alt="{title}" />
+				</xsl:with-param>
+				<xsl:with-param name="is-index" select="true()" as="xs:boolean?" />
+			</xsl:call-template>
+		</h2>
 	</xsl:template>
 	
 	

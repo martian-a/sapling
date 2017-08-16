@@ -46,7 +46,7 @@
 								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 								import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../app/modules/data.xq";
 								
-								let $names := (data:get-entities('person')/persona/name/name | data:get-entities('location')/name)
+								let $names := (data:get-entities('person')/persona/name/name | data:get-entities('location')/name | data:get-entities('organisation')/name)
 								return
 									if (count($names) = 0)
 									then ()
@@ -65,6 +65,7 @@
 														'_'
 													)	
 												group by $normalised
+												order by $normalised ascending
 												return
 													<name id="{$normalised}">
 														{
@@ -91,13 +92,13 @@
 																let $class := $entity/name()
 																group by $class
 																return
-																	<related>{
+																	<associated>{
 																		for $id in $entity/@id
 																		return
 																			element {$class} {
 																				attribute ref {$id}
 																			}
-																	}</related>
+																	}</associated>
 														}
 												</name>
 											}

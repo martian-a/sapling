@@ -40,14 +40,14 @@
 				<d:ul>
 					<d:ingress>Recognises the following values:</d:ingress>
 					<d:li>data</d:li>
-					<d:li>static-site</d:li>
+					<d:li>static-html</d:li>
 					<d:li>all</d:li>
 				</d:ul>
-				<d:p>The default value is 'static-site'.</d:p>
+				<d:p>The default value is 'static-html'.</d:p>
 			</d:note>
 		</d:doc>
 	</p:documentation>
-	<p:option name="product" select="'static-site'" />
+	<p:option name="product" select="'static-html'" />
 	
 	
 	<p:documentation>
@@ -189,7 +189,7 @@
 			</p:output>
 			
 			<p:choose>
-				<p:when test="$product = 'data'">
+				<p:when test="$product = ('data', 'all')">
 					<p:identity>
 						<p:input port="source">
 							<p:empty />
@@ -208,7 +208,7 @@
 			<p:sink />
 			
 			<p:choose>
-				<p:when test="$product = 'static-site'">
+				<p:when test="$product = 'static-html'">
 					<tcy:clean>
 						<p:with-option name="href" select="concat($href-output-site, '/xml/')" />	
 					</tcy:clean>

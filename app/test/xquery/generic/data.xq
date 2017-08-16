@@ -1,5 +1,5 @@
 xquery version "3.0";
-module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit";
+module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit/data";
 
 import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
 
@@ -34,8 +34,33 @@ declare
 	%test:assertXPath("count($result/*) = 1")
 	%test:assertXPath("$result/@id = 'PER100'") 
 	
-function unit:get-entity($param) {
+function unit:get-entity-from-string($param) {
     data:get-entity($param)
+};
+
+declare
+	
+	(: Empty id :)
+	%test:args('entity', '')
+	%test:assertEmpty
+	
+	(: Invalid id :)
+	%test:args('person', 'IND3')
+	%test:assertEmpty
+		
+	(: Valid id :)
+	%test:args('person', 'PER100')
+	%test:assertXPath("count($result/*) = 1")
+	%test:assertXPath("$result/@id = 'PER100'") 
+	
+function unit:get-entity-from-element($name, $id) {
+	let $element :=
+		element {$name} {
+			if ($id != '')
+			then attribute {"id"} {$id}
+			else ()
+		}
+	return data:get-entity($element)
 };
 
 

@@ -5,6 +5,9 @@
 	<xsl:import href="entities/person.xsl"/>
 	<xsl:import href="entities/name.xsl"/>
 	<xsl:import href="entities/event.xsl"/>
+	<xsl:import href="entities/organisation.xsl" />
+	<xsl:import href="custom/note.xsl"/>
+	<xsl:import href="custom/timeline.xsl"/>
 
 
 	<doc:doc>

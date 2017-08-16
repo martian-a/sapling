@@ -1,5 +1,5 @@
 xquery version "3.0";
-module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit";
+module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit/data/name";
 
 import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
 
@@ -26,17 +26,6 @@ declare
 
 function unit:get-entity($param) {
     data:get-entity($param)
-};
-
-
-declare
-			
-	(: Valid id :)
-	%test:args('josiah') 
-	%test:assertEquals('<name ref="josiah">Josiah</name>')
-	
-function unit:build-entity-reference($param) {
-	data:build-entity-reference(data:get-entity($param))
 };
 
 

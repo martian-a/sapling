@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../xslt/global.xsl">
+
+	<x:scenario label="Get full location context">
+		
+		<x:scenario label="Continent">
+			
+			<x:call function="fn:get-full-location-context">
+				<x:param href="data/input/LOC1.xml" select="/app/view/data/location"/>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="()"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Address">
+			
+			<x:call function="fn:get-full-location-context">
+				<x:param href="data/input/LOC190.xml" select="/app/view/data/location"/>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="List of all locations that make up the input location's context." select="/result/*" xml:space="preserve">
+				<result>
+					<location id="LOC87" type="settlement">
+						<name>Clapham</name>
+						<within ref="LOC29" />
+					</location>
+					<location id="LOC29" type="county">
+						<name>Yorkshire</name>
+						<within ref="LOC7" />
+					</location>
+					<location id="LOC7" type="country">
+						<name>England</name>
+						<within ref="LOC213" />
+					</location>
+					<location id="LOC213" type="country">
+						<name>Great Britain</name>
+						<within ref="LOC191" />
+					</location>
+					<location id="LOC191" type="country">
+						<name>United Kingdom</name>
+						<within ref="LOC1" />
+					</location>
+					<location id="LOC1" type="continent">
+						<name>Europe</name>
+					</location>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+	
+	</x:scenario>
+
+	<x:scenario label="Get abbreviated location context">
+		
+		<x:scenario label="Continent in, continent out">
+			
+			<x:call function="fn:get-location-context">
+				<x:param name="location-in" href="data/input/LOC1.xml" select="/app/view/data/location" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="()"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Address in, country out">
+			
+			<x:call function="fn:get-location-context">
+				<x:param name="location-in" href="data/input/LOC190.xml" select="/app/view/data/location" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="England" select="/location" xml:space="preserve">
+				<location id="LOC7" type="country">
+					<name>England</name>
+					<within ref="LOC213" />
+				</location>
+			</x:expect>
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+
+	<x:scenario label="Get locations within the current location">
+		
+		<x:scenario label="No locations within.">
+			
+			<x:call function="fn:get-locations-within">
+				<x:param href="data/input/LOC190.xml" select="/app/view/data/location"/>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="()"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Locations within">
+			
+			<x:call function="fn:get-locations-within">
+				<x:param href="data/input/LOC10.xml" select="/app/view/data/location"/>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="List of all locations that make up the input location's context." select="/result/*" xml:space="preserve">
+				<result>
+					<location id="LOC32" type="county">
+						<name>Armagh</name>
+						<within ref="LOC10" />
+					</location>
+					<location id="LOC118" type="settlement">
+						<name>Keady</name>
+						<within ref="LOC32" />
+					</location>
+					<location id="LOC33" type="county">
+						<name>Banbridge</name>
+						<within ref="LOC10" />
+					</location>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+
+</x:description>

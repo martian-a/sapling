@@ -1,4 +1,13 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	exclude-result-prefixes="#all" 
+	version="2.0">
+	
+	<xsl:key name="location" match="data/location| related/location" use="@id" />
+	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
 	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
@@ -8,9 +17,65 @@
 	
 	
 	<xsl:template match="/app/view[data/location]" mode="html.body">
-		<xsl:apply-templates select="data/location"/>
+		<xsl:apply-templates select="data/location" />		
 	</xsl:template>
 	
+	<xsl:template match="data/location">
+		<xsl:apply-templates select="@type"/>
+		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
+		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
+		<xsl:apply-templates select="related[event]" mode="timeline" /> 
+		<xsl:apply-templates select="related[person]" mode="people" />
+	</xsl:template>
+	
+	<xsl:template match="data/location/@type">
+		<p class="type"><xsl:value-of select="." /></p>
+	</xsl:template>
+	
+	
+	<xsl:template match="data/location" mode="context">
+		<xsl:variable name="full-context" select="fn:get-full-location-context(self::location)" as="element()*" />
+		<xsl:variable name="locations-within" select="fn:get-locations-within(self::location)" as="element()*" />
+		
+		<xsl:if test="(count($full-context) + count($locations-within)) > 0">
+			<div class="context">
+				<h2>Context</h2>
+				<xsl:if test="count($full-context) > 0">
+					<h3>Within</h3>
+					<ul>
+						<xsl:apply-templates select="$full-context" mode="context" />
+					</ul>
+				</xsl:if>
+				<xsl:if test="count($locations-within) > 0">
+					<h3>Contains</h3>
+					<xsl:call-template name="locations-within">
+						<xsl:with-param name="locations" select="$locations-within" as="element()*" />
+					</xsl:call-template>
+				</xsl:if>
+			</div>
+		</xsl:if>
+	</xsl:template>
+	
+	
+	<xsl:template name="locations-within">
+		<xsl:param name="locations" as="element()*" />
+		<ul>
+			<xsl:for-each select="$locations">
+				<xsl:sort select="name" data-type="text" order="ascending" />
+				<xsl:apply-templates select="current()" mode="context" />
+				<xsl:variable name="locations-within" select="fn:get-locations-within(current())" as="element()*" />
+				<xsl:if test="count($locations-within) > 0">
+					<xsl:call-template name="locations-within">
+						<xsl:with-param name="locations" select="$locations-within" as="element()*" />
+					</xsl:call-template>
+				</xsl:if>
+			</xsl:for-each>
+		</ul>
+	</xsl:template>
+	
+	<xsl:template match="related/location" mode="context">
+		<li><xsl:apply-templates select="self::*" mode="href-html" /></li>
+	</xsl:template>
 	
 	
 	<xsl:template match="/app/view[data/entities/location]" mode="view.title">
@@ -30,6 +95,16 @@
 	</xsl:template>
 	
 
+	<xsl:template match="related/location">
+		<xsl:apply-templates select="self::*" mode="href-html" />
+		<xsl:variable name="context" select="fn:get-location-context(self::*)" as="element()?" />
+		<xsl:if test="count($context) > 0">
+			<xsl:text>, </xsl:text>
+			<xsl:apply-templates select="$context" mode="href-html" />
+		</xsl:if>
+	</xsl:template>
+
+
 	<xsl:template match="location/name"/>
 	
 
@@ -40,13 +115,38 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="location" mode="href-html">
+	<xsl:template match="location[@ref]">
+		<xsl:apply-templates select="key('location', @ref)" mode="href-html" />
+	</xsl:template>
+	
+	
+	<xsl:template match="data/location" mode="href-html">
+		<span class="self-reference"><xsl:apply-templates select="name" mode="href-html"/></span>
+	</xsl:template>
+	
+	<xsl:template match="related/location" mode="href-html">
 		<xsl:call-template name="href-html">
-			<xsl:with-param name="path" select="concat('location/', @ref)" as="xs:string"/>
+			<xsl:with-param name="path" select="concat('location/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="name" mode="href-html"/>
 			</xsl:with-param>
 		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template match="related" mode="map">
+		<xsl:variable name="events" select="if (parent::event) then parent::event else event" as="element()*" />
+		<xsl:variable name="locations" select="$events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref)" as="element()*" />
+		
+		<xsl:if test="count($locations) > 0">
+			<div class="locations">
+				<h2>Locations</h2>
+				<ul>
+					<xsl:for-each select="$locations">
+						<li><xsl:apply-templates select="self::*" /></li>
+					</xsl:for-each>
+				</ul>
+			</div>
+		</xsl:if>
 	</xsl:template>
 	
 </xsl:stylesheet>

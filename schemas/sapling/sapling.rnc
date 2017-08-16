@@ -1,0 +1,34 @@
+# Namespaces #
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace xi = "http://www.w3.org/2001/XInclude"
+
+
+
+# Data Types #
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+
+
+# Includes #
+
+include "../../../cenizaro/schemas/app/app.rnc"
+include "people.rnc"
+include "events.rnc"
+include "locations.rnc"
+include "organisations.rnc"
+include "sources.rnc"
+
+
+
+# Root Element #
+start |= app.root
+
+
+app.data.extra |= 
+	people?,
+	events?,
+	locations?,
+	organisations?,
+	sources?

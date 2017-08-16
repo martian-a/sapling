@@ -1,0 +1,30 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= organisations
+
+# Elements #
+
+organisations = element organisations { 
+	organisations.attlist, 
+	organisation*
+}
+
+organisation = element organisation { 
+	organisation.attlist, 
+	name,
+	note*
+}
+
+
+# Attributes #
+
+organisations.attlist = 
+	xml.attlist
+		
+organisation.attlist =
+	xml.attlist,
+    attribute id { xsd:ID }

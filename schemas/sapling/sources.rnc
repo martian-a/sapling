@@ -1,0 +1,58 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= sources
+
+# Elements #
+
+sources = element sources { 
+	sources.attlist, 
+	source*
+}
+	
+source = element source { 
+	source.attlist, 
+	title,
+	author*,
+	publisher?,
+	isbn?,
+	link,
+	source.date+
+}
+
+source.date |= element date {
+	source.date.attlist
+}
+
+
+author = element author {
+	text*
+}
+
+publisher = element publisher {
+	text*
+}
+
+isbn = element isbn {
+	text*
+}
+
+
+# Attributes #
+
+sources.attlist = 
+	xml.attlist
+	
+source.attlist =
+	xml.attlist,
+    attribute id { xsd:ID }
+
+source.date.attlist =
+	attribute rel { 
+		"published" | 
+		"revised" | 
+		"retrieved" 
+	}

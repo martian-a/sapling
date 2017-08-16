@@ -1,0 +1,59 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= events
+
+# Elements #
+
+events = element events { 
+	events.attlist, 
+	event*
+}
+	
+event = element event { 
+	event.attlist, 
+	date?,
+	preceded-by*,
+	( person-ref | parental-ref)*,
+	location-ref*,
+	summary?
+}
+
+parental-ref = element parent {
+	parental-ref.attlist,
+	empty
+}
+
+preceded-by = element preceded-by {
+	event-ref.attlist,
+	empty
+}
+
+
+
+# Attributes #
+
+events.attlist = 
+	xml.attlist
+	
+event.attlist =
+	xml.attlist,
+    attribute id { xsd:ID },
+    attribute type {
+    	"birth" |
+    	"christening" |
+    	"marriage" |
+    	"death" |
+    	"historical"
+    }
+    
+parental-ref.attlist = 
+	person-ref.attlist,
+	attribute type {
+		"biological" |
+		"adoptive" |
+		"surrogate"
+	}?

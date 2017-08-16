@@ -1,0 +1,56 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= locations
+
+# Elements #
+
+locations = element locations { 
+	locations.attlist, 
+	location*
+}
+
+location = element location { 
+	location.attlist, 
+	name,
+	within*,
+	note*
+}
+
+within = element within {
+	within.attlist,
+	empty
+}
+
+
+# Attributes #
+
+locations.attlist = 
+	xml.attlist
+		
+location.attlist =
+	xml.attlist,
+    attribute id { xsd:ID },
+    attribute type { 
+    	"landmark" |
+    	"address" |
+    	"district" |
+    	"parish" |
+    	"settlement" |
+    	"county" |
+    	"region" |
+    	"state" |
+    	"country" |
+    	"continent"
+    }
+    
+within.attlist = 
+	location-ref.attlist,
+	[ a:defaultValue = "physical" ]
+	attribute rel {
+		"physical" |
+		"political"
+	}

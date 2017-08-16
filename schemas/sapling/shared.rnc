@@ -1,0 +1,146 @@
+# Namespaces #
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+
+
+# Data Types #
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+
+
+# Includes #
+
+include "../../../cenizaro/schemas/xml.rnc"
+
+
+
+# Root Element #
+start |= notAllowed
+
+
+
+
+# Elements #
+
+person-ref |= element person {
+	person-ref.attlist,
+	empty	
+}
+
+date |= element date {
+	date.attlist,
+	text*
+}
+
+entity-ref |= (
+	person-ref | 
+	event-ref | 
+	location-ref | 
+	organisation-ref |
+	source-ref 
+)
+
+event-ref |= element event {
+	event-ref.attlist,
+	empty
+}
+
+location-ref |= element location {
+	location-ref.attlist,
+	name?
+}
+
+link |= element link {
+	link.attlist,
+	empty
+}
+
+name |= element name { 
+	name.attlist,
+	text*
+}
+
+note |= element note {
+	note.attlist,
+	paragraph*
+}
+
+organisation-ref |= element organisation {
+	organisation-ref.attlist,
+	empty
+}
+
+paragraph |= element p {
+	paragraph.attlist,
+	mixed { entity-ref* }
+}
+
+source-ref |= element source {
+	source-ref.attlist,
+	empty
+}
+
+summary |= element summary { 
+	summary.attlist,
+	mixed { entity-ref* }
+}
+
+title |= element title {
+	title.attlist,
+	text*
+}
+
+
+
+
+# Attributes #
+
+person-ref.attlist |=
+	entity-ref.attlist
+	
+date.attlist |=
+	xml.attlist,
+	attribute year { xsd:integer },
+	attribute month { xsd:integer }?,
+	attribute day { xsd:integer }?
+
+event-ref.attlist |=
+	entity-ref.attlist
+
+entity-ref.attlist |=
+	xml.attlist,
+	attribute ref { xsd:IDREF }
+
+
+location-ref.attlist |=
+	entity-ref.attlist
+
+link.attlist |=	
+	xml.attlist,
+	attribute href { xsd:anyURI }
+
+name.attlist |=
+	xml.attlist
+
+note.attlist |=
+	xml.attlist
+
+organisation-ref.attlist |=
+	entity-ref.attlist
+	
+paragraph.attlist |=
+	xml.attlist
+
+source-ref.attlist |=
+	entity-ref.attlist
+
+summary.attlist |=
+	xml.attlist	
+	
+title.attlist |=
+	xml.attlist
+
+xml.attlist |= 
+	xml.anyElement.attlist

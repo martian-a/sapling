@@ -3,13 +3,14 @@
 	<xsl:template match="/app[view/data/indices]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
 	<xsl:template match="/app/view[data/indices]" mode="html.body">
-		<xsl:apply-templates select="data/indices"/>
+		<xsl:apply-templates select="/app/views" mode="nav.site"/>
 	</xsl:template>
 	
+	<xsl:template match="/app/view[data/indices]" mode="html.body.title" priority="50" />
 	
 	<xsl:template match="/app/view[data/indices]" mode="view.title"/>
 
-	
+	<!--
 	<xsl:template match="data/indices">
 		<ul>
 			<xsl:for-each select="index">
@@ -24,5 +25,5 @@
 			</xsl:for-each>
 		</ul>
 	</xsl:template>
-	
+	-->
 </xsl:stylesheet>
