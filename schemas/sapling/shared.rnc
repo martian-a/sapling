@@ -122,7 +122,12 @@ link.attlist |=
 	attribute href { xsd:anyURI }
 
 name.attlist |=
-	xml.attlist
+	xml.attlist,
+	attribute rel {
+		"historical" |
+		"popular"
+	}?,
+	attribute abbreviation { xsd:boolean }?
 
 note.attlist |=
 	xml.attlist

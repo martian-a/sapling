@@ -10,14 +10,57 @@ start |= events
 
 events = element events { 
 	events.attlist, 
-	event*
-}
+	(
+		event.birth |
+		event.christening |
+		event.marriage |
+		event.death |
+		event.historical
+	)*
+}	
 	
-event = element event { 
-	event.attlist, 
+event.birth = element event { 
+	event.birth.attlist, 
 	date?,
 	preceded-by*,
-	( person-ref | parental-ref)*,
+	person-ref*,
+	parental-ref*,
+	location-ref?,
+	summary?
+}
+
+event.christening = element event { 
+	event.christening.attlist, 
+	date?,
+	preceded-by*,
+	person-ref,
+	location-ref?,
+	summary?
+}
+
+event.marriage = element event { 
+	event.marriage.attlist, 
+	date?,
+	preceded-by*,
+	person-ref*,
+	location-ref?,
+	summary?
+}
+
+event.death = element event { 
+	event.death.attlist, 
+	date?,
+	preceded-by*,
+	person-ref*,
+	location-ref?,
+	summary?
+}
+
+event.historical = element event { 
+	event.historical.attlist, 
+	title,
+	date?,
+	preceded-by*,
 	location-ref*,
 	summary?
 }
@@ -41,14 +84,27 @@ events.attlist =
 	
 event.attlist =
 	xml.attlist,
-    attribute id { xsd:ID },
-    attribute type {
-    	"birth" |
-    	"christening" |
-    	"marriage" |
-    	"death" |
-    	"historical"
-    }
+    attribute id { xsd:ID }
+    
+event.birth.attlist =
+	event.attlist,
+    attribute type {"birth"}
+
+event.christening.attlist =
+	event.attlist,
+    attribute type {"christening"}
+    
+event.marriage.attlist =
+	event.attlist,
+    attribute type {"marriage"}
+    
+event.death.attlist =
+	event.attlist,
+    attribute type {"death"}
+    
+event.historical.attlist =
+	event.attlist,
+    attribute type {"historical"}
     
 parental-ref.attlist = 
 	person-ref.attlist,

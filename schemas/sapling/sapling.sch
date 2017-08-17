@@ -174,4 +174,21 @@
 		
 	</sch:pattern>
 	
+	
+	<sch:pattern>
+		
+		<sch:title>Event</sch:title>
+		
+		<sch:rule context="event">
+			
+			<sch:let name="type" value="@type" />
+			<sch:let name="subjects" value="person" />
+			
+			<sch:report test="preceding-sibling::event[@type = $type and $type != 'marriage'][person/@ref = $subjects/@ref]">Duplicate <sch:value-of select="$type"/>.</sch:report>
+			
+		</sch:rule>
+		
+	</sch:pattern>
+	
+	
 </sch:schema>
