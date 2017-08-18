@@ -66,11 +66,11 @@ declare
 
 	(: Valid id, one descendant :)
 	%test:args('LOC200')
-	%test:assertEquals('<result><location id="LOC201" type="settlement"><name>Padua</name><within ref="LOC200"/></location></result>') 
+	%test:assertEquals('<result><location id="LOC201" type="settlement"><name>Padua</name><within ref="LOC200"/></location><location id="LOC255" type="settlement"><name>Milan</name><within ref="LOC200"/></location><location id="LOC256" type="settlement"><name>Rome</name><within ref="LOC200"/></location></result>') 
 
 	(: Valid id, more than one descendant :)
 	%test:args('LOC128')
-	%test:assertEquals('<result><location id="LOC175" type="district"><name>Highbury</name><within ref="LOC128"/></location><location id="LOC177" type="district"><name>Finchley</name><within ref="LOC128"/></location><location id="LOC179" type="district"><name>Hampton Court</name><within ref="LOC128"/></location><location id="LOC180" type="district"><name>Belsize Park</name><within ref="LOC128"/></location></result>') 
+	%test:assertEquals('<result><location id="LOC175" type="district"><name>Highbury</name><within ref="LOC128"/></location><location id="LOC177" type="district"><name>Finchley</name><within ref="LOC128"/></location><location id="LOC179" type="district"><name>Hampton Court</name><within ref="LOC128"/></location><location id="LOC180" type="district"><name>Belsize Park</name><within ref="LOC128"/></location><location id="LOC250" type="district"><name>Marylebone</name><within ref="LOC128"/></location><location id="LOC251" type="address"><name>Manchester Square</name><within ref="LOC250"/></location><location id="LOC252" type="address"><name>2 Blandford Street</name><within ref="LOC251"/></location></result>') 
 
 
 function unit:get-locations-within($param) {

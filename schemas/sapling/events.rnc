@@ -58,7 +58,6 @@ event.death = element event {
 
 event.historical = element event { 
 	event.historical.attlist, 
-	title,
 	date?,
 	preceded-by*,
 	location-ref*,

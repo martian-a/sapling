@@ -20,7 +20,7 @@ declare
 	
 	(: Valid path :)
 	%test:args('person/PER100')
-	%test:assertEquals('<person id="PER100" year="1670"><persona><name><name>Josiah</name><name family="yes">Boosy</name></name><gender>Male</gender></persona><related><event type="birth" id="EVE175"><person ref="PER101"/><parent type="biological" ref="PER100"/></event><person id="PER100" year="1670"><persona><name><name>Josiah</name><name family="yes">Boosy</name></name><gender>Male</gender></persona></person><person id="PER101" year="1695"><persona><name><name>Nathaniel</name><name family="yes">Boosy</name></name><gender>Male</gender></persona></person></related></person>') 
+	%test:assertEquals('<person id="PER100" year="1670"><persona><name><name>Josiah</name><name family="yes">Boosy</name></name><gender>Male</gender></persona><related><event type="birth" id="EVE175"><person ref="PER101"/><parent type="biological" ref="PER100"/></event><person id="PER101" year="1695"><persona><name><name>Nathaniel</name><name family="yes">Boosy</name></name><gender>Male</gender></persona></person></related></person>') 
 	
 function unit:request-xml($param) {
     action:request-xml($param)
