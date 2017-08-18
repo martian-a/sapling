@@ -56,7 +56,7 @@
 							<p:pipe port="stylesheet" step="generate-static-html" />
 						</p:input>		
 						<p:with-param name="path-to-js" select="concat($path-to-assets, 'js')" />
-						<p:with-param name="path-to-css" select="concat($path-to-assets, 'style')" />
+						<p:with-param name="path-to-css" select="concat($path-to-assets, 'css')" />
 						<p:with-param name="path-to-html" select="$path-to-html" />
 						<p:with-param name="path-to-images" select="concat($path-to-assets, 'images')" />
 						<p:with-param name="static" select="'true'" />

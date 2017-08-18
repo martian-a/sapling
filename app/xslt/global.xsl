@@ -10,11 +10,11 @@
 	<xsl:import href="defaults.xsl"/>
 	<xsl:import href="view.xsl"/>
 	
-	<xsl:param name="path-to-js" select="'../../../js/'" as="xs:string"/>
-	<xsl:param name="path-to-css" select="'../../../style/'" as="xs:string"/>
-	<xsl:param name="path-to-xml" select="'../../xml'" as="xs:string"/>
-	<xsl:param name="path-to-html" select="'../../html'" as="xs:string"/>
-	<xsl:param name="path-to-images" select="'../../../images'" as="xs:string"/>
+	<xsl:param name="path-to-js" select="'../../js/'" as="xs:string"/>
+	<xsl:param name="path-to-css" select="'../../style/'" as="xs:string"/>
+	<xsl:param name="path-to-xml" select="'../xml'" as="xs:string"/>
+	<xsl:param name="path-to-html" select="'../html'" as="xs:string"/>
+	<xsl:param name="path-to-images" select="'../../images'" as="xs:string"/>
 	<xsl:param name="static" select="'false'" as="xs:string"/>
 
 	<xsl:strip-space elements="*"/>
