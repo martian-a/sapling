@@ -541,3 +541,70 @@ ul.zebra li.even {
  
  /* End of Person Index */
  
+ 
+/* Timeline */
+ 
+.timeline .events {
+	list-style: none;
+} 
+ 
+.timeline .event::before {
+    float: left;
+    font-size: 2.2em;
+    margin-left: -1.5em;
+    margin-right: 0.5em;
+    text-align: center;
+    width: 1em;
+}
+
+.timeline .birth::before {
+    content: "☥";
+}
+
+.timeline .christening::before {
+	content: "≈";
+}
+
+.timeline .unmarried-partnership::before {
+	content: "⚯";
+}
+
+.timeline .engagement::before {
+	content: "⚬";
+}
+
+.timeline .marriage::before {
+	content: "⚭";
+}
+
+.timeline .divorce::before {
+	content: "⚮";
+}
+
+.timeline .death::before {
+	content: "✝";
+}
+
+.timeline .historical::before {
+	content: "📰";
+}
+
+.timeline .dated .event::before {
+    padding-top: 0.2em;
+}
+
+.timeline div.event {
+    margin-bottom: 1em;
+    margin-left: 3em;
+    display: list-item;
+}
+
+.timeline div.event {
+    margin-bottom: 1em;
+}
+
+.timeline .event p {
+	margin:0;
+}
+ 
+/* End of Timeline */

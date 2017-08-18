@@ -36,7 +36,7 @@
 	</xsl:template>
 	
 	<xsl:template match="event" mode="timeline">
-		<div class="event">
+		<div class="event {@type}">
 			<xsl:apply-templates select="date" />
 			<xsl:apply-templates select="self::*" mode="summarise" />
 		</div>
