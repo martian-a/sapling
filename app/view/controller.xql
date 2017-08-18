@@ -37,8 +37,8 @@ return
 				        <forward url="{$exist:controller}/{$media}/index.{$media}">{
 				            if (count($matches) = 1)
 				            then (
-				            	<add-parameter name="id" value="{upper-case($id)}" />,
-				            	<add-parameter name="path" value="{lower-case($path)}" />
+				            	<add-parameter name="id" value="{$id}" />,
+				            	<add-parameter name="path" value="{$path}" />
 				           	)
 				           	else ()
 				        }</forward>
