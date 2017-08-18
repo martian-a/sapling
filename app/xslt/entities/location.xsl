@@ -56,7 +56,7 @@
 		<xsl:param name="locations" as="element()*" />
 		<ul>
 			<xsl:for-each select="$locations">
-				<xsl:sort select="name" data-type="text" order="ascending" />
+				<xsl:sort select="name[1]" data-type="text" order="ascending" />
 				<xsl:apply-templates select="current()" mode="context" />
 				<xsl:variable name="locations-within" select="fn:get-locations-within(current())" as="element()*" />
 				<xsl:if test="count($locations-within) > 0">
@@ -79,7 +79,7 @@
 	
 	
 	<xsl:template match="/app/view[data/location]" mode="view.title">
-		<xsl:value-of select="xs:string(data/location/name)"/>
+		<xsl:value-of select="xs:string(data/location/name[1])"/>
 	</xsl:template>
 	
 	
@@ -87,7 +87,7 @@
 		<div class="alphabetical">
 			<h2>Alphabetical</h2>
 		<div class="multi-column">
-				<xsl:for-each-group select="location" group-by="name/substring(., 1, 1)">
+				<xsl:for-each-group select="location" group-by="name[1]/substring(., 1, 1)">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending"/>
 					<div>
 						<h3>
@@ -129,14 +129,14 @@
 	
 	
 	<xsl:template match="data/location" mode="href-html">
-		<span class="self-reference"><xsl:apply-templates select="name" mode="href-html"/></span>
+		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>
 	</xsl:template>
 	
 	<xsl:template match="related/location | entities/location" mode="href-html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('location/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
-				<xsl:apply-templates select="name" mode="href-html"/>
+				<xsl:apply-templates select="name[1]" mode="href-html"/>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>

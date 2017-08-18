@@ -87,6 +87,7 @@
 		<xsl:apply-templates select="related[event/@type = ('birth', 'christening', 'marriage')]" mode="family" />
 		<xsl:apply-templates select="self::person[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
+		<xsl:apply-templates select="related[organisation]" mode="organisations"/>
 		<xsl:apply-templates select="related[location]" mode="map" />
 	</xsl:template>
 	

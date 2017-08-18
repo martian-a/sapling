@@ -257,7 +257,7 @@ declare function data:augment-entity($param as element()) as element()? {
 		default return 
 			let $events := data:get-related-events($entity)
 			let $people := data:get-related-people($entity)
-			let $organisations := data:get-related-organisations($entity)
+			let $organisations := data:get-related-organisations($entity, $events)
 			let $locations := data:get-related-locations($entity)
 			return (
 				$events, 
@@ -315,7 +315,11 @@ declare function data:get-related-people($entity as element()) as element()* {
 declare function data:get-related-people($entity as element(), $related-events as element()*) as element()* {
 
 	let $entities := ($entity, $related-events)
-	for $ref in distinct-values($entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.))
+	let $references :=
+		let $direct-references := $entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.)
+		let $indirect-references := data:get-entities('person')/self::person[descendant::note/descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+		return distinct-values(($direct-references, $indirect-references))
+	for $ref in $references
 	let $person := data:get-entity($ref)/self::person[@id != $entity/@id]
 	order by $person/number(substring-after(@id, 'PER')) ascending
 	return $person
