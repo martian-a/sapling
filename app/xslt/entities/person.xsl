@@ -1,12 +1,6 @@
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
-	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	exclude-result-prefixes="#all" 
-	version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
-	<xsl:key name="person" match="related/person" use="@id" />
+	<xsl:key name="person" match="related/person | data/person | entities/person" use="@id" />
 	
 	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
@@ -34,20 +28,52 @@
 		<xsl:value-of select="string-join(name, ' ')"/>
 	</xsl:template>
 	
-	<xsl:template match="/app/view[data/person]" mode="html.body.title" priority="100">
-		<xsl:next-match />
-		<xsl:apply-templates select="data/person/persona[1]/gender" mode="glyph" />
-	</xsl:template>
+	<!-- xsl:template match="/app/view[data/person]" mode="html.body.title" priority="50">
+		<xsl:next-match/>
+		<xsl:apply-templates select="data/person/persona[1]/gender" mode="glyph"/>
+	</xsl:template -->
 	
 	
 	<xsl:template match="data/entities[person]">
-		<ul>
-			<xsl:apply-templates>
-				<xsl:sort select="name/string-join(name[@family = 'yes'], ' ')" data-type="text" order="ascending"/>
-				<xsl:sort select="name/string-join(name[not(@family = 'yes')], ' ')" data-type="text" order="ascending"/>	
-				<xsl:sort select="@year" data-type="number" order="ascending"/>
-			</xsl:apply-templates>
-		</ul>
+		<div class="alphabetical">
+			<h2>Alphabetical</h2>
+			<div class="multi-column">
+				<xsl:for-each-group select="fn:sort-people(person)" group-by="persona[1]/name/name[@family = 'yes'][1]/substring(., 1, 1)">
+					<div>
+						<h3>
+							<xsl:value-of select="
+									if (current-grouping-key() = '') then
+										'Surname Unknown'
+									else
+										current-grouping-key()" />
+						</h3>
+						<ul>
+							<xsl:apply-templates select="current-group()" />
+						</ul>
+					</div>
+				</xsl:for-each-group>
+			</div>
+		</div>
+		<div class="chronological">
+			<h2>Chronological</h2>
+			<div class="multi-column">
+				<xsl:for-each-group select="fn:sort-people(person)" group-by="@year">
+					<xsl:sort select="@year" data-type="number" order="ascending" />
+					<div>
+						<h3>
+							<xsl:value-of select="
+									if (current-grouping-key() = '') then
+										'Year Unknown'
+									else
+										current-grouping-key()" />
+						</h3>
+						<ul>
+							<xsl:apply-templates select="current-group()" />
+						</ul>
+					</div>
+				</xsl:for-each-group>
+			</div>
+		</div>
 	</xsl:template>
 	
 	<xsl:template match="data/person" priority="100">
@@ -70,9 +96,12 @@
 			<xsl:if test="preceding-sibling::persona">
 				<h2>
                     <xsl:apply-templates select="name"/>
-					<xsl:apply-templates select="gender" mode="glyph" />
-                </h2>
+					</h2>
 			</xsl:if>
+		<p class="gender">
+                <xsl:value-of select="gender"/>
+                <xsl:apply-templates select="gender" mode="glyph.bracketed"/>
+            </p>
 		</div>
 	</xsl:template>
 	
@@ -108,26 +137,42 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="gender" mode="glyph">
-		<xsl:choose>
-			<xsl:when test="lower-case(.) = ('male', 'female', 'hermaphrodite', 'transgender', 'androgen')">
-				<xsl:text> </xsl:text><span class="gender {lower-case(.)}"><xsl:value-of select="
-					if (lower-case(.) = 'male')
-					then '♂'
-					else if (lower-case(.) = 'female')
-					then '♀'
-					else if (lower-case(.) = 'hermaphrodite')
-					then '⚥'
-					else if (lower-case(.) = 'transgender')
-					then '⚧'
-					else if (lower-case(.) = 'androgen')
-					then '⚪'
-					else ''
-					" /></span>
-			</xsl:when>
-			<xsl:otherwise />
-		</xsl:choose>
+	<xsl:template match="gender" mode="glyph glyph.bracketed" priority="50">
+		<xsl:if test="lower-case(.) = ('male', 'female', 'hermaphrodite', 'transgender', 'androgen')">
+			<xsl:text> </xsl:text>
+			<xsl:next-match/>
+		</xsl:if>
 	</xsl:template>
+	
+	
+	<xsl:template match="gender" mode="glyph.bracketed" priority="10">
+		<xsl:text>(</xsl:text>
+        <xsl:next-match/>
+        <xsl:text>)</xsl:text>
+	</xsl:template>
+	
+	
+	
+	<xsl:template match="gender" mode="glyph glyph.bracketed">
+        <span class="gender {lower-case(.)}">
+            <xsl:value-of select="      if (lower-case(.) = 'male')      then '♂'      else if (lower-case(.) = 'female')      then '♀'      else if (lower-case(.) = 'hermaphrodite')      then '⚥'      else if (lower-case(.) = 'transgender')      then '⚧'      else if (lower-case(.) = 'androgen')      then '⚪'      else ''      "/>
+        </span>
+	</xsl:template>
+	
+	
+	
+	<xsl:template match="related" mode="people" priority="10">
+		<xsl:next-match>
+			<xsl:with-param name="people" select="person" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	<xsl:template match="derived-from" mode="people" priority="10">
+		<xsl:next-match>
+			<xsl:with-param name="people" select="person/key('person', @ref)" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
 	
 	
 	<doc:doc>
@@ -142,8 +187,8 @@
 			<doc:p>When viewing a Person (entity), Family is used instead.</doc:p>
 		</doc:note>
 	</doc:doc>
-	<xsl:template match="related" mode="people">
-		<xsl:variable name="people" select="person" as="element()*" />
+	<xsl:template match="related | derived-from" mode="people">
+		<xsl:param name="people" as="element()*" />
 		
 		<div class="people">
 			<h2>People</h2>

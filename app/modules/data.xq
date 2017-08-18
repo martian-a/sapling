@@ -136,6 +136,11 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 							then 'true' 
 							else 'false'
 						},
+						attribute class {
+							if ($path = '/')
+							then 'home'
+							else $path
+						},
 						<method type="html" />,
 						<method type="xml" />,
 						<data>{
@@ -168,20 +173,49 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	then 
 		<indices>{data:get-views()}</indices>
 	else
-		let $entities := data:get-entities($path) 
+		let $entities := 
+			switch ($path)
+			case "event" return data:get-entities($path)[@type != 'historical' or descendant::person[@ref]]
+			default return data:get-entities($path)
+		let $related :=
+			switch ($path)
+			case "event" return
+				let $events := $entities
+				let $people := 
+					for $event in $events
+					return data:get-related-people($event)
+				let $organisations := 
+					for $event in $events[@type = 'historical']
+					return data:get-related-organisations($event)
+				let $locations := 
+					for $event in $events[@type = 'historical']
+					return data:get-related-locations($event)
+				return (
+					for $person in $people
+					let $id := $person/@id
+					group by $id 
+					return data:simplify-person($person[1]), 
+					for $entity in ($organisations, $locations)
+					let $id := $entity/@id
+					group by $id
+					return $entity[1]
+				)
+			default return ()
 		return
 			<entities>{
 				for $entity in $entities
-				return $entity 
-					(:
-					switch ($entity/name()) 
-					case "person" return data:simplify-person($entity)
-					case "event" return data:simplify-event($entity)
-					case "location" return data:simplify-location($entity)
-					case "name" return data:simplify-name($entity)
-					default return ()
-					:)
+				return $entity,
+				if (count($related) > 0)
+				then
+					<related>{
+						for $entity in $related
+						let $id := $entity/@id
+						group by $id
+						return $entity
+					}</related>
+				else ()
 			}</entities>
+		
 };
 
 
@@ -192,61 +226,6 @@ declare function data:view-index-xml($path as xs:string) as element()? {
   Custom Methods
 ================:)
 
-(:
-declare function data:build-event-summary($event as element()) as element()* {
-
-	if ($event/summary)
-	then $event/summary
-	else
-		<summary>{
-			switch ($event/@type)
-			case "birth"
-			case "christening"
-			case "death"
-				return 
-					let $subject := 
-						if ($event/person)
-						then $event/person
-						else <person><name>Someone</name></person>
-					return (
-						$subject,
-						switch ($event/@type)
-						case "birth" return " is born."
-						case "christening" return " is christened."
-						case "death" return " dies."
-						default return " is involved in an event."
-					)
-			case "marriage"
-				return
-					let $subjects as element()* :=
-						for $entity-ref in $event/person
-						let $person := data:get-entity($entity-ref)
-						order by 
-							$person/persona[1]/name/name[@family = 'yes']/xs:string(.) ascending, 
-							string-join($person/persona[1]/name/name[not(@family = 'yes')], ' ')/xs:string(.) ascending
-						return $entity-ref
-					let $total-subjects := count($subjects)
-					return 
-						switch ($total-subjects)
-						case 0 
-							return "Someone marries"
-						case 1 
-							return ($subjects[1], "marries.")
-						case 2 
-							return ($subjects[1], " and ", $subjects[2], " marry.")
-						default 
-							return (
-								for $subject in $subjects[position() < ($total-subjects - 2)]
-								return ($subject, ", "),
-								$subjects[position() = $total-subjects - 1],
-								" and ",
-								$subjects[position() = last()],
-								" marry."
-							)
-			default return ()
-		}</summary>
-};
-:)
 
 declare function data:simplify-person($param as element()) as element()? {
 	
@@ -257,19 +236,6 @@ declare function data:simplify-person($param as element()) as element()? {
 			$entity/persona[1]
 		}</person>
 };
-
-(:
-declare function data:simplify-event($param as element()) as element()? {
-	
-	for $entity in $param/self::event[starts-with(@id, 'EVE')]
-	return
-		<event>{
-			$entity/@*,
-			$entity/*[name() != 'summary'],
-			data:build-event-summary($entity)
-		}</event>
-};
-:)
 
 declare function data:augment-entity($param as element()) as element()? {
 	
@@ -331,8 +297,11 @@ declare function data:get-related-events($entity as element()) as element()* {
 			let $locations := ($entity, data:get-locations-within($entity))
 			for $event in data:get-entities("event")[descendant::location/@ref = $locations/@id]
 			return $event
+		case "organisation" return
+			for $event in data:get-entities("event")[descendant::organisation/@ref = $entity/@id]
+			return $event
 		default return ()
-	for $event in $unsorted/self::event
+	for $event in $unsorted/self::event[@id != $entity/@id]
 	order by $event/number(substring-after(@id, 'EVE')) ascending
 	return $event
 
@@ -347,7 +316,7 @@ declare function data:get-related-people($entity as element(), $related-events a
 
 	let $entities := ($entity, $related-events)
 	for $ref in distinct-values($entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.))
-	let $person := data:get-entity($ref)
+	let $person := data:get-entity($ref)/self::person[@id != $entity/@id]
 	order by $person/number(substring-after(@id, 'PER')) ascending
 	return $person
 
@@ -374,10 +343,10 @@ declare function data:get-related-locations($entity as element(), $related-event
 			else ()
 		return ($direct, $indirect, $within)
 	)
-	for $location in $related/self::location
+	for $location in $related/self::location[@id != $entity/@id]
 	let $id := $location/@id
 	group by $id
-	order by $location/number(substring-after(@id, 'LOC')) ascending
+	order by $id/number(substring-after(., 'LOC')) ascending
 	return $location[1]
 
 };
@@ -391,7 +360,7 @@ declare function data:get-related-organisations($entity as element(), $related-e
 
 	let $entities := ($entity, $related-events)
 	for $ref in distinct-values($entities/descendant::organisation/@ref/xs:string(.))
-	let $organisation := data:get-entity($ref)
+	let $organisation := data:get-entity($ref)/self::organisation[@id != $entity/@id]
 	order by $organisation/number(substring-after(@id, 'ORG')) ascending
 	return $organisation
 

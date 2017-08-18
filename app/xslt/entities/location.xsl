@@ -1,12 +1,6 @@
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
-	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	exclude-result-prefixes="#all" 
-	version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
-	<xsl:key name="location" match="data/location| related/location" use="@id" />
+	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
 	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
@@ -26,6 +20,7 @@
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[person]" mode="people" />
+		<xsl:apply-templates select="related[organisation]" mode="organisations" />
 	</xsl:template>
 	
 	<xsl:template match="data/location/@type">
@@ -89,9 +84,22 @@
 	
 	
 	<xsl:template match="data/entities[location]">
-		<ul>
-			<xsl:apply-templates/>
-		</ul>
+		<div class="alphabetical">
+			<h2>Alphabetical</h2>
+		<div class="multi-column">
+				<xsl:for-each-group select="location" group-by="name/substring(., 1, 1)">
+					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending"/>
+					<div>
+						<h3>
+							<xsl:value-of select="if (current-grouping-key() = '') then 'Name Unknown' else current-grouping-key()"/>
+						</h3>
+						<ul>
+							<xsl:apply-templates select="current-group()"/>
+						</ul>
+					</div>
+				</xsl:for-each-group>
+			</div>
+		</div>
 	</xsl:template>
 	
 
@@ -124,7 +132,7 @@
 		<span class="self-reference"><xsl:apply-templates select="name" mode="href-html"/></span>
 	</xsl:template>
 	
-	<xsl:template match="related/location" mode="href-html">
+	<xsl:template match="related/location | entities/location" mode="href-html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('location/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
@@ -133,9 +141,26 @@
 		</xsl:call-template>
 	</xsl:template>
 	
-	<xsl:template match="related" mode="map">
+	
+	<xsl:template match="related" mode="map" priority="10">
 		<xsl:variable name="events" select="if (parent::event) then parent::event else event" as="element()*" />
-		<xsl:variable name="locations" select="$events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref)" as="element()*" />
+		
+		<xsl:next-match>
+			<xsl:with-param name="locations" select="$events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref)" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	<xsl:template match="derived-from" mode="map" priority="10">		
+		<xsl:next-match>
+			<xsl:with-param name="locations" select="location/key('location', @ref)" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	
+	
+	
+	<xsl:template match="related | derived-from" mode="map">
+		<xsl:param name="locations" as="element()*" />
 		
 		<xsl:if test="count($locations) > 0">
 			<div class="locations">

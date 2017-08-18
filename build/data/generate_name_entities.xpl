@@ -46,30 +46,36 @@
 								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 								import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../app/modules/data.xq";
 								
-								let $names := (data:get-entities('person')/persona/name/name | data:get-entities('location')/name | data:get-entities('organisation')/name)
+								let $named-entities := (data:get-entities('person') | data:get-entities('location') | data:get-entities('organisation'))
+								let $names := 
+									for $entity in $named-entities
+									return
+										if ($entity/name() = 'person')
+										then $entity/persona/name/descendant-or-self::name[not(descendant::name)]
+										else $entity/name
+								let $name-parts :=
+									for $part in $names/self::name/tokenize(., ' ')
+									group by $part
+									return $part
 								return
 									if (count($names) = 0)
 									then ()
 									else 
 										<names>
 											{
-												for $name in $names/self::name
-												let $normalised as xs:string := 
-													translate(
-														if (xs:string($name) = '')
-														then '_unknown'
-														else if (ends-with(xs:string($name), '.'))
-														then lower-case(substring(xs:string($name), 1, string-length(xs:string($name)) - 1))
-														else lower-case($name),
-														' ',
-														'_'
-													)	
+												for $name-part in $name-parts
+												let $normalised as xs:string := 													
+													if (xs:string($name-part) = '')
+													then '_unknown'
+													else if (ends-with(xs:string($name-part), '.'))
+													then lower-case(substring(xs:string($name-part), 1, string-length(xs:string($name-part)) - 1))
+													else lower-case($name-part)
 												group by $normalised
 												order by $normalised ascending
 												return
 													<name id="{$normalised}">
 														{
-															if (ends-with(xs:string($name[1]), '.'))
+															if (ends-with(xs:string($name-part[1]), '.'))
 															then
 																attribute abbreviation {'true'}
 															else ()
@@ -77,28 +83,32 @@
 														<name>{
 															if ($normalised = '_unknown')
 															then 'Unknown'
-															else if (ends-with(xs:string($name[1]), '.'))
-															then substring(xs:string($name[1]), 1, string-length(xs:string($name[1])) - 1)
-															else xs:string($name[1])
+															else if (ends-with(xs:string($name-part[1]), '.'))
+															then substring(xs:string($name-part[1]), 1, string-length(xs:string($name-part[1])) - 1)
+															else xs:string($name-part[1])
 														}</name>
 														{
 															let $entities :=
-																for $entity in $name/ancestor::*[name() = ('person', 'location')][1]
+																for $entity in $named-entities[
+																	descendant::name[
+																		ancestor::persona or ancestor-or-self::name/parent::*[name() = ('location', 'organisation')]
+																	][tokenize(., ' ') = $name-part]
+																]
 																let $id := $entity/@id
 																group by $id
 																return $entity
 															return
-																for $entity in $entities
-																let $class := $entity/name()
-																group by $class
-																return
-																	<associated>{
+																<derived-from>{
+																	for $entity in $entities
+																	let $class := $entity/name()
+																	group by $class
+																	return
 																		for $id in $entity/@id
 																		return
 																			element {$class} {
 																				attribute ref {$id}
 																			}
-																	}</associated>
+																}</derived-from>
 														}
 												</name>
 											}

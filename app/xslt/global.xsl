@@ -17,6 +17,8 @@
 	<xsl:param name="path-to-images" select="'../../../images'" as="xs:string"/>
 	<xsl:param name="static" select="'false'" as="xs:string"/>
 
+	<xsl:strip-space elements="*"/>
+
 	<xsl:output method="html" encoding="utf-8" media-type="text/html" indent="yes" omit-xml-declaration="yes" version="5"/>
 
 	<xsl:variable name="normalised-path-to-js" select="fn:add-trailing-slash(translate($path-to-js, '\', '/'))"/>
@@ -37,7 +39,7 @@
 		<doc:title>HTML page basics.</doc:title>
 	</doc:doc>
 	<xsl:template match="/">
-		<html class="{/*/local-name()}" lang="en">
+		<html class="{/app/view/@class}" lang="en">
 			<head>
 				<xsl:apply-templates mode="html.header"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -46,7 +48,7 @@
 				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
 				<xsl:apply-templates mode="html.header.style"/>
 			</head>
-			<body>
+			<body class="{if (/app/view/data/entities) then 'index' else 'entity'}">
 				<xsl:apply-templates mode="nav.site"/>
 				<xsl:apply-templates select="app/view" mode="html.body"/>
 				<xsl:apply-templates mode="html.footer"/>

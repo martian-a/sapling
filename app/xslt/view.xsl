@@ -1,14 +1,20 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 
-	<xsl:import href="home.xsl"/>
-	<xsl:import href="entities/location.xsl"/>
-	<xsl:import href="entities/person.xsl"/>
-	<xsl:import href="entities/name.xsl"/>
-	<xsl:import href="entities/event.xsl"/>
-	<xsl:import href="entities/organisation.xsl" />
-	<xsl:import href="custom/note.xsl"/>
-	<xsl:import href="custom/timeline.xsl"/>
+	<xsl:include href="custom/home.xsl"/>
+	<xsl:include href="entities/location.xsl"/>
+	<xsl:include href="entities/person.xsl"/>
+	<xsl:include href="entities/name.xsl"/>
+	<xsl:include href="entities/event.xsl"/>
+	<xsl:include href="entities/organisation.xsl"/>
+	<xsl:include href="custom/note.xsl"/>
+	<xsl:include href="custom/timeline.xsl"/>
 
+
+	<xsl:template match="/app/view" mode="html.body.title" priority="100">
+		<h1>
+			<xsl:next-match/>
+		</h1>
+	</xsl:template>
 
 	<doc:doc>
 		<doc:title>Global contents list.</doc:title>
@@ -16,9 +22,9 @@
 	</doc:doc>
 	<xsl:template match="/app/views" mode="nav.site">
 		<ul>
-			<xsl:apply-templates select="index[method/@type = 'html']" mode="nav.site.html"/>
+			<xsl:apply-templates select="index[method/@type = 'html'][@path != '/']" mode="nav.site.html"/>
 			<xsl:if test="$static = 'false'">
-				<xsl:apply-templates select="/app/view[method/@type = 'xml']" mode="nav.site.xml"/>
+				<xsl:apply-templates select="/app/view[method/@type = 'xml'][@path != '/']" mode="nav.site.xml"/>
 			</xsl:if>
 		</ul>
 	</xsl:template>

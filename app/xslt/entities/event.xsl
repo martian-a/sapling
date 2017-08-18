@@ -1,15 +1,17 @@
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
 	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	exclude-result-prefixes="#all" 
 	version="2.0">
 	
+	<xsl:key name="event" match="data/event | related/event | entities/event" use="@id" />
+	
 	<xsl:template match="/app[view/data/entities/event] | /app[view/data/event]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
 	<xsl:template match="/app/view[data/entities/event]" mode="html.body">
-		<xsl:apply-templates select="data/entities[event]"/>
+		<xsl:apply-templates select="data/entities[event]" />		
 	</xsl:template>
 	
 	
@@ -37,12 +39,12 @@
 		<xsl:value-of select="xs:string($title)"/>
 	</xsl:template>
 	
-	<xsl:template match="data/event[summary]" mode="title">
+	<xsl:template match="event[summary]" mode="title">
 		<xsl:apply-templates select="summary" />
 	</xsl:template>
 	
 	
-	<xsl:template match="data/event[not(summary)]" mode="title">
+	<xsl:template match="event[not(summary)]" mode="title">
 		<xsl:variable name="subjects" as="element()*">
 			<xsl:choose>
 				<xsl:when test="@type = 'marriage'">
@@ -70,25 +72,81 @@
 	
 	
 	<xsl:template match="data/entities[event]">
-		<ul>
-			<xsl:apply-templates/>
-		</ul>
+		<xsl:for-each-group select="event" group-by="@type">
+			<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
+			<div class="{current-grouping-key()}">
+				<h2>
+					<xsl:choose>
+						<xsl:when test="current-grouping-key() = 'historical'">
+							<xsl:value-of select="fn:title-case(current-grouping-key())" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="concat(fn:title-case(current-grouping-key()), 's')" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</h2>
+				<ul class="multi-column">
+					<xsl:choose>
+						<xsl:when test="@type = 'historical'">
+							<xsl:apply-templates select="current-group()" mode="event.index">
+								<xsl:sort select="date/@year" data-type="number" order="ascending" />
+								<xsl:sort select="date/@month" data-type="number" order="ascending" />
+								<xsl:sort select="date/@day" data-type="number" order="ascending" />
+							</xsl:apply-templates>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:variable name="people" select="current-group()/person/key('person', @ref)" as="element()*" />
+							<xsl:apply-templates select="fn:sort-people($people)" mode="event.index">
+								<xsl:with-param name="events" select="current-group()" as="element()*" />
+							</xsl:apply-templates>
+						</xsl:otherwise>
+					</xsl:choose>
+				</ul>
+			</div>
+		</xsl:for-each-group>
+
 	</xsl:template>
 	
 
-	<xsl:template match="entities/event">
+	<xsl:template match="event[@type = 'historical' or count(person) &lt; 2]" mode="event.index">
 		<li>
-			<xsl:apply-templates select="self::*" mode="href-html"/>
+			<xsl:apply-templates select="self::*" mode="href-html" />
 		</li>
+	</xsl:template>
+	
+	<xsl:template match="person" mode="event.index">
+		<xsl:param name="events" as="element()*" />
+		<xsl:variable name="person" select="self::person" as="element()" />
+		
+		<xsl:for-each select="$events[person/@ref = $person/@id]">
+			<li>
+				<span class="person">
+					<xsl:apply-templates select="self::event" mode="href-html">
+						<xsl:with-param name="content">
+							<xsl:apply-templates select="$person/persona/name" mode="href-html" />
+						</xsl:with-param>
+					</xsl:apply-templates>
+					<xsl:apply-templates select="$person/persona/gender" mode="glyph" />
+				</span>
+			</li>
+		</xsl:for-each>
 	</xsl:template>
 	
 	
 	<xsl:template match="event" mode="href-html">
+		<xsl:param name="content" as="item()?" />
 		<xsl:call-template name="href-html">
-			<xsl:with-param name="path" select="concat('event/', @ref)" as="xs:string"/>
+			<xsl:with-param name="path" select="concat('event/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
 				<xsl:variable name="title">
-					<xsl:apply-templates select="self::*" mode="title"/>	
+					<xsl:choose>
+						<xsl:when test="$content != ''">
+							<xsl:copy-of select="$content" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="self::*" mode="title"/>
+						</xsl:otherwise>
+					</xsl:choose>	
 				</xsl:variable>
 				<xsl:value-of select="xs:string($title)" />
 			</xsl:with-param>

@@ -26,6 +26,7 @@
 		<xsl:for-each select="$people-in">
 			<xsl:sort select="persona/name/name[@family = 'yes']" data-type="text" order="ascending" />
 			<xsl:sort select="string-join(persona/name/name[not(@family = 'yes')], ' ')" data-type="text" order="ascending" />
+			<xsl:sort select="@year" data-type="number" order="ascending"/>
 			<xsl:sequence select="self::*" />
 		</xsl:for-each>
 		

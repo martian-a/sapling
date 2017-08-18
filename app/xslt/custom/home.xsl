@@ -6,7 +6,7 @@
 		<xsl:apply-templates select="/app/views" mode="nav.site"/>
 	</xsl:template>
 	
-	<xsl:template match="/app/view[data/indices]" mode="html.body.title" priority="50" />
+	<xsl:template match="/app/view[data/indices]" mode="html.body.title" priority="150"/>
 	
 	<xsl:template match="/app/view[data/indices]" mode="view.title"/>
 

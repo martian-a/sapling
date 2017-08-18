@@ -53,18 +53,27 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	    		then (
 		    		(: Home Page :)
 	    			<param name="path-to-html" value="../html/" />,
-	    			<param name="path-to-xml" value="../xml/" />
+	    			<param name="path-to-xml" value="../xml/" />,
+	    			<param name="path-to-js" value="../../js/" />,
+					<param name="path-to-css" value="../../css/" />,
+					<param name="path-to-images" value="../../images/" />
 	    		)
 	    		else if ($xml/view[@index = 'true'])
 	    		then (
 	    			(: Index :)
     				<param name="path-to-html" value="../../html/" />,
-    				<param name="path-to-xml" value="../../xml/" />
+    				<param name="path-to-xml" value="../../xml/" />,
+	    			<param name="path-to-js" value="../../../js/" />,
+					<param name="path-to-css" value="../../../css/" />,
+					<param name="path-to-images" value="../../../images/" />
 	    		)
 	    		else (
 	    			(: Item View :)
     				<param name="path-to-html" value="../../../html/" />,
-    				<param name="path-to-xml" value="../../../xml/" />
+    				<param name="path-to-xml" value="../../../xml/" />,
+	    			<param name="path-to-js" value="../../../../js/" />,
+					<param name="path-to-css" value="../../../../css/" />,
+					<param name="path-to-images" value="../../../../images/" />
     			)
 			}
 		</parameters>
