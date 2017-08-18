@@ -44,6 +44,7 @@
 				<xsl:apply-templates mode="html.header"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<link rel="shortcut icon" href="{$normalised-path-to-images}favicon.ico" />
 				<xsl:apply-templates mode="html.header.scripts"/>
 				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
 				<xsl:apply-templates mode="html.header.style"/>
