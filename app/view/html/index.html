@@ -11,10 +11,6 @@ let $path := string(request:get-parameter("path", "/"))
 let $request-id := string(request:get-parameter("id", ""))
 
 let $parameters := 
-	<parameters>
-		<param name="path-to-js" value="../../js/" />
-		<param name="path-to-css" value="../../style/" />
-		<param name="path-to-images" value="../../images/" />
-	</parameters>
+	<parameters />
 
 return action:request-html($path, $request-id, $parameters)
