@@ -1,34 +1,21 @@
 xquery version "3.0";
 
-import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "/db/apps/sapling/modules/config.xq";
-import module namespace local = "http://ns.thecodeyard.co.uk/xquery/settings/local" at "/db/apps/sapling/modules/local.xq";
-
-declare namespace request="http://exist-db.org/xquery/request";
+import module namespace app-util = "http://ns.thecodeyard.co.uk/xquery/modules/utils" at "../../modules/utils.xq";
+import module namespace local = "http://ns.thecodeyard.co.uk/xquery/settings/local" at "../../modules/local.xq";
 
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 <results>{
+	app-util:upload("view/", $local:path-to-view, <patterns><include>controller.xql</include><exclude>*.xml</exclude></patterns>, "application/xquery", false())/*,
     for $view in ('xml', 'html')
-    let $collection := concat($config:upload-path-to-view, $view)
-    let $directory := concat($local:path-to-view, $view)
-    let $pattern := concat("*.", $view)
+    let $target-collection-name := concat("view/", $view)
+    let $source-directory := concat($local:path-to-view, $view)
+    let $patterns := 
+		<patterns>
+			<include>{concat("*.", $view)}</include>
+			<exclude />
+		</patterns>
     let $mime-type := "application/xquery"
-    return 
-        <request>
-            <collection>{$collection}</collection>
-            <directory>{$directory}</directory>
-            <pattern>{$pattern}</pattern>
-            <mime-type>{$mime-type}</mime-type>
-            <uploaded>{
-                for $file in xmldb:store-files-from-pattern(
-                    $collection, 
-                    $directory, 
-                    $pattern, 
-                    $mime-type
-                )
-                return
-                    <file>{$file}</file>
-            }</uploaded>
-     </request>
+    return app-util:upload($target-collection-name, $source-directory, $patterns, $mime-type, true())/*
 }</results>
     

@@ -5,9 +5,5 @@ import module namespace local = "http://ns.thecodeyard.co.uk/xquery/settings/loc
 
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
-let $patterns :=
-	<patterns>
-		<include>*.css</include>
-		<exclude />
-	</patterns>
-return app-util:upload("css", $local:path-to-css, $patterns, "text/css", true())
+app-util:upload("view", $local:path-to-view, "controller.xql", "application/xquery", false())/*
+    

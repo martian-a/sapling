@@ -4,8 +4,8 @@ declare variable $exist:path external;
 declare variable $exist:controller external;
 
 
-import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "/db/apps/sapling/modules/config.xq";
-import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
+import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "../modules/config.xq";
+import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../modules/data.xq";
 
 let $params := tokenize(substring-after($exist:path, '/'), '/')
 let $media := xs:string($params[1])

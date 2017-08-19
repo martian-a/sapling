@@ -7,7 +7,8 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 let $patterns :=
 	<patterns>
-		<include>*.css</include>
-		<exclude />
+		<include>*.xml</include>
+		<exclude>do_not_upload.xml</exclude>
 	</patterns>
-return app-util:upload("css", $local:path-to-css, $patterns, "text/css", true())
+return app-util:upload("data", $local:path-to-data, $patterns, "text/xml", false())
+	    
