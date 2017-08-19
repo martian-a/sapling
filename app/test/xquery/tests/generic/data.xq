@@ -1,7 +1,7 @@
 xquery version "3.0";
 module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit/data";
 
-import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
+import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling-test/modules/data.xq";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
@@ -30,9 +30,9 @@ declare
 	%test:assertEmpty
 		
 	(: Valid id :)
-	%test:args('PER100')
+	%test:args('PER2')
 	%test:assertXPath("count($result/*) = 1")
-	%test:assertXPath("$result/@id = 'PER100'") 
+	%test:assertXPath("$result/@id = 'PER2'") 
 	
 function unit:get-entity-from-string($param) {
     data:get-entity($param)
@@ -49,9 +49,9 @@ declare
 	%test:assertEmpty
 		
 	(: Valid id :)
-	%test:args('person', 'PER100')
+	%test:args('person', 'PER2')
 	%test:assertXPath("count($result/*) = 1")
-	%test:assertXPath("$result/@id = 'PER100'") 
+	%test:assertXPath("$result/@id = 'PER2'") 
 	
 function unit:get-entity-from-element($name, $id) {
 	let $element :=
@@ -91,7 +91,7 @@ declare
 	%test:assertFalse
 		
 	(: Valid path, valid id :)
-	%test:args('person', 'PER100')
+	%test:args('person', 'PER1')
 	%test:assertTrue 
 
 function unit:is-valid-id($param1, $param2) {
@@ -148,7 +148,7 @@ declare
 	%test:assertEmpty
 	
 	(: Invalid path, valid id :)
-	%test:args('sourced', 'PER100')
+	%test:args('sourced', 'PER1')
 	%test:assertEmpty
 	
 	(: Invalid path, invalid id :) 
@@ -160,14 +160,14 @@ declare
 	%test:assertEmpty
 		
 	(: Valid path, valid id :)
-	%test:args('person', 'PER100')
+	%test:args('person', 'PER2')
 	%test:assertXPath("$result/name() = 'app'")
 	%test:assertXPath("count($result/view) = 1")
-	%test:assertXPath("$result/view[@path = 'person/PER100'][@index = 'false']")
+	%test:assertXPath("$result/view[@path = 'person/PER2'][@index = 'false']")
 	%test:assertXPath("$result/view[method/@type = 'html' and method/@type = 'xml']")
 	%test:assertXPath("count($result/view/data) = 1")
 	%test:assertXPath("count($result/view/data/person) = 1")
-	%test:assertXPath("$result/view/data/person[@id = 'PER100']")
+	%test:assertXPath("$result/view/data/person[@id = 'PER2']")
 	%test:assertXPath("count($result/views) = 1")
 	
 function unit:view-app-xml($param1, $param2) {

@@ -1,7 +1,7 @@
 xquery version "3.0";
 module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit/data/organisation";
 
-import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
+import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling-test/modules/data.xq";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 

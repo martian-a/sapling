@@ -1,7 +1,7 @@
 xquery version "3.0";
 module namespace unit = "http://ns.thecodeyard.co.uk/xquery/test/unit/data/person";
 
-import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
+import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling-test/modules/data.xq";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
@@ -21,8 +21,8 @@ function unit:get-entities() as element()* {
 declare
 			
 	(: Valid id :)
-	%test:args('PER100')
-	%test:assertEquals('<person id="PER100" year="1670"><persona><name><name>Josiah</name><name family="yes">Boosy</name></name><gender>Male</gender></persona></person>') 
+	%test:args('PER2')
+	%test:assertEquals('<person id="PER2" year="1500"><persona><name xml:lang="en"><name>Isabella</name><origin><particle>of</particle><location>Portugal</location></origin></name><gender>Female</gender></persona></person>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -32,11 +32,11 @@ function unit:get-entity($param) {
 declare
 
 	(: Valid id :)
-	%test:args('PER77')
+	%test:args('PER2')
 	%test:assertEquals('<result><person id="PER38" year="1800"><persona><name><name>James</name><name family="yes">Girvan</name></name><gender>Male</gender></persona><note><p>Of Berryhill, Auchinleck.</p></note></person><person id="PER39" year="1827"><persona><name><name>William</name><name family="yes">Girvan</name></name><gender>Male</gender></persona><note><p>Farmed 50 acres in North Logan, Sorn, with the assistance of his family and farmhand, Alexander Morton.</p></note></person><person id="PER686" year="1775"><persona><name><name>David</name><name family="yes">Murdoch</name></name><gender>Male</gender></persona><note><p>Of Dalsalloch Farm, Auchinleck.</p></note></person><person id="PER687" year="1775"><persona><name><name>Agnes</name><name family="yes">Dickie</name></name><gender>Female</gender></persona></person><person id="PER688" year="1754"><persona><name><name>Wiliam</name><name family="yes">Murdoch</name></name><gender>Male</gender></persona><note><p>The inventor of gaslight.</p></note></person><person id="PER861" year="1829"><persona><name><name>David</name><name family="yes">Girvan</name></name><gender>Male</gender></persona><note><p>At the age of 71, David was the sole occupant of a dwelling in the "Old Steelwork", Auchenleck, that had only one room with one or more windows. He described himself as being a self-employed "General Dealer" and unmarried.</p></note></person><person id="PER862" year="1824"><persona><name><name>Elizabeth</name><name family="yes">Girvan</name></name><gender>Female</gender></persona></person><person id="PER863" year="1822"><persona><name><name>James</name><name family="yes">Girvan</name></name><gender>Male</gender></persona></person></result>') 
 
 function unit:get-related-people($param) {
-	<result>{data:get-related-people(data:get-entity($param))}</result>
+	<result>data:get-related-people(data:get-entity($param))</result>
 };
 
 
