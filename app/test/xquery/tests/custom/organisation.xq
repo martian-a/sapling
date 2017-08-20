@@ -21,8 +21,8 @@ function unit:get-entities() as element()* {
 declare
 			
 	(: Valid id :)
-	%test:args('ORG2')
-	%test:assertEquals('<organisation id="ORG2"><name>East India Company</name></organisation>') 
+	%test:args('ORG1')
+	%test:assertEquals('<organisation id="ORG1"><name>Holy Roman Empire</name></organisation>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -32,8 +32,8 @@ function unit:get-entity($param) {
 declare
 	
 	(: Valid id :)
-	%test:args('ORG3')
-	%test:assertEquals('<organisation id="ORG3"><name>Glasite Church</name><note><p>The doctrines professed were taken literally from the Scriptures of the Bible and only Psalms were sung. Elders were chosen by the marks given in Timothy 3:1-7 and the law of discipline (Matthew 18:15-17) was strictly observed as a means of preserving peace and unity in the Church. Eating of blood, the use of oaths as between brethren, the use of the lot for frivolous purposes, and the covetous accumulation of riches were all strictly forbidden and members took no part in worship with any not accepting these scriptural doctrines.</p><p>The casting of lots was sacred because after the Crucifixion, lots were cast by the Soldiers for the garments of Christ and all games of chance, gambling, betting, playing cards, etc. were included and strictly forbidden.</p><p>There was also a ban on the eating of meat from animals that did not split the hoof, such as rabbits, and of game that had been shot. These doctrines were closely interpreted but in the course of time that became more moderate. In the early 1880s a split occurred in many of the Churches over differences of interpretation and the groups separated and no longer worshipped together.</p></note><related><event type="historical" id="EVE1404"><date year="1730"/><summary>The <organisation ref="ORG3"/> is founded when John Glas forms his first congregation in <location ref="LOC96"/>.</summary></event><person id="PER10" year="1773"><persona><name><name>John</name><name family="yes">Thomson</name></name><gender>Male</gender></persona></person><location id="LOC1" type="continent"><name>Europe</name></location><location id="LOC9" type="country"><name>Scotland</name><within ref="LOC213"/></location><location id="LOC55" type="county"><name>Angus</name><within ref="LOC9"/></location><location id="LOC96" type="settlement"><name>Dundee</name><within ref="LOC55"/></location><location id="LOC191" type="country"><name>United Kingdom</name><within ref="LOC1"/></location><location id="LOC213" type="country"><name>Great Britain</name><within ref="LOC191"/></location></related></organisation>') 
+	%test:args('ORG1')
+	%test:assertEquals('<organisation id="ORG1"><name>Holy Roman Empire</name><related><event id="EVE7" type="historical"><date day="28" month="6" year="1519"/><summary><person ref="PER1"/> becomes ruler of the <organisation ref="ORG1"/></summary></event><person id="PER1" year="1500"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person></related></organisation>') 
 	
 function unit:augment-entity($param) {
     data:augment-entity(data:get-entity($param))
@@ -42,7 +42,7 @@ function unit:augment-entity($param) {
 declare
 		
 	(: Valid path, valid id :)
-	%test:args('organisation', 'ORG2')
+	%test:args('organisation', 'ORG1')
 	%test:assertTrue 
 
 function unit:is-valid-id($param1, $param2) {
@@ -70,10 +70,10 @@ declare
 	%test:assertXPath("count($result/view/data/entities/organisation) &gt; 1")
 				
 	(: Valid path, valid id :)
-	%test:args('organisation', 'ORG2')
-	%test:assertXPath("$result/view[@path = 'organisation/ORG2']")
+	%test:args('organisation', 'ORG1')
+	%test:assertXPath("$result/view[@path = 'organisation/ORG1']")
 	%test:assertXPath("count($result/view/data/organisation) = 1")
-	%test:assertXPath("$result/view/data/organisation[@id = 'ORG2']")
+	%test:assertXPath("$result/view/data/organisation[@id = 'ORG1']")
 	
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)

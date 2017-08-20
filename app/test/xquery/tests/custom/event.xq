@@ -21,8 +21,8 @@ function unit:get-entities() as element()* {
 declare
 			
 	(: Valid id :)
-	%test:args('EVE1200')
-	%test:assertEquals('<event type="historical" id="EVE1200"><date year="1800"/><summary><person ref="PER52" /> runs away to sea (aged 9).</summary></event>') 
+	%test:args('EVE3')
+	%test:assertEquals('<event id="EVE3" type="historical"><date year="1506"/><summary><person ref="PER1"/> becomes ruler of <location ref="LOC1"/></summary></event>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -32,7 +32,7 @@ function unit:get-entity($param) {
 declare
 			
 	(: Birth :)
-	%test:args('EVE101') 
+	%test:args('EVE5') 
 	%test:assertEquals('<event ref="EVE101">Richard Sutcliffe is born.</event>')
 
 	(: Christening :)
@@ -40,16 +40,16 @@ declare
 	%test:assertEquals('<event ref="EVE10">John Thomson is christened.</event>')
 
 	(: Marriage :)
-	%test:args('EVE1019') 
+	%test:args('EVE4') 
 	%test:assertEquals('<event ref="EVE1019">Isobella Brown and Thomas Scott marry.</event>')
 
 	(: Historical :)
-	%test:args('EVE1200') 
-	%test:assertEquals('<event ref="EVE1200">John Allen runs away to sea (aged 9).</event>')
+	%test:args('EVE3') 
+	%test:assertEquals('<event id="EVE3" type="historical"><date year="1506"/><summary><person ref="PER1"/> becomes ruler of <location ref="LOC1"/></summary></event></output>')
 
 	(: Death :)
-	%test:args('EVE100') 
-	%test:assertEquals('<event ref="EVE100">Jane Sutcliffe dies.</event>')
+	%test:args('EVE6') 
+	%test:assertEquals('<event ref="EVE6">Ferdinand dies.</event>')
 
 function unit:build-index-entry($param) {
 	data:build-index-entry(data:get-entity($param))
@@ -60,8 +60,8 @@ function unit:build-index-entry($param) {
 declare
 			
 	(: Valid id :)
-	%test:args('EVE1200')
-	%test:assertEquals('<event type="historical" id="EVE1200"><date year="1800"/><summary><person ref="PER52"/> runs away to sea (aged 9).</summary><related><person id="PER52" year="1791"><persona><name><name>John</name><name family="yes">Allen</name></name><gender>Male</gender></persona></person></related></event>') 
+	%test:args('EVE3')
+	%test:assertEquals('<event id="EVE3" type="historical"><date year="1506"/><summary><person ref="PER1"/> becomes ruler of <location ref="LOC1"/></summary><related><person id="PER1" year="1500"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></related></event>') 
 
 function unit:augment-entity($param) {
     data:augment-entity(data:get-entity($param))
@@ -71,7 +71,7 @@ function unit:augment-entity($param) {
 declare
 		
 	(: Valid path, valid id :)
-	%test:args('event', 'EVE1200')
+	%test:args('event', 'EVE1')
 	%test:assertTrue 
 
 function unit:is-valid-id($param1, $param2) {
@@ -99,10 +99,10 @@ declare
 	%test:assertXPath("count($result/view/data/entities/event) &gt; 1")
 				
 	(: Valid path, valid id :)
-	%test:args('event', 'EVE1200')
-	%test:assertXPath("$result/view[@path = 'event/EVE1200']")
+	%test:args('event', 'EVE1')
+	%test:assertXPath("$result/view[@path = 'event/EVE1']")
 	%test:assertXPath("count($result/view/data/event) = 1")
-	%test:assertXPath("$result/view/data/event[@id = 'EVE1200']")
+	%test:assertXPath("$result/view/data/event[@id = 'EVE1']")
 	
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)

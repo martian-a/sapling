@@ -21,8 +21,8 @@ function unit:get-entities() as element()* {
 declare
 			
 	(: Valid id :)
-	%test:args('josiah')
-	%test:assertEquals('<name id="josiah"><name>Josiah</name><derived-from><person ref="PER100"/></derived-from></name>') 
+	%test:args('ferdinand')
+	%test:assertEquals('<name id="ferdinand"><name>Ferdinand</name><derived-from><person ref="PER4"/></derived-from></name>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -32,8 +32,8 @@ function unit:get-entity($param) {
 declare
 	
 	(: Valid id :)
-	%test:args('angus')
-	%test:assertEquals('<name id="angus"><name>Angus</name><derived-from><person ref="PER629"/><location ref="LOC55"/></derived-from><related><person id="PER629" year="1800"><persona><name><name>Angus</name><name family="yes">McKay</name></name><gender>Male</gender></persona></person><location id="LOC1" type="continent"><name>Europe</name></location><location id="LOC9" type="country"><name>Scotland</name><within ref="LOC213"/></location><location id="LOC55" type="county"><name>Angus</name><within ref="LOC9"/></location><location id="LOC191" type="country"><name>United Kingdom</name><within ref="LOC1"/></location><location id="LOC213" type="country"><name>Great Britain</name><within ref="LOC191"/></location></related></name>') 
+	%test:args('ghent')
+	%test:assertEquals('<name id="ghent"><name>Ghent</name><derived-from><location ref="LOC1"/></derived-from><related><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></related></name>') 
 	
 function unit:augment-entity($param) {
     data:augment-entity(data:get-entity($param))
@@ -42,7 +42,7 @@ function unit:augment-entity($param) {
 declare
 		
 	(: Valid path, valid id :)
-	%test:args('name', 'josiah')
+	%test:args('name', 'ferdinand')
 	%test:assertTrue 
 
 function unit:is-valid-id($param1, $param2) {
@@ -70,10 +70,10 @@ declare
 	%test:assertXPath("count($result/view/data/entities/name) &gt; 1")
 				
 	(: Valid path, valid id :)
-	%test:args('name', 'josiah')
-	%test:assertXPath("$result/view[@path = 'name/josiah']")
+	%test:args('name', 'ferdinand')
+	%test:assertXPath("$result/view[@path = 'name/ferdinand']")
 	%test:assertXPath("count($result/view/data/name) = 1")
-	%test:assertXPath("$result/view/data/name[@id = 'josiah']")
+	%test:assertXPath("$result/view/data/name[@id = 'ferdinand']")
 	
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)

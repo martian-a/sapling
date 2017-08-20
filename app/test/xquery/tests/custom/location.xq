@@ -21,8 +21,8 @@ function unit:get-entities() as element()* {
 declare
 			
 	(: Valid id :)
-	%test:args('LOC32')
-	%test:assertEquals('<location id="LOC32" type="county"><name>Armagh</name><within ref="LOC10"/></location>') 
+	%test:args('LOC1')
+	%test:assertEquals('<location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location>') 
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -37,16 +37,16 @@ declare
 	%test:assertEquals('<result/>')
 
 	(: Valid id, no ancestors :)
-	%test:args('LOC1')
+	%test:args('LOC4')
 	%test:assertEquals('<result />') 
 
 	(: Valid id, one ancestor :)
-	%test:args('LOC200')
-	%test:assertEquals('<result><location id="LOC1" type="continent"><name>Europe</name></location></result>') 
+	%test:args('LOC3')
+	%test:assertEquals('<result><location id="LOC4" type="continent"><name>Europe</name></location></result>') 
 
 	(: Valid id, more than one ancestor :)
-	%test:args('LOC180')
-	%test:assertEquals('<result><location id="LOC128" type="settlement"><name>London</name><within ref="LOC24"/></location><location id="LOC24" type="county"><name>Greater London</name><within ref="LOC7"/></location><location id="LOC7" type="country"><name>England</name><within ref="LOC213"/></location><location id="LOC213" type="country"><name>Great Britain</name><within ref="LOC191"/></location><location id="LOC191" type="country"><name>United Kingdom</name><within ref="LOC1"/></location><location id="LOC1" type="continent"><name>Europe</name></location></result>') 
+	%test:args('LOC5')
+	%test:assertEquals('<result><location id="LOC6" type="settlement"><name>Cuacos de Yuste</name><within ref="LOC7"/></location><location id="LOC7" type="country"><name>Spain</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></result>') 
 
 
 function unit:get-location-context($param) {
@@ -61,16 +61,16 @@ declare
 	%test:assertEquals('<result/>')
 
 	(: Valid id, no descendants :)
-	%test:args('LOC180')
+	%test:args('LOC5')
 	%test:assertEquals('<result/>') 
 
 	(: Valid id, one descendant :)
-	%test:args('LOC200')
-	%test:assertEquals('<result><location id="LOC201" type="settlement"><name>Padua</name><within ref="LOC200"/></location><location id="LOC255" type="settlement"><name>Milan</name><within ref="LOC200"/></location><location id="LOC256" type="settlement"><name>Rome</name><within ref="LOC200"/></location></result>') 
+	%test:args('LOC6')
+	%test:assertEquals('<result><location id="LOC5" type="address"><name>Monastery of Yuste</name><within ref="LOC6"/></location></result>') 
 
 	(: Valid id, more than one descendant :)
-	%test:args('LOC128')
-	%test:assertEquals('<result><location id="LOC175" type="district"><name>Highbury</name><within ref="LOC128"/></location><location id="LOC177" type="district"><name>Finchley</name><within ref="LOC128"/></location><location id="LOC179" type="district"><name>Hampton Court</name><within ref="LOC128"/></location><location id="LOC180" type="district"><name>Belsize Park</name><within ref="LOC128"/></location><location id="LOC250" type="district"><name>Marylebone</name><within ref="LOC128"/></location><location id="LOC251" type="address"><name>Manchester Square</name><within ref="LOC250"/></location><location id="LOC252" type="address"><name>2 Blandford Street</name><within ref="LOC251"/></location></result>') 
+	%test:args('LOC7')
+	%test:assertEquals('<result><location id="LOC6" type="settlement"><name>Cuacos de Yuste</name><within ref="LOC7"/></location><location id="LOC5" type="address"><name>Monastery of Yuste</name><within ref="LOC6"/></location><location id="LOC8" type="settlement"><name>Seville</name><within ref="LOC7"/></location></result>') 
 
 
 function unit:get-locations-within($param) {
@@ -81,7 +81,7 @@ function unit:get-locations-within($param) {
 declare
 		
 	(: Valid path, valid id :)
-	%test:args('location', 'LOC32')
+	%test:args('location', 'LOC3')
 	%test:assertTrue 
 
 function unit:is-valid-id($param1, $param2) {
@@ -109,10 +109,10 @@ declare
 	%test:assertXPath("count($result/view/data/entities/location) &gt; 1")
 				
 	(: Valid path, valid id :)
-	%test:args('location', 'LOC32')
-	%test:assertXPath("$result/view[@path = 'location/LOC32']")
+	%test:args('location', 'LOC1')
+	%test:assertXPath("$result/view[@path = 'location/LOC1']")
 	%test:assertXPath("count($result/view/data/location) = 1")
-	%test:assertXPath("$result/view/data/location[@id = 'LOC32']")
+	%test:assertXPath("$result/view/data/location[@id = 'LOC1']")
 	
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)

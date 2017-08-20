@@ -19,8 +19,8 @@ declare
 	%test:assertEmpty
 	
 	(: Valid path :)
-	%test:args('person/PER2')
-	%test:assertEquals('<person id="PER2" year="1500"><persona><name xml:lang="en"><name>Isabella</name><origin><particle>of</particle><location>Portugal</location></origin></name><gender>Female</gender></persona><related><event id="EVE4" type="marriage"><date day="10" month="3" year="1526"/><person ref="PER1"/><person ref="PER2"/><location ref="LOC8"/></event><person id="PER1" year="1500"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person><location id="LOC4" type="continent"><name>Europe</name></location><location id="LOC7" type="country"><name>Spain</name><within ref="LOC4"/></location><location id="LOC8" type="settlement"><name>Seville</name><within ref="LOC7"/></location></related></person>') 
+	%test:args('person/PER4')
+	%test:assertEquals('<person id="PER4" year="1529"><persona><name><name>Ferdinand</name></name></persona><related><event id="EVE5" type="birth"><date day="22" month="11" year="1529"/><person ref="PER4"/><parent type="biological" ref="PER1"/><parent type="biological" ref="PER2"/></event><event id="EVE6" type="death"><date year="1530"/><person ref="PER4"/></event><person id="PER1" year="1500"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person><person id="PER2" year="1530"><persona><name xml:lang="en"><name>Isabella</name><origin><particle>of</particle><location>Portugal</location></origin></name><gender>Female</gender></persona></person></related></person>') 
 	
 function unit:request-xml($param) {
     action:request-xml($param)

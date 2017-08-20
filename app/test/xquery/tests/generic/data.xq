@@ -10,9 +10,12 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 declare
 		
-	(: Valid id :)
-	%test:assertXPath("$result/*[not(name() != preceding-sibling::*/name())]") 
+	(: No id :)
 	%test:assertXPath("count($result/*) &gt; 1") 
+	%test:assertXPath("$result/person") 
+	%test:assertXPath("$result/location")
+	%test:assertXPath("$result/event")
+	%test:assertXPath("$result/organisation") 
 
 function unit:get-entities() as element()* {
     <result>{data:get-entities()}</result>
