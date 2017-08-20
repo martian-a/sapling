@@ -10,9 +10,23 @@
 	<source>
 		
 		<d:doc>
-			<d:desc>A URL to the directory containing the existing data file(s).</d:desc>
+			<d:desc>A URL to the directory containing the existing app data file(s).</d:desc>
 		</d:doc>
-		<data href="file:///project/data/">
+		<data role="core" href="file:///project/data/core/">
+			<set>
+				<include filter="app.xml" />
+				<stylesheet href="file:///project/build/data/app.xsl" />
+			</set>
+			<set>
+				<include filter=".*\.xml" />
+				<exclude filter="app.xml" />
+			</set>
+		</data>
+		
+		<d:doc>
+			<d:desc>A URL to the directory containing the existing test data file(s).</d:desc>
+		</d:doc>
+		<data role="test" href="file:///project/data/test/">
 			<set>
 				<include filter="app.xml" />
 				<stylesheet href="file:///project/build/data/app.xsl" />
@@ -34,9 +48,14 @@
 	<output>
 		
 		<d:doc>
-			<d:desc>A URL to the directory where the generated data should be stored.</d:desc>
+			<d:desc>A URL to the directory where the generated app data should be stored.</d:desc>
 		</d:doc>
-		<data href="file:///dist/data/" />
+		<data role="core" href="file:///dist/data/core/" />
+		
+		<d:doc>
+			<d:desc>A URL to the directory where the generated test data should be stored.</d:desc>
+		</d:doc>
+		<data role="core" href="file:///dist/data/test/" />
 	
 		<d:doc>
 			<d:desc>A URL to the directory where the generated site should be stored.</d:desc>

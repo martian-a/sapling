@@ -20,6 +20,7 @@
 	<p:input port="config" primary="true" />
 
 	<p:option name="target" required="true" />
+	<p:option name="role" required="true" />
 	
 	<p:output port="result" sequence="true">
 		<p:pipe port="result" step="results" />
@@ -43,20 +44,22 @@
 					exclude-result-prefixes="#all"
 					version="2.0">
 					
+					<xsl:param name="role" required="yes" />
+					
 					<xsl:output encoding="UTF-8" media-type="text/xml" method="xml" indent="yes" />
 					
 					<xsl:template match="/">
 						<c:data>
 							xquery version "3.0";
 							module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config";
-							declare variable $config:db := collection("<xsl:value-of select="/build/output/data/@href/substring-after(., 'file://')" />");
+							declare variable $config:db := collection("<xsl:value-of select="/build/output/data[@role = $role]/@href/substring-after(., 'file://')" />");
 						</c:data>
 					</xsl:template>
 					
 				</xsl:stylesheet>
 			</p:inline>
 		</p:input>
-		<p:input port="parameters"><p:empty /></p:input>
+		<p:with-param name="role" select="$role" />
 	</p:xslt>
 	
 	<p:store name="store-xquery-config" encoding="UTF-8" media-type="text/xquery" method="text" omit-xml-declaration="true">

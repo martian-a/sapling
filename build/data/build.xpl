@@ -19,6 +19,7 @@
 	</p:documentation>
 	
 	<p:option name="scope" />
+	<p:option name="role" select="'core'" />
 	
 	<p:input port="config" primary="true" />
 	
@@ -28,12 +29,12 @@
 	
 	<p:import href="generate_name_entities.xpl" />
 
-	<p:variable name="href" select="/build/source/data/@href" />
-	<p:variable name="target" select="/build/output/data/@href" />
+	<p:variable name="href" select="/build/source/data[@role = $role]/@href" />
+	<p:variable name="target" select="/build/output/data[@role = $role]/@href" />
 
 	<p:for-each name="copy-set">
 		
-		<p:iteration-source select="/build/source/data/set" />
+		<p:iteration-source select="/build/source/data[@role = $role]/set" />
 		
 		<p:group>
 			
@@ -191,6 +192,7 @@
 			<p:pipe port="config" step="build-data" />
 		</p:input>
 		<p:with-option name="target" select="concat($target, 'names.xml')" />
+		<p:with-option name="role" select="$role"></p:with-option>
 	</tcy:generate-name-entities>
 	
 	<p:documentation>

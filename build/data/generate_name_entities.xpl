@@ -14,6 +14,9 @@
 	
 	<p:output port="result" sequence="true" />
 	
+	<p:option name="role" select="'core'" />
+	
+	
 	<p:import href="../utils/generate_xquery_config.xpl" />
 	
 	<tcy:generate-xquery-config>
@@ -21,6 +24,7 @@
 			<p:pipe port="config" step="generate-name-entities" />
 		</p:input>
 		<p:with-option name="target" select="substring-after(resolve-uri('.'), ':')" />
+		<p:with-option name="role" select="$role" />
 	</tcy:generate-xquery-config>
 	
 	<p:sink />
