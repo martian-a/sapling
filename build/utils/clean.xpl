@@ -31,27 +31,40 @@
 	
 	<p:import href="recursive_delete_directory.xpl"/>
 
-	<!-- Ensure that the directory exists before
-		 attempting to delete any prexisting results
-		 otherwise, if it doesn't exist, the pipeline 
-		 fails.-->
-	<!-- TODO: find a better way to test whether the 
-		 directory exists and if it doesn't, simply 
-		 skip delete step.-->
-	<cxf:mkdir>
-		<p:with-option name="href" select="$href" />
-	</cxf:mkdir>
 
-	<tcy:recursive-delete-directory name="delete">
-		<p:with-option name="href" select="$href" />
-	</tcy:recursive-delete-directory>
+	<p:choose>
+		<p:when test="$href = ''">
+			<p:identity>
+				<p:input port="source">
+					<p:inline><error>Error: empty href value supplied to clean.xpl</error></p:inline>
+				</p:input>
+			</p:identity>
+		</p:when>
+		<p:otherwise>
 			
-
-	<p:wrap-sequence wrapper="c:deleted">
-		<p:input port="source" select="c:results/*">
-			<p:pipe port="result" step="delete" />
-		</p:input>
-	</p:wrap-sequence>
-	
+			<!-- Ensure that the directory exists before
+				 attempting to delete any prexisting results
+				 otherwise, if it doesn't exist, the pipeline 
+				 fails.-->
+					<!-- TODO: find a better way to test whether the 
+				 directory exists and if it doesn't, simply 
+				 skip delete step.-->
+			<cxf:mkdir>
+				<p:with-option name="href" select="$href" />
+			</cxf:mkdir>
+			
+			<tcy:recursive-delete-directory name="delete">
+				<p:with-option name="href" select="$href" />
+			</tcy:recursive-delete-directory>
+			
+			
+			<p:wrap-sequence wrapper="c:deleted">
+				<p:input port="source" select="c:results/*">
+					<p:pipe port="result" step="delete" />
+				</p:input>
+			</p:wrap-sequence>
+			
+		</p:otherwise>
+	</p:choose>
 	
 </p:declare-step>
