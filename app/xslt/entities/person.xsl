@@ -1,32 +1,67 @@
+<?xml-model href="http://ns.thecodeyard.co.uk/schema/cinnamon.sch?v=0.1.0" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
+	<doc:doc>
+		<doc:title>Key: Person</doc:title>
+		<doc:desc>
+			<doc:p>For quickly finding an person entity in the data, using it's ID.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:key name="person" match="related/person | data/person | entities/person" use="@id" />
 	
+
+	<doc:doc>
+		<doc:desc>
+			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
+
+	<doc:doc>
+		<doc:desc>
+			<doc:p>People Index: initial template for creating the HTML body.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/entities/person]" mode="html.body">
 		<xsl:apply-templates select="data/entities[person]"/>
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Person Profile: initial template for creating the HTML body.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/person]" mode="html.body">
 		<xsl:apply-templates select="data/person" />
 	</xsl:template>
 	
+
+
 	
-	
+	<doc:doc>
+		<doc:title>Page Title: People index</doc:title>
+		<doc:desc>
+			<doc:p>The content to go in the page title of the index page for person entities.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/entities/person]" mode="view.title">
 		<xsl:text>People</xsl:text>
 	</xsl:template>
 	
 	
+
+	<doc:doc>
+		<doc:title>Page Title: Person entity profile page</doc:title>
+		<doc:desc>
+			<doc:p>Ensures that the content of the page title of an person entity profile page is a plain string.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/person]" mode="view.title">
 		<xsl:apply-templates select="data/person/persona[1]/name"/>
 	</xsl:template>
 	
-	<xsl:template match="/app/view/data/person/persona/name">
-		<xsl:value-of select="string-join(name, ' ')"/>
-	</xsl:template>
 	
 	<!-- xsl:template match="/app/view[data/person]" mode="html.body.title" priority="50">
 		<xsl:next-match/>
@@ -34,6 +69,17 @@
 	</xsl:template -->
 	
 	
+
+	<doc:doc>
+		<doc:title>People Index</doc:title>
+		<doc:desc>
+			<doc:ul>
+				<doc:ingress>Lists all person entities:</doc:ingress>
+				<doc:li>in alphabetical order</doc:li>
+				<doc:li>in chronological order</doc:li>
+			</doc:ul>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="data/entities[person]">
 		<div class="alphabetical">
 			<h2>Alphabetical</h2>
@@ -76,12 +122,21 @@
 		</div>
 	</xsl:template>
 	
+
+
+	<doc:doc>
+		<doc:title>Person Profile: subject-id.</doc:title>
+	</doc:doc>
 	<xsl:template match="data/person" priority="100">
 		<xsl:next-match>
 			<xsl:with-param name="subject-id" select="@id" as="xs:string" tunnel="yes" /> 
 		</xsl:next-match>
 	</xsl:template>
 	
+
+	<doc:doc>
+		<doc:title>Person Profile: layout template.</doc:title>
+	</doc:doc>
 	<xsl:template match="data/person">
 		<xsl:apply-templates select="persona" />
 		<xsl:apply-templates select="related[event/@type = ('birth', 'christening', 'marriage')]" mode="family" />
@@ -92,6 +147,9 @@
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Person Profile: Additional Persona.</doc:title>
+	</doc:doc>
 	<xsl:template match="person/persona">
 		<div class="persona">
 			<xsl:if test="preceding-sibling::persona">
@@ -99,25 +157,19 @@
                     <xsl:apply-templates select="name"/>
 					</h2>
 			</xsl:if>
-		<p class="gender">
+			<p class="gender">
                 <xsl:value-of select="gender"/>
                 <xsl:apply-templates select="gender" mode="glyph.bracketed"/>
             </p>
 		</div>
 	</xsl:template>
+
 	
 	
-	<xsl:template match="person/name | person/persona/name" mode="href-html">
-		<xsl:variable name="name" select="string-join(name, ' ')" as="xs:string?"/>
-		<xsl:choose>
-			<xsl:when test="$name = ''">[Unknown]</xsl:when>
-			<xsl:otherwise>
-                <xsl:value-of select="$name"/>
-            </xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	
+
+	<doc:doc>
+		<doc:title>People Index: List entry</doc:title>
+	</doc:doc>
 	<xsl:template match="entities/person">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html"/>
@@ -125,19 +177,10 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="person[@id]" mode="href-html">
-		<span class="person">
-			<xsl:call-template name="href-html">
-				<xsl:with-param name="path" select="concat('person/', @id)" as="xs:string"/>
-				<xsl:with-param name="content" as="item()">
-					<xsl:apply-templates select="persona[1]/name" mode="href-html"/>
-				</xsl:with-param>
-			</xsl:call-template>
-			<xsl:apply-templates select="persona[1]/gender" mode="glyph" />
-		</span>
-	</xsl:template>
 	
-	
+	<doc:doc>
+		<doc:title>Gender Glyph: Whitespace Prefix</doc:title>
+	</doc:doc>
 	<xsl:template match="gender" mode="glyph glyph.bracketed" priority="50">
 		<xsl:if test="lower-case(.) = ('male', 'female', 'hermaphrodite', 'transgender', 'androgen')">
 			<xsl:text> </xsl:text>
@@ -146,6 +189,9 @@
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Gender Glyph: Brackets</doc:title>
+	</doc:doc>
 	<xsl:template match="gender" mode="glyph.bracketed" priority="10">
 		<xsl:text>(</xsl:text>
         <xsl:next-match/>
@@ -153,21 +199,41 @@
 	</xsl:template>
 	
 	
-	
+	<doc:doc>
+		<doc:title>Gender Glyph: Content</doc:title>
+	</doc:doc>
 	<xsl:template match="gender" mode="glyph glyph.bracketed">
         <span class="gender {lower-case(.)}">
-            <xsl:value-of select="      if (lower-case(.) = 'male')      then '♂'      else if (lower-case(.) = 'female')      then '♀'      else if (lower-case(.) = 'hermaphrodite')      then '⚥'      else if (lower-case(.) = 'transgender')      then '⚧'      else if (lower-case(.) = 'androgen')      then '⚪'      else ''      "/>
+			<xsl:value-of select="
+				if (lower-case(.) = 'male') then '♂'
+				else if (lower-case(.) = 'female') then '♀'
+				else if (lower-case(.) = 'hermaphrodite') then '⚥'
+				else if (lower-case(.) = 'transgender') then '⚧'
+				else if (lower-case(.) = 'androgen') then '⚪'
+				else ''" />
         </span>
 	</xsl:template>
 	
 	
-	
+	<doc:doc>
+		<doc:title>Related: Person</doc:title>
+		<doc:desc>
+			<doc:p>Collect together all people related to the subject entity.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="related" mode="people" priority="10">
 		<xsl:next-match>
 			<xsl:with-param name="people" select="person" as="element()*" />
 		</xsl:next-match>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Derived From: Person</doc:title>
+		<doc:desc>
+			<doc:p>Collect together all people from which a name is derived.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="derived-from" mode="people" priority="10">
 		<xsl:next-match>
 			<xsl:with-param name="people" select="person/key('person', @ref)" as="element()*" />
@@ -309,9 +375,59 @@
 		
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Cross-reference: Person</doc:title>
+		<doc:desc>
+			<doc:p>Hyperlinks a cross-reference to a person entity.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="person[@ref] | parent[@ref]">
 		<xsl:apply-templates select="key('person', @ref)" mode="href-html" />
 	</xsl:template>
 
+
+	<doc:doc>
+		<doc:title>Hyperlink: Person (Wrapper)</doc:title>
+		<doc:desc>
+			<doc:p>Generates a hyperlink to an event.</doc:p>
+		</doc:desc>
+		<doc:note>
+			<doc:p>Also appends gender glyph to name.</doc:p>
+		</doc:note>
+	</doc:doc>
+	<xsl:template match="person[@id]" mode="href-html">
+		<span class="person">
+			<xsl:call-template name="href-html">
+				<xsl:with-param name="path" select="concat('person/', @id)" as="xs:string"/>
+				<xsl:with-param name="content" as="item()">
+					<xsl:apply-templates select="persona[1]/name" mode="href-html"/>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:apply-templates select="persona[1]/gender" mode="glyph" />
+		</span>
+	</xsl:template>
+	
+
+	<doc:doc>
+		<doc:title>Hyperlink: Person (Content)</doc:title>
+	</doc:doc>
+	<xsl:template match="person/name | person/persona/name" mode="href-html">
+		<xsl:variable name="name" select="string-join(name, ' ')" as="xs:string?"/>
+		<xsl:choose>
+			<xsl:when test="$name = ''">[Unknown]</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$name"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+
+	<doc:doc>
+		<doc:title>Name: Person</doc:title>
+	</doc:doc>
+	<xsl:template match="/app/view/data/person/persona/name">
+		<xsl:value-of select="string-join(name, ' ')"/>
+	</xsl:template>
 	
 </xsl:stylesheet>

@@ -1,3 +1,4 @@
+<?xml-model href="http://ns.thecodeyard.co.uk/schema/cinnamon.sch?v=0.1.0" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
@@ -18,7 +19,7 @@
 	
 	<doc:doc>
 		<doc:desc>
-			<doc:p>Event (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
+			<doc:p>HTML Head: event (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/app[view/data/entities/event] | /app[view/data/event]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
@@ -27,7 +28,7 @@
 	
 	<doc:doc>
 		<doc:desc>
-			<doc:p>Initial template for creating the HTML body of the index page for event entities.</doc:p>
+			<doc:p>Events Index: initial template for creating the HTML body.</doc:p>
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/app/view[data/entities/event]" mode="html.body">
@@ -37,18 +38,13 @@
 	
 	<doc:doc>
 		<doc:desc>
-			<doc:p>Initial template for creating the HTML body of an event entity profile page.</doc:p>
+			<doc:p>Event Profile: initial template for creating the HTML body.</doc:p>
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/app/view[data/event]" mode="html.body">
 		<xsl:apply-templates select="data/event"/>
 	</xsl:template>
 	
-	<xsl:template match="data/event">
-		<xsl:apply-templates select="self::*" mode="timeline" />
-		<xsl:apply-templates select="related[person]" mode="people" />
-		<xsl:apply-templates select="related[location]" mode="map" />
-	</xsl:template>
 	
 	
 	
@@ -85,7 +81,7 @@
 			<doc:p>Copies the existing prose summary.</doc:p>
 		</doc:desc>
 		<doc:note>
-			<doc:p>Used for page title.</doc:p>
+			<doc:p>Used for page title and hyperlinks to events.</doc:p>
 		</doc:note>
 	</doc:doc>
 	<xsl:template match="event[summary]" mode="title">
@@ -99,7 +95,7 @@
 			<doc:p>Generates a summary for an event that doesn't already have one.</doc:p>
 		</doc:desc>
 		<doc:note>
-			<doc:p>Used for page title.</doc:p>
+			<doc:p>Used for page title and hyperlinks to events.</doc:p>
 		</doc:note>
 	</doc:doc>
 	<xsl:template match="event[not(summary)]" mode="title">
@@ -139,7 +135,15 @@
 		<xsl:apply-templates select="self::*" mode="timeline" />
 	</xsl:template>
 	
-	
+
+	<doc:doc>
+		<doc:title>Event Profile: layout template.</doc:title>
+	</doc:doc>
+	<xsl:template match="data/event">
+		<xsl:apply-templates select="self::*" mode="timeline" />
+		<xsl:apply-templates select="related[person]" mode="people" />
+		<xsl:apply-templates select="related[location]" mode="map" />
+	</xsl:template>
 	
 	<!--
 	<doc:doc>
