@@ -183,6 +183,23 @@
 	<xsl:template match="*/summary" mode="href-html">
 		<xsl:apply-templates/>
 	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:desc>Punctuate list of entities</doc:desc>
+	</doc:doc>
+	<xsl:template name="punctuate-list-href-html">
+		<xsl:param name="entries" as="element()*" />
+		
+		<xsl:for-each select="$entries">
+			<xsl:apply-templates select="self::*" mode="href-html" />
+			<xsl:choose>
+				<xsl:when test="position() = last()" />
+				<xsl:when test="position() = (last() - 1)"> and </xsl:when>
+				<xsl:otherwise>, </xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
+	</xsl:template>
 
 
 </xsl:stylesheet>

@@ -130,6 +130,19 @@
 	
 	
 	<doc:doc>
+		<doc:title>Events Index</doc:title>
+		<doc:desc>
+			<doc:p>Creates a timeline of all events.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="data/entities[event]">
+		<xsl:apply-templates select="self::*" mode="timeline" />
+	</xsl:template>
+	
+	
+	
+	<!--
+	<doc:doc>
 		<doc:title>Events by Type</doc:title>
 		<doc:desc>
 			<doc:ul>
@@ -213,7 +226,7 @@
 			</li>
 		</xsl:for-each>
 	</xsl:template>
-	
+	-->
 	
 	
 	<doc:doc>
