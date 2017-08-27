@@ -6,15 +6,40 @@
 	exclude-result-prefixes="#all" 
 	version="2.0">
 	
+	
+	<doc:doc>
+		<doc:title>Key: Event</doc:title>
+		<doc:desc>
+			<doc:p>For quickly finding an event entity in the data, using it's ID.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:key name="event" match="data/event | related/event | entities/event" use="@id" />
 	
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Event (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app[view/data/entities/event] | /app[view/data/event]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
+	
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Initial template for creating the HTML body of the index page for event entities.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/entities/event]" mode="html.body">
 		<xsl:apply-templates select="data/entities[event]" />		
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Initial template for creating the HTML body of an event entity profile page.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/event]" mode="html.body">
 		<xsl:apply-templates select="data/event"/>
 	</xsl:template>
@@ -26,11 +51,24 @@
 	</xsl:template>
 	
 	
+	
+	<doc:doc>
+		<doc:title>Page Title: Events index</doc:title>
+		<doc:desc>
+			<doc:p>The content to go in the page title of the index page for event entities.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/entities/event]" mode="view.title">
 		<xsl:text>Events</xsl:text>
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Page Title: Event entity profile page</doc:title>
+		<doc:desc>
+			<doc:p>Ensures that the content of the page title of an event entity profile page is a plain string.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/app/view[data/event]" mode="view.title">
 		<xsl:variable name="title">
 			<xsl:apply-templates select="data/event" mode="title" />
@@ -39,11 +77,31 @@
 		<xsl:value-of select="xs:string($title)"/>
 	</xsl:template>
 	
+	
+	
+	<doc:doc>
+		<doc:title>Page Title: Event entity profile page</doc:title>
+		<doc:desc>
+			<doc:p>Copies the existing prose summary.</doc:p>
+		</doc:desc>
+		<doc:note>
+			<doc:p>Used for page title.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[summary]" mode="title">
 		<xsl:apply-templates select="summary" />
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Page Title: Event entity profile page</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for an event that doesn't already have one.</doc:p>
+		</doc:desc>
+		<doc:note>
+			<doc:p>Used for page title.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[not(summary)]" mode="title">
 		<xsl:variable name="subjects" as="element()*">
 			<xsl:choose>
@@ -71,6 +129,17 @@
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Events by Type</doc:title>
+		<doc:desc>
+			<doc:ul>
+				<doc:ingress>Groups events by type and then generates a section for each group, composed of:</doc:ingress>
+				<doc:li>event type (heading)</doc:li>
+				<doc:li>a list of all the events in the the group</doc:li>
+				<doc:egress>in chronological order.</doc:egress>
+			</doc:ul>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="data/entities[event]">
 		<xsl:for-each-group select="event" group-by="@type">
 			<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
@@ -108,12 +177,25 @@
 	</xsl:template>
 	
 
-	<xsl:template match="event[@type = 'historical' or count(person) &lt; 2]" mode="event.index">
+	<doc:doc>
+		<doc:title>Events by Type: Historical</doc:title>
+		<doc:desc>
+			<doc:p>List entry</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="event[@type = 'historical']" mode="event.index">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html" />
 		</li>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Events by Type: Birth, Christening, Death</doc:title>
+		<doc:desc>
+			<doc:p>List entry</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="person" mode="event.index">
 		<xsl:param name="events" as="element()*" />
 		<xsl:variable name="person" select="self::person" as="element()" />
@@ -133,40 +215,58 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="event" mode="href-html">
-		<xsl:param name="content" as="item()?" />
-		<xsl:call-template name="href-html">
-			<xsl:with-param name="path" select="concat('event/', @id)" as="xs:string"/>
-			<xsl:with-param name="content" as="item()">
-				<xsl:variable name="title">
-					<xsl:choose>
-						<xsl:when test="$content != ''">
-							<xsl:copy-of select="$content" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="self::*" mode="title"/>
-						</xsl:otherwise>
-					</xsl:choose>	
-				</xsl:variable>
-				<xsl:value-of select="xs:string($title)" />
-			</xsl:with-param>
-		</xsl:call-template>
-	</xsl:template>
 	
-	
+	<doc:doc>
+		<doc:title>Event Summary (Wrapper)</doc:title>
+		<doc:desc>
+			<doc:p>Wraps an event summary in an appropriately classed paragraph.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event" mode="summarise" priority="100">
 		<p class="summary"><xsl:next-match /></p>
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Event Summary (Content)</doc:title>
+		<doc:desc>
+			<doc:p>Copies an event's pre-existing summary, if it has one.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[summary]" mode="summarise">
 		<xsl:apply-templates select="summary" />
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content)</doc:title>
+		<doc:desc>
+			<doc:p>Copies an event's pre-existing summary, if it has one.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event/summary">
 		<xsl:apply-templates />
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content)</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for an event that doesn't already have one.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[not(summary)]" mode="summarise" priority="50">
 		<xsl:next-match />
 		<xsl:if test="location">
@@ -176,6 +276,16 @@
 		<xsl:text>.</xsl:text>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content): Birth</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for a birth.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[@type = 'birth'][not(summary)]" mode="summarise">
 		<xsl:variable name="parents" select="fn:sort-people(key('person', parent/@ref))" as="element()*" />
 		
@@ -193,11 +303,31 @@
 
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content): Christening</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for a christening.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[@type = 'christening'][not(summary)]" mode="summarise">
 		<xsl:apply-templates select="key('person', person/@ref)" mode="href-html" />
 		<xsl:text> is christened</xsl:text>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content): Marriage</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for a marriage.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[@type = 'marriage'][not(summary)]" mode="summarise">
 		<xsl:variable name="partners" select="fn:sort-people(key('person', person/@ref))" as="element()*" />
 		
@@ -211,6 +341,16 @@
 		
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Summary (Content): Death</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for a death.</doc:p>
+		</doc:desc>
+		<doc:note date="2017-08-27">
+			<doc:p>As used in timelines.</doc:p>
+		</doc:note>
+	</doc:doc>
 	<xsl:template match="event[@type = 'death'][not(summary)]" mode="summarise">
 	
 		<xsl:apply-templates select="key('person', person/@ref)" mode="href-html" />
@@ -219,20 +359,10 @@
 	</xsl:template>
 	
 	
-	<xsl:template name="punctuate-list-href-html">
-		<xsl:param name="entries" as="element()*" />
-		
-		<xsl:for-each select="$entries">
-			<xsl:apply-templates select="self::*" mode="href-html" />
-			<xsl:choose>
-				<xsl:when test="position() = last()" />
-				<xsl:when test="position() = (last() - 1)"> and </xsl:when>
-				<xsl:otherwise>, </xsl:otherwise>
-			</xsl:choose>
-		</xsl:for-each>
-	</xsl:template>
 	
-	
+	<doc:doc>
+		<doc:title>Event Date</doc:title>
+	</doc:doc>
 	<xsl:template match="event/date">
 		<p class="date">
 			<xsl:apply-templates select="@day" />
@@ -247,12 +377,20 @@
 		</p>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Date: Year</doc:title>
+	</doc:doc>
 	<xsl:template match="event/date/@year">
 		<span class="year">
 			<xsl:value-of select="." />
 		</span>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Date: Month</doc:title>
+	</doc:doc>
 	<xsl:template match="event/date/@month">
 		<span class="month">
 			<xsl:choose>
@@ -273,11 +411,41 @@
 		</span>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Event Date: Day</doc:title>
+	</doc:doc>
 	<xsl:template match="event/date/@day">
 		<span class="day">
 			<xsl:value-of select="." />
 		</span>
 	</xsl:template>
 
+
+	<doc:doc>
+		<doc:title>Hyperlink: Event</doc:title>
+		<doc:desc>
+			<doc:p>Generates a hyperlink to an event.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="event" mode="href-html">
+		<xsl:param name="content" as="item()?" />
+		<xsl:call-template name="href-html">
+			<xsl:with-param name="path" select="concat('event/', @id)" as="xs:string"/>
+			<xsl:with-param name="content" as="item()">
+				<xsl:variable name="title">
+					<xsl:choose>
+						<xsl:when test="$content != ''">
+							<xsl:copy-of select="$content" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="self::*" mode="title"/>
+						</xsl:otherwise>
+					</xsl:choose>	
+				</xsl:variable>
+				<xsl:value-of select="xs:string($title)" />
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
 	
 </xsl:stylesheet>
