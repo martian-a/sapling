@@ -108,7 +108,7 @@
 			</x:call>
 			
 			<!-- check the result -->
-			<x:expect label="List of all locations that make up the input location's context." select="/result/*" xml:space="preserve">
+			<x:expect label="List of all locations within the current location." select="/result/*" xml:space="preserve">
 				<result>
 					<location id="LOC32" type="county">
 						<name>Armagh</name>

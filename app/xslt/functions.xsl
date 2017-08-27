@@ -67,6 +67,7 @@
 		
 		<xsl:for-each select="$location-in/key('location-within', @id)">
 			<xsl:sequence select="current()" /> 
+			<xsl:sequence select="fn:get-locations-within(current())" />
 		</xsl:for-each>
 		
 	</xsl:function>
