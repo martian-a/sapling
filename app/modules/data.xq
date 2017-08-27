@@ -350,7 +350,7 @@ declare function data:get-related-locations($entity as element(), $related-event
 	for $location in $related/self::location[@id != $entity/@id]
 	let $id := $location/@id
 	group by $id
-	order by $id/number(substring-after(., 'LOC')) ascending
+	order by $location[1]/number(substring-after(@id, 'LOC')) ascending
 	return $location[1]
 
 };
