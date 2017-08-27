@@ -21,6 +21,8 @@
 	<p:option name="scope" />
 	<p:option name="role" select="'core'" />
 	
+	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
+	
 	<p:input port="config" primary="true" />
 	
 	<p:output port="result" sequence="true">
@@ -31,10 +33,16 @@
 
 	<p:variable name="href" select="/build/source/data[@role = $role]/@href" />
 	<p:variable name="target" select="/build/output/data[@role = $role]/@href" />
+	
+	<cxf:mkdir name="create-dir">
+		<p:with-option name="href" select="$target" />
+	</cxf:mkdir>
 
 	<p:for-each name="copy-set">
 		
-		<p:iteration-source select="/build/source/data[@role = $role]/set" />
+		<p:iteration-source select="/build/source/data[@role = $role]/set">
+			<p:pipe port="config" step="build-data" />
+		</p:iteration-source>
 		
 		<p:group>
 			

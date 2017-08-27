@@ -48,50 +48,7 @@
 		</d:doc>
 	</p:documentation>
 	<p:option name="product" select="'static-html'" />
-	
-	
-	<p:documentation>
-		<d:doc>
-			<d:desc>A URL to the directory containing the source data file(s).</d:desc>
-			<d:note>
-				<d:p>For example: file:///project/data/</d:p>
-			</d:note>
-		</d:doc>
-	</p:documentation>
-	<p:variable name="href-source-data" select="/build/source/data/@href" />
-	
-	<p:documentation>
-		<d:doc>
-			<d:desc>A URL to the directory containing the source app file(s).</d:desc>
-			<d:note>
-				<d:p>For example: file:///project/app/</d:p>
-			</d:note>
-		</d:doc>
-	</p:documentation>
-	<p:variable name="href-source-app" select="/build/source/app/@href" />
-	
-	<p:documentation>
-		<d:doc>
-			<d:desc>A URL to the directory where output data should be stored.</d:desc>
-			<d:note>
-				<d:p>For example: file:///project/dist/data/</d:p>
-			</d:note>
-		</d:doc>
-	</p:documentation>
-	<p:variable name="href-output-data" select="/build/output/data/@href" />
-	
-	<p:documentation>
-		<d:doc>
-			<d:desc>A URL to the directory where output site should be stored.</d:desc>
-			<d:note>
-				<d:p>For example: file:///project/dist/www/</d:p>
-			</d:note>
-		</d:doc>
-	</p:documentation>
-	<p:variable name="href-output-site" select="/build/output/site/@href" />
-	
-	
-	
+			
 	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
 	<p:import href="utils/recursive_delete_directory.xpl"/>
 	<p:import href="utils/clean.xpl"/>
@@ -100,50 +57,64 @@
 	<p:import href="static/html/build.xpl" />
 	
 	<p:group>
-
+		
 		<p:output port="result" sequence="true">
-			<p:pipe port="result" step="clean" />
+			<p:pipe port="result" step="pre-build-clean" />
 			<p:pipe port="result" step="build-data" />
 			<p:pipe port="result" step="build-xml" />
 			<p:pipe port="result" step="build-html" />
-			<p:pipe port="result" step="delete" />
+			<p:pipe port="result" step="post-build-clean" />
 		</p:output>
 		
-		<p:group name="clean">
+		<p:group name="pre-build-clean">
 			
 			<p:output port="result" sequence="true">
-				<p:pipe port="result" step="clean-data" />
-				<p:pipe port="result" step="clean-site" />
+				<p:pipe port="result" step="delete-dist" />
+				<p:pipe port="result" step="create-dist" />
 			</p:output>
 			
-			<tcy:clean name="clean-data">
-				<p:with-option name="href" select="$href-output-data" />	
+			<p:variable name="dist-dir" select="/build/output/dist/@href">
+				<p:pipe port="source" step="build" />
+			</p:variable>
+			
+			<tcy:clean name="delete-dist">
+				<p:with-option name="href" select="$dist-dir" />	
 			</tcy:clean>
 			
-			<p:sink />
-			
-			<tcy:clean name="clean-site">
-				<p:with-option name="href" select="$href-output-site" />	
-			</tcy:clean>
-			
-			<p:sink />
-			
+			<cxf:mkdir name="create-dist">
+				<p:with-option name="href" select="$dist-dir" />
+			</cxf:mkdir>
+
 		</p:group>
 		
 		<p:sink />
 		
-		
-		<p:documentation>
-			<d:doc scope="step">
-				<d:desc>Copy and prepare the data into the structure(s) required for distribution.</d:desc>
-			</d:doc>
-		</p:documentation>
-		<tcy:build-data name="build-data">
-			<p:input port="config">
+		<p:for-each name="build-data">
+			
+			<p:output port="result" sequence="true" />
+			
+			<p:iteration-source select="/build/source/data[@role]">
 				<p:pipe port="source" step="build" />
-			</p:input>
-			<p:with-option name="scope" select="$scope" />
-		</tcy:build-data>
+			</p:iteration-source>
+			
+			<p:group>
+		
+				<p:documentation>
+					<d:doc scope="step">
+						<d:desc>Copy and prepare the data into the structure(s) required for distribution.</d:desc>
+					</d:doc>
+				</p:documentation>
+				<tcy:build-data>
+					<p:input port="config">
+						<p:pipe port="source" step="build" />
+					</p:input>
+					<p:with-option name="role" select="/data/@role" />
+					<p:with-option name="scope" select="$scope" />
+				</tcy:build-data>
+				
+			</p:group>
+			
+		</p:for-each>
 		
 		<p:sink />
 		
@@ -181,62 +152,55 @@
 				<d:desc>Delete the XML snapshot as not deployed with site.</d:desc>
 			</d:doc>
 		</p:documentation>
-		<p:group name="delete">
+		<p:group name="post-build-clean">
 			
-			<p:output port="result" sequence="true">
-				<p:pipe port="result" step="clean-data" />
-				<p:pipe port="result" step="clean-site" />
-			</p:output>
+			<p:output port="result" sequence="true" />
 			
-			<p:choose>
-				<p:when test="$product = ('data', 'all')">
-					<p:identity>
-						<p:input port="source">
-							<p:empty />
-						</p:input>
-					</p:identity>
-				</p:when>
-				<p:otherwise>
-					<tcy:clean>
-						<p:with-option name="href" select="$href-output-data" />	
-					</tcy:clean>
-				</p:otherwise>
-			</p:choose>
+			<p:for-each>
+				
+				<p:output port="result" sequence="true" />
+				
+				<p:iteration-source select="/build/output/*[@href]">
+					<p:pipe port="source" step="build" />
+				</p:iteration-source>
+				
+				<p:group>
+					
+					<p:choose>
+						<p:when test="(self::data and $product = 'static-html') or (self::site and $product = 'data')">
+							
+							<tcy:clean>
+								<p:with-option name="href" select="/*/@href" />	
+							</tcy:clean>
+							
+						</p:when>
+						<p:when test="self::site and $product = 'static-html'">
+							
+							<tcy:clean>
+								<p:with-option name="href" select="concat(/*/@href, '/xml/')" />	
+							</tcy:clean>
+							
+						</p:when>
+						<p:otherwise>
+							<p:identity>
+								<p:input port="source">
+									<p:empty />
+								</p:input>
+							</p:identity>
+						</p:otherwise>
+					</p:choose>
+					
+				</p:group>
+				
+			</p:for-each>
 			
-			<p:identity name="clean-data" />
-			
-			<p:sink />
-			
-			<p:choose>
-				<p:when test="$product = 'static-html'">
-					<tcy:clean>
-						<p:with-option name="href" select="concat($href-output-site, '/xml/')" />	
-					</tcy:clean>
-				</p:when>
-				<p:when test="$product = 'data'">
-					<tcy:clean>
-						<p:with-option name="href" select="$href-output-site" />	
-					</tcy:clean>
-				</p:when>
-				<p:otherwise>
-					<p:identity>
-						<p:input port="source">
-							<p:empty />
-						</p:input>
-					</p:identity>
-				</p:otherwise>
-			</p:choose>
-			
-			<p:identity name="clean-site" />
-			
-			<p:sink />
+			<p:identity />
 			
 		</p:group>
 		
 		<p:sink />
-		
-	</p:group>
 	
+	</p:group>
 	
 	<p:wrap-sequence wrapper="c:results" />
 

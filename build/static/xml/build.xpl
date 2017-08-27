@@ -37,7 +37,7 @@
 			</d:note>
 		</d:doc>
 	</p:documentation>
-	<p:variable name="data-collection-href" select="/build/output/data/@href" />
+	<p:variable name="data-collection-href" select="/build/output/data[@role = 'core']/@href" />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'xml/')" />
 	
 	
@@ -45,6 +45,7 @@
 		<p:input port="config">
 			<p:pipe port="config" step="build-static-xml" />
 		</p:input>
+		<p:with-option name="role" select="'core'"></p:with-option>
 		<p:with-option name="target" select="substring-after(resolve-uri('.'), ':')"></p:with-option>
 	</tcy:generate-xquery-config>
 		
