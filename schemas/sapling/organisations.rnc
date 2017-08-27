@@ -16,6 +16,7 @@ organisations = element organisations {
 organisation = element organisation { 
 	organisation.attlist, 
 	name,
+	location-ref*,
 	note*
 }
 
