@@ -17,11 +17,17 @@ location = element location {
 	location.attlist, 
 	name*,
 	within*,
+	near*,
 	note*
 }
 
 within = element within {
 	within.attlist,
+	empty
+}
+
+near = element near {
+	near.attlist,
 	empty
 }
 
@@ -54,3 +60,6 @@ within.attlist =
 		"physical" |
 		"political"
 	}
+	
+near.attlist = 
+	location-ref.attlist
