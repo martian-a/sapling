@@ -15,8 +15,29 @@
 			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header"/>
 	
+	
+	<xsl:template match="/app[view/data/person]" mode="html.header.scripts">
+		<script src="{$normalised-path-to-js}jquery.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			jQuery.noConflict();
+			var showHide = jQuery.Callbacks();
+		</script>
+		<script src="{$normalised-path-to-js}vis.js" type="text/javascript"></script>
+		<script src="{$normalised-path-to-js}global.js" type="text/javascript"></script>
+		<script src="{$normalised-path-to-js}network-graph.js" type="text/javascript"></script>
+	</xsl:template>
+	
+	<xsl:template match="/app[view/data/person]" mode="html.header.style">
+		<link href="{$normalised-path-to-css}vis.css" type="text/css" rel="stylesheet"></link>
+	</xsl:template>
+	
+	
+	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
+		<script src="{$normalised-path-to-view-js}person/{view/data/person/@id}/" type="text/javascript"></script>
+	</xsl:template>
+
 
 	<doc:doc>
 		<doc:desc>
@@ -412,14 +433,8 @@
 	<doc:doc>
 		<doc:title>Hyperlink: Person (Content)</doc:title>
 	</doc:doc>
-	<xsl:template match="person/name | person/persona/name" mode="href-html">
-		<xsl:variable name="name" select="string-join(name, ' ')" as="xs:string?"/>
-		<xsl:choose>
-			<xsl:when test="$name = ''">[Unknown]</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$name"/>
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:template match="person/persona/name" mode="href-html">
+		<xsl:value-of select="fn:get-name(ancestor::person[1], parent::persona)" />
 	</xsl:template>
 
 

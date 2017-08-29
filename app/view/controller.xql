@@ -16,7 +16,7 @@ let $path :=
 	
 let $id := xs:string($params[3])
 return
-	if ($media = ('html', 'xml') and count(data:get-view($path)) = 1) then (
+	if ($media = ('html', 'xml', 'js') and count(data:get-view($path)) = 1) then (
 		
 		(: An expected media type has been requested and the path is valid :)
 		

@@ -7,7 +7,7 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 <results>{
 	app-util:upload("view/", $local:path-to-view, <patterns><include>controller.xql</include><exclude>*.xml</exclude></patterns>, "application/xquery", false())/*,
-    for $view in ('xml', 'html')
+    for $view in ('xml', 'html', 'js')
     let $target-collection-name := concat("view/", $view)
     let $source-directory := concat($local:path-to-view, $view)
     let $patterns := 

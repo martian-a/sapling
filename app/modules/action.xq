@@ -48,12 +48,13 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	let $parameters := 
 		<parameters>
 			{
-				$parameters-in/param[@name != ('path-to-html', 'path-to-xml')],
+				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-js')],
 				if ($xml/view[@path = '/'])
 	    		then (
 		    		(: Home Page :)
-	    			<param name="path-to-html" value="../html/" />,
-	    			<param name="path-to-xml" value="../xml/" />,
+	    			<param name="path-to-view-html" value="../html/" />,
+	    			<param name="path-to-view-xml" value="../xml/" />,
+	    			<param name="path-to-view-js" value="../js/" />,
 	    			<param name="path-to-js" value="../../js/" />,
 					<param name="path-to-css" value="../../css/" />,
 					<param name="path-to-images" value="../../images/" />
@@ -61,22 +62,43 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	    		else if ($xml/view[@index = 'true'])
 	    		then (
 	    			(: Index :)
-    				<param name="path-to-html" value="../../html/" />,
-    				<param name="path-to-xml" value="../../xml/" />,
+    				<param name="path-to-view-html" value="../../html/" />,
+    				<param name="path-to-view-xml" value="../../xml/" />,
+    				<param name="path-to-view-js" value="../../js/" />,
 	    			<param name="path-to-js" value="../../../js/" />,
 					<param name="path-to-css" value="../../../css/" />,
 					<param name="path-to-images" value="../../../images/" />
 	    		)
 	    		else (
 	    			(: Item View :)
-    				<param name="path-to-html" value="../../../html/" />,
-    				<param name="path-to-xml" value="../../../xml/" />,
+    				<param name="path-to-view-html" value="../../../html/" />,
+    				<param name="path-to-view-xml" value="../../../xml/" />,
+    				<param name="path-to-view-js" value="../../../js/" />,
 	    			<param name="path-to-js" value="../../../../js/" />,
 					<param name="path-to-css" value="../../../../css/" />,
 					<param name="path-to-images" value="../../../../images/" />
     			)
 			}
 		</parameters>
+	    	
+	return
+		if (count($xml) = 0) 
+		then ()
+		else
+			transform:transform($xml, $stylesheet, $parameters) 
+	
+};
+
+
+(: Build script view :)
+declare function action:request-js($path-in as xs:string?, $id-in as xs:string?, $parameters-in as element()?) as item()* {
+
+	let $xml := data:view-app-xml($path-in, $id-in)
+	   
+	let $stylesheet := doc(concat($config:upload-path-to-xslt, "custom/network_graph.xsl"))    
+	
+	let $parameters := 
+		<parameters />
 	    	
 	return
 		if (count($xml) = 0) 

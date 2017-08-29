@@ -72,4 +72,37 @@
 		
 	</xsl:function>
 	
+	
+	<xsl:function name="fn:get-default-persona" as="element()?">
+		<xsl:param name="person-in" as="element()" />
+		
+		<xsl:sequence select="$person-in/persona[1]" />
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-name" as="xs:string">
+		<xsl:param name="person-in" as="element()" />
+				
+		<xsl:value-of select="fn:get-name($person-in, fn:get-default-persona($person-in/key('person', (@ref | @id))))" />
+			
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-name" as="xs:string">
+		<xsl:param name="person-in" as="element()" />
+		<xsl:param name="persona" as="element()" />
+		
+		<xsl:variable name="name" select="normalize-space(string-join($persona/name/*, ' '))" as="xs:string?"/>
+		
+		<xsl:choose>
+			<xsl:when test="$name = ''">[Unknown]</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$name"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:function>
+	
+	
 </xsl:stylesheet>

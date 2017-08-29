@@ -11,9 +11,10 @@
 	<xsl:import href="view.xsl"/>
 	
 	<xsl:param name="path-to-js" select="'../../js/'" as="xs:string"/>
-	<xsl:param name="path-to-css" select="'../../style/'" as="xs:string"/>
-	<xsl:param name="path-to-xml" select="'../xml'" as="xs:string"/>
-	<xsl:param name="path-to-html" select="'../html'" as="xs:string"/>
+	<xsl:param name="path-to-css" select="'../../css/'" as="xs:string"/>
+	<xsl:param name="path-to-view-xml" select="'../xml'" as="xs:string"/>
+	<xsl:param name="path-to-view-html" select="'../html'" as="xs:string"/>
+	<xsl:param name="path-to-view-js" select="'../js'" as="xs:string"/>
 	<xsl:param name="path-to-images" select="'../../images'" as="xs:string"/>
 	<xsl:param name="static" select="'false'" as="xs:string"/>
 
@@ -27,9 +28,11 @@
 	
 	<xsl:variable name="normalised-path-to-images" select="fn:add-trailing-slash(translate($path-to-images, '\', '/'))"/>
 		
-	<xsl:variable name="normalised-path-to-xml" select="fn:add-trailing-slash(translate($path-to-xml, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-xml" select="fn:add-trailing-slash(translate($path-to-view-xml, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-html" select="fn:add-trailing-slash(translate($path-to-html, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-html" select="fn:add-trailing-slash(translate($path-to-view-html, '\', '/'))"/>
+	
+	<xsl:variable name="normalised-path-to-view-js" select="fn:add-trailing-slash(translate($path-to-view-js, '\', '/'))"/>
 
 	<xsl:variable name="ext-xml" select="if (xs:boolean($static)) then '.xml' else ''" as="xs:string?"/>
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>

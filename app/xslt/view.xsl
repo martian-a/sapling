@@ -130,7 +130,7 @@
 				<xsl:when test="xs:boolean($static)">
 					<xsl:value-of select="
 						concat(         
-							$normalised-path-to-html,          
+							$normalised-path-to-view-html,          
 							if ($is-index and $path != '/')         
 							then concat($path, '/', $index)         
 							else if ($path = '/')          
@@ -143,7 +143,7 @@
 					<xsl:value-of select="
 						fn:add-trailing-slash(         
 							concat(          
-								$normalised-path-to-html,           
+								$normalised-path-to-view-html,           
 								if ($path = '/')           
 								then ()           
 								else $path         
@@ -166,10 +166,10 @@
 		<xsl:variable name="url" as="xs:anyURI">
 			<xsl:choose>
 				<xsl:when test="xs:boolean($static)">
-					<xsl:value-of select="        concat(         $normalised-path-to-xml,          if ($path = '/')          then 'index'         else $path,          $ext-xml        )"/>
+					<xsl:value-of select="        concat(         $normalised-path-to-view-xml,          if ($path = '/')          then 'index'         else $path,          $ext-xml        )"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="        fn:add-trailing-slash(         concat(          $normalised-path-to-xml,           if ($path = '/')           then ()          else $path         )        )"/>
+					<xsl:value-of select="        fn:add-trailing-slash(         concat(          $normalised-path-to-view-xml,           if ($path = '/')           then ()          else $path         )        )"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
