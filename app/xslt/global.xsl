@@ -14,7 +14,7 @@
 	<xsl:param name="path-to-css" select="'../../css/'" as="xs:string"/>
 	<xsl:param name="path-to-view-xml" select="'../xml'" as="xs:string"/>
 	<xsl:param name="path-to-view-html" select="'../html'" as="xs:string"/>
-	<xsl:param name="path-to-view-js" select="'../js'" as="xs:string"/>
+	<xsl:param name="path-to-view-svg" select="'../svg'" as="xs:string"/>
 	<xsl:param name="path-to-images" select="'../../images'" as="xs:string"/>
 	<xsl:param name="static" select="'false'" as="xs:string"/>
 
@@ -32,7 +32,7 @@
 	
 	<xsl:variable name="normalised-path-to-view-html" select="fn:add-trailing-slash(translate($path-to-view-html, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-view-js" select="fn:add-trailing-slash(translate($path-to-view-js, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-svg" select="fn:add-trailing-slash(translate($path-to-view-svg, '\', '/'))"/>
 
 	<xsl:variable name="ext-xml" select="if (xs:boolean($static)) then '.xml' else ''" as="xs:string?"/>
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>

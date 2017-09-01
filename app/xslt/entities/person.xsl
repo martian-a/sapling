@@ -15,28 +15,7 @@
 			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header"/>
-	
-	
-	<xsl:template match="/app[view/data/person]" mode="html.header.scripts">
-		<script src="{$normalised-path-to-js}jquery.min.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			jQuery.noConflict();
-			var showHide = jQuery.Callbacks();
-		</script>
-		<script src="{$normalised-path-to-js}vis.js" type="text/javascript"></script>
-		<script src="{$normalised-path-to-js}global.js" type="text/javascript"></script>
-		<script src="{$normalised-path-to-js}network-graph.js" type="text/javascript"></script>
-	</xsl:template>
-	
-	<xsl:template match="/app[view/data/person]" mode="html.header.style">
-		<link href="{$normalised-path-to-css}vis.css" type="text/css" rel="stylesheet"></link>
-	</xsl:template>
-	
-	
-	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
-		<script src="{$normalised-path-to-view-js}person/{view/data/person/@id}/" type="text/javascript"></script>
-	</xsl:template>
+	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 
 
 	<doc:doc>
@@ -308,6 +287,7 @@
 			<xsl:apply-templates select="self::*" mode="family.parents" />
 			<xsl:apply-templates select="self::*" mode="family.partners" />
 			<xsl:apply-templates select="self::*" mode="family.children" />
+			<xsl:apply-templates select="self::*" mode="family.network-graph" />
 		</div>
 	</xsl:template>
 	
@@ -393,6 +373,27 @@
 				</ul>
 			</div>
 		</xsl:if>
+		
+	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:title>Family: Network Graph</doc:title>
+		<doc:note>
+			<doc:p>SVG.</doc:p>
+		</doc:note>
+	</doc:doc>
+	<xsl:template match="related" mode="family.network-graph">
+		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
+				
+		<div class="network-graph">
+			<h3>Network Graph</h3>
+			<div class="network-visualisation">
+				<object data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/') else $normalised-path-to-view-svg}person/{$subject-id}" type="image/svg+xml" target="_parent">
+					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/') else $normalised-path-to-view-svg}person/{$subject-id}" target="_parent" />
+				</object>
+			</div>
+		</div>
 		
 	</xsl:template>
 	

@@ -612,3 +612,12 @@ ul.zebra li.even {
 }
  
 /* End of Timeline */
+
+
+/* Network Graph */
+
+.network-visualisation * {
+	max-width: 100%;
+}
+
+/* End of Network Graph */

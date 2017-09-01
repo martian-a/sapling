@@ -4,6 +4,9 @@ module namespace action = "http://ns.thecodeyard.co.uk/xquery/modules/action";
 import module namespace cred = "http://ns.thecodeyard.co.uk/xquery/settings/credentials" at "cred.xq";
 import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "data.xq";
+import module namespace gv = "http://kitwallace.co.uk/ns/graphviz" at "../../graphviz/lib/graphviz.xqm";
+
+
 
 declare namespace httpclient="http://exist-db.org/xquery/httpclient";
 
@@ -48,13 +51,13 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	let $parameters := 
 		<parameters>
 			{
-				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-js')],
+				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-svg')],
 				if ($xml/view[@path = '/'])
 	    		then (
 		    		(: Home Page :)
 	    			<param name="path-to-view-html" value="../html/" />,
 	    			<param name="path-to-view-xml" value="../xml/" />,
-	    			<param name="path-to-view-js" value="../js/" />,
+	    			<param name="path-to-view-svg" value="../svg/" />,
 	    			<param name="path-to-js" value="../../js/" />,
 					<param name="path-to-css" value="../../css/" />,
 					<param name="path-to-images" value="../../images/" />
@@ -64,7 +67,7 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	    			(: Index :)
     				<param name="path-to-view-html" value="../../html/" />,
     				<param name="path-to-view-xml" value="../../xml/" />,
-    				<param name="path-to-view-js" value="../../js/" />,
+    				<param name="path-to-view-svg" value="../../svg/" />,
 	    			<param name="path-to-js" value="../../../js/" />,
 					<param name="path-to-css" value="../../../css/" />,
 					<param name="path-to-images" value="../../../images/" />
@@ -73,7 +76,7 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	    			(: Item View :)
     				<param name="path-to-view-html" value="../../../html/" />,
     				<param name="path-to-view-xml" value="../../../xml/" />,
-    				<param name="path-to-view-js" value="../../../js/" />,
+    				<param name="path-to-view-svg" value="../../../svg/" />,
 	    			<param name="path-to-js" value="../../../../js/" />,
 					<param name="path-to-css" value="../../../../css/" />,
 					<param name="path-to-images" value="../../../../images/" />
@@ -84,26 +87,60 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 	return
 		if (count($xml) = 0) 
 		then ()
-		else
-			transform:transform($xml, $stylesheet, $parameters) 
+		else transform:transform($xml, $stylesheet, $parameters) 
 	
 };
 
 
 (: Build script view :)
-declare function action:request-js($path-in as xs:string?, $id-in as xs:string?, $parameters-in as element()?) as item()* {
+declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?, $parameters-in as element()?) as item()* {
 
-	let $xml := data:view-app-xml($path-in, $id-in)
+	let $xml := data:view-app-xml($path-in, $id-in, true())
 	   
 	let $stylesheet := doc(concat($config:upload-path-to-xslt, "custom/network_graph.xsl"))    
 	
 	let $parameters := 
-		<parameters />
+		<parameters>
+			{
+				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-svg')],
+				if ($xml/view[@path = '/'])
+	    		then (
+		    		(: Home Page :)
+	    			<param name="path-to-view-html" value="../html/" />,
+	    			<param name="path-to-view-xml" value="../xml/" />,
+	    			<param name="path-to-view-svg" value="../svg/" />,
+	    			<param name="path-to-js" value="../../js/" />,
+					<param name="path-to-css" value="../../css/" />,
+					<param name="path-to-images" value="../../images/" />
+	    		)
+	    		else if ($xml/view[@index = 'true'])
+	    		then (
+	    			(: Index :)
+    				<param name="path-to-view-html" value="../../html/" />,
+    				<param name="path-to-view-xml" value="../../xml/" />,
+    				<param name="path-to-view-svg" value="../../svg/" />,
+	    			<param name="path-to-js" value="../../../js/" />,
+					<param name="path-to-css" value="../../../css/" />,
+					<param name="path-to-images" value="../../../images/" />
+	    		)
+	    		else (
+	    			(: Item View :)
+    				<param name="path-to-view-html" value="../../html/" />,
+    				<param name="path-to-view-xml" value="../../xml/" />,
+    				<param name="path-to-view-svg" value="../../svg/" />,
+	    			<param name="path-to-js" value="../../../js/" />,
+					<param name="path-to-css" value="../../../css/" />,
+					<param name="path-to-images" value="../../../images/" />
+    			)
+			}
+		</parameters>
 	    	
 	return
 		if (count($xml) = 0) 
 		then ()
-		else
-			transform:transform($xml, $stylesheet, $parameters) 
+		else 
+			let $dot := transform:transform($xml, $stylesheet, $parameters)
+			(: If this fails, check that sapling/temp/graphviz directory exists on local filesystem :)
+			return gv:dot-to-svg($dot)
 	
 };

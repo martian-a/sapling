@@ -83,9 +83,14 @@ declare function data:get-view($path as xs:string?) as element()* {
 };
 
 
-
 (: Build XML for HTML view :)
 declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?) as item()? {
+	data:view-app-xml($path-in, $id-in, false())
+};
+
+
+(: Build XML for HTML view :)
+declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?, $for-graph as xs:boolean) as item()? {
 
 	let $entity as element()? := data:get-entity($id-in)
 
@@ -145,7 +150,10 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 						<method type="xml" />,
 						<data>{
 							if ($id != '')
-						    then data:view-entity-xml($entity)
+						    then 
+						    	if ($for-graph)
+						    	then data:view-graph-xml($entity)
+						    	else data:view-entity-xml($entity)
 						    else data:view-index-xml($path)			
 						}
 						</data>
@@ -216,6 +224,65 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 				else ()
 			}</entities>
 		
+};
+
+
+declare function data:view-graph-xml($param as item()?) as element()? {
+	
+	for $entity in data:get-entity($param)/self::*
+	let $related :=
+		let $birth := data:get-entities("event")/self::*[@type = ('birth', 'christening')][person/@ref = $entity/@id]
+		let $parents := 
+			for $person in $birth/parent
+			return data:get-entity($person)
+		let $parents-relationship := data:get-entities("event")/self::*[@type = ('marriage', 'unmarried-partnership', 'engagement', 'separation', 'divorce')][person/@ref = $parents/@id]
+		let $sibling-births := data:get-entities("event")/self::*[@type = ('birth', 'christening')][parent/@ref = $parents/@id]
+		let $siblings :=
+			for $person in $sibling-births/person
+			return data:get-entity($person)
+		let $partner-relationships := data:get-entities("event")/self::*[@type = ('marriage', 'unmarried-partnership', 'engagement', 'separation', 'divorce')][person/@ref = $entity/@id]
+		let $partners := 
+			for $person in $partner-relationships/person[@ref != $entity/@id]
+			let $id := $person/@id
+			group by $id
+			return data:get-entity($person[1])
+		let $children-births := data:get-entities("event")/self::*[@type = ('birth', 'christening')][parent/@ref = $entity/@id]	
+		let $children :=
+			for $person in $children-births/person
+			return data:get-entity($person)			
+
+		let $people :=
+			for $person in ($entity, $parents, $siblings, $partners, $children)
+			let $id := $person/@id
+			group by $id
+			order by $person[1]/number(substring-after(@id, 'PER')) ascending
+			return data:simplify-person($person[1])
+
+		let $deaths := data:get-entities("event")/self::*[@type = 'death'][person/@ref = $people/@id]
+		let $births := data:get-entities("event")/self::*[@type = ('birth', 'christening')][person/@ref = $people/@id]
+
+		let $events :=
+			for $event in ($births, $parents-relationship, $partner-relationships, $deaths)
+			let $id := $event/@id
+			group by $id
+			order by $event[1]/number(substring-after(@id, 'EVE')) ascending
+			return $event[1]
+			
+		return ($people[@id != $entity/@id], $events)
+	return
+		element person {
+			
+			(: Deep copy of existing entity :)
+			$entity/@*,
+			$entity/persona,
+			
+			if (count($related) > 0)
+			then
+				(: Data for referenced entities :)
+				<related>{$related}</related>
+			else ()
+		}
+	
 };
 
 
