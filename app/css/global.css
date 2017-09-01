@@ -565,6 +565,10 @@ ul.zebra li.even {
 	content: "≈";
 }
 
+.timeline .adoption::before {
+	content: "💗"; /* Growing Heart */
+}
+
 .timeline .unmarried-partnership::before {
 	content: "⚯";
 }

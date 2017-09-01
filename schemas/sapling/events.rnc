@@ -13,11 +13,19 @@ events = element events {
 	(
 		event.birth |
 		event.christening |
+		event.adoption |
 		event.marriage |
 		event.death |
 		event.historical
 	)*
 }	
+
+event.content-model =
+	date?,
+	preceded-by*,
+	person-ref*,
+	location-ref?,
+	summary?
 	
 event.birth = element event { 
 	event.birth.attlist, 
@@ -29,31 +37,29 @@ event.birth = element event {
 	summary?
 }
 
-event.christening = element event { 
-	event.christening.attlist, 
+event.adoption = element event { 
+	event.adoption.attlist, 
 	date?,
 	preceded-by*,
-	person-ref,
+	person-ref*,
+	parental-ref*,
 	location-ref?,
 	summary?
+}
+
+event.christening = element event { 
+	event.christening.attlist, 
+	event.content-model
 }
 
 event.marriage = element event { 
 	event.marriage.attlist, 
-	date?,
-	preceded-by*,
-	person-ref*,
-	location-ref?,
-	summary?
+	event.content-model
 }
 
 event.death = element event { 
 	event.death.attlist, 
-	date?,
-	preceded-by*,
-	person-ref*,
-	location-ref?,
-	summary?
+	event.content-model
 }
 
 event.historical = element event { 
@@ -88,6 +94,10 @@ event.attlist =
 event.birth.attlist =
 	event.attlist,
     attribute type {"birth"}
+
+event.adoption.attlist =
+	event.attlist,
+    attribute type {"adoption"}
 
 event.christening.attlist =
 	event.attlist,
