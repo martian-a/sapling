@@ -21,8 +21,6 @@
 	
 	<xsl:strip-space elements="*"/>
 	
-	<xsl:output method="text" encoding="utf-8" media-type="application/javascript" indent="no" omit-xml-declaration="yes" />
-	
 	<xsl:variable name="normalised-path-to-js" select="fn:add-trailing-slash(translate($path-to-js, '\', '/'))"/>
 	
 	<xsl:variable name="normalised-path-to-css" select="fn:add-trailing-slash(translate($path-to-css, '\', '/'))"/>
@@ -77,9 +75,9 @@
 		
 		
 		<xsl:apply-templates select="self::*" mode="network-graph.serialize.dot">
-			<xsl:with-param name="graph-variable-name" select="'networkData'" as="xs:string" />
-			<xsl:with-param name="node-data" select="$node-data" as="element()*" />
-			<xsl:with-param name="edge-data" select="$edge-data" as="element()*" />
+			<xsl:with-param name="graph-variable-name" select="'networkData'" as="xs:string" tunnel="yes" />
+			<xsl:with-param name="node-data" select="$node-data" as="element()*" tunnel="yes" />
+			<xsl:with-param name="edge-data" select="$edge-data" as="element()*" tunnel="yes" />
 		</xsl:apply-templates>
 		
 	</xsl:template>

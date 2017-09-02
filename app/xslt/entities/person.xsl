@@ -389,8 +389,8 @@
 		<div class="network-graph">
 			<h3>Network Graph</h3>
 			<div class="network-visualisation">
-				<object data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/') else $normalised-path-to-view-svg}person/{$subject-id}" type="image/svg+xml" target="_parent">
-					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/') else $normalised-path-to-view-svg}person/{$subject-id}" target="_parent" />
+				<object data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/') else $normalised-path-to-view-svg}person/{$subject-id}" type="image/svg+xml">
+					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/') else $normalised-path-to-view-svg}person/{$subject-id}" />
 				</object>
 			</div>
 		</div>
