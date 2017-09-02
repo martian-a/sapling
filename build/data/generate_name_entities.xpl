@@ -23,7 +23,6 @@
 		<p:input port="config">
 			<p:pipe port="config" step="generate-name-entities" />
 		</p:input>
-		<p:with-option name="target" select="substring-after(resolve-uri('.'), ':')" />
 		<p:with-option name="role" select="$role" />
 	</tcy:generate-xquery-config>
 	
@@ -47,7 +46,7 @@
 								declare namespace c="http://www.w3.org/ns/xproc-step";
 								declare namespace xs="http://www.w3.org/2001/XMLSchema";
 								
-								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
+								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "../utils/xquery/config.xq";
 								import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../app/modules/data.xq";
 								
 								let $named-entities := (data:get-entities('person') | data:get-entities('location') | data:get-entities('organisation'))
@@ -126,6 +125,19 @@
 			</p:input>
 		</p:xquery>
 		
+		
+		<p:xslt name="add-schema-refs">
+			<!-- p:input port="source">
+				<p:pipe port="result" step="generate-xml" />
+			</p:input -->
+			<p:input port="stylesheet">
+				<p:document href="../utils/associate_schemas.xsl" />
+			</p:input>
+			<p:input port="parameters">
+				<p:empty />
+			</p:input>
+		</p:xslt>
+		
 		<p:documentation>
 			<d:doc scope="step">
 				<d:desc>Store the index data.</d:desc>
@@ -138,9 +150,9 @@
 			indent="true" 
 			omit-xml-declaration="false"
 			version="1.0">
-			<p:input port="source">
-				<p:pipe port="result" step="generate-xml" />
-			</p:input>
+			<!-- p:input port="source">
+				<p:pipe port="result" step="add-schema-refs" />
+			</p:input -->
 			<p:with-option name="href" select="$target" />
 		</p:store>
 		
