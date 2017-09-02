@@ -11,7 +11,8 @@
 	<p:input port="stylesheet" primary="true" />
 	<p:option name="href" required="true" />
 	<p:option name="target" required="true" />
-	<p:option name="path-to-html" required="true" />
+	<p:option name="path-to-view-html" required="true" />
+	<p:option name="path-to-view-js" required="true" />
 	<p:option name="path-to-assets" required="true" />
 	
 	<p:output port="result" sequence="true" />
@@ -57,7 +58,8 @@
 						</p:input>		
 						<p:with-param name="path-to-js" select="concat($path-to-assets, 'js')" />
 						<p:with-param name="path-to-css" select="concat($path-to-assets, 'css')" />
-						<p:with-param name="path-to-html" select="$path-to-html" />
+						<p:with-param name="path-to-view-html" select="$path-to-view-html" />
+						<p:with-param name="path-to-view-js" select="$path-to-view-js" />
 						<p:with-param name="path-to-images" select="concat($path-to-assets, 'images')" />
 						<p:with-param name="static" select="'true'" />
 					</p:xslt>
@@ -96,7 +98,8 @@
 						</p:input>
 						<p:with-option name="href" select="concat($href, c:directory/@name, '/')" />
 						<p:with-option name="target" select="concat($target, c:directory/@name, '/')" />
-						<p:with-option name="path-to-html" select="concat('../', $path-to-html)" />
+						<p:with-option name="path-to-view-html" select="concat('../', $path-to-view-html)" />
+						<p:with-option name="path-to-view-js" select="concat('../', $path-to-view-js)" />
 						<p:with-option name="path-to-assets" select="concat('../', $path-to-assets)" />
 					</tcy:generate-static-html>
 					

@@ -10,8 +10,11 @@
 	<p:option name="target" required="true" />
 	<p:option name="path" required="true" />
 	<p:option name="id" required="true" />
+	<p:option name="for-graph" select="false()" />
 	
 	<p:output port="result" sequence="true" />
+	
+	<p:import href="../../utils/xquery/get_app_view.xpl" />
 	
 	<p:group>
 		
@@ -19,32 +22,11 @@
 			<p:pipe port="result" step="store" />
 		</p:output>
 		
-		<p:xquery name="generate-xml">
-			<p:input port="source">
-				<p:inline><app /></p:inline>
-			</p:input>
-			<p:input port="query">
-				<p:inline>
-					<c:query>
-						<![CDATA[
-								xquery version "3.0";
-								declare namespace c="http://www.w3.org/ns/xproc-step";
-								declare namespace xs="http://www.w3.org/2001/XMLSchema";
-								
-								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
-								import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../../app/modules/data.xq";
-								
-								declare variable $path as xs:string external;
-								declare variable $id as xs:string external;
-								
-								data:view-app-xml($path, $id)
-							]]>
-					</c:query>
-				</p:inline>		
-			</p:input>
-			<p:with-param name="path" select="$path" />
-			<p:with-param name="id" select="$id" />
-		</p:xquery>
+		<tcy:get-app-view name="generate-xml">
+			<p:with-option name="path" select="$path" />
+			<p:with-option name="id" select="$id" />
+			<p:with-option name="for-graph" select="$for-graph" />
+		</tcy:get-app-view>
 		
 		<p:documentation>
 			<d:doc scope="step">

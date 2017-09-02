@@ -23,11 +23,11 @@
 		<p:pipe port="result" step="results" />
 	</p:output>
 	
-	<p:import href="get_index_list.xpl" />
-	<p:import href="generate_app_view.xpl" />
-	<p:import href="get_entity_list.xpl" />
-	<p:import href="../../utils/generate_xquery_config.xpl" />
 	
+	<p:import href="../../utils/xquery/generate_config.xpl" />
+	<p:import href="../../utils/xquery/get_index_list.xpl" />
+	<p:import href="generate_app_view.xpl" />
+	<p:import href="../../utils/xquery/get_entity_list.xpl" />
 	
 	<p:documentation>
 		<d:doc>
@@ -46,7 +46,6 @@
 			<p:pipe port="config" step="build-static-xml" />
 		</p:input>
 		<p:with-option name="role" select="'core'"></p:with-option>
-		<p:with-option name="target" select="substring-after(resolve-uri('.'), ':')"></p:with-option>
 	</tcy:generate-xquery-config>
 		
 	<p:sink />
@@ -112,8 +111,7 @@
 		</p:group>
 		
 	</p:for-each>
-	
-	
+		
 	<p:documentation>
 		<d:doc scope="step">
 			<d:desc>Return a list of paths to the generated xml files.</d:desc>

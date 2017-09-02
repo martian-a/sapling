@@ -17,7 +17,7 @@
 	<p:option name="role" select="'core'" />
 	
 	
-	<p:import href="../utils/generate_xquery_config.xpl" />
+	<p:import href="../utils/xquery/generate_config.xpl" />
 	
 	<tcy:generate-xquery-config>
 		<p:input port="config">

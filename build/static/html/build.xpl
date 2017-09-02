@@ -61,7 +61,8 @@
 		</p:input>
 		<p:with-option name="href" select="$href-xml" />
 		<p:with-option name="target" select="$target" />
-		<p:with-option name="path-to-html" select="'../html/'" />
+		<p:with-option name="path-to-view-html" select="'../html/'" />
+		<p:with-option name="path-to-view-js" select="'../js/'" />
 		<p:with-option name="path-to-assets" select="'assets/'" />
 	</tcy:generate-static-html>
 	

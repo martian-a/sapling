@@ -19,7 +19,7 @@
 	
 	<p:input port="config" primary="true" />
 
-	<p:option name="target" required="true" />
+	<p:option name="target" select="''" />
 	<p:option name="role" required="true" />
 	
 	<p:output port="result" sequence="true">
