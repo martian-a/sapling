@@ -81,8 +81,8 @@
 					<p:pipe port="result" step="load-stylesheet" />
 				</p:input>
 				<p:with-option name="target" select="concat($target, $id, '.svg')" />
-				<p:with-option name="path-to-view-html" select="'../html/'" />
-				<p:with-option name="path-to-assets" select="'assets/'" />
+				<p:with-option name="path-to-view-html" select="'../../../../../../html/'" />
+				<p:with-option name="path-to-assets" select="'../../../../../../html/assets/'" />
 			</tcy:generate-static-svg>
 			
 		</p:group>

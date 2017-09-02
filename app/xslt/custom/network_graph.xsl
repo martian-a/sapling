@@ -269,7 +269,7 @@
 					<font face="DejaVu Sans">–✝</font><i><xsl:value-of select="$end-date/date/@year" /></i>
 				</xsl:if>
 			</xsl:with-param>
-			<xsl:with-param name="url" select="xs:anyURI(concat($normalised-path-to-view-html, 'person/', @id, '/'))" as="xs:anyURI" />
+			<xsl:with-param name="url" select="xs:anyURI(concat($normalised-path-to-view-html, 'person/', @id, if ($static = 'true') then $ext-html else '/'))" as="xs:anyURI" />
 		</xsl:call-template>
 	</xsl:template>
 	
