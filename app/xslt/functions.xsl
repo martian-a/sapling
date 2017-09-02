@@ -79,7 +79,7 @@
 	
 	
 	<xsl:function name="fn:get-default-persona" as="element()?">
-		<xsl:param name="person-in" as="element()" />
+		<xsl:param name="person-in" as="element()?" />
 		
 		<xsl:sequence select="$person-in/persona[1]" />
 		

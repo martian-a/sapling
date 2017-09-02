@@ -55,6 +55,7 @@
 	<p:import href="data/build.xpl" />
 	<p:import href="static/xml/build.xpl" />
 	<p:import href="static/html/build.xpl" />
+	<p:import href="static/svg/build.xpl" />
 	
 	<p:group>
 		
@@ -63,6 +64,7 @@
 			<p:pipe port="result" step="build-data" />
 			<p:pipe port="result" step="build-xml" />
 			<p:pipe port="result" step="build-html" />
+			<p:pipe port="result" step="build-svg" />
 			<p:pipe port="result" step="post-build-clean" />
 		</p:output>
 		
@@ -143,6 +145,20 @@
 				<p:pipe port="source" step="build" />
 			</p:input>
 		</tcy:build-static-html>
+		
+		<p:sink />
+		
+		
+		<p:documentation>
+			<d:doc scope="step">
+				<d:desc>Generate a snapshot of the SVG that would currently be returned by the app.</d:desc>
+			</d:doc>
+		</p:documentation>
+		<tcy:build-static-svg name="build-svg">
+			<p:input port="config">
+				<p:pipe port="source" step="build" />
+			</p:input>
+		</tcy:build-static-svg>
 		
 		<p:sink />
 		

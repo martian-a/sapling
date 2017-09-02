@@ -5,10 +5,23 @@
     exclude-result-prefixes="#all"
     version="2.0" > 
 	
+	<xsl:output name="dot"
+		method="text" encoding="UTF-8" media-type="text" indent="no" omit-xml-declaration="yes" />
+	
+	<xsl:template match="related" mode="network-graph.serialize.dot" priority="100">
+		<xsl:result-document format="dot">
+			<xsl:choose>
+				<xsl:when test="$static = 'true'"><result><xsl:next-match /></result></xsl:when>
+				<xsl:otherwise><xsl:next-match /></xsl:otherwise>
+			</xsl:choose>
+		</xsl:result-document>
+	</xsl:template>
+	
+	
 	<xsl:template match="*" mode="network-graph.serialize.dot">
-		<xsl:param name="graph-variable-name" select="'network'" as="xs:string" />
-		<xsl:param name="node-data" as="element()*" />
-		<xsl:param name="edge-data" as="element()*" />
+		<xsl:param name="graph-variable-name" select="'network'" as="xs:string" tunnel="yes" />
+		<xsl:param name="node-data" as="element()*" tunnel="yes" />
+		<xsl:param name="edge-data" as="element()*" tunnel="yes" />
 		
 		<!-- Create an array representing the nodes in the network (family tree) -->
 		<xsl:text>graph </xsl:text><xsl:value-of select="$graph-variable-name" /><xsl:text> {&#10;</xsl:text>

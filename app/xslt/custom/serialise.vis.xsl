@@ -5,12 +5,20 @@
     exclude-result-prefixes="#all"
     version="2.0" > 
 	
+	
+	<xsl:template match="related" mode="network-graph.serialize.dot" priority="100">
+		<xsl:result-document method="text" encoding="utf-8" media-type="application/javascript" indent="no" omit-xml-declaration="yes">
+	        <xsl:next-match />
+		</xsl:result-document>
+	</xsl:template>
+	
+	
 	<xsl:template match="*" mode="network-graph.serialize.vis">
-		<xsl:param name="node-data-variable-name" select="'nodeData'" as="xs:string" />
-		<xsl:param name="edge-data-variable-name" select="'edgeData'" as="xs:string" />
-		<xsl:param name="node-data" as="element()*" />
-		<xsl:param name="edge-data" as="element()*" />
-		<xsl:param name="stored-layout" select="false()" as="xs:boolean" />
+		<xsl:param name="node-data-variable-name" select="'nodeData'" as="xs:string" tunnel="yes" />
+		<xsl:param name="edge-data-variable-name" select="'edgeData'" as="xs:string" tunnel="yes" />
+		<xsl:param name="node-data" as="element()*" tunnel="yes" />
+		<xsl:param name="edge-data" as="element()*" tunnel="yes" />
+		<xsl:param name="stored-layout" select="false()" as="xs:boolean" tunnel="yes" />
 				
 		<!-- Create an array representing the nodes in the network (family tree) -->
 		<xsl:text>var </xsl:text><xsl:value-of select="$node-data-variable-name" /><xsl:text> = [</xsl:text>
