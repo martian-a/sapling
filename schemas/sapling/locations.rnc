@@ -10,27 +10,35 @@ start |= locations
 
 locations = element locations { 
 	locations.attlist, 
-	location*
+	locations.content-model
 }
 
 location = element location { 
 	location.attlist, 
-	name*,
-	within*,
-	near*,
-	note*
+	location.content-model
 }
 
-within = element within {
+location-ref.within = element within {
 	within.attlist,
-	empty
+	entity-ref.content-model
 }
 
-near = element near {
+location-ref.near = element near {
 	near.attlist,
-	empty
+	entity-ref.content-model
 }
 
+
+# Content Models #
+
+locations.content-model =
+	location*
+	
+location.content-model =
+	name*,
+	location-ref.within*,
+	location-ref.near*,
+	note*
 
 # Attributes #
 
@@ -55,11 +63,12 @@ location.attlist =
     
 within.attlist = 
 	location-ref.attlist,
+	
 	[ a:defaultValue = "physical" ]
 	attribute rel {
 		"physical" |
 		"political"
-	}
+	}?
 	
 near.attlist = 
 	location-ref.attlist

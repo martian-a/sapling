@@ -39,8 +39,8 @@
 		<div class="alphabetical">
 			<h2>Alphabetical</h2>
 			<div class="multi-column">
-				<xsl:for-each-group select="name" group-by="@id/substring(translate(., '_', ' '), 1, 1)">
-					<xsl:sort select="@id" data-type="text" order="ascending"/>
+				<xsl:for-each-group select="name" group-by="@key/substring(translate(., '_', ' '), 1, 1)">
+					<xsl:sort select="@key" data-type="text" order="ascending"/>
 					<xsl:if test="current-grouping-key() != ' '">
 						<div>
 			<h3>

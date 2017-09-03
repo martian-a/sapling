@@ -10,66 +10,14 @@ start |= events
 
 events = element events { 
 	events.attlist, 
-	(
-		event.birth |
-		event.christening |
-		event.adoption |
-		event.marriage |
-		event.death |
-		event.historical
-	)*
+	events.content-model
 }	
 
-event.content-model =
-	date?,
-	preceded-by*,
-	person-ref*,
-	location-ref?,
-	summary?
+event = element event {
+	event.attlist,
+	event.content-model
+}
 	
-event.birth = element event { 
-	event.birth.attlist, 
-	date?,
-	preceded-by*,
-	person-ref*,
-	parental-ref*,
-	location-ref?,
-	summary?
-}
-
-event.adoption = element event { 
-	event.adoption.attlist, 
-	date?,
-	preceded-by*,
-	person-ref*,
-	parental-ref*,
-	location-ref?,
-	summary?
-}
-
-event.christening = element event { 
-	event.christening.attlist, 
-	event.content-model
-}
-
-event.marriage = element event { 
-	event.marriage.attlist, 
-	event.content-model
-}
-
-event.death = element event { 
-	event.death.attlist, 
-	event.content-model
-}
-
-event.historical = element event { 
-	event.historical.attlist, 
-	date?,
-	preceded-by*,
-	location-ref*,
-	summary?
-}
-
 parental-ref = element parent {
 	parental-ref.attlist,
 	empty
@@ -82,6 +30,20 @@ preceded-by = element preceded-by {
 
 
 
+# Content Models #
+
+events.content-model =
+	event*
+	
+event.content-model =
+	date?,
+	preceded-by*,
+	person-ref*,
+	parental-ref*,
+	location-ref*,
+	summary?
+
+
 # Attributes #
 
 events.attlist = 
@@ -89,31 +51,21 @@ events.attlist =
 	
 event.attlist =
 	xml.attlist,
-    attribute id { xsd:ID }
-    
-event.birth.attlist =
-	event.attlist,
-    attribute type {"birth"}
-
-event.adoption.attlist =
-	event.attlist,
-    attribute type {"adoption"}
-
-event.christening.attlist =
-	event.attlist,
-    attribute type {"christening"}
-    
-event.marriage.attlist =
-	event.attlist,
-    attribute type {"marriage"}
-    
-event.death.attlist =
-	event.attlist,
-    attribute type {"death"}
-    
-event.historical.attlist =
-	event.attlist,
-    attribute type {"historical"}
+    attribute id { xsd:ID },
+    attribute type {
+    	(
+	    	"birth" |
+	    	"christening" |
+	    	"adoption" |
+			"unmarried-relationship" |
+			"engagement" |
+			"marriage" |
+			"separation" |
+			"divorce" |
+			"death" |
+			"historical"
+		)
+    }
     
 parental-ref.attlist = 
 	person-ref.attlist,

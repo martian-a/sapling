@@ -186,6 +186,10 @@
 			
 			<sch:report test="preceding-sibling::event[@type = $type and $type != 'marriage'][person/@ref = $subjects/@ref]">Duplicate <sch:value-of select="$type"/>.</sch:report>
 			
+			<sch:report test="self::event[not($type = ('birth', 'adoption'))]/parent">Unexpected parent.  The parent element may only be used in birth or adoption events.</sch:report>
+			<sch:report test="self::event[$type = 'historical']/*[name() = ('person', 'parent')]">Unexpected <sch:name />.  References to people may only be used in the summary of a historical event.</sch:report>
+			<sch:report test="self::event[not($type = 'historical')]/location[preceding-sibling::location]">Unexpected location.  An event may only be associated with a single location, unless it is a historical event.</sch:report>
+			
 		</sch:rule>
 		
 	</sch:pattern>

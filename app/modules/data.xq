@@ -20,6 +20,8 @@ declare function data:get-entity($param as item()?) as element()? {
 			if ($param/@id)
 			then $param/@id/xs:string(.)
 			else $param/@ref/xs:string(.)
+		else if ($param instance of attribute() and $param/name() = ('id', 'ref'))
+		then $param/xs:string(.)
 		else ''
 	return
 		if ($id != '')
@@ -183,8 +185,8 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	else
 		let $entities := 
 			switch ($path)
-			case "event" return data:get-entities($path)[@type != 'historical' or descendant::person[@ref]]
-			default return data:get-entities($path)
+			case "event" return data:get-entities($path)/self::*[@type != 'historical' or descendant::person[@ref]]/data:simplify-entity(self::*)
+			default return data:get-entities($path)/self::*/data:simplify-entity(self::*)
 		let $related :=
 			switch ($path)
 			case "event" return
@@ -196,17 +198,13 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 					for $event in $events[@type = 'historical']
 					return data:get-related-organisations($event)
 				let $locations := 
-					for $event in $events[@type = 'historical']
+					for $event in $events
 					return data:get-related-locations($event)
 				return (
-					for $person in $people
-					let $id := $person/@id
-					group by $id 
-					return data:simplify-person($person[1]), 
-					for $entity in ($organisations, $locations)
+					for $entity in ($people, $organisations, $locations)
 					let $id := $entity/@id
-					group by $id
-					return $entity[1]
+					group by $id 
+					return data:simplify-entity($entity[1])
 				)
 			default return ()
 		return
@@ -266,7 +264,7 @@ declare function data:view-graph-xml($param as item()?) as element()? {
 			let $id := $event/@id
 			group by $id
 			order by $event[1]/number(substring-after(@id, 'EVE')) ascending
-			return $event[1]
+			return data:simplify-event($event[1])
 			
 		return ($people[@id != $entity/@id], $events)
 	return
@@ -293,6 +291,18 @@ declare function data:view-graph-xml($param as item()?) as element()? {
   Custom Methods
 ================:)
 
+declare function data:simplify-entity($param as element()) as element() {
+
+	switch ($param/name())
+	case "person" return data:simplify-person($param)
+	case "organisation" return data:simplify-organisation($param)
+	case "location" return data:simplify-location($param)
+	case "event" return data:simplify-event($param)
+	case "name" return data:simplify-derived-name($param)
+	default return $param
+
+};
+
 
 declare function data:simplify-person($param as element()) as element()? {
 	
@@ -304,36 +314,61 @@ declare function data:simplify-person($param as element()) as element()? {
 		}</person>
 };
 
+declare function data:simplify-organisation($param as element()) as element()? {
+	
+	for $entity in $param/self::organisation[starts-with(@id, 'ORG')]
+	return
+		<organisation>{
+			$entity/@*,
+			$entity/name[1]
+		}</organisation>
+};
+
+declare function data:simplify-location($param as element()) as element()? {
+	
+	for $entity in $param/self::location[starts-with(@id, 'LOC')]
+	return
+		<location>{
+			$entity/@*,
+			$entity/name[1],
+			$entity/within
+		}</location>
+};
+
+declare function data:simplify-event($param as element()) as element()? {
+	
+	for $entity in $param/self::event[starts-with(@id, 'EVE')]
+	return
+		<event>{
+			$entity/@*,
+			$entity/*[not(name() = ('preceded-by'))]
+		}</event>
+};
+
+declare function data:simplify-derived-name($param as element()) as element()? {
+	
+	for $entity in $param/self::name[starts-with(@id, 'NAM')]
+	return
+		<name>{
+			$entity/@*,
+			$entity/name[1]
+		}</name>
+};
+
+
 declare function data:augment-entity($param as element()) as element()? {
 	
 	for $entity in $param/self::*
 	let $related :=
-		switch ($entity/name())
-		case "location" return 
-			let $events := data:get-related-events($entity)
-			let $people := data:get-related-people($entity, $events)
-			let $organisations := data:get-related-organisations($entity, $events)
-			let $locations := data:get-related-locations($entity)[@id != $entity/@id]
-			return (
-				$events,
-				for $person in $people
-				return data:simplify-person($person), 
-				$organisations,
-				$locations
-			)
-		default return 
-			let $events := data:get-related-events($entity)
-			let $people := data:get-related-people($entity)
-			let $organisations := data:get-related-organisations($entity, $events)
-			let $locations := data:get-related-locations($entity)
-			return (
-				$events, 
-				for $person in $people
-				return data:simplify-person($person), 
-				$organisations,
-				$locations
-			)
-			
+		let $events := data:get-related-events($entity)
+		let $people := data:get-related-people($entity, $events)
+		let $organisations := data:get-related-organisations($entity, $events)
+		let $locations := data:get-related-locations($entity, $events, ())
+		return (  
+			for $related-entity in ($events, $people, $organisations, $locations)
+			return data:simplify-entity($related-entity)
+		)
+		
 return
 		element {$entity/name()} {
 			
@@ -395,7 +430,7 @@ declare function data:get-related-people($entity as element(), $related-events a
 
 
 declare function data:get-related-locations($entity as element()) as element()* {
-	data:get-related-locations($entity, data:get-related-events($entity), data:get-related-people($entity))
+	data:get-related-locations($entity, (), ())
 };
 
 declare function data:get-related-locations($entity as element(), $related-events as element()*, $related-people as element()*) as element()* {
@@ -403,16 +438,28 @@ declare function data:get-related-locations($entity as element(), $related-event
 	let $entities := ($entity, $related-events, $related-people)
 	let $related := (
 		let $direct :=
-			for $ref in distinct-values($entities/descendant::location/@ref/xs:string(.)) 
-			return data:get-entity($ref)
+			for $location in $entities/descendant::location
+			let $id := $location/@ref
+			group by $id
+			return data:get-entity($location[1])
 		let $indirect :=
-			for $location in $direct
-			return data:get-location-context($location)
-		let $within :=
-			if ($entity/name() = 'location')
-			then data:get-locations-within($entity)
-			else ()
-		return ($direct, $indirect, $within)
+			let $near :=
+				if ($entity/name() = 'location')
+				then data:get-locations-near($entity)
+				else ()
+			let $context :=
+				for $location in ($entity, $direct, $near)
+				return data:get-location-context($location)
+			let $within :=
+				if ($entity/name() = 'location')
+				then data:get-locations-within($entity)
+				else ()
+			
+			for $location in ($context, $within, $near)
+			let $id := $location/@id
+			group by $id
+			return $location[1]
+		return ($direct, $indirect)
 	)
 	for $location in $related/self::location[@id != $entity/@id]
 	let $id := $location/@id
@@ -449,5 +496,21 @@ declare function data:get-locations-within($location as element()?) as element()
 
 	for $descendant in data:get-entities('location')[within/@ref = $location/@id]
 	return ($descendant, data:get-locations-within($descendant))
+
+};
+
+declare function data:get-locations-near($location-in as element()?) as element()* {
+	
+	let $referenced-by-location-in :=
+		for $location in $location-in/near
+		return data:get-entities('location')/self::location[@id = $location/@ref]
+		
+	let $references-location-in := data:get-entities('location')/self::location[near/@ref = $location-in/@id]
+		
+	for $location in ($referenced-by-location-in, $references-location-in)/self::location[@id != $location-in/@id]
+	let $id := $location/@id
+	group by $id
+	order by $location[1]/number(substring-after(@id, 'LOC')) ascending
+	return $location[1]
 
 };

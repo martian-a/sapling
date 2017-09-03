@@ -13,22 +13,84 @@ datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 # Includes #
 
-include "../../../cenizaro/schemas/app/app.rnc"
-include "people.rnc"
-include "events.rnc"
-include "locations.rnc"
-include "organisations.rnc"
-include "sources.rnc"
+include "../../../cenizaro/schemas/app/app.rnc" {
+	
+	app.data.entity.collection = 
+		(
+			people |
+			events |
+			locations |
+			organisations |
+			derived-names |
+			sources
+		)
+	
+	app.data.entity = 
+		(
+			person |
+			event |
+			location |
+			organisation |
+			derived-name |
+			source
+		)
+
+}
+include "people.rnc" {
+
+	person = element person {
+		person.attlist,
+		person.content-model,
+		app.view.data.related?
+	}
+}
+include "events.rnc" {
+	
+	event = element event {
+		event.attlist,
+		event.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "locations.rnc" {
+
+	location = element location {
+		location.attlist,
+		location.content-model,
+		app.view.data.related?
+	}
+
+}
+include "organisations.rnc" {
+	
+	organisation = element organisation {
+		organisation.attlist,
+		organisation.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "sources.rnc" {
+	
+	source = element source {
+		source.attlist,
+		source.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "names.rnc" {
+
+	derived-name = element name {
+		derived-name.attlist,
+		derived-name.content-model,
+		app.view.data.related?
+	}
+
+}
 
 
 
 # Root Element #
 start |= app.root
-
-
-app.data.extra |= 
-	people?,
-	events?,
-	locations?,
-	organisations?,
-	sources?

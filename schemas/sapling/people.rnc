@@ -8,25 +8,87 @@ start |= people
 
 # Elements #
 
-people = element people { 
+people = element people {
 	people.attlist, 
-	person*
+	people.content-model
 }
 	
 person = element person { 
-	person.attlist, 
-	persona*,
-	note?
+	person.attlist,
+	person.content-model
 }
 
 persona = element persona {
 	persona.attlist,
-	person.name.full?,
-	gender?
+	persona.content-model
 }
 
 person.name.full = element name {
 	person.name.full.attlist,
+	person.name.full.content-model
+}
+
+person.name.title = element title {
+	person.name.title.attlist,
+	person.name.part.content-model
+}
+
+person.name.prefix = element prefix {
+	person.name.prefix.attlist,
+	person.name.part.content-model
+}
+
+person.name.honorific = element honorific {
+	person.name.honorific.attlist,
+	person.name.part.content-model
+}
+
+person.name.origin = element origin {
+	person.name.origin.attlist,
+	person.name.origin.content-model
+}
+
+person.name.particle = element particle {
+	person.name.particle.attlist,
+	person.name.part.content-model
+}
+
+person.name.location = element location {
+	person.name.location.attlist,
+	person.name.part.content-model
+}
+
+person.name.ordinal = element ordinal {
+	person.name.ordinal.attlist,
+	person.name.part.content-model
+}
+
+person.name.part = element name {
+	person.name.part.attlist,
+	person.name.part.content-model
+}
+
+gender = element gender {
+	gender.attlist,
+	gender.content-model
+}
+
+
+
+# Content Models #
+
+people.content-model =
+	person*
+
+person.content-model =
+	persona*,
+	note?
+
+persona.content-model =
+	person.name.full?,
+	gender?
+	
+person.name.full.content-model =	
 	mixed {
 		person.name.title |
 		person.name.prefix |
@@ -35,56 +97,18 @@ person.name.full = element name {
 		person.name.ordinal |
 		person.name.origin
 	}*
-}
 
-person.name.title = element title {
-	person.name.title.attlist,
+person.name.part.content-model =
 	text
-}
-
-person.name.prefix = element prefix {
-	person.name.prefix.attlist,
-	text
-}
-
-person.name.honorific = element honorific {
-	person.name.honorific.attlist,
-	text
-}
-
-person.name.origin = element origin {
-	person.name.origin.attlist,
+	
+person.name.origin.content-model =
 	person.name.particle,
 	text,
 	person.name.location
-}
-
-person.name.particle = element particle {
-	person.name.particle.attlist,
+	
+gender.content-model =
 	text
-}
-
-person.name.location = element location {
-	person.name.location.attlist,
-	text
-}
-
-person.name.ordinal = element ordinal {
-	person.name.ordinal.attlist,
-	text
-}
-
-person.name.part = element name {
-	person.name.part.attlist,
-	text
-}
-
-gender = element gender {
-	gender.attlist,
-	text
-}
-
-
+	
 # Attributes #
 
 people.attlist = 

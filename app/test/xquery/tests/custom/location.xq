@@ -79,6 +79,52 @@ function unit:get-locations-within($param) {
 
 
 declare
+
+	(: Not a location entity :)
+	%test:args('PER10')
+	%test:assertEquals('<result/>')
+
+	(: Valid id, no nearby locations :)
+	%test:args('LOC6')
+	%test:assertEquals('<result/>') 
+
+	(: Valid id, one nearby location :)
+	%test:args('LOC11')
+	%test:assertEquals('<result><location id="LOC10" type="settlement"><name>Grenada</name><near ref="LOC8"/></location></result>') 
+
+	(: Valid id, more than one nearby location :)
+	%test:args('LOC8')
+	%test:assertEquals('<result><location id="LOC9" type="settlement"><name>Cordoba</name><near ref="LOC8"/></location><location id="LOC10" type="settlement"><name>Grenada</name><near ref="LOC8"/></location></result>') 
+
+	(: Valid id, indirectly referenced :)
+	%test:args('LOC10')
+	%test:assertEquals('<result><location id="LOC8" type="settlement"><name>Seville</name><within ref="LOC7"/></location><location id="LOC11" type="settlement"><name>Cájar</name><near ref="LOC10"/></location></result>') 
+
+
+function unit:get-locations-near($param) {
+	<result>{data:get-locations-near(data:get-entity($param))}</result>
+};
+
+
+
+declare
+
+	(: No related locations :)
+	%test:args('EVE6')
+	%test:assertEquals('<result/>')
+	
+	(: One related location (with context) :)
+	%test:args('EVE3')
+	%test:assertEquals('<result><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></result>')
+
+
+
+function unit:get-related-locations($param) {
+	<result>{data:get-related-locations(data:get-entity($param))}</result>
+};
+
+
+declare
 		
 	(: Valid path, valid id :)
 	%test:args('location', 'LOC3')

@@ -10,35 +10,55 @@ start |= sources
 
 sources = element sources { 
 	sources.attlist, 
-	source*
+	sources.content-model
 }
 	
 source = element source { 
 	source.attlist, 
-	title,
-	author*,
-	publisher?,
-	isbn?,
-	link,
-	source.date+
+	source.content-model
 }
 
 source.date |= element date {
-	source.date.attlist
+	source.date.attlist,
+	source.date.content-model
 }
 
 
-author = element author {
+source.author = element author {
+	source.author.attlist,
+	source.contributor.content-model
+}
+
+source.publisher = element publisher {
+	source.publisher.attlist,
+	source.contributor.content-model
+}
+
+source.isbn = element isbn {
 	text*
 }
 
-publisher = element publisher {
-	text*
-}
 
-isbn = element isbn {
+
+# Content Models #
+
+sources.content-model =
+	source*
+	
+source.content-model =
+	title,
+	source.author*,
+	source.publisher?,
+	source.isbn?,
+	link,
+	source.date+
+	
+source.date.content-model =
+	text?
+	
+source.contributor.content-model =
 	text*
-}
+	
 
 
 # Attributes #
@@ -56,3 +76,9 @@ source.date.attlist =
 		"revised" | 
 		"retrieved" 
 	}
+	
+source.author.attlist =
+	xml.attlist
+	
+source.publisher.attlist =
+	xml.attlist

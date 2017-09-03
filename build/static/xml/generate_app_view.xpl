@@ -28,6 +28,15 @@
 			<p:with-option name="for-graph" select="$for-graph" />
 		</tcy:get-app-view>
 		
+		<p:xslt name="add-schema-refs">
+			<p:input port="stylesheet">
+				<p:document href="../../utils/associate_schemas.xsl" />
+			</p:input>
+			<p:input port="parameters">
+				<p:empty />
+			</p:input>
+		</p:xslt>
+		
 		<p:documentation>
 			<d:doc scope="step">
 				<d:desc>Store the index data.</d:desc>
@@ -40,9 +49,6 @@
 			indent="true" 
 			omit-xml-declaration="false"
 			version="1.0">
-			<p:input port="source">
-				<p:pipe port="result" step="generate-xml" />
-			</p:input>
 			<p:with-option name="href" select="$target" />
 		</p:store>
 		

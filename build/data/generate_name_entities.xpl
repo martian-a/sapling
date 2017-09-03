@@ -60,60 +60,80 @@
 									for $part in $names/self::name/tokenize(., ' ')
 									group by $part
 									return $part
+								let $derived-names as element()* :=
+									for $name-part in $name-parts
+									let $normalised as xs:string := 													
+										if (xs:string($name-part) = '')
+										then '_unknown'
+										else if (ends-with(xs:string($name-part), '.'))
+										then lower-case(substring(xs:string($name-part), 1, string-length(xs:string($name-part)) - 1))
+										else lower-case($name-part)
+									group by $normalised
+									order by $normalised ascending
+									return
+									
+										(: 
+											If normalised value of a derived name isn't a blacklisted value (eg. 2 or &), create an entity
+											to represent that derived name.
+										:)
+										if (
+											translate($normalised, concat('1234567890', codepoints-to-string(38)), '') = '' or
+											replace(lower-case($normalised), 'of', '') = '' or
+											replace(lower-case($normalised), 'the', '') = ''
+										) 
+										then () (: Blacklisted value :)
+										else
+											<name key="{$normalised}">
+												{
+													if (ends-with(xs:string($name-part[1]), '.'))
+													then
+														attribute abbreviation {'true'}
+													else ()
+												}
+												<name>{
+													if ($normalised = '_unknown')
+													then 'Unknown'
+													else if (ends-with(xs:string($name-part[1]), '.'))
+													then substring(xs:string($name-part[1]), 1, string-length(xs:string($name-part[1])) - 1)
+													else xs:string($name-part[1])
+												}</name>
+												{
+													let $entities :=
+														for $entity in $named-entities[
+															descendant::name[
+																ancestor::persona or ancestor-or-self::name/parent::*[name() = ('location', 'organisation')]
+															][tokenize(., ' ') = $name-part]
+														]
+														let $id := $entity/@id
+														group by $id
+														return $entity
+													return
+														<derived-from>{
+															for $entity in $entities
+															let $class := $entity/name()
+															group by $class
+															return
+																for $id in $entity/@id
+																return
+																	element {$class} {
+																		attribute ref {$id}
+																	}
+														}</derived-from>
+												}
+										</name>
 								return
-									if (count($names) = 0)
+									if (count($derived-names) = 0)
 									then ()
 									else 
 										<names>
 											{
-												for $name-part in $name-parts
-												let $normalised as xs:string := 													
-													if (xs:string($name-part) = '')
-													then '_unknown'
-													else if (ends-with(xs:string($name-part), '.'))
-													then lower-case(substring(xs:string($name-part), 1, string-length(xs:string($name-part)) - 1))
-													else lower-case($name-part)
-												group by $normalised
-												order by $normalised ascending
-												return
-													<name id="{$normalised}">
-														{
-															if (ends-with(xs:string($name-part[1]), '.'))
-															then
-																attribute abbreviation {'true'}
-															else ()
-														}
-														<name>{
-															if ($normalised = '_unknown')
-															then 'Unknown'
-															else if (ends-with(xs:string($name-part[1]), '.'))
-															then substring(xs:string($name-part[1]), 1, string-length(xs:string($name-part[1])) - 1)
-															else xs:string($name-part[1])
-														}</name>
-														{
-															let $entities :=
-																for $entity in $named-entities[
-																	descendant::name[
-																		ancestor::persona or ancestor-or-self::name/parent::*[name() = ('location', 'organisation')]
-																	][tokenize(., ' ') = $name-part]
-																]
-																let $id := $entity/@id
-																group by $id
-																return $entity
-															return
-																<derived-from>{
-																	for $entity in $entities
-																	let $class := $entity/name()
-																	group by $class
-																	return
-																		for $id in $entity/@id
-																		return
-																			element {$class} {
-																				attribute ref {$id}
-																			}
-																}</derived-from>
-														}
-												</name>
+												for $derived-name at $position in $derived-names
+												return 
+													element {$derived-name/name()} {
+														attribute id {concat('NAM', $position)},
+														$derived-name/@*,
+														$derived-name/node()
+													}
 											}
 										</names>									
 							]]>
@@ -127,9 +147,6 @@
 		
 		
 		<p:xslt name="add-schema-refs">
-			<!-- p:input port="source">
-				<p:pipe port="result" step="generate-xml" />
-			</p:input -->
 			<p:input port="stylesheet">
 				<p:document href="../utils/associate_schemas.xsl" />
 			</p:input>
@@ -150,9 +167,6 @@
 			indent="true" 
 			omit-xml-declaration="false"
 			version="1.0">
-			<!-- p:input port="source">
-				<p:pipe port="result" step="add-schema-refs" />
-			</p:input -->
 			<p:with-option name="href" select="$target" />
 		</p:store>
 		

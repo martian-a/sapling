@@ -17,7 +17,6 @@
 	
 	<p:output port="result" sequence="true">
 		<p:pipe port="result" step="results" />
-		<!-- p:pipe port="result" step="generate-svg" / -->
 	</p:output>
 	
 					

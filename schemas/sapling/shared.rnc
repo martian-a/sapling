@@ -26,7 +26,7 @@ start |= notAllowed
 
 person-ref |= element person {
 	person-ref.attlist,
-	empty	
+	entity-ref.content-model
 }
 
 date |= element date {
@@ -44,12 +44,12 @@ entity-ref |= (
 
 event-ref |= element event {
 	event-ref.attlist,
-	empty
+	entity-ref.content-model
 }
 
 location-ref |= element location {
 	location-ref.attlist,
-	name?
+	entity-ref.content-model
 }
 
 link |= element link {
@@ -69,7 +69,7 @@ note |= element note {
 
 organisation-ref |= element organisation {
 	organisation-ref.attlist,
-	empty
+	entity-ref.content-model
 }
 
 paragraph |= element p {
@@ -79,7 +79,7 @@ paragraph |= element p {
 
 source-ref |= element source {
 	source-ref.attlist,
-	empty
+	entity-ref.content-model
 }
 
 summary |= element summary { 
@@ -92,6 +92,12 @@ title |= element title {
 	text*
 }
 
+
+
+# Content Models #
+	
+entity-ref.content-model |=
+	empty
 
 
 

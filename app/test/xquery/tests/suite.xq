@@ -11,12 +11,6 @@ let $update-modules :=
 	for $resource in collection($source-directory)[ends-with(util:document-name(.), '.xq')][util:document-name(.) != 'config.xq']
     return xmldb:copy($source-directory, $target-directory, $resource/util:document-name(.))
 
-let $update-data :=
-	let $source-directory :=  concat($config:path-to-subject-app, "data/")
-	let $target-directory := $config:path-to-app-data
-    for $resource in collection($source-directory)[util:document-name(.) = 'app.xml']
-    return xmldb:copy($source-directory, $target-directory, $resource/util:document-name(.))
-    
 let $update-xslt := 
 	let $source-directory := concat($config:path-to-subject-app, "xslt/")
 	let $target-directory := $config:path-to-app

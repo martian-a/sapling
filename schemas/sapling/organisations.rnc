@@ -10,15 +10,24 @@ start |= organisations
 
 organisations = element organisations { 
 	organisations.attlist, 
-	organisation*
+	organisations.content-model
 }
 
 organisation = element organisation { 
 	organisation.attlist, 
+	organisation.content-model
+}
+
+
+# Content Models #
+
+organisations.content-model =
+	organisation*
+
+organisation.content-model =
 	name,
 	location-ref*,
 	note*
-}
 
 
 # Attributes #
