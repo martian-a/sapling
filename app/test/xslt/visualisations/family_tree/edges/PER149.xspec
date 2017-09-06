@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+	
+	<x:scenario label="Edges (PER149)">
+		
+		<x:scenario label="Parent">
+			
+			<x:scenario label="are first">
+				
+				<x:context href="../../../data/input/graph-xml/PER149.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER149.xml" 
+					label="Sole parent is first"  
+					select="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])" />				
+			</x:scenario>
+					
+		</x:scenario>
+		
+		<x:scenario label="Subject">
+			
+			<x:scenario label="relationship with parent">
+				
+				<x:context href="../../../data/input/graph-xml/PER149.xml" select="/*" />
+				
+				<!-- check the result -->
+				<x:expect href="../../../data/expected/network-xml/PER149.xml" 
+					label="is second edge"  
+					select="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		<x:scenario label="Partner">
+			
+			<x:scenario label="are in fallback date order">
+				
+				<x:context href="../../../data/input/graph-xml/PER149.xml" select="/*" />
+				
+				<!-- check the result -->
+				<x:expect href="../../../data/expected/network-xml/PER149.xml" 
+					label="Eldest partner to relationship is third edge"  
+					select="/network/edges/object[3]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[3]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER149.xml" 
+					label="Partner relationship to youngest partner is fourth edge"  
+					select="/network/edges/object[4]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[4]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+</x:description>

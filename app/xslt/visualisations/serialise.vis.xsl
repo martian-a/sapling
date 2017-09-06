@@ -5,6 +5,8 @@
     exclude-result-prefixes="#all"
     version="2.0" > 
 	
+	<xsl:output name="vis" method="text" encoding="UTF-8" media-type="application/javascript" indent="no" omit-xml-declaration="yes" />
+	
 	
 	<xsl:template match="related" mode="network-graph.serialize.dot" priority="100">
 		<xsl:result-document method="text" encoding="utf-8" media-type="application/javascript" indent="no" omit-xml-declaration="yes">

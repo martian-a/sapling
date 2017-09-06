@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+	
+	<x:scenario label="Edges (PER143)">
+		
+		<x:scenario label="Partners">
+			
+			<x:scenario label="are sorted correctly (relationship start date, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Eldest partner to relationship is first edge"  
+					select="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])" />
+	
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Partner relationship to youngest partner is second edge"  
+					select="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Children">
+			
+			<x:scenario label="are sorted correctly (parents' relationship start date, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Eldest child is third edge"  
+					select="/network/edges/object[3]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[3]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Second child is fourth edge"  
+					select="/network/edges/object[4]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[4]/(property[@label = 'from'], property[@label = 'to'])" />
+								
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+	</x:scenario>
+</x:description>

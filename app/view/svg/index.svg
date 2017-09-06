@@ -13,8 +13,16 @@ declare option output:encoding "utf-8";
 
 let $path := string(request:get-parameter("path", "/"))
 let $request-id := string(request:get-parameter("id", ""))
+let $graph-direction :=
+	let $request-graph-direction := string(request:get-parameter("graph-direction", "landscape"))
+	return
+		if ($request-graph-direction = 'portrait')
+		then 'LR'
+		else 'TD'
 
 let $parameters := 
-<parameters />
+<parameters>
+	<param name="graph-direction" value="{$graph-direction}" />
+</parameters>
 
 return action:request-svg($path, $request-id, $parameters)

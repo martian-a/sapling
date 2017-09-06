@@ -5,58 +5,46 @@
     exclude-result-prefixes="#all"
     version="2.0" > 
 	
-	<xsl:output name="dot"
-		method="text" encoding="UTF-8" media-type="text" indent="no" omit-xml-declaration="yes" />
+	<xsl:output name="dot" method="text" encoding="UTF-8" media-type="text/vnd.graphviz" indent="no" omit-xml-declaration="yes" />
 	
-	<xsl:template match="related" mode="network-graph.serialize.dot" priority="100">
-		<xsl:result-document format="dot">
-			<xsl:choose>
-				<xsl:when test="$static = 'true'"><result><xsl:next-match /></result></xsl:when>
-				<xsl:otherwise><xsl:next-match /></xsl:otherwise>
-			</xsl:choose>
-		</xsl:result-document>
-	</xsl:template>
+	<xsl:template match="network[not(nodes)]" mode="network-graph.serialize.dot" />
 	
-	
-	<xsl:template match="*" mode="network-graph.serialize.dot">
+	<xsl:template match="network[nodes]" mode="network-graph.serialize.dot">
 		<xsl:param name="graph-variable-name" select="'network'" as="xs:string" tunnel="yes" />
 		<xsl:param name="node-data" as="element()*" tunnel="yes" />
 		<xsl:param name="edge-data" as="element()*" tunnel="yes" />
 		
 		<!-- Create an array representing the nodes in the network (family tree) -->
-		<xsl:text>graph </xsl:text><xsl:value-of select="$graph-variable-name" /><xsl:text> {&#10;</xsl:text>
+		<xsl:text>graph </xsl:text><xsl:value-of select="@name" /><xsl:text> {&#10;</xsl:text>
+		
+		<xsl:text>&#10;</xsl:text>
 		
 		<!-- Global graph settings -->
-		<xsl:text>graph [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
-		<!-- Global node settings -->
-		<xsl:text>node [fontname = "IM FELL DW Pica", shape = none];&#10;</xsl:text>
-		<!-- Global edge settings -->
-		<xsl:text>edge [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
+		<xsl:value-of select="config/settings[@scope = 'global']" />
 		
 		<xsl:text>&#10;&#10;</xsl:text>
 		
-		<xsl:apply-templates select="$node-data" mode="serialize.dot" />
+		<xsl:apply-templates select="nodes" mode="serialize.dot" />
 		
 		<xsl:text>&#10;&#10;</xsl:text>
 		
-		<xsl:apply-templates select="$edge-data" mode="serialize.dot" />
+		<xsl:apply-templates select="edges" mode="serialize.dot" />
 		
 		<xsl:text>&#10;&#10;</xsl:text>
 		
-		<xsl:apply-templates select="self::*[$node-data/property/@label = 'level']" mode="serialize.dot.rank">
-			<xsl:with-param name="node-data" select="$node-data" as="element()*" />
-		</xsl:apply-templates>
+		<xsl:apply-templates select="nodes[object/property/@label = 'level']" mode="serialize.dot.rank" />
 		
 		<xsl:text>&#10;</xsl:text>
 		
 		<xsl:text>}</xsl:text>
+			
 	</xsl:template>
 	
-	<xsl:template match="*" mode="serialize.dot.rank">
+	<xsl:template match="nodes" mode="serialize.dot.rank">
 		<xsl:param name="node-data" as="element()*" />
 		
-		<xsl:text>rankdir = TB;&#10;</xsl:text>
-		<xsl:for-each-group select="$node-data" group-by="property[@label = 'level']">
+		<xsl:text>rankdir = </xsl:text><xsl:value-of select="ancestor::network/config/rank/@direction" /><xsl:text>;&#10;</xsl:text>
+		<xsl:for-each-group select="object" group-by="property[@label = 'level']">
 			<xsl:sort select="current-grouping-key()" data-type="number" order="ascending" />
 			<xsl:text>{rank = same; </xsl:text>
 			<xsl:for-each select="current-group()">

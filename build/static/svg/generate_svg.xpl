@@ -14,6 +14,7 @@
 	<p:option name="target" required="true" />
 	<p:option name="path-to-view-html" required="true" />
 	<p:option name="path-to-assets" required="true" />
+	<p:option name="graph-direction" select="'TD'" />
 	
 	<p:output port="result" sequence="true">
 		<p:pipe port="result" step="results" />
@@ -30,6 +31,8 @@
 		<p:with-param name="path-to-view-html" select="$path-to-view-html" />
 		<p:with-param name="path-to-images" select="concat($path-to-assets, 'images')" />
 		<p:with-param name="static" select="'true'" />
+		<p:with-param name="serialise" select="'dot'" />
+		<p:with-param name="graph-direction" select="$graph-direction" />
 	</p:xslt>
 	
 	

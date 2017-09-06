@@ -97,10 +97,11 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 
 	let $xml := data:view-app-xml($path-in, $id-in, true())
 	   
-	let $stylesheet := doc(concat($config:upload-path-to-xslt, "custom/network_graph.xsl"))    
+	let $stylesheet := doc(concat($config:upload-path-to-xslt, "visualisations/family_tree.xsl"))    
 	
 	let $parameters := 
 		<parameters>
+			<param name="serialise" value="dot" />
 			{
 				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-svg')],
 				if ($xml/view[@path = '/'])
@@ -140,7 +141,8 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 		then ()
 		else 
 			let $dot := transform:transform($xml, $stylesheet, $parameters)
-			(: If this fails, check that sapling/temp/graphviz directory exists on local filesystem :)
+			(: If this fails, check directory settings in graphviz module config :)
 			return gv:dot-to-svg($dot)
+			
 	
 };

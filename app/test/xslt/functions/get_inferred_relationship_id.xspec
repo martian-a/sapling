@@ -11,7 +11,7 @@
 			<x:scenario label="Two parents">
 				
 				<x:call function="fn:get-inferred-relationship-id">
-					<x:param name="event" href="../data/input/PER7.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+					<x:param name="event" href="../data/input/functions/PER7.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
 				</x:call>
 				
 				<!-- check the result -->
@@ -27,7 +27,7 @@
 			<x:scenario label="Two people">
 				
 				<x:call function="fn:get-inferred-relationship-id">
-					<x:param name="event" href="../data/input/PER8.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+					<x:param name="event" href="../data/input/functions/PER8.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
 				</x:call>
 				
 				<!-- check the result -->

@@ -389,9 +389,71 @@
 		<div class="network-graph">
 			<h3>Network Graph</h3>
 			<div class="network-visualisation">
-				<object data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/') else $normalised-path-to-view-svg}person/{$subject-id}{if ($static = 'true') then '.svg' else ()}" type="image/svg+xml">
-					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/') else $normalised-path-to-view-svg}person/{$subject-id}{if ($static = 'true') then '.svg' else ()}" />
+				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/'}" type="image/svg+xml">
+					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/'}" />
 				</object>
+				<div class="controls">
+					<script>
+						function setGraphOrientation(option) {
+						
+							/* Check that the option value matches an expected value */
+							if (!option.match("portrait|landscape")) {
+								return;
+							};
+							
+							/* Find the current graph object */
+							var object = document.getElementById('family-tree');
+							
+							/* Clone the current graph object */
+							var replacementObject = object.cloneNode(true);
+							
+							/* Change the source of the clone to the option requested */
+							var dataUrl = replacementObject.data.toString();
+							
+							if (dataUrl.indexOf("/landscape/") != -1) {
+								dataUrl = dataUrl.replace("/landscape/", ("/").concat(option, "/"));
+							} else {
+								dataUrl = dataUrl.replace("/portrait/", ("/").concat(option, "/"));
+							};
+							replacementObject.data = dataUrl;
+							
+							/* Replace the current graph object with the clone */
+							var container = object.parentNode;
+							object.remove();
+							container.insertBefore(replacementObject, container.childNodes[0]);
+							
+							
+							/* Find the orientation controls */							
+							var controls = container.childNodes[1].childNodes[1];
+							var controlsPortrait = controls.childNodes[1];
+							var controlsLandscape = controls.childNodes[3];
+							
+							/* Update the controls */
+							if (option == "portrait") {
+								controlsPortrait.setAttribute("disabled", "disabled");
+								controlsLandscape.removeAttribute("disabled");
+							} else {
+								controlsPortrait.removeAttribute("disabled");
+								controlsLandscape.setAttribute("disabled", "disabled");
+							};
+							
+							return;
+						};
+					</script>
+					<p class="orientation">
+						<span class="label">Orientation:</span> 
+						<button class="portrait current" onclick="setGraphOrientation('portrait')">
+							<object data="{$normalised-path-to-images}/orientation/portrait.svg" type="image/svg+xml">
+								<img src="{$normalised-path-to-images}/orientation/portrait.png" />
+							</object>
+						</button><span class="delimiter"> | </span>
+						<button class="landscape" onclick="setGraphOrientation('landscape')" disabled="disabled">
+							<object data="{$normalised-path-to-images}/orientation/landscape.svg" type="image/svg+xml">
+								<img src="{$normalised-path-to-images}/orientation/landscape.png" />
+							</object>
+						</button>
+					</p>
+				</div>
 			</div>
 		</div>
 		

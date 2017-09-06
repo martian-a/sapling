@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+	
+	
+	<x:scenario label="Rank (PER107)">
+		
+		<x:context href="../../../data/input/graph-xml/PER107.xml" select="/*" />
+		
+		<x:scenario label="Level">
+				
+			<x:scenario label="Parents">
+				
+				<x:expect
+					label="Elizabeth Scholar"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER112']/property[@label = 'level']/text()">1</x:expect>
+				
+				<x:expect
+					label="Robert Nearanight"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER106']/property[@label = 'level']/text()">1</x:expect>			
+
+				<x:expect
+					label="Parents' relationship"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER106PER112']/property[@label = 'level']/text()">1</x:expect>			
+
+			</x:scenario>
+			
+			<x:scenario label="Subject">
+				
+				<x:expect
+					label="James Nearanight"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER107']/property[@label = 'level']/text()">2</x:expect>
+								
+			</x:scenario>
+			
+			<x:scenario label="Partners">
+				
+				<x:expect
+					label="Margaret Lostwell"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER114']/property[@label = 'level']/text()">2</x:expect>
+
+				<x:expect
+					label="Subject's relationship with Margaret Lostwell"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER107PER114']/property[@label = 'level']/text()">2</x:expect>
+				
+			</x:scenario>
+			
+			<x:scenario label="Children">
+				
+				<x:expect
+					label="Robert Nearanight"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER119']/property[@label = 'level']/text()">3</x:expect>
+
+				<x:expect
+					label="Michael Nearanight"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER108']/property[@label = 'level']/text()">3</x:expect>
+				
+				<x:expect
+					label="Margaret Nearanight"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER109']/property[@label = 'level']/text()">3</x:expect>
+				
+			</x:scenario>
+			
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+
+</x:description>

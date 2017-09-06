@@ -4,6 +4,12 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	exclude-result-prefixes="#all" version="2.0">
 	
+	
+	<xsl:variable name="romantic-relationship-start-types" select="('unmarried-partnership' , 'engagement', 'marriage')" as="xs:string*" />
+	<xsl:variable name="romantic-relationship-end-types" select="('separation', 'divorce')" as="xs:string*" />
+	<xsl:variable name="romantic-relationship-types" select="($romantic-relationship-start-types, $romantic-relationship-end-types)" as="xs:string*" />
+	<xsl:variable name="parental-relationship-types" select="('birth' , 'christening', 'adoption')" as="xs:string*" />
+
 	<xsl:function name="fn:add-trailing-slash" as="xs:string">
 		<xsl:param name="string-in" as="xs:string?"/>
 		
@@ -116,7 +122,7 @@
 		<xsl:param name="person-in" as="element()" />
 		
 		<xsl:variable name="person" select="if ($person-in/@ref) then $person-in/key('person', @ref) else $person-in" as="element()" />
-		<xsl:variable name="default-persona" select="fn:get-default-persona($person)" />
+		<xsl:variable name="default-persona" select="fn:get-default-persona($person)" as="element()?" />
 		<xsl:value-of select="fn:get-sort-name($person, $default-persona)" />
 		
 	</xsl:function>
@@ -164,7 +170,7 @@
 	<xsl:function name="fn:get-inferred-relationship-id" as="xs:string?">
 		<xsl:param name="event" as="element()" />
 		
-		<xsl:variable name="unsorted-people" select="if ($event/@type = ('christening', 'birth', 'adoption')) then $event/parent else $event/person" as="element()*" />
+		<xsl:variable name="unsorted-people" select="if ($event/@type = $parental-relationship-types) then $event/parent else $event/person" as="element()*" />
 		<xsl:variable name="sorted-people" as="element()*">
 			<xsl:perform-sort select="$unsorted-people">
 				<xsl:sort select="@ref" />
@@ -174,6 +180,48 @@
 		<xsl:value-of select="for $person in $sorted-people return $person/@ref" separator="" />
 		
 	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-events-involving-people" as="element()*">
+		<xsl:param name="people" as="element()*" />
+		
+		<xsl:sequence select="fn:get-events-involving-people($people, $people[1]/ancestor::data[1]/*/related/event)" />
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-events-involving-people" as="element()*">
+		<xsl:param name="people" as="element()*" />
+		<xsl:param name="candidate-events" as="element()*" />
+		
+		<xsl:variable name="events-involving-person-1" select="fn:get-events-involving-person($people[1], $candidate-events)" as="element()*" />
+		<xsl:choose>
+			<xsl:when test="count($people) = 1">
+				<xsl:sequence select="$events-involving-person-1" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:sequence select="fn:get-events-involving-people($people[position() != 1], $events-involving-person-1)" />
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-events-involving-person" as="element()*">
+		<xsl:param name="person" as="element()" />
+		
+		<xsl:sequence select="fn:get-events-involving-person($person, $person/ancestor::data[1]/*/related/event)" />
+		
+	</xsl:function>
+	
+	<xsl:function name="fn:get-events-involving-person" as="element()*">
+		<xsl:param name="person" as="element()" />
+		<xsl:param name="candidate-events" as="element()*" />
+		
+		<xsl:sequence select="$candidate-events[descendant::person/@ref = $person/(@id | @ref) or parent/@ref = $person/(@id | @ref)]" />
+		
+	</xsl:function>	
+		
 		
 	
 	<xsl:function name="fn:get-birth-events" as="element()*">
@@ -187,9 +235,20 @@
 		<xsl:param name="person-in" as="element()" />
 		<xsl:param name="role" as="xs:string" />
 		
-		<xsl:variable name="subject" select="$person-in/key('person', (@ref | @id))" as="element()" />
+		<xsl:for-each select="fn:get-events-involving-person($person-in)[@type = $parental-relationship-types][*[name() = $role]/@ref = $person-in/(@id | @ref)]">
+			<xsl:sort select="date/@year" data-type="number" order="ascending" />
+			<xsl:sort select="date/@month" data-type="number" order="ascending" />
+			<xsl:sort select="date/@day" data-type="number" order="ascending" />
+			<xsl:sequence select="current()" />
+		</xsl:for-each>
 		
-		<xsl:for-each select="$person-in/ancestor::data[1]/person/related/event[@type = ('birth', 'christening', 'adoption')][*[name() = $role]/@ref = $subject/@id]">
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-partner-events" as="element()*">
+		<xsl:param name="person-in" as="element()" />
+		
+		<xsl:for-each select="fn:get-events-involving-person($person-in)[@type = $romantic-relationship-types][person/@ref = $person-in/(@id | @ref)][person/@ref != $person-in/(@id | @ref)] | fn:get-birth-events($person-in, 'parent')[parent/@ref != $person-in/(@id | @ref)]">
 			<xsl:sort select="date/@year" data-type="number" order="ascending" />
 			<xsl:sort select="date/@month" data-type="number" order="ascending" />
 			<xsl:sort select="date/@day" data-type="number" order="ascending" />

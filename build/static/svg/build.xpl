@@ -44,7 +44,7 @@
 	<p:sink />
 	
 	<p:load name="load-stylesheet">
-		<p:with-option name="href" select="concat($href-app, 'xslt/custom/network_graph.xsl')" />
+		<p:with-option name="href" select="concat($href-app, 'xslt/visualisations/family_tree.xsl')" />
 	</p:load>
 	
 	<p:sink />
@@ -73,17 +73,68 @@
 			
 			<p:sink />
 			
-			<tcy:generate-static-svg name="generate-svg">
-				<p:input port="source">
-					<p:pipe port="result" step="generate-xml" />
-				</p:input>
-				<p:input port="stylesheet">
-					<p:pipe port="result" step="load-stylesheet" />
-				</p:input>
-				<p:with-option name="target" select="concat($target, $id, '.svg')" />
-				<p:with-option name="path-to-view-html" select="'../../../../../../html/'" />
-				<p:with-option name="path-to-assets" select="'../../../../../../html/assets/'" />
-			</tcy:generate-static-svg>
+			<p:choose>
+			
+				<p:when test="/app/view/data/person[@id = $id]/related[event/@type = ('birth', 'christening', 'marriage')]">
+					
+					<p:output port="result" sequence="true">
+						<p:pipe port="result" step="generate-svg-portrait" />
+						<p:pipe port="result" step="generate-svg-landscape" />
+					</p:output>
+					
+					<p:xpath-context>
+						<p:pipe port="result" step="generate-xml" />
+					</p:xpath-context>
+					
+					<tcy:generate-static-svg name="generate-svg-portrait">
+						<p:input port="source">
+							<p:pipe port="result" step="generate-xml" />
+						</p:input>
+						<p:input port="stylesheet">
+							<p:pipe port="result" step="load-stylesheet" />
+						</p:input>
+						<p:with-option name="target" select="concat($target, 'portrait/', $id, '.svg')" />
+						<p:with-option name="path-to-view-html" select="'../../../../../../html/'" />
+						<p:with-option name="path-to-assets" select="'../../../../../../html/assets/'" />
+						<p:with-option name="graph-direction" select="'LR'" />
+					</tcy:generate-static-svg>
+					
+					<tcy:generate-static-svg name="generate-svg-landscape">
+						<p:input port="source">
+							<p:pipe port="result" step="generate-xml" />
+						</p:input>
+						<p:input port="stylesheet">
+							<p:pipe port="result" step="load-stylesheet" />
+						</p:input>
+						<p:with-option name="target" select="concat($target, 'landscape/', $id, '.svg')" />
+						<p:with-option name="path-to-view-html" select="'../../../../../../html/'" />
+						<p:with-option name="path-to-assets" select="'../../../../../../html/assets/'" />
+						<p:with-option name="graph-direction" select="'TD'" />
+					</tcy:generate-static-svg>
+					
+				</p:when>
+				
+				<p:otherwise>
+					
+					<p:output port="result">
+						<p:pipe port="result" step="log" />
+					</p:output>
+					
+					<p:identity>
+						<p:input port="source">
+							<p:inline>
+								<c:result>Subject has no recorded family.</c:result>
+							</p:inline>
+						</p:input>
+					</p:identity>
+					
+					<p:add-attribute name="log" attribute-name="person" match="/*">
+						<p:with-option name="attribute-value" select="$id" />
+					</p:add-attribute>
+					
+				</p:otherwise>
+			
+			</p:choose>
 			
 		</p:group>
 		

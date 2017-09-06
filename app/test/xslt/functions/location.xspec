@@ -9,7 +9,7 @@
 		<x:scenario label="Continent">
 			
 			<x:call function="fn:get-full-location-context">
-				<x:param href="../data/input/LOC1.xml" select="/app/view/data/location"/>
+				<x:param href="../data/input/functions/LOC1.xml" select="/app/view/data/location"/>
 			</x:call>
 			
 			<!-- check the result -->
@@ -20,7 +20,7 @@
 		<x:scenario label="Address">
 			
 			<x:call function="fn:get-full-location-context">
-				<x:param href="../data/input/LOC190.xml" select="/app/view/data/location"/>
+				<x:param href="../data/input/functions/LOC190.xml" select="/app/view/data/location"/>
 			</x:call>
 			
 			<!-- check the result -->
@@ -61,7 +61,7 @@
 		<x:scenario label="Continent in, continent out">
 			
 			<x:call function="fn:get-location-context">
-				<x:param name="location-in" href="../data/input/LOC1.xml" select="/app/view/data/location" as="element()" />
+				<x:param name="location-in" href="../data/input/functions/LOC1.xml" select="/app/view/data/location" as="element()" />
 			</x:call>
 			
 			<!-- check the result -->
@@ -72,7 +72,7 @@
 		<x:scenario label="Address in, country out">
 			
 			<x:call function="fn:get-location-context">
-				<x:param name="location-in" href="../data/input/LOC190.xml" select="/app/view/data/location" as="element()" />
+				<x:param name="location-in" href="../data/input/functions/LOC190.xml" select="/app/view/data/location" as="element()" />
 			</x:call>
 			
 			<!-- check the result -->
@@ -93,7 +93,7 @@
 		<x:scenario label="No locations within.">
 			
 			<x:call function="fn:get-locations-within">
-				<x:param href="../data/input/LOC190.xml" select="/app/view/data/location"/>
+				<x:param href="../data/input/functions/LOC190.xml" select="/app/view/data/location"/>
 			</x:call>
 			
 			<!-- check the result -->
@@ -104,7 +104,7 @@
 		<x:scenario label="Locations within">
 			
 			<x:call function="fn:get-locations-within">
-				<x:param href="../data/input/LOC10.xml" select="/app/view/data/location"/>
+				<x:param href="../data/input/functions/LOC10.xml" select="/app/view/data/location"/>
 			</x:call>
 			
 			<!-- check the result -->

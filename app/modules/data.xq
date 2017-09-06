@@ -241,8 +241,6 @@ declare function data:view-graph-xml($param as item()?) as element()? {
 		let $partner-relationships := data:get-entities("event")/self::*[@type = ('marriage', 'unmarried-partnership', 'engagement', 'separation', 'divorce')][person/@ref = $entity/@id]
 		let $partners := 
 			for $person in $partner-relationships/person[@ref != $entity/@id]
-			let $id := $person/@id
-			group by $id
 			return data:get-entity($person[1])
 		let $children-births := data:get-entities("event")/self::*[@type = ('birth', 'christening')][parent/@ref = $entity/@id]	
 		let $children :=

@@ -57,7 +57,7 @@ event.attlist =
 	    	"birth" |
 	    	"christening" |
 	    	"adoption" |
-			"unmarried-relationship" |
+			"unmarried-partnership" |
 			"engagement" |
 			"marriage" |
 			"separation" |

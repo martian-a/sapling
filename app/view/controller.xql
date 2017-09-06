@@ -13,8 +13,12 @@ let $path :=
 	if (xs:string($params[2]) = '') 
 	then '/'
 	else $params[2]
-	
 let $id := xs:string($params[3])
+let $graph-direction := 
+	if ($media = 'svg') 
+	then xs:string($params[4])
+	else ''
+
 return
 	if ($media = ('html', 'xml', 'svg') and count(data:get-view($path)) = 1) then (
 		
@@ -38,7 +42,12 @@ return
 				            if (count($matches) = 1)
 				            then (
 				            	<add-parameter name="id" value="{$id}" />,
-				            	<add-parameter name="path" value="{$path}" />
+				            	<add-parameter name="path" value="{$path}" />,
+				           		if ($media = 'svg')
+				           		then (
+				           			<add-parameter name="graph-direction" value="{$graph-direction}" />
+				           		)
+				           		else ()
 				           	)
 				           	else ()
 				        }</forward>

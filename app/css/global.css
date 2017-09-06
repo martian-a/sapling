@@ -616,8 +616,35 @@ ul.zebra li.even {
 
 /* Network Graph */
 
-.network-visualisation * {
+.network-visualisation object,
+.network-visualisation img {
 	max-width: 100%;
+}
+
+.network-visualisation .controls {
+	margin-top: 1em;
+}
+
+.network-visualisation .controls .orientation span {
+	display: none;
+}
+
+.network-visualisation .controls .orientation a {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+}
+
+.network-visualisation .controls .orientation object {
+	margin: 0 .25em;
+}
+
+.network-visualisation .controls .orientation .portrait object {
+	width: .75em;
+}
+
+.network-visualisation .controls .orientation .landscape object {
+	height: .75em;
 }
 
 /* End of Network Graph */
