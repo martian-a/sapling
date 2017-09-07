@@ -15,7 +15,12 @@
 			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header html.header.style"/>
+	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header"/>
+
+
+	<xsl:template match="/app[view/data/person]" mode="html.header.style">
+		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" /> 
+	</xsl:template>
 
 
 	<xsl:template match="/app[view/data/person]" mode="html.header.scripts">
@@ -293,9 +298,11 @@
 	<xsl:template match="related" mode="family">
 		<div class="family">
 			<h2>Family</h2>
-			<xsl:apply-templates select="self::*" mode="family.parents" />
-			<xsl:apply-templates select="self::*" mode="family.partners" />
-			<xsl:apply-templates select="self::*" mode="family.children" />
+			<div class="list">
+				<xsl:apply-templates select="self::*" mode="family.parents" />
+				<xsl:apply-templates select="self::*" mode="family.partners" />
+				<xsl:apply-templates select="self::*" mode="family.children" />
+			</div>
 			<xsl:apply-templates select="self::*" mode="family.network-graph" />
 		</div>
 	</xsl:template>
@@ -396,9 +403,9 @@
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 				
 		<div class="network-graph">
-			<h3>Network Graph</h3>
+			<h3>Family Tree</h3>
 			<div class="network-visualisation">
-				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/'}" type="image/svg+xml">
+				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/landscape/'}" type="image/svg+xml">
 					<xsl:if test="$static = 'true'">						
 						<img src="{concat($normalised-path-to-images, 'network-graphs/png/person/landscape')}/{$subject-id}.png" />
 					</xsl:if>

@@ -126,12 +126,12 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 	    		)
 	    		else (
 	    			(: Item View :)
-    				<param name="path-to-view-html" value="../../html/" />,
-    				<param name="path-to-view-xml" value="../../xml/" />,
-    				<param name="path-to-view-svg" value="../../svg/" />,
-	    			<param name="path-to-js" value="../../../js/" />,
-					<param name="path-to-css" value="../../../css/" />,
-					<param name="path-to-images" value="../../../images/" />
+    				<param name="path-to-view-html" value="../../../../html/" />,
+    				<param name="path-to-view-xml" value="../../../../xml/" />,
+    				<param name="path-to-view-svg" value="../../../../svg/" />,
+	    			<param name="path-to-js" value="../../../../../js/" />,
+					<param name="path-to-css" value="../../../../../css/" />,
+					<param name="path-to-images" value="../../../../../images/" />
     			)
 			}
 		</parameters>
