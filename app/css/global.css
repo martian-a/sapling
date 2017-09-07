@@ -629,22 +629,35 @@ ul.zebra li.even {
 	display: none;
 }
 
-.network-visualisation .controls .orientation a {
-	display: inline-block;
-	width: 1em;
-	height: 1em;
+.network-visualisation .controls .orientation button {
+	vertical-align: bottom;
+	background-color: #F2F1F0;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin: .25em;
+	padding: 0;
+	border: none;
+	border-radius: 4px;
 }
 
-.network-visualisation .controls .orientation object {
-	margin: 0 .25em;
+.network-visualisation .controls .orientation button[disabled],
+.network-visualisation .controls .orientation button:hover {
+	background-color: #D9D8D7;
 }
 
-.network-visualisation .controls .orientation .portrait object {
-	width: .75em;
+.network-visualisation .controls .orientation .portrait {
+	height: 3em;
+	width: 2em;
+	background-image: url("../images/orientation/portrait.png");
+	background-size: 1.5em 2.25em;
 }
 
-.network-visualisation .controls .orientation .landscape object {
-	height: .75em;
+.network-visualisation .controls .orientation .landscape {
+	height: 2em;
+	width: 3em;
+	background-image: url("../images/orientation/landscape.png");
+	background-size: 2.25em 1.5em;
+
 }
 
 /* End of Network Graph */

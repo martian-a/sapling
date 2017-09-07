@@ -37,6 +37,7 @@
 	<xsl:variable name="ext-xml" select="if (xs:boolean($static)) then '.xml' else ''" as="xs:string?"/>
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>
 	<xsl:variable name="index" select="if (xs:boolean($static)) then 'index' else ''" as="xs:string?"/>
+	
 
 	<doc:doc>
 		<doc:title>HTML page basics.</doc:title>
@@ -60,8 +61,7 @@
 			</body>
 		</html>
 	</xsl:template>	
-	
-	
+
 
 	<doc:doc>
 		<doc:title>HTML header.</doc:title>
