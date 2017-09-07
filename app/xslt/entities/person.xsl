@@ -390,7 +390,9 @@
 			<h3>Network Graph</h3>
 			<div class="network-visualisation">
 				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/'}" type="image/svg+xml">
-					<img src="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/'}" />
+					<xsl:if test="$static = 'true'">						
+						<img src="{concat($normalised-path-to-images, 'network-graphs/png/person/landscape')}/{$subject-id}.png" />
+					</xsl:if>
 				</object>
 				<div class="controls">
 					<script>
@@ -443,13 +445,13 @@
 					<p class="orientation">
 						<span class="label">Orientation:</span> 
 						<button class="portrait current" onclick="setGraphOrientation('portrait')">
-							<object data="{$normalised-path-to-images}/orientation/portrait.svg" type="image/svg+xml">
-								<img src="{$normalised-path-to-images}/orientation/portrait.png" />
+							<object data="{$normalised-path-to-images}orientation/portrait.svg" type="image/svg+xml">
+								<img src="{$normalised-path-to-images}orientation/portrait.png" />
 							</object>
 						</button><span class="delimiter"> | </span>
 						<button class="landscape" onclick="setGraphOrientation('landscape')" disabled="disabled">
-							<object data="{$normalised-path-to-images}/orientation/landscape.svg" type="image/svg+xml">
-								<img src="{$normalised-path-to-images}/orientation/landscape.png" />
+							<object data="{$normalised-path-to-images}orientation/landscape.svg" type="image/svg+xml">
+								<img src="{$normalised-path-to-images}orientation/landscape.png" />
 							</object>
 						</button>
 					</p>
