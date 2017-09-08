@@ -15,10 +15,11 @@
 			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person] | /app[view/data/person]" mode="html.header"/>
+	<xsl:template match="/app[view/data/entities/person]" mode="html.header html.header.scripts html.footer.scripts"/>
+	<xsl:template match="/app[view/data/person]" mode="html.header"/>
+	
 
-
-	<xsl:template match="/app[view/data/person]" mode="html.header.style">
+	<xsl:template match="/app[view/data/person] | /app[view/data/entities/person]" mode="html.header.style">
 		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" /> 
 	</xsl:template>
 
