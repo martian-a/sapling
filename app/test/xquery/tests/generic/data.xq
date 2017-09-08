@@ -32,10 +32,30 @@ declare
 	%test:args('IND3')
 	%test:assertEmpty
 		
-	(: Valid id :)
+	(: Valid id - Person :)
 	%test:args('PER2')
-	%test:assertXPath("count($result/*) = 1")
+	%test:assertXPath("count($result) = 1")
 	%test:assertXPath("$result/@id = 'PER2'") 
+	
+	(: Valid id - Location :)
+	%test:args('LOC1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'LOC1'") 
+	
+	(: Valid id - Organisation :)
+	%test:args('ORG1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'ORG1'") 
+	
+	(: Valid id - Event :)
+	%test:args('EVE1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'EVE1'") 
+	
+	(: Valid id - Name :)
+	%test:args('NAM1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'NAM1'") 
 	
 function unit:get-entity-from-string($param) {
     data:get-entity($param)
