@@ -75,7 +75,7 @@
 			
 			<p:choose>
 				
-				<p:when test="$concrete-index = 'true'">
+				<p:when test="not($concrete-index = 'false')">
 					
 					<tcy:generate-app-view>
 						
