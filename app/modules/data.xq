@@ -76,7 +76,16 @@ declare function data:get-app() as element() {
 
 (: Get all app index views :)
 declare function data:get-views() as element()* {
-    data:get-app()/views/index[@path]
+    for $entry in data:get-app()/views/*[@path]
+    return
+    	if ($entry/self::index)
+    	then $entry
+    	else if ($entry/self::page)
+    	then 
+    		<index path="{tokenize($entry/@path, '/')[1]}" concrete="false">
+    			<method type="html" />
+    		</index>
+    	else ()
 };
 
 (: Verify whether an app view exists :)
@@ -185,8 +194,12 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	else
 		let $entities := 
 			switch ($path)
-			case "event" return data:get-entities($path)/self::*[@type != 'historical' or descendant::person[@ref]]/data:simplify-entity(self::*)
-			default return data:get-entities($path)/self::*/data:simplify-entity(self::*)
+			case "event" return 
+				for $entity in data:get-entities($path)/self::*[@type != 'historical' or descendant::person[@ref]]
+				return data:simplify-entity($entity)
+			default return 
+				for $entity in data:get-entities($path)
+				return data:simplify-entity($entity)
 		let $related :=
 			switch ($path)
 			case "event" return
@@ -207,21 +220,24 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 					return data:simplify-entity($entity[1])
 				)
 			default return ()
-		return
-			<entities>{
-				for $entity in $entities
-				return $entity,
-				if (count($related) > 0)
-				then
-					<related>{
-						for $entity in $related
-						let $id := $entity/@id
-						group by $id
-						return $entity
-					}</related>
-				else ()
-			}</entities>
-		
+		return (
+			if (count($entities) > 0) 
+			then
+				<entities>{
+					for $entity in $entities
+					return $entity,
+					if (count($related) > 0)
+					then
+						<related>{
+							for $entity in $related
+							let $id := $entity/@id
+							group by $id
+							return $entity
+						}</related>
+					else ()
+				}</entities>
+			else ()
+		)
 };
 
 

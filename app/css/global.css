@@ -543,11 +543,14 @@ ul.zebra li.even {
  
  
 /* Timeline */
- 
+
+
+.symbols div,
 .timeline .events {
 	list-style: none;
 } 
  
+.symbols p::before, 
 .timeline .event::before {
     float: left;
     font-size: 2.2em;
@@ -557,38 +560,51 @@ ul.zebra li.even {
     width: 1em;
 }
 
+
+
+.symbols .birth::before,
 .timeline .birth::before {
     content: "☥";
 }
 
+.symbols .christening::before,
 .timeline .christening::before {
 	content: "≈";
 }
 
+.symbols .adoption::before,
 .timeline .adoption::before {
 	content: "💗"; /* Growing Heart */
+	color: #000000;
 }
 
+.symbols .unmarried-partnership::before,
 .timeline .unmarried-partnership::before {
 	content: "⚯";
 }
 
+.symbols .engagement::before,
 .timeline .engagement::before {
 	content: "⚬";
 }
 
+.symbols .marriage::before,
 .timeline .marriage::before {
 	content: "⚭";
 }
 
+.symbols .separation::before,
+.symbols .divorce::before,
 .timeline .divorce::before {
 	content: "⚮";
 }
 
+.symbols .death::before,
 .timeline .death::before {
 	content: "✝";
 }
 
+.symbols .historical::before,
 .timeline .historical::before {
 	content: "📰";
 }
@@ -597,6 +613,7 @@ ul.zebra li.even {
     padding-top: 0.2em;
 }
 
+.symbols p,
 .timeline div.event {
     margin-bottom: 1em;
     margin-left: 3em;
@@ -612,3 +629,37 @@ ul.zebra li.even {
 }
  
 /* End of Timeline */
+
+/* Key: Gender */
+
+.symbols .male::before {
+	content: "♂";
+}
+
+.symbols .female::before {
+	content: "♀";
+	margin-left: -1.575em;	
+}
+
+.symbols .hermaphrodite::before,
+.symbols .transgender::before {
+	font-weight: 600;
+	font-size: 1.8em;
+}
+
+.symbols .hermaphrodite::before {
+	content: "⚥";
+	margin-left: -1.725em;	
+}
+
+.symbols .transgender::before {
+	content: "⚧";
+	margin-left: -1.75em;	
+}
+
+.symbols .androgyne::before {
+	font-weight: bold;
+	content: "⚪";
+}
+
+/* End of Key: Gender */

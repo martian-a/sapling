@@ -6,6 +6,7 @@
 	<xsl:include href="entities/name.xsl"/>
 	<xsl:include href="entities/event.xsl"/>
 	<xsl:include href="entities/organisation.xsl"/>
+	<xsl:include href="entities/page.xsl" />
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>
 
@@ -22,7 +23,7 @@
 	</doc:doc>
 	<xsl:template match="/app/views" mode="nav.site">
 		<ul>
-			<xsl:apply-templates select="index[method/@type = 'html'][@path != '/']" mode="nav.site.html"/>
+			<xsl:apply-templates select="*[method/@type = 'html'][@path != '/']" mode="nav.site.html"/>
 			<xsl:if test="$static = 'false'">
 				<xsl:apply-templates select="/app/view[method/@type = 'xml'][@path != '/']" mode="nav.site.xml"/>
 			</xsl:if>
@@ -34,7 +35,7 @@
 		<doc:title>Global contents list entry.</doc:title>
 		<doc:desc>List item container.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/index | /app/view" mode="nav.site.html nav.site.xml" priority="10">
+	<xsl:template match="/app/views/* | /app/view" mode="nav.site.html nav.site.xml" priority="10">
 		<li>
 			<xsl:next-match/>
 		</li>
@@ -45,13 +46,13 @@
 		<doc:title>Global contents list entry for link to HTML page.</doc:title>
 		<doc:desc>Build link and label.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/index" mode="nav.site.html">
+	<xsl:template match="/app/views/*" mode="nav.site.html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="@path" as="xs:string?"/>
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.html"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="true()" as="xs:boolean?"/>
+			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean?"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -67,7 +68,7 @@
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.xml"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="true()" as="xs:boolean?"/>
+			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -76,7 +77,7 @@
 		<doc:title>Global contents list HTML entry content.</doc:title>
 		<doc:desc>Build entry content.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/index" mode="link.html">
+	<xsl:template match="/app/views/*" mode="link.html">
 		<xsl:choose>
 			<xsl:when test="title">
 				<xsl:value-of select="title"/>
@@ -120,10 +121,10 @@
 	
 	
 	<xsl:template name="href-html">
-		<xsl:param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string?"/>
+		<xsl:param name="path" select="/app/views/*[@default = 'true'][1]/@path" as="xs:string?"/>
 		<xsl:param name="bookmark" as="xs:string?"/>
 		<xsl:param name="params" as="xs:string?"/>
-		<xsl:param name="is-index" select="false()" as="xs:boolean?"/> 
+		<xsl:param name="is-index" select="false()" as="xs:boolean"/> 
 		<xsl:param name="content" as="item()*"/>
 		<xsl:variable name="url" as="xs:anyURI">
 			<xsl:choose>
@@ -160,9 +161,9 @@
 
 
 	<xsl:template name="href-xml">
-		<xsl:param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string?"/>
+		<xsl:param name="path" select="/app/views/*[@default = 'true'][1]/@path" as="xs:string?"/>
 		<xsl:param name="content" as="item()*"/>
-		<xsl:param name="is-index" select="false()" as="xs:boolean?"/> 
+		<xsl:param name="is-index" select="false()" as="xs:boolean"/> 
 		<xsl:variable name="url" as="xs:anyURI">
 			<xsl:choose>
 				<xsl:when test="xs:boolean($static)">

@@ -4,7 +4,7 @@
 	xmlns:c="http://www.w3.org/ns/xproc-step"
 	xmlns:d="http://ns.kaikoda.com/documentation/xml"
 	xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
-	type="tcy:query-get-index-list"
+	type="tcy:query-get-views"
 	version="2.0">
 	
 	<p:output port="result" />
@@ -24,11 +24,9 @@
 							import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 							import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../../app/modules/data.xq";
 							 
-							<indices>{
-								for $path in data:get-app()/views/index/@path
-								return 
-									<index>{$path}</index>
-							}</indices>
+							<views>{
+								data:get-views()
+							}</views>
 					]]>
 				</c:query>
 			</p:inline>		

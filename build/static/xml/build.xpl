@@ -25,7 +25,7 @@
 	
 	
 	<p:import href="../../utils/xquery/generate_config.xpl" />
-	<p:import href="../../utils/xquery/get_index_list.xpl" />
+	<p:import href="../../utils/xquery/get_views.xpl" />
 	<p:import href="generate_app_view.xpl" />
 	<p:import href="../../utils/xquery/get_entity_list.xpl" />
 	
@@ -50,12 +50,12 @@
 		
 	<p:sink />
 	
-	<tcy:query-get-index-list name="index-list"/>
+	<tcy:query-get-views name="view-list"/>
 	
 	<p:for-each name="generate-xml">
 		
-		<p:iteration-source select="/*/index">
-			<p:pipe port="result" step="index-list" />
+		<p:iteration-source select="/*/*">
+			<p:pipe port="result" step="view-list" />
 		</p:iteration-source>
 		
 		<p:output port="result" sequence="true">
@@ -69,17 +69,37 @@
 				<p:pipe port="result" step="entity-views" />
 			</p:output>
 						
-			<p:variable name="path" select="*/@path" />
+			<p:variable name="path" select="/*/@path" />
 			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat($path, '/'))" />
+			<p:variable name="concrete-index" select="/*/@concrete" />
 			
-			<tcy:generate-app-view name="index-view">
+			<p:choose>
 				
-				<p:with-option name="target" select="concat($href, 'index.xml')" />
-				<p:with-option name="path" select="$path" />
-				<p:with-option name="id" select="''" />
+				<p:when test="$concrete-index = 'true'">
+					
+					<tcy:generate-app-view>
+						
+						<p:with-option name="target" select="concat($href, 'index.xml')" />
+						<p:with-option name="path" select="$path" />
+						<p:with-option name="id" select="''" />
+						
+					</tcy:generate-app-view>
+					
+				</p:when>
 				
-			</tcy:generate-app-view>
+				<p:otherwise>
+					<p:identity>
+						<p:input port="source">
+							<p:empty />
+						</p:input>
+					</p:identity>
+				</p:otherwise>
+				
+			</p:choose>
 			
+			<p:identity name="index-view" />
+
+			<p:sink />
 			
 			<tcy:query-get-entity-list>
 				<p:with-option name="path" select="$path" />

@@ -196,7 +196,7 @@
 		<doc:title>Gender Glyph: Whitespace Prefix</doc:title>
 	</doc:doc>
 	<xsl:template match="gender" mode="glyph glyph.bracketed" priority="50">
-		<xsl:if test="lower-case(.) = ('male', 'female', 'hermaphrodite', 'transgender', 'androgen')">
+		<xsl:if test="lower-case(.) = ('male', 'female', 'hermaphrodite', 'transgender', 'androgyne')">
 			<xsl:text> </xsl:text>
 			<xsl:next-match/>
 		</xsl:if>
@@ -223,7 +223,7 @@
 				else if (lower-case(.) = 'female') then '♀'
 				else if (lower-case(.) = 'hermaphrodite') then '⚥'
 				else if (lower-case(.) = 'transgender') then '⚧'
-				else if (lower-case(.) = 'androgen') then '⚪'
+				else if (lower-case(.) = 'androgyne') then '⚪'
 				else ''" />
         </span>
 	</xsl:template>
