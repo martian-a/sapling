@@ -13,7 +13,9 @@
 	<xsl:template match="/app">
 		
 		<xsl:variable name="network" as="element()">
-			<xsl:apply-templates select="view/data/person/related" mode="family-tree" />
+			<xsl:apply-templates select="view/data/person/related" mode="family-tree">
+				<xsl:with-param name="subject" select="view/data/person" as="element()" tunnel="yes" />
+			</xsl:apply-templates>
 		</xsl:variable>
 		
 		<xsl:apply-templates select="$network" mode="network-graph.serialise" />
@@ -28,6 +30,18 @@
 		</xsl:variable>
 		
 		<xsl:call-template name="network-graph">
+			<xsl:with-param name="config" as="element()">
+				<config>
+					<settings scope="global">
+						<xsl:text>graph [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
+						<!-- Global node settings -->
+						<xsl:text>node [fontname = "IM FELL DW Pica", shape = none, fillcolor = "#f5f5f5"];&#10;</xsl:text>
+						<!-- Global edge settings -->
+						<xsl:text>edge [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
+					</settings>
+					<rank direction="{$graph-direction}" />
+				</config>
+			</xsl:with-param>
 			<xsl:with-param name="node-data" as="element()*">
 				<xsl:for-each-group select="$may-contain-duplicates[@type = 'node']" group-by="property[@label = 'id']">
 					<xsl:sequence select="current-group()[1]" />
@@ -51,9 +65,7 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="related" mode="family-tree.objects">
-
-		<!-- Subject of family tree -->
-		<xsl:variable name="subject" select="parent::person" as="element()" />
+		<xsl:param name="subject" as="element()" tunnel="yes" />
 		
 		<!-- Sorted in chronological order -->
 		<xsl:variable name="subject-birth-events" select="fn:get-birth-events($subject)" as="element()*" />
@@ -366,6 +378,7 @@
 	
 	
 	<xsl:template match="person[@id]" mode="family-tree.node">
+		<xsl:param name="subject" as="element()" tunnel="yes" />
 		
 		<xsl:call-template name="network-graph.node">
 			<xsl:with-param name="id" select="@id" as="xs:string" />
@@ -388,6 +401,7 @@
 					<font face="DejaVu Sans"><xsl:if test="count($dated-birth-events) > 0">–</xsl:if>✝</font><i><xsl:value-of select="$end-date/date/@year" /></i>
 				</xsl:if>
 			</xsl:with-param>
+			<xsl:with-param name="style" select="if (@id = $subject/@id) then 'filled' else ()" as="xs:string?" />
 			<xsl:with-param name="url" select="xs:anyURI(concat($normalised-path-to-view-html, 'person/', @id, if ($static = 'true') then $ext-html else '/'))" as="xs:anyURI" />
 		</xsl:call-template>
 	

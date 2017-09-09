@@ -61,9 +61,10 @@
         <xsl:value-of select="property[@label = 'id']" />
     	<xsl:if test="property[@label = 'label']">
     		<xsl:text> [</xsl:text>
-	    		<xsl:apply-templates select="property[@label = 'label']" mode="#current" />
-    			<xsl:if test="property[@label = 'label'] and property[@label = 'url']"><xsl:text>, </xsl:text></xsl:if>
-    			<xsl:apply-templates select="property[@label = 'url']" mode="#current" />
+    			<xsl:for-each select="property[not(@label = ('id', 'level'))]">
+    				<xsl:apply-templates select="self::property" mode="#current" />
+    				<xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>	
+    			</xsl:for-each>
     		<xsl:text>]</xsl:text>
     	</xsl:if>
     	<xsl:text>;&#10;</xsl:text>
@@ -71,9 +72,14 @@
     
     
 	<xsl:template match="property[@data-type = 'label']" mode="serialize.dot">
-		<xsl:text>label=</xsl:text><xsl:value-of select="codepoints-to-string(60)" /><xsl:apply-templates select="node()" mode="serialize.dot.label" /><xsl:value-of select="codepoints-to-string(62)" />
+		<xsl:text>label</xsl:text><xsl:text>=</xsl:text><xsl:value-of select="codepoints-to-string(60)" /><xsl:apply-templates select="node()" mode="serialize.dot.label" /><xsl:value-of select="codepoints-to-string(62)" />
 	</xsl:template>
 	
+	<xsl:template match="property[starts-with(@data-type, 'xs:string')]" mode="serialize.dot">
+		<xsl:value-of select="@label" /><xsl:text>="</xsl:text><xsl:value-of select="." /><xsl:text>"</xsl:text>
+	</xsl:template>
+	
+
 	<!-- Empty html node (eg. br) -->
 	<xsl:template match="element()[not(@*)][not(node())]" mode="serialize.dot.label">
 		<xsl:value-of select="concat(codepoints-to-string(60), name(), ' /', codepoints-to-string(62))" />

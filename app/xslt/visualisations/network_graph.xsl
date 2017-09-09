@@ -49,18 +49,10 @@
 		<xsl:param name="node-data" as="element()*" />
 		<xsl:param name="edge-data" as="element()*" />
 		<xsl:param name="stored-layout" select="false()" as="xs:boolean" />
+		<xsl:param name="config" as="element()?" />
 		
 		<network name="{$network-name}" stored-layout="{$stored-layout}">
-			<config>
-				<settings scope="global">
-					<xsl:text>graph [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
-					<!-- Global node settings -->
-					<xsl:text>node [fontname = "IM FELL DW Pica", shape = none];&#10;</xsl:text>
-					<!-- Global edge settings -->
-					<xsl:text>edge [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
-				</settings>
-				<rank direction="{$graph-direction}" />
-			</config>
+			<xsl:copy-of select="$config" /> 
 			<nodes>
 				<xsl:copy-of select="$node-data" />
 			</nodes>
@@ -115,6 +107,8 @@
 		<xsl:param name="url" as="xs:anyURI?" />
 		<xsl:param name="size" as="xs:integer?" />
 		<xsl:param name="mass" as="xs:integer?" />
+		<xsl:param name="style" as="xs:string?" />
+		<xsl:param name="fillcolor" as="xs:string?" />
  		
 		<object type="node">
 			<property label="id" data-type="xs:string"><xsl:value-of select="$id" /></property>
@@ -130,6 +124,12 @@
 			</xsl:if>
 			<xsl:if test="$url != ''">
 				<property label="url" data-type="xs:anyURI"><xsl:value-of select="$url" /></property>
+			</xsl:if>
+			<xsl:if test="$style != ''">
+				<property label="style" data-type="xs:string"><xsl:value-of select="$style" /></property>			
+			</xsl:if>
+			<xsl:if test="$fillcolor != ''">
+				<property label="fillcolor" data-type="xs:string"><xsl:value-of select="$fillcolor" /></property>			
 			</xsl:if>
 			<xsl:if test="@x or @y">
 				<property label="fixed" data-type="boolean">true</property>
