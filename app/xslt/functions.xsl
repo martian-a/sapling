@@ -43,6 +43,17 @@
 		
 	</xsl:function>
 	
+	<xsl:function name="fn:sort-events" as="element()*">
+		<xsl:param name="events-in" as="element()*" />
+		
+		<xsl:for-each select="$events-in[date/@year]">
+			<xsl:sort select="date/@year" data-type="number" order="ascending" />
+			<xsl:sort select="date/@month" data-type="number" order="ascending" />
+			<xsl:sort select="date/@day" data-type="number" order="ascending" />
+			<xsl:sequence select="self::*" />
+		</xsl:for-each>
+	</xsl:function>
+	
 	
 	<xsl:function name="fn:get-location-context" as="element()?">
 		<xsl:param name="location-in" as="element()" />
@@ -254,6 +265,25 @@
 			<xsl:sort select="date/@day" data-type="number" order="ascending" />
 			<xsl:sequence select="current()" />
 		</xsl:for-each>
+		
+	</xsl:function>
+	
+	<xsl:function name="fn:get-event-glyph" as="xs:string?">
+		<xsl:param name="event" as="element()" />
+		
+		<xsl:choose>
+			<xsl:when test="$event/@type = 'birth'">☥</xsl:when>
+			<xsl:when test="$event/@type = 'christening'">≈</xsl:when>
+			<xsl:when test="$event/@type = 'adoption'">💗</xsl:when>
+			<xsl:when test="$event/@type = 'unmarried-partnership'">⚯</xsl:when>
+			<xsl:when test="$event/@type = 'engagement'">⚬</xsl:when>
+			<xsl:when test="$event/@type = 'marriage'">⚭</xsl:when>
+			<xsl:when test="$event/@type = 'separation'">⚮</xsl:when>
+			<xsl:when test="$event/@type = 'divorce'">⚮</xsl:when>
+			<xsl:when test="$event/@type = 'death'">✝</xsl:when>
+			<xsl:when test="$event/@type = 'historical'">📰</xsl:when>
+			<xsl:otherwise>?</xsl:otherwise>
+		</xsl:choose>
 		
 	</xsl:function>
 		
