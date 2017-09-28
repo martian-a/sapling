@@ -95,15 +95,29 @@ declare function action:request-html($path-in as xs:string?, $id-in as xs:string
 (: Build script view :)
 declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?, $parameters-in as element()?) as item()* {
 
-	let $xml := data:view-app-xml($path-in, $id-in, true())
+	let $graph := (string($parameters-in/param[@name = 'graph']/@value))
+	let $serialise := 
+		switch ($graph) 
+		case "timeline" return "svg"
+		default return "dot"
+	 
+
+
+	let $xml := data:view-app-xml($path-in, $id-in, if ($graph = 'timeline') then false() else true())
 	   
-	let $stylesheet := doc(concat($config:upload-path-to-xslt, "visualisations/family_tree.xsl"))    
+	let $stylesheet := 
+		let $filename := 
+			switch ($graph) 
+			case "timeline" return "timeline.xsl"
+			default return "family_tree.xsl"
+		return
+			doc(concat($config:upload-path-to-xslt, "visualisations/", $filename))    
 	
 	let $parameters := 
 		<parameters>
-			<param name="serialise" value="dot" />
+			<param name="serialise" value="{$serialise}" />
 			{
-				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-svg')],
+				$parameters-in/param[@name != ('path-to-view-html', 'path-to-view-xml', 'path-to-view-svg', 'graph')],
 				if ($xml/view[@path = '/'])
 	    		then (
 		    		(: Home Page :)
@@ -140,9 +154,12 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 		if (count($xml) = 0) 
 		then ()
 		else 
-			let $dot := transform:transform($xml, $stylesheet, $parameters)
-			(: If this fails, check directory settings in graphviz module config :)
-			return gv:dot-to-svg($dot)
-			
-	
+			if (not($graph = ('family-tree', 'timeline')))
+			then <graph>{$graph}</graph>
+			else if ($graph = 'family-tree') 
+			then
+				let $dot := transform:transform($xml, $stylesheet, $parameters)
+				(: If this fails, check directory settings in graphviz module config :)
+				return gv:dot-to-svg($dot)
+			else transform:transform($xml, $stylesheet, $parameters)		
 };

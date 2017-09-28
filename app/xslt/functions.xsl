@@ -54,6 +54,26 @@
 		</xsl:for-each>
 	</xsl:function>
 	
+	<xsl:function name="fn:get-continent" as="element()?">
+		<xsl:param name="location-in" as="element()?" />
+		
+		<xsl:variable name="location" as="element()?">
+			<xsl:choose>
+				<xsl:when test="$location-in/@ref">
+					<xsl:sequence select="$location-in/key('location', @ref)"></xsl:sequence>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:sequence select="$location-in" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:if test="count($location) &gt; 0">
+			<xsl:sequence select="fn:get-full-location-context($location)/self::location[@type = 'continent']" />
+		</xsl:if>
+		
+	</xsl:function>
+	
 	
 	<xsl:function name="fn:get-location-context" as="element()?">
 		<xsl:param name="location-in" as="element()" />

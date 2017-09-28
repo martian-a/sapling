@@ -11,7 +11,7 @@
 			<xsl:next-match />
 		</div>
 	</xsl:template>
-	
+		
 	
 	<xsl:template match="related | data/entities[event]" mode="timeline">
 		<xsl:for-each-group select="event" group-by="not(date/@year)">

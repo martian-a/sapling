@@ -406,15 +406,25 @@
 		<div class="network-graph">
 			<h3>Family Tree</h3>
 			<div class="network-visualisation">
-				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/landscape/'}" type="image/svg+xml">
+				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'family-tree/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/family-tree/landscape/'}" type="image/svg+xml">
 					<xsl:if test="$static = 'true'">						
-						<img src="{concat($normalised-path-to-images, 'network-graphs/png/person/landscape')}/{$subject-id}.png" />
+						<img src="{concat($normalised-path-to-images, 'family-tree/png/person/landscape')}/{$subject-id}.png" />
 					</xsl:if>
 				</object>
 			</div>
 		</div>
 		
 	</xsl:template>
+	
+	<xsl:template match="related[parent::person]" mode="timeline" priority="5">
+		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
+		
+		<div class="visualisation">
+			<object id="timeline" data="{if ($static = 'true') then concat($normalised-path-to-images, 'timeline/person') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/timeline/'}" type="image/svg+xml" width="100%"/>
+		</div>
+		<xsl:next-match />
+	</xsl:template>
+	
 	
 	
 	<doc:doc>
