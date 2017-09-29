@@ -6,7 +6,7 @@
 	<xsl:include href="entities/name.xsl"/>
 	<xsl:include href="entities/event.xsl"/>
 	<xsl:include href="entities/organisation.xsl"/>
-	<xsl:include href="entities/page.xsl" />
+	<xsl:include href="entities/static_content.xsl" />
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>
 
@@ -23,9 +23,9 @@
 	</doc:doc>
 	<xsl:template match="/app/views" mode="nav.site">
 		<ul>
-			<xsl:apply-templates select="*[method/@type = 'html'][@path != '/']" mode="nav.site.html"/>
+			<xsl:apply-templates select="index[@default = 'true']/sub/*[method/@type = 'html']" mode="nav.site.html"/>
 			<xsl:if test="$static = 'false'">
-				<xsl:apply-templates select="/app/view[method/@type = 'xml'][@path != '/']" mode="nav.site.xml"/>
+				<xsl:apply-templates select="/app/view[method/@type = 'xml']" mode="nav.site.xml"/>
 			</xsl:if>
 		</ul>
 	</xsl:template>
@@ -35,7 +35,7 @@
 		<doc:title>Global contents list entry.</doc:title>
 		<doc:desc>List item container.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/* | /app/view" mode="nav.site.html nav.site.xml" priority="10">
+	<xsl:template match="index | page | view" mode="nav.site.html nav.site.xml" priority="10">
 		<li>
 			<xsl:next-match/>
 		</li>
@@ -46,7 +46,7 @@
 		<doc:title>Global contents list entry for link to HTML page.</doc:title>
 		<doc:desc>Build link and label.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/*" mode="nav.site.html">
+	<xsl:template match="index | page" mode="nav.site.html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="@path" as="xs:string?"/>
 			<xsl:with-param name="content" as="item()">
@@ -77,7 +77,7 @@
 		<doc:title>Global contents list HTML entry content.</doc:title>
 		<doc:desc>Build entry content.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/views/*" mode="link.html">
+	<xsl:template match="index | page" mode="link.html">
 		<xsl:choose>
 			<xsl:when test="title">
 				<xsl:value-of select="title"/>

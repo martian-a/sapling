@@ -76,16 +76,8 @@ declare function data:get-app() as element() {
 
 (: Get all app index views :)
 declare function data:get-views() as element()* {
-    for $entry in data:get-app()/views/*[@path]
-    return
-    	if ($entry/self::index)
-    	then $entry
-    	else if ($entry/self::page)
-    	then 
-    		<index path="{tokenize($entry/@path, '/')[1]}" concrete="false">
-    			<method type="html" />
-    		</index>
-    	else ()
+    for $entry in data:get-app()/(views/* | views/descendant::sub/*)[@path]
+	return $entry
 };
 
 (: Verify whether an app view exists :)
@@ -103,7 +95,12 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?)
 (: Build XML for HTML view :)
 declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?, $for-graph as xs:boolean) as item()? {
 
-	let $entity as element()? := data:get-entity($id-in)
+	let $app-view-entry as element()? := data:get-view($path-in)
+
+	let $entity as element()? := 
+		if ($id-in = '')
+		then data:get-entity(xs:string($app-view-entry/content/@ref))
+		else data:get-entity($id-in)
 
 	(: 
 		Check that the ID is valid
@@ -111,7 +108,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 	:)
 	let $id as xs:string? :=
 		if (count($entity) = 1) 
-		then $id-in 
+		then xs:string($entity/@id)
 		else ''
 
 	(: 
@@ -120,19 +117,17 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 	:)
 	let $path as xs:string? :=
 		if ($id != '')
-		then (: Entity found, check path matches element name :)
-			if ($entity/self::*/local-name() = $path-in)
-			then $path-in (: Element name matches path, so path must be valid :)
+		then (: Entity found, check entity belongs with path :)
+			if ($entity/self::content[@id = $app-view-entry/content/@ref])
+			then xs:string($app-view-entry/@path) (: Entity is static content and is expected on requested path :)
+			else if ($entity/self::*/local-name() = $app-view-entry/@path)
+			then xs:string($app-view-entry/@path) (: Entity's element name is expected on requested path :)
 			else ''
-		else if ($id-in != $id)
-		then '' (: Entity sought but not found, so path irrelevant :)
-		else
-			let $index := data:get-views()/self::*[@path = $path-in]
-			return
-				if (count($index) = 1)
-				then $path-in
-				else ''
-
+		else if ($id-in = '' and $app-view-entry[@path])
+		then xs:string($app-view-entry/@path)
+		else ''
+		
+	let $methods as element()* := data:get-view($path-in)/self::*/method
 
 	return
 		if ($path = '') 
@@ -143,12 +138,12 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 					data:get-app()/name, 
 					element view {
 						attribute path {
-							if ($id != '') 
+							if ($id-in != '') 
 							then concat($path, '/', $id)
 							else $path
 						},
 						attribute index {
-							if ($id = '') 
+							if ($id-in = '' and $app-view-entry/self::index) 
 							then 'true' 
 							else 'false'
 						},
@@ -157,15 +152,19 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 							then 'home'
 							else $path
 						},
-						<method type="html" />,
-						<method type="xml" />,
+						if ($id-in = '')
+						then $app-view-entry/title
+						else (),
+						$methods,
 						<data>{
 							if ($id != '')
 						    then 
 						    	if ($for-graph)
 						    	then data:view-graph-xml($entity)
 						    	else data:view-entity-xml($entity)
-						    else data:view-index-xml($path)			
+						    else if ($app-view-entry/self::index)
+						    then data:view-index-xml($path)
+						    else ()
 						}
 						</data>
 					}
@@ -174,8 +173,11 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 					data:get-app()/views,
 					data:get-app()/assets
 				}
-			</app>            
-
+			</app>
+		
+		(: 
+			return <result>{$app-view-entry}<id-in>{$id-in}</id-in><id>{$id}</id><path-in>{$path-in}</path-in><path>{$path}</path><entity>{$entity}</entity></result>
+		:)
 };
 
 
@@ -416,6 +418,9 @@ declare function data:get-related-events($entity as element()) as element()* {
 		case "organisation" return
 			for $event in data:get-entities("event")[descendant::organisation/@ref = $entity/@id]
 			return $event
+		case "content" return
+			for $ref in $entity/descendant::event/@ref/xs:string(.)
+			return data:get-entity($ref)
 		default return ()
 	for $event in $unsorted/self::event[@id != $entity/@id]
 	order by $event/number(substring-after(@id, 'EVE')) ascending

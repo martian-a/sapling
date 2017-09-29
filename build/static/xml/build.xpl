@@ -50,12 +50,12 @@
 		
 	<p:sink />
 	
-	<tcy:query-get-views name="view-list"/>
+	<tcy:query-get-views name="app-views"/>
 	
 	<p:for-each name="generate-xml">
 		
-		<p:iteration-source select="/*/*">
-			<p:pipe port="result" step="view-list" />
+		<p:iteration-source select="/views/descendant::index">
+			<p:pipe port="result" step="app-views" />
 		</p:iteration-source>
 		
 		<p:output port="result" sequence="true">
@@ -67,44 +67,26 @@
 			<p:output port="result" sequence="true">
 				<p:pipe port="result" step="index-view" />
 				<p:pipe port="result" step="entity-views" />
+				<p:pipe port="result" step="page-views" />
 			</p:output>
 						
-			<p:variable name="path" select="/*/@path" />
-			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat($path, '/'))" />
-			<p:variable name="concrete-index" select="/*/@concrete" />
+			<p:variable name="path" select="/index/@path" />
+			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat(string-join(/index/ancestor-or-self::index/@path, '/'), '/'))" />
 			
-			<p:choose>
+									
+			<tcy:generate-app-view name="index-view">
 				
-				<p:when test="not($concrete-index = 'false')">
-					
-					<tcy:generate-app-view>
-						
-						<p:with-option name="target" select="concat($href, 'index.xml')" />
-						<p:with-option name="path" select="$path" />
-						<p:with-option name="id" select="''" />
-						
-					</tcy:generate-app-view>
-					
-				</p:when>
+				<p:with-option name="target" select="concat($href, 'index.xml')" />
+				<p:with-option name="path" select="$path" />
+				<p:with-option name="id" select="''" />
 				
-				<p:otherwise>
-					<p:identity>
-						<p:input port="source">
-							<p:empty />
-						</p:input>
-					</p:identity>
-				</p:otherwise>
-				
-			</p:choose>
-			
-			<p:identity name="index-view" />
+			</tcy:generate-app-view>	
 
 			<p:sink />
 			
 			<tcy:query-get-entity-list>
 				<p:with-option name="path" select="$path" />
 			</tcy:query-get-entity-list>
-			
 			
 			<p:for-each name="entity-views">
 				
@@ -121,6 +103,32 @@
 						<p:with-option name="target" select="concat($href, encode-for-uri($id), '.xml')" />
 						<p:with-option name="path" select="$path" />
 						<p:with-option name="id" select="$id" />
+						
+					</tcy:generate-app-view>
+					
+				</p:group>
+				
+			</p:for-each>
+			
+			<p:sink />
+			
+			<p:for-each name="page-views">
+				
+				<p:iteration-source select="/views/descendant::index[@path = $path]/sub/page">
+					<p:pipe port="result" step="app-views" />
+				</p:iteration-source>
+				
+				<p:output port="result" sequence="true" />
+				
+				<p:group>
+					
+					<p:variable name="path" select="/page/@path" />
+					
+					<tcy:generate-app-view>
+						
+						<p:with-option name="target" select="concat($href, encode-for-uri($path), '.xml')" />
+						<p:with-option name="path" select="$path" />
+						<p:with-option name="id" select="''" />
 						
 					</tcy:generate-app-view>
 					

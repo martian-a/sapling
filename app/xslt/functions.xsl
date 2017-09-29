@@ -97,7 +97,7 @@
 		
 		<xsl:variable name="person" select="$person-in/key('person', self::*/(@ref | @id))" as="element()*" />
 			
-		<xsl:value-of select="fn:get-name($person-in, fn:get-default-persona($person))" />
+		<xsl:value-of select="fn:get-name($person-in, fn:get-default-persona($person), 'formal')"/>
 			
 	</xsl:function>
 	
@@ -106,7 +106,18 @@
 		<xsl:param name="person-in" as="element()" />
 		<xsl:param name="persona" as="element()?" />
 		
-		<xsl:variable name="name" select="normalize-space(string-join($persona/name/*, ' '))" as="xs:string?"/>
+		<xsl:param name="style" as="xs:string"/>
+		
+		<xsl:variable name="name" as="xs:string?">
+			<xsl:choose>
+				<xsl:when test="$style = 'familiar'">
+					<xsl:value-of select="normalize-space($persona/name/name[not(@family = 'yes')][1])"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="normalize-space(string-join($persona/name/*, ' '))"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		
 		<xsl:choose>
 			<xsl:when test="$name = ''">[Unknown]</xsl:when>

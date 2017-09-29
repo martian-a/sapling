@@ -14,9 +14,13 @@ let $path :=
 	then '/'
 	else $params[2]
 let $id := xs:string($params[3])
-let $graph-direction := 
+let $graph := 
 	if ($media = 'svg') 
 	then xs:string($params[4])
+	else ''
+let $graph-direction := 
+	if ($media = 'svg') 
+	then xs:string($params[5])
 	else ''
 
 return
@@ -45,6 +49,7 @@ return
 				            	<add-parameter name="path" value="{$path}" />,
 				           		if ($media = 'svg')
 				           		then (
+				           			<add-parameter name="graph" value="{$graph}" />,
 				           			<add-parameter name="graph-direction" value="{$graph-direction}" />
 				           		)
 				           		else ()

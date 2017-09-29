@@ -406,7 +406,7 @@
 		<div class="network-graph">
 			<h3>Family Tree</h3>
 			<div class="network-visualisation">
-				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/landscape/'}" type="image/svg+xml">
+				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/family-tree/landscape/'}" type="image/svg+xml">
 					<xsl:if test="$static = 'true'">						
 						<img src="{concat($normalised-path-to-images, 'network-graphs/png/person/landscape')}/{$subject-id}.png" />
 					</xsl:if>
@@ -424,7 +424,9 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="person[@ref] | parent[@ref]">
-		<xsl:apply-templates select="key('person', @ref)" mode="href-html" />
+		<xsl:apply-templates select="key('person', @ref)" mode="href-html">
+			<xsl:with-param name="style" select="if (@style != '') then @style else 'formal'" as="xs:string?" tunnel="yes"/>
+		</xsl:apply-templates>	
 	</xsl:template>
 
 
@@ -438,6 +440,8 @@
 		</doc:note>
 	</doc:doc>
 	<xsl:template match="person[@id]" mode="href-html">
+		<xsl:param name="style" select="'formal'" tunnel="yes" as="xs:string?"/>
+		
 		<span class="person">
 			<xsl:call-template name="href-html">
 				<xsl:with-param name="path" select="concat('person/', @id)" as="xs:string"/>
@@ -445,7 +449,9 @@
 					<xsl:apply-templates select="persona[1]/name" mode="href-html"/>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:apply-templates select="persona[1]/gender" mode="glyph" />
+			<xsl:if test="$style = 'formal'">
+				<xsl:apply-templates select="persona[1]/gender" mode="glyph"/>
+			</xsl:if>
 		</span>
 	</xsl:template>
 	
@@ -454,7 +460,8 @@
 		<doc:title>Hyperlink: Person (Content)</doc:title>
 	</doc:doc>
 	<xsl:template match="person/persona/name" mode="href-html">
-		<xsl:value-of select="fn:get-name(ancestor::person[1], parent::persona)" />
+		<xsl:param name="style" select="'formal'" tunnel="yes" as="xs:string?"/>
+	<xsl:value-of select="fn:get-name(ancestor::person[1], parent::persona, $style)"/>
 	</xsl:template>
 
 
