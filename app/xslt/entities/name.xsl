@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:name="http://ns.kaikoda.com/nameumentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
 	<xsl:key name="name" match="data/name | related/name | entities/name" use="@id"/>
 	
@@ -35,6 +35,15 @@
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Names Index</doc:title>
+		<doc:desc>
+			<doc:ul>
+				<doc:ingress>Lists all name entities:</doc:ingress>
+				<doc:li>in alphabetical order</doc:li>
+			</doc:ul>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="data/entities[name]">
 		<div class="alphabetical">
 			<h2>Alphabetical</h2>

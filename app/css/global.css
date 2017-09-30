@@ -663,3 +663,45 @@ ul.zebra li.even {
 }
 
 /* End of Key: Gender */
+
+
+/* Alphabetical Index: Jump List */
+
+.alphabetical .nav-list {
+	margin: 0 0 2em 0;
+}
+
+.alphabetical h2 {
+	margin-bottom: 0;
+}
+
+.alphabetical .nav-list h3 {
+	display: inline-block;
+	font-size: smaller;
+	margin-right: .5em;
+}
+
+.alphabetical .nav-list h3::after {
+	content: ": ";
+}
+
+.alphabetical .nav-list ul {
+	margin: 0;
+	padding: 0;	
+	display: inline-block;
+}
+
+.alphabetical .nav-list li {
+	display: inline-block;	
+	font-size: smaller;
+}
+
+.alphabetical .nav-list li::after {
+	content: " | ";
+}
+
+.alphabetical .nav-list li:last-child:after {
+	content: "";
+}
+
+/* End of Alphabetical Index: Jump List */

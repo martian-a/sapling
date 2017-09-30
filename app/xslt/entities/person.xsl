@@ -97,22 +97,81 @@
 	</doc:doc>
 	<xsl:template match="data/entities[person]">
 		<div class="alphabetical">
-			<h2>Alphabetical</h2>
+			<h2>By Surname</h2>
+			<xsl:variable name="data" as="element()">
+				<navigation-list>
+					<base>
+						<label>A</label>
+						<label>B</label>
+						<label>C</label>
+						<label>D</label>
+						<label>E</label>
+						<label>F</label>
+						<label>G</label>
+						<label>H</label>
+						<label>I</label>
+						<label>J</label>
+						<label>K</label>
+						<label>L</label>
+						<label>M</label>
+						<label>N</label>
+						<label>O</label>
+						<label>P</label>
+						<label>Q</label>
+						<label>R</label>
+						<label>S</label>
+						<label>T</label>
+						<label>U</label>
+						<label>V</label>
+						<label>W</label>
+						<label>X</label>
+						<label>Y</label>
+						<label>Z</label>
+					</base>
+					<xsl:for-each-group select="fn:sort-people(person)" group-by="persona[1]/name/name[@family = 'yes'][1]/substring(., 1, 1)">
+						<group>
+							<label>
+                                <xsl:value-of select="if (current-grouping-key() = '') then 'Surname Unknown' else current-grouping-key()"/>
+                            </label>
+						<entries>
+								<xsl:sequence select="current-group()"/>
+							</entries>
+						</group>
+						</xsl:for-each-group>
+				</navigation-list>
+			</xsl:variable>
+		<div id="nav-list-alpha" class="nav nav-list">
+				<h3>Jump To</h3>
+				<ul>
+					<xsl:for-each select="$data/base/label">
+						<li>
+                            <xsl:choose>
+							<xsl:when test="lower-case(.) = ancestor::navigation-list/group/label/lower-case(.)">
+								<a href="#{translate(lower-case(.), ' ', '-')}">
+                                        <xsl:value-of select="."/>
+                                    </a>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="."/>
+							</xsl:otherwise>
+						</xsl:choose>
+                        </li>
+					</xsl:for-each>
+				</ul>
+			</div>	
 			<div class="multi-column">
-				<xsl:for-each-group select="fn:sort-people(person)" group-by="persona[1]/name/name[@family = 'yes'][1]/substring(., 1, 1)">
+				<xsl:for-each select="$data/group">
 					<div>
-						<h3>
-							<xsl:value-of select="
-									if (current-grouping-key() = '') then
-										'Surname Unknown'
-									else
-										current-grouping-key()" />
-						</h3>
+						<h3 id="{translate(lower-case(label), ' ', '-')}">
+                            <xsl:value-of select="label"/>
+                            <xsl:text> </xsl:text>
+                            <a href="#nav-list-alpha" class="nav">▴</a>
+                        </h3>
 						<ul>
-							<xsl:apply-templates select="current-group()" />
+							<xsl:apply-templates select="entries"/>
 						</ul>
 					</div>
-				</xsl:for-each-group>
+				</xsl:for-each>
 			</div>
 		</div>
 		<div class="chronological">
@@ -165,7 +224,7 @@
 	<doc:doc>
 		<doc:title>Person Profile: Additional Persona.</doc:title>
 	</doc:doc>
-	<xsl:template match="person/persona">
+	<xsl:template match="data/person/persona">
 		<div class="persona">
 			<xsl:if test="preceding-sibling::persona">
 				<h2>
@@ -185,7 +244,7 @@
 	<doc:doc>
 		<doc:title>People Index: List entry</doc:title>
 	</doc:doc>
-	<xsl:template match="entities/person">
+	<xsl:template match="entities/person | group/entries/person">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html"/>
 		</li>
