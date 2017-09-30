@@ -45,28 +45,37 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="data/entities[name]">
-		<div class="alphabetical">
+		<div class="alphabetical" id="nav-alpha">
 			<h2>Alphabetical</h2>
-			<div class="multi-column">
-				<xsl:for-each-group select="name" group-by="@key/substring(translate(., '_', ' '), 1, 1)">
+			
+			<xsl:variable name="entries" as="element()*">
+				<xsl:call-template name="generate-jump-navigation-group">
+					<xsl:with-param name="group" select="name[string-length(.) = 1]" as="element()*" />
+					<xsl:with-param name="key" select="'1'" as="xs:string" />
+					<xsl:with-param name="misc-match-test" select="'1'" as="xs:string" />
+					<xsl:with-param name="misc-match-label" select="'Initials'" as="xs:string" />
+				</xsl:call-template>	
+				<xsl:for-each-group select="name[string-length(.) &gt; 1]" group-by="upper-case(@key/substring(translate(., '_', ' '), 1, 1))">
 					<xsl:sort select="@key" data-type="text" order="ascending"/>
-					<xsl:if test="current-grouping-key() != ' '">
-						<div>
-			<h3>
-				<xsl:value-of select="current-grouping-key()"/>
-			</h3>
-		<ul>
-								<xsl:apply-templates select="current-group()"/>
-							</ul>
-						</div>
-	</xsl:if>
+					<xsl:call-template name="generate-jump-navigation-group">
+						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="misc-match-test" select="' '" as="xs:string" />
+						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
+					</xsl:call-template>	
 				</xsl:for-each-group>
-			</div>
+			</xsl:variable>
+			
+			<xsl:call-template name="generate-jump-navigation">
+				<xsl:with-param name="entries" select="$entries" as="element()*" />
+				<xsl:with-param name="id" select="'nav-alpha'" as="xs:string" />
+			</xsl:call-template>
+
 		</div>
 	</xsl:template>
 	
 	
-	<xsl:template match="entities/name">
+	<xsl:template match="entities/name | group/entries/name">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html"/>
 		</li>

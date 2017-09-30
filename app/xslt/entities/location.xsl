@@ -84,21 +84,25 @@
 	
 	
 	<xsl:template match="data/entities[location]">
-		<div class="alphabetical">
-			<h2>Alphabetical</h2>
-		<div class="multi-column">
-				<xsl:for-each-group select="location" group-by="name[1]/substring(., 1, 1)">
-					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending"/>
-					<div>
-						<h3>
-							<xsl:value-of select="if (current-grouping-key() = '') then 'Name Unknown' else current-grouping-key()"/>
-						</h3>
-						<ul>
-							<xsl:apply-templates select="current-group()"/>
-						</ul>
-					</div>
+		<div class="alphabetical" id="nav-alpha">
+			<h2>By Name</h2>
+			
+			<xsl:variable name="entries" as="element()*">
+				<xsl:for-each-group select="fn:sort-locations(location)" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
+					<xsl:call-template name="generate-jump-navigation-group">
+						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
+						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
+					</xsl:call-template>	
 				</xsl:for-each-group>
-			</div>
+			</xsl:variable>
+			
+			<xsl:call-template name="generate-jump-navigation">
+				<xsl:with-param name="entries" select="$entries" as="element()*" />
+				<xsl:with-param name="id" select="'nav-alpha'" as="xs:string" />
+			</xsl:call-template>
+			
 		</div>
 	</xsl:template>
 	
@@ -116,7 +120,7 @@
 	<xsl:template match="location/name"/>
 	
 
-	<xsl:template match="entities/location">
+	<xsl:template match="entities/location | group/entries/location">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html"/>
 		</li>

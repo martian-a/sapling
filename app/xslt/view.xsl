@@ -200,6 +200,67 @@
 			</xsl:choose>
 		</xsl:for-each>
 	</xsl:template>
+	
+	
+	<xsl:template name="generate-jump-navigation">
+		<xsl:param name="entries" as="element()*" />
+		<xsl:param name="base" select="('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')" as="xs:string*" />
+		<xsl:param name="id" as="xs:string" />
+		
+		<div class="nav nav-list">
+			<h3>Jump To</h3>
+			<ul>
+				<xsl:for-each select="$base">
+					<li>
+						<xsl:choose>
+							<xsl:when test="lower-case(.) = $entries/label/lower-case(.)">
+								<a href="#{concat($id, '-', translate(lower-case(.), ' ', '-'))}">
+									<xsl:value-of select="."/>
+								</a>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="."/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</li>
+				</xsl:for-each>
+			</ul>
+		</div>	
+		<div class="multi-column">
+			<xsl:for-each select="$entries">
+				<div>
+					<h3 id="{concat($id, '-', translate(lower-case(label), ' ', '-'))}">
+						<xsl:value-of select="label"/>
+						<xsl:text> </xsl:text>
+						<a href="#{$id}" class="nav">▴</a>
+					</h3>
+					<ul>
+						<xsl:apply-templates select="entries"/>
+					</ul>
+				</div>
+			</xsl:for-each>
+		</div>		
+		
+	</xsl:template>
+	
+	<xsl:template name="generate-jump-navigation-group">
+		<xsl:param name="group" as="element()*" />
+		<xsl:param name="key" as="item()" />
+		<xsl:param name="misc-match-test" select="''" as="xs:string?" />
+		<xsl:param name="misc-match-label" as="xs:string" />
+		
+		<group>
+			<label>
+				<xsl:value-of select="
+					if ($key = $misc-match-test) 
+					then $misc-match-label
+					else $key" />
+			</label>
+			<entries>
+				<xsl:sequence select="$group" />
+			</entries>
+		</group>
+	</xsl:template>
 
 
 </xsl:stylesheet>

@@ -44,6 +44,17 @@
 	</xsl:function>
 	
 	
+	<xsl:function name="fn:sort-locations" as="element()*">
+		<xsl:param name="locations-in" as="element()*" />
+		
+		<xsl:for-each select="$locations-in">
+			<xsl:sort select="fn:get-location-sort-name(self::*)" data-type="text" order="ascending" />
+			<xsl:sort select="name[1]" data-type="text" order="ascending"/>
+			<xsl:sequence select="self::*" />
+		</xsl:for-each>
+	</xsl:function>
+	
+	
 	<xsl:function name="fn:get-location-context" as="element()?">
 		<xsl:param name="location-in" as="element()" />
 		
@@ -147,7 +158,19 @@
 		
 	</xsl:function>
 	
+
+	<xsl:function name="fn:get-location-sort-name" as="xs:string?">
+		<xsl:param name="location-in" as="element()" />
+		
+		<xsl:variable name="name" select="$location-in/name[1]/lower-case(.)" as="xs:string?" />
+		
+		<xsl:variable name="non-alpha-characters" select="translate($name, 'abcdefghijklmnopqrstuvwxyz', '')" as="xs:string?" />
+		<xsl:variable name="first-letter" select="substring(translate($name, $non-alpha-characters, ''), 1, 1)" />
+		<xsl:value-of select="normalize-space(concat($first-letter, substring-after($name, $first-letter)))" />	
+		
+	</xsl:function>
 	
+
 	<xsl:function name="fn:get-sorted-parents" as="element()*">
 		<xsl:param name="event" as="element()"/>
 
@@ -175,6 +198,7 @@
 		</xsl:for-each>
 		
 	</xsl:function>
+	
 	
 	
 	

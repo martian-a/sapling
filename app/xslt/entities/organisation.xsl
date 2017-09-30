@@ -34,13 +34,31 @@
 	
 	
 	<xsl:template match="data/entities[organisation]">
-		<ul>
-			<xsl:apply-templates/>
-		</ul>
+		<div class="alphabetical" id="nav-alpha">
+			<h2>By Name</h2>
+			
+			<xsl:variable name="entries" as="element()*">
+				<xsl:for-each-group select="organisation" group-by="upper-case(substring(lower-case(name), 1, 1))">
+					<xsl:sort select="name" data-type="text" order="ascending" />
+					<xsl:call-template name="generate-jump-navigation-group">
+						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
+						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
+					</xsl:call-template>	
+				</xsl:for-each-group>
+			</xsl:variable>
+			
+			<xsl:call-template name="generate-jump-navigation">
+				<xsl:with-param name="entries" select="$entries" as="element()*" />
+				<xsl:with-param name="id" select="'nav-alpha'" as="xs:string" />
+			</xsl:call-template>
+			
+		</div>
 	</xsl:template>
 		
 
-	<xsl:template match="entities/organisation">
+	<xsl:template match="entities/organisation | group/entries/organisation">
 		<li>
 			<xsl:apply-templates select="self::*" mode="href-html"/>
 		</li>
