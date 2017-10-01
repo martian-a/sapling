@@ -79,7 +79,9 @@
 										if (
 											translate($normalised, concat('1234567890', codepoints-to-string(38)), '') = '' or
 											replace(lower-case($normalised), 'of', '') = '' or
-											replace(lower-case($normalised), 'the', '') = ''
+											replace(lower-case($normalised), 'the', '') = '' or 
+											replace(lower-case($normalised), 'and', '') = '' or
+											replace($name-part, 'a', '') = '' (: Block 'a' but not 'A' :)
 										) 
 										then () (: Blacklisted value :)
 										else
