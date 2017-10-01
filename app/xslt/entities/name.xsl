@@ -45,6 +45,9 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="data/entities[name]">
+		<div class="contents">
+			<p>An index of individual name parts belonging to people, locations and organisations on this site.</p>
+		</div>
 		<div class="nav-index alphabetical" id="nav-alpha">
 			<h2>Alphabetical</h2>
 			
