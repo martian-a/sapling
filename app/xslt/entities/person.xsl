@@ -95,9 +95,18 @@
 			</doc:ul>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="data/entities[person]">		
+	<xsl:template match="data/entities[person]">
+		<div class="contents">
+			<p>Browse by:</p>
+			<ul>
+				<li><a href="#nav-alpha">Surname</a></li>
+				<li><a href="#nav-chronological">Birth Year</a></li>
+			</ul>
+		</div>		
 		<div class="alphabetical" id="nav-alpha">
-			<h2>By Surname</h2>
+			<h2>By Surname
+				<xsl:text> </xsl:text>
+				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
 				<xsl:for-each-group select="fn:sort-people(person)" group-by="persona[1]/name/name[@family = 'yes'][1]/substring(., 1, 1)">
@@ -117,7 +126,9 @@
 		</div>
 		
 		<div class="chronological" id="nav-chronological">
-			<h2>By Birth Year<a href="#note-1" class="note-glyph">*</a></h2>
+			<h2>By Birth Year<a href="#note-1" class="note-glyph">*</a>
+				<xsl:text> </xsl:text>
+				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			<p id="note-1" class="note"><span class="note-glyph">*</span> Or estimated birth year if actual not known</p>
 			
 			<xsl:variable name="entries" as="element()*">

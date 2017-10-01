@@ -234,7 +234,7 @@
 					<h3 id="{concat($id, '-', translate(lower-case(label), ' ', '-'))}">
 						<xsl:value-of select="label"/>
 						<xsl:text> </xsl:text>
-						<a href="#{$id}" class="nav">▴</a>
+						<a href="#{$id}" class="nav" title="Start of index">▴</a>
 					</h3>
 					<ul>
 						<xsl:apply-templates select="entries"/>
