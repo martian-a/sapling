@@ -665,6 +665,20 @@ ul.zebra li.even {
 /* End of Key: Gender */
 
 
+/* Index (Navigation) */
+
+div.nav-index {
+	margin-top: 4em;
+}
+
+div.nav-index:first-of-type {
+	margin-top: 0;
+}
+
+
+/* End of Index (Navigation) */
+ 
+ 
 /* Alphabetical Index: Jump List */
 
 .alphabetical .nav-list {

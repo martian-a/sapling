@@ -103,7 +103,7 @@
 				<li><a href="#nav-chronological">Birth Year</a></li>
 			</ul>
 		</div>		
-		<div class="alphabetical" id="nav-alpha">
+		<div class="nav-index alphabetical" id="nav-alpha">
 			<h2>By Surname
 				<xsl:text> </xsl:text>
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
@@ -125,7 +125,7 @@
 			</xsl:call-template>
 		</div>
 		
-		<div class="chronological" id="nav-chronological">
+		<div class="nav-index chronological" id="nav-chronological">
 			<h2>By Birth Year<a href="#note-1" class="note-glyph">*</a>
 				<xsl:text> </xsl:text>
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>

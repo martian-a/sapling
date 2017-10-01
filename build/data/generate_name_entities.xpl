@@ -49,7 +49,7 @@
 								import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "../utils/xquery/config.xq";
 								import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../app/modules/data.xq";
 								
-								let $named-entities := (data:get-entities('person') | data:get-entities('location') | data:get-entities('organisation'))
+								let $named-entities := (data:get-entities('person') | data:get-locations-involving-people() | data:get-entities('organisation'))
 								let $names := 
 									for $entity in $named-entities
 									return

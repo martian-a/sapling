@@ -84,8 +84,17 @@
 	
 	
 	<xsl:template match="data/entities[location]">
-		<div class="alphabetical" id="nav-alpha">
-			<h2>By Name</h2>
+		<div class="contents">
+			<p>Browse by:</p>
+			<ul>
+				<li><a href="#nav-alpha">Name</a></li>
+				<li><a href="#nav-country">Country</a></li>
+			</ul>
+		</div>
+		<div class="nav-index alphabetical" id="nav-alpha">
+			<h2>By Name
+				<xsl:text> </xsl:text>
+				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
 				<xsl:for-each-group select="fn:sort-locations(location)" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
@@ -101,6 +110,30 @@
 			<xsl:call-template name="generate-jump-navigation">
 				<xsl:with-param name="entries" select="$entries" as="element()*" />
 				<xsl:with-param name="id" select="'nav-alpha'" as="xs:string" />
+			</xsl:call-template>
+			
+		</div>
+		
+		<div class="nav-index alphabetical" id="nav-country">
+			<h2>By Country
+				<xsl:text> </xsl:text>
+				<a href="#top" class="nav" title="Top of page">▴</a></h2>
+			
+			<xsl:variable name="entries" as="element()*">
+				<xsl:for-each-group select="fn:sort-locations(location)" group-by="fn:get-location-context(self::location)[@type = 'continent']">
+					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
+					<xsl:call-template name="generate-jump-navigation-group">
+						<xsl:with-param name="group" select="current-group()" as="element()*" />						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
+						<xsl:with-param name="misc-match-label" select="'Continent Unknown'" as="xs:string" />
+					</xsl:call-template>	
+				</xsl:for-each-group>
+			</xsl:variable>
+			
+			<xsl:call-template name="generate-jump-navigation">
+				<xsl:with-param name="entries" select="$entries" as="element()*" />
+				<xsl:with-param name="id" select="'nav-country'" as="xs:string" />
+				<xsl:with-param name="base" select="('Antarctica', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America')" as="xs:string*" />
 			</xsl:call-template>
 			
 		</div>
@@ -136,7 +169,7 @@
 		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>
 	</xsl:template>
 	
-	<xsl:template match="related/location | entities/location" mode="href-html">
+	<xsl:template match="related/location | entities/location | group/entries/location" mode="href-html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('location/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">

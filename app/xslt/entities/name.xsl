@@ -45,7 +45,7 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="data/entities[name]">
-		<div class="alphabetical" id="nav-alpha">
+		<div class="nav-index alphabetical" id="nav-alpha">
 			<h2>Alphabetical</h2>
 			
 			<xsl:variable name="entries" as="element()*">

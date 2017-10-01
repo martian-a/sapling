@@ -34,7 +34,7 @@
 	
 	
 	<xsl:template match="data/entities[organisation]">
-		<div class="alphabetical" id="nav-alpha">
+		<div class="nav-index alphabetical" id="nav-alpha">
 			<h2>By Name</h2>
 			
 			<xsl:variable name="entries" as="element()*">

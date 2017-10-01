@@ -196,9 +196,12 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	else
 		let $entities := 
 			switch ($path)
-			case "event" return 
-				for $entity in data:get-entities($path)/self::*[@type != 'historical' or descendant::person[@ref]]
+			case "event" return (: Get only the events that involve people in the db :)
+				for $entity in data:get-events-involving-people()/self::event[@type != 'historical']
 				return data:simplify-entity($entity)
+			case "location" return (: Get only the locations that are related to events that involve people in the db :)
+				for $location in data:get-locations-involving-people()
+				return data:simplify-entity($location)
 			default return 
 				for $entity in data:get-entities($path)
 				return data:simplify-entity($entity)
@@ -501,6 +504,29 @@ declare function data:get-related-organisations($entity as element(), $related-e
 	order by $organisation/number(substring-after(@id, 'ORG')) ascending
 	return $organisation
 
+};
+
+
+declare function data:get-events-involving-people() as element()* {
+
+	data:get-entities("event")/self::*[descendant::person[@ref] or descendant::parent[@ref]]
+
+};
+
+
+declare function data:get-locations-involving-people() as element()* {
+	
+	let $related-locations :=
+		for $event in data:get-events-involving-people()
+		let $id := $event/@id
+		group by $id
+		return data:get-related-locations($event[1])
+	return 
+		for $location in $related-locations/self::location
+		let $id := $location/@id
+		group by $id
+		return $location[1]
+	
 };
 
 
