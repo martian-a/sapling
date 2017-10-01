@@ -115,9 +115,30 @@
 				<xsl:with-param name="id" select="'nav-alpha'" as="xs:string" />
 			</xsl:call-template>
 		</div>
-		<div class="chronological">
-			<h2>Chronological</h2>
-			<div class="multi-column">
+		
+		<div class="chronological" id="nav-chronological">
+			<h2>By Birth Year<a href="#note-1" class="note-glyph">*</a></h2>
+			<p id="note-1" class="note"><span class="note-glyph">*</span> Or estimated birth year if actual not known</p>
+			
+			<xsl:variable name="entries" as="element()*">
+				<xsl:for-each-group select="fn:sort-people(person)" group-by="@year">
+					<xsl:sort select="@year" data-type="number" order="ascending" />
+					<xsl:call-template name="generate-jump-navigation-group">
+						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
+						<xsl:with-param name="misc-match-label" select="'Year Unknown'" as="xs:string" />
+					</xsl:call-template>	
+				</xsl:for-each-group>
+			</xsl:variable>
+			
+			<xsl:call-template name="generate-jump-navigation">
+				<xsl:with-param name="entries" select="$entries" as="element()*" />
+				<xsl:with-param name="id" select="'nav-chronological'" as="xs:string" />
+				<xsl:with-param name="base" select="''" as="xs:string" /> 
+			</xsl:call-template>
+			
+			<!-- div class="multi-column">
 				<xsl:for-each-group select="fn:sort-people(person)" group-by="@year">
 					<xsl:sort select="@year" data-type="number" order="ascending" />
 					<div>
@@ -133,7 +154,7 @@
 						</ul>
 					</div>
 				</xsl:for-each-group>
-			</div>
+			</div -->
 		</div>
 	</xsl:template>
 	

@@ -668,7 +668,11 @@ ul.zebra li.even {
 /* Alphabetical Index: Jump List */
 
 .alphabetical .nav-list {
-	margin: 0 0 2em 0;
+	margin: 0;
+}
+
+.alphabetical .multi-column {
+	margin-top: 2em;
 }
 
 .alphabetical h2 {
@@ -705,3 +709,21 @@ ul.zebra li.even {
 }
 
 /* End of Alphabetical Index: Jump List */
+
+
+/* Chronological Index */
+
+.chronological h2 {
+	margin-bottom: 0;
+}
+
+.chronological p.note {
+	font-style: italic;
+	font-size: smaller;	
+}
+
+.chronological .multi-column {
+	margin-top: 2em;
+}
+
+/* End of Chronological Index */

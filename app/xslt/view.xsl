@@ -207,25 +207,27 @@
 		<xsl:param name="base" select="('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')" as="xs:string*" />
 		<xsl:param name="id" as="xs:string" />
 		
-		<div class="nav nav-list">
-			<h3>Jump To</h3>
-			<ul>
-				<xsl:for-each select="$base">
-					<li>
-						<xsl:choose>
-							<xsl:when test="lower-case(.) = $entries/label/lower-case(.)">
-								<a href="#{concat($id, '-', translate(lower-case(.), ' ', '-'))}">
+		<xsl:if test="$base != ''">
+			<div class="nav nav-list">
+				<h3>Jump To</h3>
+				<ul>
+					<xsl:for-each select="$base">
+						<li>
+							<xsl:choose>
+								<xsl:when test="lower-case(.) = $entries/label/lower-case(.)">
+									<a href="#{concat($id, '-', translate(lower-case(.), ' ', '-'))}">
+										<xsl:value-of select="."/>
+									</a>
+								</xsl:when>
+								<xsl:otherwise>
 									<xsl:value-of select="."/>
-								</a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="."/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</li>
-				</xsl:for-each>
-			</ul>
-		</div>	
+								</xsl:otherwise>
+							</xsl:choose>
+						</li>
+					</xsl:for-each>
+				</ul>
+			</div>	
+		</xsl:if>
 		<div class="multi-column">
 			<xsl:for-each select="$entries">
 				<div>
