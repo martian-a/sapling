@@ -58,7 +58,8 @@ people.attlist =
 person.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
-    attribute year { xsd:gYear }
+    attribute year { xsd:gYear },
+    attribute publish { xsd:boolean }?
 
 persona.attlist =
 	xml.attlist
