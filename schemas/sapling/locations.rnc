@@ -60,7 +60,9 @@ location.attlist =
     	"state" |
     	"country" |
     	"continent"
-    }
+    },
+    attribute mobile { xsd:boolean }? # Consider "transient" as an alternative name
+    
     
 within.attlist = 
 	location-ref.attlist,
