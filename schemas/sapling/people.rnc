@@ -23,50 +23,6 @@ persona = element persona {
 	persona.content-model
 }
 
-person.name.full = element name {
-	person.name.full.attlist,
-	person.name.full.content-model
-}
-
-person.name.title = element title {
-	person.name.title.attlist,
-	person.name.part.content-model
-}
-
-person.name.prefix = element prefix {
-	person.name.prefix.attlist,
-	person.name.part.content-model
-}
-
-person.name.honorific = element honorific {
-	person.name.honorific.attlist,
-	person.name.part.content-model
-}
-
-person.name.origin = element origin {
-	person.name.origin.attlist,
-	person.name.origin.content-model
-}
-
-person.name.particle = element particle {
-	person.name.particle.attlist,
-	person.name.part.content-model
-}
-
-person.name.location = element location {
-	person.name.location.attlist,
-	person.name.part.content-model
-}
-
-person.name.ordinal = element ordinal {
-	person.name.ordinal.attlist,
-	person.name.part.content-model
-}
-
-person.name.part = element name {
-	person.name.part.attlist,
-	person.name.part.content-model
-}
 
 gender = element gender {
 	gender.attlist,
@@ -82,29 +38,14 @@ people.content-model =
 
 person.content-model =
 	persona*,
-	note?
+	note?,
+	bibliography?
 
 persona.content-model =
 	person.name.full?,
 	gender?
 	
-person.name.full.content-model =	
-	mixed {
-		person.name.title |
-		person.name.prefix |
-		person.name.honorific |
-		person.name.part |
-		person.name.ordinal |
-		person.name.origin
-	}*
 
-person.name.part.content-model =
-	text
-	
-person.name.origin.content-model =
-	person.name.particle,
-	text,
-	person.name.location
 	
 gender.content-model =
 	text
@@ -121,38 +62,7 @@ person.attlist =
 
 persona.attlist =
 	xml.attlist
-
-person.name.full.attlist =
-	attribute xml:base { xsd:anyURI }?,
-	attribute xml:lang { xsd:language }?,
-	
-	[ a:defaultValue = "preserve" ]
-	attribute xml:space { "default" | "preserve" }?
-
-person.name.title.attlist =
-	xml.attlist
-
-person.name.prefix.attlist =
-	xml.attlist
-	
-person.name.honorific.attlist =
-	xml.attlist
-
-person.name.part.attlist =
-	xml.attlist,
-	attribute family {"yes"}?
 	
 gender.attlist =
 	xml.attlist
 
-person.name.origin.attlist =
-	xml.attlist
-	
-person.name.location.attlist =
-	xml.attlist
-	
-person.name.particle.attlist =
-	xml.attlist
-	
-person.name.ordinal.attlist =
-	xml.attlist

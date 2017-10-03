@@ -27,7 +27,8 @@ organisations.content-model =
 organisation.content-model =
 	name,
 	location-ref*,
-	note*
+	note*,
+	bibliography?
 
 
 # Attributes #

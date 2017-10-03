@@ -1,10 +1,23 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
-include "shared.rnc"
+include "shared.rnc" {
+
+	paragraph |= element p {
+		paragraph.attlist,
+		source.inline.content-model
+	}
+
+	entity-ref.content-model |=
+		text
+		
+}
+
+include "journals.rnc"
 
 
 # Root Element #
 start |= sources
+
 
 # Elements #
 
@@ -18,67 +31,220 @@ source = element source {
 	source.content-model
 }
 
-source.date |= element date {
-	source.date.attlist,
-	source.date.content-model
-}
-
-
 source.author = element author {
 	source.author.attlist,
 	source.contributor.content-model
 }
 
-source.publisher = element publisher {
-	source.publisher.attlist,
-	source.contributor.content-model
+source.body = element body {
+	source.body.attlist,
+	source.body.content-model
+}
+
+source.body-matter = element body-matter {
+	source.body-matter.attlist,
+	source.body-matter.content-model
+}
+
+source.chapter = element chapter {
+	source.chapter.attlist,
+	source.chapter.content-model
+}
+
+source.end-matter = element end-matter {
+	source.end-matter.attlist,
+	source.end-matter.content-model
+}
+
+source.extract = element extract {
+	source.extract.attlist,
+	source.extract.content-model
+}
+
+source.front-matter = element front-matter {
+	source.front-matter.attlist,
+	source.front-matter.content-model
+}
+
+source.front-matter.journal = element journal {
+	source.front-matter.journal.attlist,
+	source.front-matter.journal.content-model
+}
+
+source.date |= element date {
+	source.date.attlist,
+	source.date.content-model
+}
+
+source.inline.bold = element b {
+	source.inline.bold.attlist,
+	source.inline.content-model
+}
+
+source.inline.italic = element i {
+	source.inline.italic.attlist,
+	source.inline.content-model
+}
+
+source.inline.underline = element u {
+	source.inline.underline.attlist,
+	source.inline.content-model
 }
 
 source.isbn = element isbn {
 	text*
 }
 
+source.note = element note {
+	source.note.attlist,
+	source.note.content-model
+}
+
+source.note.label = element label {
+	source.note.label.attlist,
+	source.note.label.content-model
+}
+
+source.notes = element notes {
+	source.notes.attlist,
+	source.notes.content-model
+}
 
 
 # Content Models #
 
-sources.content-model =
-	source*
-	
 source.content-model =
-	title,
-	source.author*,
-	source.publisher?,
-	source.isbn?,
-	link,
-	source.date+
+	source.front-matter,
+	source.body-matter,
+	source.end-matter?
+
+source.body.content-model =
+	body-matter.content-model
+
+source.chapter.content-model =
+	body-matter.heading,
+	body-matter.subheading*,
+	source.body
+
+source.body-matter.content-model =
+	source.body |
+	source.chapter* |
+	source.extract*
+	
+source.contributor.content-model =
+	person.name.full
 	
 source.date.content-model =
 	text?
 	
-source.contributor.content-model =
-	text*
+source.end-matter.content-model =
+	source.notes?
+
+source.extract.content-model =
+	pages,
+	source.body
 	
+source.front-matter.content-model =
+	title,
+	volume?,
+	source.author*,
+	(
+		source.front-matter.generic.content-model | 
+		journal-ref
+	),
+	link?
+	
+source.front-matter.generic.content-model =
+	publisher? &
+	location-ref* &
+	source.isbn? &
+	source.date+
+	
+source.front-matter.journal.content-model =
+	source.front-matter.generic.content-model
+
+source.inline.content-model =
+	mixed { 
+		entity-ref* &
+		source.inline.italic* &
+		source.inline.bold* &
+		source.inline.underline*
+	}
+	
+source.notes.content-model =
+	source.note*
+	
+source.note.content-model =
+	source.note.label,
+	paragraph*
+		
+source.note.label.content-model =
+	text
+
+sources.content-model =
+	source*
+
 
 
 # Attributes #
 
-sources.attlist = 
-	xml.attlist
-	
 source.attlist =
 	xml.attlist,
     attribute id { xsd:ID }
 
+source.author.attlist =
+	entity-ref.attlist?
+
+source.body.attlist =
+	xml.attlist
+
+source.body-matter.attlist =
+	xml.attlist
+
+source.chapter.attlist =
+	xml.attlist,
+	attribute sequence { xsd:integer }
+
 source.date.attlist =
+	date.attlist,
 	attribute rel { 
 		"published" | 
 		"revised" | 
 		"retrieved" 
 	}
 	
-source.author.attlist =
+	
+source.end-matter.attlist =
+	xml.attlist
+
+source.extract.attlist =
+	xml.attlist
+
+source.front-matter.attlist =
+	xml.attlist
+
+source.front-matter.journal.attlist =
 	xml.attlist
 	
-source.publisher.attlist =
+source.inline.bold.attlist =
 	xml.attlist
+
+source.inline.italic.attlist =
+	xml.attlist
+
+source.inline.underline.attlist =
+	xml.attlist
+
+source.note.attlist =
+	xml.attlist,
+    attribute id { xsd:ID }
+
+source.note.label.attlist =
+	xml.attlist
+
+source.notes.attlist =
+	xml.attlist
+		
+sources.attlist = 
+	xml.attlist	
+

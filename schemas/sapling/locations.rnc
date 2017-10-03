@@ -38,7 +38,8 @@ location.content-model =
 	name*,
 	location-ref.within*,
 	location-ref.near*,
-	note*
+	note*,
+	bibliography?
 
 # Attributes #
 

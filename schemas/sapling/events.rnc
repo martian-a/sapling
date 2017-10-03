@@ -41,7 +41,8 @@ event.content-model =
 	person-ref*,
 	parental-ref*,
 	location-ref*,
-	summary?
+	summary?,
+	bibliography?
 
 
 # Attributes #
