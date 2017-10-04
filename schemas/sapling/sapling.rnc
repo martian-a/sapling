@@ -23,7 +23,8 @@ include "../../../cenizaro/schemas/app/app.rnc" {
 			organisations |
 			derived-names |
 			sources |
-			journals
+			journals |
+			app.static-content
 		)
 	
 	app.data.entity = 
@@ -34,8 +35,15 @@ include "../../../cenizaro/schemas/app/app.rnc" {
 			organisation |
 			derived-name |
 			source |
-			journal
+			journal | 
+			app.content
 		)
+		
+	app.inline.content-model =
+		mixed {
+			app.inline.emphasis*,
+			entity-ref*
+		}
 
 }
 include "people.rnc" {
