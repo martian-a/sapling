@@ -297,7 +297,8 @@ paragraph.attlist |=
 	xml.attlist
 
 person-ref.attlist |=
-	entity-ref.attlist
+	entity-ref.attlist,
+	attribute style { "familiar" | "formal" }?
 
 person.name.full.attlist |=
 	attribute xml:base { xsd:anyURI }?,
