@@ -59,6 +59,8 @@ person.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
     attribute year { xsd:gYear },
+    
+    [ a:defaultValue = "false" ]
     attribute publish { xsd:boolean }?
 
 persona.attlist =
