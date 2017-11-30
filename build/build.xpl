@@ -49,7 +49,7 @@
 	</p:documentation>
 	<p:option name="product" select="'static-html'" />
 			
-	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	<p:import href="utils/recursive_delete_directory.xpl"/>
 	<p:import href="utils/clean.xpl"/>
 	<p:import href="data/build.xpl" />

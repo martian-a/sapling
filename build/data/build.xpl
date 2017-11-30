@@ -21,7 +21,7 @@
 	<p:option name="scope" />
 	<p:option name="role" select="'core'" />
 	
-	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	
 	<p:input port="config" primary="true" />
 	

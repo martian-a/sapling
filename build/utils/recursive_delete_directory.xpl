@@ -33,7 +33,7 @@
 		<p:pipe step="results" port="result"/>
 	</p:output>
 	
-	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	
 	<p:documentation>
 		<d:doc>

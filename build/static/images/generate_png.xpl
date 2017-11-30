@@ -25,7 +25,7 @@
 		<p:pipe port="result" step="results" />
 	</p:output>
 	
-	<p:import href="http://xmlcalabash.com/extension/steps/fileutils.xpl"/>
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	
 	<p:try>
 		<p:group>
