@@ -166,6 +166,10 @@ publisher |= element publisher {
 	publisher.content-model
 }
 
+series |= element series {
+	series.attlist,
+	series.content-model
+}
 
 source-ref |= element source {
 	source-ref.attlist,
@@ -177,10 +181,36 @@ summary |= element summary {
 	mixed { entity-ref* }
 }
 
+table |= element table {
+	table.attlist,
+	table.content-model
+}
+
+table.row |= element tr {
+	table.row.attlist,
+	table.row.content-model
+}
+
+table.cell |= element td {
+	table.cell.attlist,
+	table.cell.content-model
+}
+
+table.heading-cell |= element th {
+	table.cell.attlist,
+	table.cell.content-model
+}
+
 title |= element title {
 	title.attlist,
 	text*
 }
+
+subtitle |= element subtitle {
+	title.attlist,
+	text*
+}
+
 
 volume |= element volume {
 	volume.attlist,
@@ -193,7 +223,8 @@ volume |= element volume {
 	
 body-matter.content-model |=
 	body-matter.section* &
-	paragraph*
+	paragraph* & 
+	table*
 	
 body-matter.heading.content-model |=
 	text
@@ -230,10 +261,28 @@ journal-ref.content-model |=
 	pages?
 
 pages.content-model |=
-	empty
+	text
 	
 publisher.content-model |=
 	text
+	
+series.content-model |=
+	text
+	
+series-group.content-model |=
+	series?,
+	volume?
+	
+table.content-model |=
+	table.row*
+	
+table.row.content-model |=
+	table.cell*
+	
+table.cell.content-model |=
+	mixed {
+		paragraph*
+	}
 	
 volume.content-model |=
 	text
@@ -331,6 +380,9 @@ person.name.title.attlist |=
 	
 publisher.attlist |=
 	xml.attlist
+	
+series.attlist |=
+	xml.attlist
 
 source-ref.attlist |=
 	entity-ref.attlist
@@ -338,6 +390,17 @@ source-ref.attlist |=
 summary.attlist |=
 	xml.attlist	
 	
+table.attlist |=
+	xml.attlist
+
+table.row.attlist |=
+	xml.attlist
+
+table.cell.attlist |=
+	xml.attlist,
+	attribute colspan { xsd:integer }?,
+	attribute rowspan { xsd:integer }?
+
 title.attlist |=
 	xml.attlist
 

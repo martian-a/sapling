@@ -31,6 +31,11 @@ source = element source {
 	source.content-model
 }
 
+source.acknowledgements = element acknowledgements {
+	source.acknowledgements.attlist,
+	source.acknowledgements.content-model
+}
+
 source.author = element author {
 	source.author.attlist,
 	source.contributor.content-model
@@ -115,8 +120,11 @@ source.notes = element notes {
 
 source.content-model =
 	source.front-matter,
-	source.body-matter,
+	source.body-matter?,
 	source.end-matter?
+
+source.acknowledgements.content-model =
+	paragraph*
 
 source.body.content-model =
 	body-matter.content-model
@@ -145,14 +153,16 @@ source.extract.content-model =
 	source.body
 	
 source.front-matter.content-model =
-	title,
-	volume?,
+	title*,
+	subtitle?,
+	series-group.content-model,
 	source.author*,
 	(
 		source.front-matter.generic.content-model | 
 		journal-ref
 	),
-	link?
+	link?,
+	source.acknowledgements*
 	
 source.front-matter.generic.content-model =
 	publisher? &
@@ -191,6 +201,9 @@ sources.content-model =
 source.attlist =
 	xml.attlist,
     attribute id { xsd:ID }
+
+source.acknowledgements.attlist =
+	xml.attlist
 
 source.author.attlist =
 	entity-ref.attlist?
