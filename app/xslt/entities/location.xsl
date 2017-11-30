@@ -141,14 +141,18 @@
 	
 
 	<xsl:template match="related/location">
-		<xsl:apply-templates select="self::*" mode="href-html" />
-		<xsl:variable name="context" select="fn:get-location-context(self::*)" as="element()?" />
-		<xsl:if test="count($context) > 0">
-			<xsl:text>, </xsl:text>
-			<xsl:apply-templates select="$context" mode="href-html" />
-		</xsl:if>
+		<xsl:apply-templates select="self::*" mode="in-context" />
 	</xsl:template>
 
+
+	<xsl:template match="location" mode="in-context">
+		<xsl:apply-templates select="self::*" mode="href-html" />
+		<xsl:variable name="context" select="fn:get-location-context(self::*)" as="element()*" />
+		<xsl:for-each select="$context">
+			<xsl:text>, </xsl:text>				
+			<xsl:apply-templates select="/*/key('location', current()/@id)" mode="href-html" />
+		</xsl:for-each>
+	</xsl:template>
 
 	<xsl:template match="location/name"/>
 	
@@ -160,10 +164,14 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="location[@ref]">
-		<xsl:apply-templates select="key('location', @ref)" mode="href-html" />
+	<xsl:template match="location[@ref][not(ancestor::event)]">
+		<xsl:apply-templates select="key('location', @ref)" />
 	</xsl:template>
 	
+	
+	<xsl:template match="location[@ref][ancestor::event]">
+		<xsl:apply-templates select="key('location', @ref)" mode="in-context" />
+	</xsl:template>
 	
 	<xsl:template match="data/location" mode="href-html">
 		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>

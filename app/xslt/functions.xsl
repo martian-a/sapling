@@ -55,10 +55,14 @@
 	</xsl:function>
 	
 	
-	<xsl:function name="fn:get-location-context" as="element()?">
+	<xsl:function name="fn:get-location-context" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		
 		<xsl:variable name="full-context" select="fn:get-full-location-context($location-in)" as="element()*" />
+		
+		<xsl:if test="$location-in/@type = 'address'">
+			<xsl:sequence select="$full-context[not(@type = ('country', 'continent'))][position() != last()][preceding-sibling::*/@type != 'settlement']" />		
+		</xsl:if>
 		
 		<xsl:choose>
 			<xsl:when test="$full-context[@type = ('country', 'continent')]">
@@ -75,7 +79,7 @@
 	<xsl:function name="fn:get-full-location-context" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		
-		<xsl:variable name="context" select="$location-in/key('location', within[1]/@ref)" as="element()?" />
+		<xsl:variable name="context" select="$location-in/ancestor::document-node()/key('location', $location-in/within[1]/@ref)" as="element()?" />
 		<xsl:sequence select="$context" />
 		<xsl:if test="$context/within">
 			<xsl:sequence select="fn:get-full-location-context($context)" />
