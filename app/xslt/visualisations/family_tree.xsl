@@ -186,7 +186,7 @@
 					</xsl:variable>
 					<xsl:variable name="node-id" select="current-grouping-key()" as="xs:string" />
 					<xsl:variable name="level" select="2" as="xs:integer" />
-					<xsl:variable name="mid-point" select="floor(count($partners-in-group) div 2)" as="xs:integer" />
+					<xsl:variable name="mid-point" select="xs:integer(floor(count($partners-in-group) div 2))" as="xs:integer" />
 					
 					<xsl:for-each select="$partners-in-group">
 						
