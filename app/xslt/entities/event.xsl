@@ -305,8 +305,14 @@
 	</doc:doc>
 	<xsl:template match="event[@type = 'birth'][not(summary)]" mode="summarise">
 		<xsl:variable name="parents" select="fn:sort-people(key('person', parent/@ref))" as="element()*" />
-		
-		<xsl:apply-templates select="key('person', person/@ref)" mode="href-html" />
+		<xsl:variable name="child" select="key('person', person/@ref)" as="element()?" />
+	
+		<xsl:choose>
+			<xsl:when test="count($child) &gt; 0">
+				<xsl:apply-templates select="$child" mode="href-html" />
+			</xsl:when>
+			<xsl:otherwise>A child</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text> is born</xsl:text>
 		<xsl:if test="count($parents) > 0"> to </xsl:if>
 		<xsl:for-each select="$parents">

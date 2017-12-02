@@ -185,7 +185,7 @@
 		<doc:title>Person Profile: layout template.</doc:title>
 	</doc:doc>
 	<xsl:template match="data/person">
-		<xsl:apply-templates select="persona" />
+		<xsl:apply-templates select="self::person[persona]" mode="personas" />
 		<xsl:apply-templates select="related[event/@type = ('birth', 'christening', 'marriage')]" mode="family" />
 		<xsl:apply-templates select="self::person[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
@@ -197,17 +197,25 @@
 	<doc:doc>
 		<doc:title>Person Profile: Additional Persona.</doc:title>
 	</doc:doc>
-	<xsl:template match="data/person/persona">
-		<div class="persona">
-			<xsl:if test="preceding-sibling::persona">
-				<h2>
-                    <xsl:apply-templates select="name"/>
-					</h2>
+	<xsl:template match="data/person" mode="personas">
+		<div class="personas">
+			<xsl:for-each select="persona[1]">
+				<p class="gender">
+					<xsl:value-of select="gender"/>
+					<xsl:apply-templates select="gender" mode="glyph.bracketed"/>
+				</p>
+			</xsl:for-each>
+			<xsl:if test="count(persona) &gt; 1">
+				<h2>Also Known As</h2>
+				<ul>
+					<xsl:for-each select="persona[preceding-sibling::persona]">
+						<li>
+							<xsl:apply-templates select="name"/>
+							<xsl:apply-templates select="gender" mode="glyph.bracketed"/>
+						</li>
+					</xsl:for-each>
+				</ul>
 			</xsl:if>
-			<p class="gender">
-                <xsl:value-of select="gender"/>
-                <xsl:apply-templates select="gender" mode="glyph.bracketed"/>
-            </p>
 		</div>
 	</xsl:template>
 
@@ -352,14 +360,14 @@
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
 		<xsl:variable name="events" select="event[@type = 'birth'][person/@ref = $subject-id][parent]" as="element()*" />
+		<xsl:variable name="public-parents" select="$events/parent[@ref]" as="element()*" />
 		
-		<xsl:if test="count($events) > 0">
-			<xsl:variable name="people" select="$events/parent[@ref]" as="element()*" />
+		<xsl:if test="count($public-parents) > 0">
 			
 			<div class="parents">
 				<h3>Parents</h3>
 				<ul>
-					<xsl:for-each select="fn:sort-people($people)">
+					<xsl:for-each select="fn:sort-people($public-parents)">
 						<li><xsl:apply-templates select="self::*" /></li>
 					</xsl:for-each>
 				</ul>
@@ -378,18 +386,19 @@
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
 		<xsl:variable name="events" select="event[@type = 'birth'][parent/@ref = $subject-id][person]" as="element()*" />
+		<xsl:variable name="public-children" select="$events/person[@ref != $subject-id]/key('person', @ref)" as="element()*" />
 		
-		<xsl:if test="count($events) > 0">
+		<xsl:if test="count($public-children) > 0">
 			<div class="children">
 				<h3>Children</h3>
 				<ul>
-					<xsl:for-each-group select="$events/person[@ref != $subject-id]/key('person', @ref)" group-by="@id">
-						<xsl:sort select="date/@year" data-type="number" order="ascending" />
-						<xsl:sort select="date/@month" data-type="number" order="ascending" />
-						<xsl:sort select="date/@day" data-type="number" order="ascending" />
+					<xsl:for-each select="$public-children">
+						<xsl:sort select="if ($events[person/@ref = current()/@ref]/date/@year) then $events[person/@ref = current()/@ref]/date/@year else @year" data-type="number" order="ascending" />
+						<xsl:sort select="$events[person/@ref = current()/@ref]/date/@month" data-type="number" order="ascending" />
+						<xsl:sort select="$events[person/@ref = current()/@ref]/date/@day" data-type="number" order="ascending" />
 						
 						<li><xsl:apply-templates select="self::*" mode="href-html" /></li>
-					</xsl:for-each-group>
+					</xsl:for-each>
 				</ul>
 			</div>
 		</xsl:if>
@@ -406,18 +415,26 @@
 	<xsl:template match="related" mode="family.partners">
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
-		<xsl:variable name="events" select="event[@type = 'marriage'][person/@ref = $subject-id and person/@ref != $subject-id] | event[@type = 'birth'][parent/@ref = $subject-id and parent/@ref != $subject-id]" as="element()*" />
+		<xsl:variable name="events" as="element()*">
+			<xsl:for-each  select="event[@type = 'marriage'][person/@ref = $subject-id and person/@ref != $subject-id] | event[@type = 'birth'][parent/@ref = $subject-id and parent/@ref != $subject-id]">
+				<xsl:sort select="date/@year" data-type="number" order="ascending" />
+				<xsl:sort select="date/@month" data-type="number" order="ascending" />
+				<xsl:sort select="date/@day" data-type="number" order="ascending" />
+				<xsl:sequence select="self::event" />
+			</xsl:for-each>
+		</xsl:variable>
+		<xsl:variable name="public-partners" select="($events[@type = 'marriage']/person[@ref != $subject-id] | $events[not(@type = 'marriage')]/parent[@ref != $subject-id])/key('person', @ref)" as="element()*" />
 			
-		<xsl:if test="count($events) > 0">
+		<xsl:if test="count($public-partners) > 0">
 			<div class="partners">
 				<h3>Partners</h3>
 				<ul>
-					<xsl:for-each-group select="$events" group-by="if (@type = 'marriage') then person/@ref[. != $subject-id] else parent/@ref[. != $subject-id]">
-						<xsl:sort select="date/@year" data-type="number" order="ascending" />
-						<xsl:sort select="date/@month" data-type="number" order="ascending" />
-						<xsl:sort select="date/@day" data-type="number" order="ascending" />
+					<xsl:for-each-group select="$public-partners" group-by="@id">
+						<xsl:sort select="$events[*/@ref = current-grouping-key()][1]/date/@year" data-type="number" order="ascending" />
+						<xsl:sort select="$events[*/@ref = current-grouping-key()][1]/date/@month" data-type="number" order="ascending" />
+						<xsl:sort select="$events[*/@ref = current-grouping-key()][1]/date/@day" data-type="number" order="ascending" />
 						
-						<li><xsl:apply-templates select="key('person', current-grouping-key())" mode="href-html" /></li>
+						<li><xsl:apply-templates select="current-group()[1]" mode="href-html" /></li>
 					</xsl:for-each-group>
 				</ul>
 			</div>
@@ -456,9 +473,16 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="person[@ref] | parent[@ref]">
-		<xsl:apply-templates select="key('person', @ref)" mode="href-html">
-			<xsl:with-param name="style" select="if (@style != '') then @style else 'formal'" as="xs:string?" tunnel="yes"/>
-		</xsl:apply-templates>	
+		<xsl:variable name="public-record" select="key('person', @ref)" as="element()?" />
+		
+		<xsl:choose>
+			<xsl:when test="count($public-record) &gt; 0">
+				<xsl:apply-templates select="$public-record" mode="href-html">
+					<xsl:with-param name="style" select="if (@style != '') then @style else 'formal'" as="xs:string?" tunnel="yes"/>
+				</xsl:apply-templates>					
+			</xsl:when>
+			<xsl:otherwise>[name witheld]</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 

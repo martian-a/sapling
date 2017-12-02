@@ -24,7 +24,7 @@
 	
 	
 	<xsl:template match="/app/view[data/entities/organisation]" mode="view.title">
-		<xsl:text>organisations</xsl:text>
+		<xsl:text>Organisations</xsl:text>
 	</xsl:template>
 	
 	

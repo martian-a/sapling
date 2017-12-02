@@ -180,8 +180,12 @@ div.main {
  * Page Title 
  */
  
- h1 {
- 	margin: 0em 0 0.5em 0;
+ body h1 {
+ 	margin: 0;
+ }
+ 
+ body.index h1 {
+ 	margin-bottom: 0.5em;
  }
  
 /* End of Page Title */
