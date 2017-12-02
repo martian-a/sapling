@@ -7,12 +7,29 @@
 	version="2.0">
 	
 	<doc:doc>
+		<doc:desc>
+			<doc:p>Filter source data, preparing it for distribution.</doc:p>
+			<doc:ul>
+				<doc:ingress>Actions include:</doc:ingress>
+				<doc:li>exclude person records that aren't yet ready for publishing</doc:li>
+				<doc:li>exclude event records that aren't related to a publishable person</doc:li>
+				<doc:li>exclude organisation records that aren't related to a publishable person or event</doc:li>
+				<doc:li>exclude location records that aren't related to a publishable person, event or organisation</doc:li>
+				<doc:li>anonymise or remove cross-references to person records that aren't yet ready for publishing</doc:li>
+			</doc:ul>
+		</doc:desc>
+	</doc:doc>
+	
+	
+	
+	<doc:doc>
 		<doc:title>Key: Person</doc:title>
 		<doc:desc>
 			<doc:p>For quickly finding a person entity in the data, using it's ID.</doc:p>
 		</doc:desc>
 	</doc:doc>
 	<xsl:key name="person" match="/app/data/people/person[@publish = 'true']" use="@id" />
+	
 	
 	<doc:doc>
 		<doc:title>Key: Location</doc:title>
@@ -22,6 +39,7 @@
 	</doc:doc>
 	<xsl:key name="location" match="/app/data/locations/location" use="@id" />
 	
+	
 	<doc:doc>
 		<doc:title>Key: Location within</doc:title>
 		<doc:desc>
@@ -29,6 +47,8 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:key name="location-within" match="/app/data/locations/location" use="within/@ref" />
+
+
 
 	<doc:doc>
 		<doc:title>Unpublished Events</doc:title>
@@ -100,17 +120,34 @@
 		</xsl:for-each>
 	</xsl:variable>
 	
+	
+	
+	<doc:doc>
+		<doc:title>Initial template</doc:title>
+		<doc:desc>
+			<doc:p>Match the document root and initiate transformation.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="/">
 		<xsl:result-document>
 			<xsl:apply-templates />
 		</xsl:result-document>
 	</xsl:template>	
+
 	
-	
-	<!-- Suppress person records that aren't explicitly set to publish. -->
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Suppress person records that aren't explicitly set to publish.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="person[@id][not(@publish = 'true')]" />	
 	
-	<!-- Suppress references to person records that aren't explicitly set to publish. -->
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Suppress references to person records that aren't explicitly set to publish.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="person[@ref]">
 		<xsl:choose>
 			<xsl:when test="key('person', @ref)">
@@ -127,21 +164,35 @@
 	</xsl:template>	
 
 	
-	<!-- Suppress event records that don't invovle a person who isn't explicitly set to publish. -->
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Suppress event records that don't invovle a person who isn't explicitly set to publish.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="event[@id]">
 		<xsl:if test="not(@id = $unpublished-events/@id)">
 			<xsl:next-match />
 		</xsl:if>
 	</xsl:template>	
 	
-	<!-- Suppress organisation records that don't involve a person who isn't explicitly set to publish. -->
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Suppress organisation records that don't involve a person who isn't explicitly set to publish</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="organisation[@id]">
 		<xsl:if test="not(@id = $unpublished-organisations/@id)">
 			<xsl:next-match />
 		</xsl:if>
 	</xsl:template>	
 	
-	<!-- Suppress location records that don't involve a person who isn't explicitly set to publish. -->
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Suppress location records that don't involve a person who isn't explicitly set to publish.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="location[@id]">
 		<xsl:if test="not(@id = $unpublished-locations/@id)">
 			<xsl:next-match />
@@ -149,18 +200,37 @@
 	</xsl:template>	
 	
 	
+	
+	<doc:doc>
+		<doc:title>Identity Transform: Element</doc:title>
+		<doc:desc>
+			<doc:p>Match and copy and element node.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="*">
 		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:apply-templates select="node()" />
+			<xsl:apply-templates select="@*, node()" />
 		</xsl:copy>
 	</xsl:template>
 	
+	
+	<doc:doc>
+		<doc:title>Identity Transform: Attribute, Comment or Processing Instruction</doc:title>
+		<doc:desc>
+			<doc:p>Match and deep copy an attribute, comment or processing instruction.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:template match="@* | comment() | processing-instruction()">
 		<xsl:copy-of select="." />
 	</xsl:template>
 	
 	
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>Return a list of all the locations within a specified location.</doc:p>
+		</doc:desc>
+	</doc:doc>
 	<xsl:function name="fn:get-locations-within" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		
