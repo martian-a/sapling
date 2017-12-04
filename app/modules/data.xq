@@ -498,8 +498,13 @@ declare function data:get-related-organisations($entity as element()) as element
 
 declare function data:get-related-organisations($entity as element(), $related-events as element()*) as element()* {
 
-	let $entities := ($entity, $related-events)
-	for $ref in distinct-values($entities/descendant::organisation/@ref/xs:string(.))
+	let $entities := 
+	   switch ($entity/name())
+	   case "location" return ($entity, $related-events, data:get-locations-within($entity))
+	   default return ($entity, $related-events)
+	let $references-to-organisations := $entities/descendant::organisation/@ref/xs:string(.)
+	let $references-from-organisations := data:get-entities('organisation')/self::organisation[descendant::*/@ref = $entities/@id]/@id/xs:string(.)
+	for $ref in distinct-values(($references-to-organisations, $references-from-organisations))
 	let $organisation := data:get-entity($ref)/self::organisation[@id != $entity/@id]
 	order by $organisation/number(substring-after(@id, 'ORG')) ascending
 	return $organisation

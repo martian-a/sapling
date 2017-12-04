@@ -30,7 +30,7 @@
 	
 	<xsl:template match="data/location" mode="context">
 		<xsl:variable name="full-context" select="fn:get-full-location-context(self::location)" as="element()*" />
-		<xsl:variable name="locations-within" select="fn:get-locations-within(self::location)" as="element()*" />
+		<xsl:variable name="locations-within" select="fn:get-locations-within(self::location, 1)" as="element()*" />
 		
 		<xsl:if test="(count($full-context) + count($locations-within)) > 0">
 			<div class="context">
@@ -43,29 +43,29 @@
 				</xsl:if>
 				<xsl:if test="count($locations-within) > 0">
 					<h3>Contains</h3>
-					<xsl:call-template name="locations-within">
-						<xsl:with-param name="locations" select="$locations-within" as="element()*" />
-					</xsl:call-template>
+					<xsl:apply-templates select="self::location" mode="locations-within">
+						<xsl:with-param name="locations-within" select="$locations-within" as="element()*" />
+					</xsl:apply-templates>
 				</xsl:if>
 			</div>
 		</xsl:if>
 	</xsl:template>
 	
 	
-	<xsl:template name="locations-within">
-		<xsl:param name="locations" as="element()*" />
-		<ul>
-			<xsl:for-each select="$locations">
-				<xsl:sort select="name[1]" data-type="text" order="ascending" />
-				<xsl:apply-templates select="current()" mode="context" />
-				<xsl:variable name="locations-within" select="fn:get-locations-within(current())" as="element()*" />
-				<xsl:if test="count($locations-within) > 0">
-					<xsl:call-template name="locations-within">
-						<xsl:with-param name="locations" select="$locations-within" as="element()*" />
-					</xsl:call-template>
-				</xsl:if>
-			</xsl:for-each>
-		</ul>
+	<xsl:template match="location" mode="locations-within">
+		<xsl:param name="locations-within" select="fn:get-locations-within(self::location, 1)" as="element()*" />
+		
+		<xsl:if test="count($locations-within) &gt; 0">
+			<ul>
+				<xsl:for-each select="$locations-within">
+					<xsl:sort select="name[1]" data-type="text" order="ascending" />
+					<li>
+						<p><xsl:apply-templates select="self::*" mode="href-html" /></p>
+						<xsl:apply-templates select="self::location" mode="locations-within" />	
+					</li>
+				</xsl:for-each>
+			</ul>
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template match="related/location" mode="context">

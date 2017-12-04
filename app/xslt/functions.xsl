@@ -88,12 +88,29 @@
 	</xsl:function>
 	
 	
+	<!-- Get all locations within the specified location, including locations within locations. -->
 	<xsl:function name="fn:get-locations-within" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		
+		<xsl:sequence select="fn:get-locations-within($location-in, 0)" />
+	</xsl:function>
+	
+	
+	<!-- Get a list of locations within a specified location. -->
+	<xsl:function name="fn:get-locations-within" as="element()*">
+		<xsl:param name="location-in" as="element()" />
+		<xsl:param name="depth" as="xs:integer" />
+		
 		<xsl:for-each select="$location-in/key('location-within', @id)">
 			<xsl:sequence select="current()" /> 
-			<xsl:sequence select="fn:get-locations-within(current())" />
+			<xsl:choose>
+				<xsl:when test="$depth = 0">
+					<xsl:sequence select="fn:get-locations-within(current(), $depth)" />
+				</xsl:when>
+				<xsl:when test="$depth &gt; 1">
+					<xsl:sequence select="fn:get-locations-within(current(), $depth - 1)" />
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 		
 	</xsl:function>
