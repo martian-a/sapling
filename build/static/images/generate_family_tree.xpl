@@ -30,9 +30,9 @@
 	<p:import href="generate_png.xpl" />
 	
 	<p:variable name="href-app" select="/build/source/app/@href" />
-	<p:variable name="path-to-view-html" select="concat(/build/output/site/@href, 'html/')" />
-	<p:variable name="path-to-assets" select="concat($path-to-view-html, 'assets/')"  />
-	<p:variable name="target" select="concat($path-to-assets, 'images/network-graphs/')" />
+	<p:variable name="path-to-view-html" select="'../../../../../../'" />
+	<p:variable name="path-to-view-assets" select="'assets/'"  />
+	<p:variable name="target" select="concat(/build/output/site/@href, 'html/', $path-to-view-assets, 'images/network-graphs/')" />
 	
 
 	<tcy:generate-xquery-config>
@@ -112,7 +112,7 @@
 									<p:pipe port="result" step="load-stylesheet" />
 								</p:input>		
 								<p:with-param name="path-to-view-html" select="$path-to-view-html" />
-								<p:with-param name="path-to-images" select="concat($path-to-assets, 'images/')" />
+								<p:with-param name="path-to-images" select="concat($path-to-view-assets, 'images/')" />
 								<p:with-param name="static" select="'true'" />
 								<p:with-param name="serialise" select="'dot'" />
 								<p:with-param name="graph-direction" select="$graph-direction" />

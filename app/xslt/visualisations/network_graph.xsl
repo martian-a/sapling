@@ -25,17 +25,17 @@
 	
 	<xsl:strip-space elements="*"/>
 	
-	<xsl:variable name="normalised-path-to-js" select="fn:add-trailing-slash(translate($path-to-js, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-js" select="if ($path-to-js = '') then '' else fn:add-trailing-slash(translate($path-to-js, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-css" select="fn:add-trailing-slash(translate($path-to-css, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-css" select="if ($path-to-css = '') then '' else fn:add-trailing-slash(translate($path-to-css, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-images" select="fn:add-trailing-slash(translate($path-to-images, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-images" select="if ($path-to-images = '') then '' else fn:add-trailing-slash(translate($path-to-images, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-view-xml" select="fn:add-trailing-slash(translate($path-to-view-xml, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-xml" select="if ($path-to-view-xml = '') then '' else fn:add-trailing-slash(translate($path-to-view-xml, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-view-html" select="fn:add-trailing-slash(translate($path-to-view-html, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-html" select="if ($path-to-view-html = '') then '' else fn:add-trailing-slash(translate($path-to-view-html, '\', '/'))"/>
 	
-	<xsl:variable name="normalised-path-to-view-svg" select="fn:add-trailing-slash(translate($path-to-view-svg, '\', '/'))"/>
+	<xsl:variable name="normalised-path-to-view-svg" select="if ($path-to-view-svg = '') then '' else fn:add-trailing-slash(translate($path-to-view-svg, '\', '/'))"/>
 	
 	<xsl:variable name="ext-xml" select="if (xs:boolean($static)) then '.xml' else ''" as="xs:string?"/>
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>
