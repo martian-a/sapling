@@ -35,6 +35,7 @@
 		</d:doc>
 	</p:documentation>
 	<p:variable name="href-app" select="/build/source/app/@href" />
+	<p:variable name="href-static" select="/build/source/static/@href" />
 	<p:variable name="href-xml" select="concat(/build/output/site/@href, 'xml/')" />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'html/')" />
 	
@@ -43,9 +44,22 @@
 			<d:desc>Copy javascript and style assets that the result will depend on the output directory.</d:desc>
 		</d:doc>
 	</p:documentation>
-	<tcy:copy-dependencies name="copy-dependencies">
+	<tcy:copy-dependencies name="copy-dependencies-from-app">
 		<p:with-option name="href" select="$href-app" />
 		<p:with-option name="target" select="concat($target, '/assets/')" />
+		<p:with-option name="exclude-filter" select="'modules|test|utils|view|xslt'" />
+	</tcy:copy-dependencies>
+	
+	<p:sink />
+	
+	<p:documentation>
+		<d:doc scope="step">
+			<d:desc>Copy miscellaneous assets that the result will depend on the output directory.</d:desc>
+		</d:doc>
+	</p:documentation>
+	<tcy:copy-dependencies name="copy-dependencies-from-static">
+		<p:with-option name="href" select="$href-static" />
+		<p:with-option name="target" select="concat($target, '/')" />
 	</tcy:copy-dependencies>
 	
 	<p:sink />
@@ -74,7 +88,8 @@
 	</p:documentation>
 	<p:wrap-sequence wrapper="c:created">
 		<p:input port="source">
-			<p:pipe port="result" step="copy-dependencies" />
+			<p:pipe port="result" step="copy-dependencies-from-app" />
+			<p:pipe port="result" step="copy-dependencies-from-static" />
 			<p:pipe port="result" step="generate-html" />
 		</p:input>
 	</p:wrap-sequence>

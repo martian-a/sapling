@@ -42,6 +42,14 @@
 			<d:desc>A URL to the directory containing the app file(s).</d:desc>
 		</d:doc>
 		<app href="file:///project/app/" />
+
+		<d:doc>
+			<d:desc>A URL to a directory containing static content.</d:desc>
+			<d:note>
+				<d:p>For example: file:///project/app/</d:p>
+			</d:note>
+		</d:doc>
+		<static href="file:///project/static/" />
 		
 	</source>
 	

@@ -2,6 +2,7 @@
 <p:declare-step
 	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:c="http://www.w3.org/ns/xproc-step"
+	xmlns:cxf="http://xmlcalabash.com/ns/extensions/fileutils"
 	xmlns:d="http://ns.kaikoda.com/documentation/xml"
 	xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
 	version="2.0"
@@ -38,65 +39,100 @@
 	</p:documentation>
 	<p:option name="target" required="true" />
 	
+	<p:option name="include-filter" />
+	<p:option name="exclude-filter" />
+	
 	
 	<p:output port="result" sequence="true" />
 	
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	<p:import href="../../utils/recursive_copy_directory.xpl" />
 
-	<p:group name="copy-dependencies">
+
+	<p:choose name="directory-listing">
+		<p:when test="p:value-available('include-filter')
+			and p:value-available('exclude-filter')">
+			<p:directory-list>
+				<p:with-option name="path" select="$href"/>
+				<p:with-option name="include-filter" select="$include-filter"/>
+				<p:with-option name="exclude-filter" select="$exclude-filter"/>
+			</p:directory-list>
+		</p:when>
+		
+		<p:when test="p:value-available('include-filter')">
+			<p:directory-list>
+				<p:with-option name="path" select="$href"/>
+				<p:with-option name="include-filter" select="$include-filter"/>
+			</p:directory-list>
+		</p:when>
+		
+		<p:when test="p:value-available('exclude-filter')">
+			<p:directory-list>
+				<p:with-option name="path" select="$href"/>
+				<p:with-option name="exclude-filter" select="$exclude-filter"/>
+			</p:directory-list>
+		</p:when>
+		
+		<p:otherwise>
+			<p:directory-list>
+				<p:with-option name="path" select="$href"/>
+			</p:directory-list>
+		</p:otherwise>
+	</p:choose>
 	
-		<p:output port="result" sequence="true">
-			<p:pipe port="result" step="copy-dependencies-js" />
-			<p:pipe port="result" step="copy-dependencies-style" />
-			<p:pipe port="result" step="copy-dependencies-images" />
-			<p:pipe port="result" step="copy-dependencies-fonts" />
-		</p:output>
-		
+
 	
-		<p:documentation>
-			<d:doc scope="step">
-				<d:desc>Copy javascript assets that the result will depend on to the output directory.</d:desc>
-			</d:doc>
-		</p:documentation>
-		<tcy:recursive-copy-directory name="copy-dependencies-js">
-			<p:with-option name="href" select="concat($href, '/js/')" />
-			<p:with-option name="target" select="concat($target, '/js/')" />
-		</tcy:recursive-copy-directory>
+	<p:for-each name="copy-dependencies">
 		
-	
-		<p:documentation>
-			<d:doc scope="step">
-				<d:desc>Copy style assets that the result will depend on to the output directory.</d:desc>
-			</d:doc>
-		</p:documentation>
-		<tcy:recursive-copy-directory name="copy-dependencies-style">
-			<p:with-option name="href" select="concat($href, '/css/')" />
-			<p:with-option name="target" select="concat($target, '/css/')" />
-		</tcy:recursive-copy-directory>
+		<p:iteration-source select="c:directory/*" />
 		
+		<p:output port="result" sequence="true" />
+
+		<p:group>
+			
+			<p:variable name="local-path" select="*/@name" />
+			
+			
+			<!-- js, css, images, fonts -->
 		
-		<p:documentation>
-			<d:doc scope="step">
-				<d:desc>Copy image assets that the result will depend on to the output directory.</d:desc>
-			</d:doc>
-		</p:documentation>
-		<tcy:recursive-copy-directory name="copy-dependencies-images">
-			<p:with-option name="href" select="concat($href, '/images/')" />
-			<p:with-option name="target" select="concat($target, '/images/')" />
-		</tcy:recursive-copy-directory>
+			<p:choose>
+				
+				<p:xpath-context>
+					<p:pipe port="current" step="copy-dependencies" />
+				</p:xpath-context>
+				
+				<p:when test="/c:file">
+					
+					<cxf:copy name="copy-file">
+						<p:with-option name="href" select="concat($href, '/', $local-path)" />
+						<p:with-option name="target" select="concat($target, '/', $local-path)" />
+					</cxf:copy>
+					
+					<p:identity>
+						<p:input port="source">
+							<p:pipe port="result" step="copy-file" />
+						</p:input>
+					</p:identity>
+					
+				</p:when>				
+				<p:otherwise>
+					
+					<p:documentation>
+						<d:doc scope="step">
+							<d:desc>Copy javascript assets that the result will depend on to the output directory.</d:desc>
+						</d:doc>
+					</p:documentation>
+					<tcy:recursive-copy-directory>
+						<p:with-option name="href" select="concat($href, '/', $local-path, '/')" />
+						<p:with-option name="target" select="concat($target, '/', $local-path, '/')" />
+					</tcy:recursive-copy-directory>
+						
+				</p:otherwise>
+			</p:choose>
 		
+		</p:group>
 		
-		<p:documentation>
-			<d:doc scope="step">
-				<d:desc>Copy image assets that the result will depend on to the output directory.</d:desc>
-			</d:doc>
-		</p:documentation>
-		<tcy:recursive-copy-directory name="copy-dependencies-fonts">
-			<p:with-option name="href" select="concat($href, '/fonts/')" />
-			<p:with-option name="target" select="concat($target, '/fonts/')" />
-		</tcy:recursive-copy-directory>
-		
-	</p:group>
+	</p:for-each>
 
 	
 </p:declare-step>
