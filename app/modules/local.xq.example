@@ -1,0 +1,9 @@
+xquery version "3.0";
+module namespace local = "http://ns.thecodeyard.co.uk/xquery/settings/local";
+
+declare variable $local:path-to-data := "/home/username/git/projectname/data/";
+declare variable $local:path-to-schemas := "/home/username/git/projectname/schemas/";
+declare variable $local:path-to-view := "/home/username/git/projectname/app/view/";
+declare variable $local:path-to-css := "/home/username/git/projectname/app/css/";
+declare variable $local:path-to-xslt := "/home/username/projectname/app/xslt/";
+declare variable $local:path-to-js := "/home/username/git/projectname/app/js/";

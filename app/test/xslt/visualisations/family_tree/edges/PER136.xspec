@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+		
+	
+	<x:scenario label="Edges (PER136)">
+		
+		<x:scenario label="Partners">
+			
+			<x:scenario label="are sorted correctly (relationship start date, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Subject to first relationship is first edge"  
+					select="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[1]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Sole partner from first relationship is second edge"  
+					select="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[2]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Subject to second relationship is nineth edge"  
+					select="/network/edges/object[9]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[9]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Sole partner from second relationship is tenth edge"  
+					select="/network/edges/object[10]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[10]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Subject to third relationship is eleventh edge"  
+					select="/network/edges/object[11]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[11]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Sole partner from third relationship is twelfth edge"  
+					select="/network/edges/object[12]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[12]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Children">
+			
+			<x:scenario label="are sorted correctly (parental relationship start date, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<!-- check the result -->
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Eldest child from Subject is second edge"  
+					select="/network/edges/object[6]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[6]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Second child is seventh edge"  
+					select="/network/edges/object[7]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[7]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Youngest child is eigth edge"  
+					select="/network/edges/object[8]/(property[@label = 'from'], property[@label = 'to'])"
+					test="/network/edges/object[8]/(property[@label = 'from'], property[@label = 'to'])" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+	</x:scenario>
+
+</x:description>

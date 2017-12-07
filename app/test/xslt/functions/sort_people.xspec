@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+
+	<x:scenario label="Sort people">
+		
+		<x:scenario label="No people">
+			
+			<x:call function="fn:sort-people">
+				<x:param />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="()"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Just family name">
+			
+			<x:call function="fn:sort-people">
+				<x:param>
+					<person>
+						<persona><name><name family="yes">Quebec</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Zero</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Alfa</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Lima</name></name></persona>
+					</person>			
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="People ordered by family name (alphabetical, ascending)" select="/result/*">
+				<result>
+					<person>
+						<persona>
+							<name><name family="yes">Alfa</name></name>
+						</persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Lima</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Quebec</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name family="yes">Zero</name></name></persona>
+					</person>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="Just non-family name">
+			
+			<x:call function="fn:sort-people">
+				<x:param>
+					<person>
+						<persona><name><name>Quebec</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Zero</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Alfa</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Lima</name></name></persona>
+					</person>			
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="People ordered by non-family name (alphabetical, ascending)" select="/result/*">
+				<result>
+					<person>
+						<persona>
+							<name><name>Alfa</name></name>
+						</persona>
+					</person>
+					<person>
+						<persona><name><name>Lima</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Quebec</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Zero</name></name></persona>
+					</person>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="Forename and family name">
+			
+			<x:call function="fn:sort-people">
+				<x:param>
+					<person>
+						<persona><name><name>Quebec</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Zero</name> <name family="yes">Alfa</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Alfa</name> <name family="yes">Lima</name></name></persona>
+					</person>			
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="People ordered by family name (alphabetical, ascending) and forename (alphabetical, ascending)" select="/result/*">
+				<result>
+					<person>
+						<persona>
+							<name><name>Zero</name> <name family="yes">Alfa</name></name>
+						</persona>
+					</person>
+					<person>
+						<persona><name><name>Alfa</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Quebec</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person>
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="Just year">
+			
+			<x:call function="fn:sort-people">
+				<x:param>
+					<person year="1901" />
+					<person year="2001" />
+					<person year="1899" />
+					<person year="1810" />
+					<person year="1900" />
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="People ordered by year (chronological, ascending)" select="/result/*">
+				<result>
+					<person year="1810" />
+					<person year="1899" />
+					<person year="1900" />
+					<person year="1901" />
+					<person year="2001" />
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="Forename, family name and year">
+			
+			<x:call function="fn:sort-people">
+				<x:param>
+					<person year="2010">
+						<persona><name><name>Quebec</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person year="1901">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person year="1899">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person year="1900">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person year="2050">
+						<persona><name><name>Zero</name> <name family="yes">Alfa</name></name></persona>
+					</person>
+					<person year="2001">
+						<persona><name><name>Alfa</name> <name family="yes">Lima</name></name></persona>
+					</person>			
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="People ordered by family name (alphabetical, ascending), forename (alphabetical, ascending) and year (chronological, ascending)" select="/result/*">
+				<result>
+					<person year="2050">
+						<persona><name><name>Zero</name> <name family="yes">Alfa</name></name></persona>
+					</person>
+					<person year="2001">
+						<persona><name><name>Alfa</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person year="2010">
+						<persona><name><name>Quebec</name> <name family="yes">Lima</name></name></persona>
+					</person>
+					<person year="1899">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person year="1900">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+					<person year="1901">
+						<persona><name><name>Lima</name> <name family="yes">Zero</name></name></persona>
+					</person>
+				</result>
+			</x:expect>
+			
+		</x:scenario>
+		
+		
+
+	</x:scenario>
+	
+</x:description>

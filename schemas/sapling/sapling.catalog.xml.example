@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+	
+	<system systemId="http://ns.thecodeyard.co.uk/schema/kurumi.rnc?v=0.1" uri="/home/username/git/projectname/schemas/kurumi/kurumi.rnc" />
+	<system systemId="http://ns.thecodeyard.co.uk/schema/kurumi.sch?v=0.1" uri="/home/username/git/projectname/schemas/kurumi/kurumi.sch" />
+	<system systemId="http://ns.thecodeyard.co.uk/schema/app.rnc?v=0.1" uri="/home/username/git/projectname/schemas/app/app.rnc" />
+	<system systemId="http://ns.thecodeyard.co.uk/schema/app.sch?v=0.1" uri="/home/username/git/projectname/schemas/app/app.sch" />
+	
+	<public publicId="-//The Code Yard//App XML Specification - Part 1 v0.1.0//EN" uri="/home/username/git/projectname/schemas/app/app.rnc"/>
+	<public publicId="-//The Code Yard//App XML Specification - Part 2 v0.1.0//EN" uri="/home/username/git/projectname/schemas/app/app.sch"/>
+	<public publicId="-//The Code Yard//Nutrition XML Specification - Part 1 v0.1.0//EN" uri="/home/username/git/projectname/schemas/kurumi/kurumi.rnc"/>
+	<public publicId="-//The Code Yard//Nutrition XML Specification - Part 2 v0.1.0//EN" uri="/home/username/git/projectname/schemas/kurumi/kurumi.sch"/>
+	
+</catalog>

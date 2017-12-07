@@ -1,0 +1,77 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= locations
+
+# Elements #
+
+locations = element locations { 
+	locations.attlist, 
+	locations.content-model
+}
+
+location = element location { 
+	location.attlist, 
+	location.content-model
+}
+
+location-ref.within = element within {
+	within.attlist,
+	entity-ref.content-model
+}
+
+location-ref.near = element near {
+	near.attlist,
+	entity-ref.content-model
+}
+
+
+# Content Models #
+
+locations.content-model =
+	location*
+	
+location.content-model =
+	name*,
+	location-ref.within*,
+	location-ref.near*,
+	note*,
+	bibliography?
+
+# Attributes #
+
+locations.attlist = 
+	xml.attlist
+		
+location.attlist =
+	xml.attlist,
+    attribute id { xsd:ID },
+    attribute type { 
+    	"landmark" |
+    	"address" |
+    	"district" |
+    	"parish" |
+    	"settlement" |
+    	"county" |
+    	"region" |
+    	"state" |
+    	"country" |
+    	"continent"
+    },
+    attribute mobile { xsd:boolean }? # Consider "transient" as an alternative name
+    
+    
+within.attlist = 
+	location-ref.attlist,
+	
+	[ a:defaultValue = "physical" ]
+	attribute rel {
+		"physical" |
+		"political"
+	}?
+	
+near.attlist = 
+	location-ref.attlist

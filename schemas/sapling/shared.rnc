@@ -1,0 +1,412 @@
+# Namespaces #
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+
+
+# Data Types #
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+
+
+# Includes #
+
+include "../../../cenizaro/schemas/xml.rnc"
+
+
+
+# Root Element #
+start |= notAllowed
+
+
+
+
+# Elements #
+
+bibliography |= element sources {
+	source-ref*
+}
+
+body-matter.heading |= element heading {
+	body-matter.heading.attlist,
+	body-matter.heading.content-model
+}
+
+body-matter.section |= element section {
+	body-matter.section.attlist,
+	body-matter.section.content-model
+}
+
+body-matter.subheading |= element subheading {
+	body-matter.heading.attlist,
+	body-matter.heading.content-model
+}
+
+date |= element date {
+	date.attlist,
+	text*
+}
+
+entity-ref |= (
+	person-ref | 
+	event-ref | 
+	location-ref | 
+	organisation-ref |
+	source-ref |
+	journal-ref |
+	note-ref
+)
+
+event-ref |= element event {
+	event-ref.attlist,
+	entity-ref.content-model
+}
+
+journal-ref |= element journal {
+	journal-ref.attlist,
+	journal-ref.content-model
+}
+
+location-ref |= element location {
+	location-ref.attlist,
+	entity-ref.content-model
+}
+
+link |= element link {
+	link.attlist,
+	empty
+}
+
+name |= element name { 
+	name.attlist,
+	text*
+}
+
+note |= element note {
+	note.attlist,
+	paragraph*
+}
+
+note-ref |= element note {
+	note-ref.attlist,
+	entity-ref.content-model
+}
+
+organisation-ref |= element organisation {
+	organisation-ref.attlist,
+	entity-ref.content-model
+}
+
+pages.content-model |=
+	empty
+
+paragraph |= element p {
+	paragraph.attlist,
+	mixed { entity-ref* }
+}
+
+person-ref |= element person {
+	person-ref.attlist,
+	entity-ref.content-model
+}
+
+pages |= element pages {
+	pages.attlist,
+	pages.content-model
+}
+
+person.name.full |= element name {
+	person.name.full.attlist,
+	person.name.full.content-model
+}
+
+person.name.honorific |= element honorific {
+	person.name.honorific.attlist,
+	person.name.part.content-model
+}
+
+person.name.location |= element location {
+	person.name.location.attlist,
+	person.name.part.content-model
+}
+
+person.name.ordinal |= element ordinal {
+	person.name.ordinal.attlist,
+	person.name.part.content-model
+}
+
+person.name.origin |= element origin {
+	person.name.origin.attlist,
+	person.name.origin.content-model
+}
+
+person.name.part |= element name {
+	person.name.part.attlist,
+	person.name.part.content-model
+}
+
+person.name.particle |= element particle {
+	person.name.particle.attlist,
+	person.name.part.content-model
+}
+
+person.name.prefix |= element prefix {
+	person.name.prefix.attlist,
+	person.name.part.content-model
+}
+
+person.name.title |= element title {
+	person.name.title.attlist,
+	person.name.part.content-model
+}
+
+publisher |= element publisher {
+	publisher.attlist,
+	publisher.content-model
+}
+
+series |= element series {
+	series.attlist,
+	series.content-model
+}
+
+source-ref |= element source {
+	source-ref.attlist,
+	summary?
+}
+
+summary |= element summary { 
+	summary.attlist,
+	mixed { entity-ref* }
+}
+
+table |= element table {
+	table.attlist,
+	table.content-model
+}
+
+table.row |= element tr {
+	table.row.attlist,
+	table.row.content-model
+}
+
+table.cell |= element td {
+	table.cell.attlist,
+	table.cell.content-model
+}
+
+table.heading-cell |= element th {
+	table.cell.attlist,
+	table.cell.content-model
+}
+
+title |= element title {
+	title.attlist,
+	text*
+}
+
+subtitle |= element subtitle {
+	title.attlist,
+	text*
+}
+
+
+volume |= element volume {
+	volume.attlist,
+	volume.content-model
+}
+
+
+
+# Content Models #
+	
+body-matter.content-model |=
+	body-matter.section* &
+	paragraph* & 
+	table*
+	
+body-matter.heading.content-model |=
+	text
+	
+body-matter.section.content-model |=
+	body-matter.heading?,
+	body-matter.subheading*,
+	body-matter.content-model
+	
+entity-ref.content-model |=
+	empty
+
+person.name.full.content-model |=	
+	mixed {
+		person.name.title |
+		person.name.prefix |
+		person.name.honorific |
+		person.name.part |
+		person.name.ordinal |
+		person.name.origin
+	}*
+	
+person.name.origin.content-model |=
+	person.name.particle,
+	text,
+	person.name.location
+
+person.name.part.content-model |=
+	text
+
+journal-ref.content-model |=
+	volume?,
+	date?,
+	pages?
+
+pages.content-model |=
+	text
+	
+publisher.content-model |=
+	text
+	
+series.content-model |=
+	text
+	
+series-group.content-model |=
+	series?,
+	volume?
+	
+table.content-model |=
+	table.row*
+	
+table.row.content-model |=
+	table.cell*
+	
+table.cell.content-model |=
+	mixed {
+		paragraph*
+	}
+	
+volume.content-model |=
+	text
+
+
+
+# Attributes #
+	
+date.attlist |=
+	xml.attlist,
+	attribute year { xsd:integer },
+	attribute month { xsd:integer }?,
+	attribute day { xsd:integer }?
+
+body-matter.heading.attlist |=
+	xml.attlist
+	
+body-matter.section.attlist |=
+	xml.attlist
+
+event-ref.attlist |=
+	entity-ref.attlist
+
+entity-ref.attlist |=
+	xml.attlist,
+	attribute ref { xsd:IDREF }
+
+journal-ref.attlist |=
+	entity-ref.attlist
+	
+location-ref.attlist |=
+	entity-ref.attlist
+
+link.attlist |=	
+	xml.attlist,
+	attribute href { xsd:anyURI }
+
+name.attlist |=
+	xml.attlist,
+	attribute rel {
+		"historical" |
+		"popular"
+	}?,
+	attribute abbreviation { xsd:boolean }?
+
+note.attlist |=
+	xml.attlist
+
+note-ref.attlist |=
+	entity-ref.attlist
+
+organisation-ref.attlist |=
+	entity-ref.attlist
+	
+pages.attlist |=
+	xml.attlist,
+	attribute start { xsd:integer },
+	attribute end { xsd:integer }
+	
+paragraph.attlist |=
+	xml.attlist
+
+person-ref.attlist |=
+	entity-ref.attlist,
+	attribute style { "familiar" | "formal" }?
+
+person.name.full.attlist |=
+	attribute xml:base { xsd:anyURI }?,
+	attribute xml:lang { xsd:language }?
+
+person.name.honorific.attlist |=
+	xml.attlist
+
+person.name.location.attlist |=
+	xml.attlist
+
+person.name.ordinal.attlist |=
+	xml.attlist
+
+person.name.origin.attlist |=
+	xml.attlist
+
+person.name.part.attlist |=
+	xml.attlist,
+	attribute family {"yes"}?
+
+person.name.particle.attlist |=
+	xml.attlist
+
+person.name.prefix.attlist |=
+	xml.attlist
+		
+person.name.title.attlist |=
+	xml.attlist	
+	
+publisher.attlist |=
+	xml.attlist
+	
+series.attlist |=
+	xml.attlist
+
+source-ref.attlist |=
+	entity-ref.attlist
+
+summary.attlist |=
+	xml.attlist	
+	
+table.attlist |=
+	xml.attlist
+
+table.row.attlist |=
+	xml.attlist
+
+table.cell.attlist |=
+	xml.attlist,
+	attribute colspan { xsd:integer }?,
+	attribute rowspan { xsd:integer }?
+
+title.attlist |=
+	xml.attlist
+
+volume.attlist |=
+	xml.attlist,
+	attribute number { xsd:integer }
+	
+xml.attlist |= 
+	xml.anyElement.attlist

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+
+	<x:scenario label="Title">
+		
+		<x:scenario label="No value submitted">
+			
+			<x:call function="fn:title-case">
+				<x:param />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="''"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Single, lower-case word">
+			
+			<x:call function="fn:title-case">
+				<x:param>test</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Initial letter capitalised." select="'Test'" />
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Single, upper-case word">
+			
+			<x:call function="fn:title-case">
+				<x:param>TEST</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Unchanged." select="'TEST'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Multiple, lower-case words">
+			
+			<x:call function="fn:title-case">
+				<x:param>my little test</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Initial letter of each word capitalised." select="'My Little Test'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Multiple, upper-case words">
+			
+			<x:call function="fn:title-case">
+				<x:param>MY LITTLE TEST</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Unchanged." select="'MY LITTLE TEST'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Multiple, mixed-case words">
+			
+			<x:call function="fn:title-case">
+				<x:param>MY liTtle tESt</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Initial letter of each word capitalised, original upper case letters unchanged." select="'MY LiTtle TESt'" />
+			
+		</x:scenario>
+	
+	</x:scenario>
+
+
+</x:description>

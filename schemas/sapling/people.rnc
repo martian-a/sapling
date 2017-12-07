@@ -1,0 +1,69 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= people
+
+# Elements #
+
+people = element people {
+	people.attlist, 
+	people.content-model
+}
+	
+person = element person { 
+	person.attlist,
+	person.content-model
+}
+
+persona = element persona {
+	persona.attlist,
+	persona.content-model
+}
+
+
+gender = element gender {
+	gender.attlist,
+	gender.content-model
+}
+
+
+
+# Content Models #
+
+people.content-model =
+	person*
+
+person.content-model =
+	persona*,
+	note?,
+	bibliography?
+
+persona.content-model =
+	person.name.full?,
+	gender?
+	
+
+	
+gender.content-model =
+	text
+	
+# Attributes #
+
+people.attlist = 
+	xml.attlist
+	
+person.attlist =
+	xml.attlist,
+    attribute id { xsd:ID },
+    attribute year { xsd:gYear },
+    attribute publish { xsd:boolean }?
+
+persona.attlist =
+	xml.attlist
+	
+gender.attlist =
+	xml.attlist
+

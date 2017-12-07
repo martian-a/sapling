@@ -1,0 +1,48 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc" {
+
+	entity-ref.content-model |=
+		text
+		
+}
+
+
+# Root Element #
+start |= journals
+
+
+# Elements #
+
+journals = element journals { 
+	journals.attlist, 
+	journals.content-model
+}
+	
+journal = element journal { 
+	journal.attlist, 
+	journal.content-model
+}
+
+
+# Content Models #
+
+journal.content-model =
+	title,
+	publisher,
+	location-ref
+
+journals.content-model =
+	journal*
+
+
+
+# Attributes #
+
+journal.attlist =
+	xml.attlist,
+    attribute id { xsd:ID }
+		
+journals.attlist = 
+	xml.attlist	
+

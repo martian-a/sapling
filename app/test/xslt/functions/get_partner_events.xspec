@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+	
+	<x:scenario label="Get partner events">
+		
+		<x:scenario label="Unmarried partnership">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER17.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Unmarried partnership event" test="event/@type = 'unmarried-partnership'" />
+			<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Engagement">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER18.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Engagement event" test="event/@type = 'engagement'" />
+			<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Marriage">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER19.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Engagement event" test="event/@type = 'marriage'" />
+			<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Separation">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER20.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Engagement event" test="event/@type = 'separation'" />
+			<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Divorce">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER21.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Engagement event" test="event/@type = 'divorce'" />
+			<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Birth">
+				
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER11.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Birth event" test="event/@type = 'birth'" />
+			<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Christening">
+				
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER12.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Birth event" test="event/@type = 'christening'" />
+			<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+			
+		</x:scenario>
+		
+		<x:scenario label="Adoption">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER13.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Single result" test="count(event) = 1" />
+			<x:expect label="Birth event" test="event/@type = 'adoption'" />
+			<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+			
+			
+		</x:scenario>
+		
+		<x:scenario label="More than one type">
+			
+			<x:call function="fn:get-partner-events">
+				<x:param name="person-in" href="../data/input/functions/PER16.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Sequence of nine events returned" test="count(event) = 9" />
+			<x:expect label="Birth event" test="event/@type = 'birth'" />
+			<x:expect label="Christening event" test="event/@type = 'christening'" />
+			<x:expect label="Adoption event" test="event/@type = 'adoption'" />
+			<x:expect label="Unmaried relationship event" test="event/@type = 'unmarried-partnership'" />
+			<x:expect label="Engagement event" test="event/@type = 'engagement'" />
+			<x:expect label="Separation event" test="event/@type = 'separation'" />
+			<x:expect label="Divorce event" test="event/@type = 'divorce'" />
+			<x:expect label="Marriage event" test="event/@type = 'marriage'" />
+			<x:expect label="No historical events" test="not(event/@type = 'historical')" />
+			<x:expect label="A parent in of all the returned birth events is the person-in" test="count(event[parent/@ref = 'PER3']) = 3" />
+			<x:expect label="A subject in of all the returned non-birth events is the person-in" test="count(event[person/@ref = 'PER3']) = 6" />
+			<x:expect label="First event is an unmarried relationship" test="event[1]/@type = 'unmarried-partnership'" />
+			<x:expect label="Second event is a separation" test="event[2]/@type = 'separation'" />
+			<x:expect label="Third event is an engagement" test="event[3]/@type = 'engagement'" />
+			<x:expect label="Fourth event is an marriage" test="event[4]/@type = 'marriage'" />
+			<x:expect label="Fifth event is an birth" test="event[5]/@type = 'birth'" />
+			<x:expect label="Sixth event is an christening" test="event[6]/@type = 'christening'" />
+			<x:expect label="Seventh event is a divorce" test="event[7]/@type = 'divorce'" />
+			<x:expect label="Eighth event is an unmarried relationship" test="event[8]/@type = 'unmarried-partnership'" />
+			<x:expect label="Ninth event is an adoption" test="event[9]/@type = 'adoption'" />
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+</x:description>

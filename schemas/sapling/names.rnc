@@ -1,0 +1,63 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+include "shared.rnc"
+
+
+# Root Element #
+start |= derived-names
+
+# Elements #
+
+derived-names = element names { 
+	derived-names.attlist, 
+	derived-names.content-model
+}
+
+derived-name = element name { 
+	derived-name.attlist, 
+	derived-name.content-model
+}
+
+derived-name.label = element name {
+	derived-name.label.attlist,
+	text*
+}
+
+derived-name.derived-from = element derived-from {
+	derived-name.derived-from.attlist,
+	derived-name.derived-from.content-model
+}
+
+
+# Content Models #
+
+derived-names.content-model =
+	derived-name*
+
+derived-name.content-model =
+	derived-name.label,
+	derived-name.derived-from?
+
+derived-name.derived-from.content-model =
+	(
+		person-ref |
+		organisation-ref |
+		location-ref
+	)*
+
+# Attributes #
+
+derived-names.attlist = 
+	xml.attlist
+		
+derived-name.attlist =
+	xml.attlist,
+    attribute id { xsd:ID },
+    attribute key { xsd:string },
+    attribute abbreviation { xsd:boolean }?
+    
+derived-name.label.attlist =
+	xml.attlist
+	
+derived-name.derived-from.attlist =
+	xml.attlist

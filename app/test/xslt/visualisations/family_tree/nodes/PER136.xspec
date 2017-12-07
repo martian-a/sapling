@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+		
+	<x:scenario label="Nodes (PER136)">
+		
+		<x:scenario label="Subject">
+			
+			<x:scenario label="is labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="John Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER136']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER136']/property[@label = 'label']" />
+								
+			</x:scenario>
+			
+		</x:scenario>
+		
+		<x:scenario label="Partners">
+			
+			<x:scenario label="are labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Alice Massey"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER149']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER149']/property[@label = 'label']" />
+
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Mary Asheton"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER150']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER150']/property[@label = 'label']" />
+
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Alice Chadderton"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER152']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER152']/property[@label = 'label']" />
+				
+			</x:scenario>
+			
+			<x:scenario label="are sorted correctly (relationship start, fallback year, name)">				
+					
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Alice Massey follows Subject"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER149']/preceding-sibling::object/property[@label = 'id'] = 'PER136'" />
+
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Mary Asheton follows Alice Massey"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER150']/preceding-sibling::object/property[@label = 'id'] = 'PER149'" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Alice Chadderton follows Mary Asheton"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER152']/preceding-sibling::object/property[@label = 'id'] = 'PER150'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="relationship">
+				
+				<x:scenario label="follows first partner in relationship">
+					
+					<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Alice Massey"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER149']/preceding-sibling::object/property[@label = 'id'] = 'PER136'" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Mary Asheton"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER150']/preceding-sibling::object/property[@label = 'id'] = 'PER136'" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Alice Chadderton"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER152']/preceding-sibling::object/property[@label = 'id'] = 'PER136'" />
+					
+				</x:scenario>
+		
+				<x:scenario label="precedes last partner in relationship">
+					
+					<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Alice Massey"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER149']/following-sibling::object/property[@label = 'id'] = 'PER149'" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Mary Asheton"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER150']/following-sibling::object/property[@label = 'id'] = 'PER150'" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+						label="Alice Chadderton"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER152']/following-sibling::object/property[@label = 'id'] = 'PER152'" />
+					
+				</x:scenario>
+				
+				<x:scenario label="is labelled correctly">
+					
+					<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml"
+						label="Alice Massey"
+						select="/network/nodes/object[property[@label = 'id'] = 'PER136PER149']/property[@label = 'label']"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER149']/property[@label = 'label']" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml"
+						label="Mary Asheton"
+						select="/network/nodes/object[property[@label = 'id'] = 'PER136PER150']/property[@label = 'label']"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER150']/property[@label = 'label']" />
+					
+					<x:expect href="../../../data/expected/network-xml/PER136.xml"
+						label="Alice Chadderton"
+						select="/network/nodes/object[property[@label = 'id'] = 'PER136PER152']/property[@label = 'label']"
+						test="/network/nodes/object[property[@label = 'id'] = 'PER136PER152']/property[@label = 'label']" />
+					
+				</x:scenario>
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Children">
+			
+			<x:scenario label="are labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Jane Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER141']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER141']/property[@label = 'label']" />
+
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="John Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER139']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER139']/property[@label = 'label']" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Mary Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER142']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER142']/property[@label = 'label']" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Richard Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER138']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER138']/property[@label = 'label']" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml"
+					label="Thomas Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER140']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER140']/property[@label = 'label']" />
+				
+			</x:scenario>
+			
+			<x:scenario label="are after subject">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="First child follows subject"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER141']/preceding-sibling::object/property[@label = 'id'] = 'PER136'" />
+							
+
+			</x:scenario>
+			
+			<x:scenario label="are sorted correct (parental relationship start, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER136.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Second child follows immediately after first child"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER139']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER141'" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Third child follows immediately after second child"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER142']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER139'" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Fifth child follows immediately after fourth child"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER138']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER142'" />
+
+				<x:expect href="../../../data/expected/network-xml/PER136.xml" 
+					label="Sixth child follows immediately after fifth child"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER140']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER138'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+</x:description>

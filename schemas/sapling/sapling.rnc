@@ -1,0 +1,112 @@
+# Namespaces #
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace xi = "http://www.w3.org/2001/XInclude"
+
+
+
+# Data Types #
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+
+
+# Includes #
+
+include "../../../cenizaro/schemas/app/app.rnc" {
+	
+	app.data.entity.collection = 
+		(
+			people |
+			events |
+			locations |
+			organisations |
+			derived-names |
+			sources |
+			journals |
+			app.static-content
+		)
+	
+	app.data.entity = 
+		(
+			person |
+			event |
+			location |
+			organisation |
+			derived-name |
+			source |
+			journal | 
+			app.content
+		)
+		
+	app.inline.content-model =
+		mixed {
+			app.inline.emphasis*,
+			entity-ref*
+		}
+
+}
+include "people.rnc" {
+
+	person = element person {
+		person.attlist,
+		person.content-model,
+		app.view.data.related?
+	}
+}
+include "events.rnc" {
+	
+	event = element event {
+		event.attlist,
+		event.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "locations.rnc" {
+
+	location = element location {
+		location.attlist,
+		location.content-model,
+		app.view.data.related?
+	}
+
+}
+include "organisations.rnc" {
+	
+	organisation = element organisation {
+		organisation.attlist,
+		organisation.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "sources.rnc" {
+	
+	source = element source {
+		source.attlist,
+		source.content-model,
+		app.view.data.related?
+	}
+	
+	journal = element journal {
+		journal.attlist,
+		journal.content-model,
+		app.view.data.related?
+	}
+	
+}
+include "names.rnc" {
+
+	derived-name = element name {
+		derived-name.attlist,
+		derived-name.content-model,
+		app.view.data.related?
+	}
+
+}
+
+
+
+# Root Element #
+start |= app.root

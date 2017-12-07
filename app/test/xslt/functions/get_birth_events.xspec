@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+	
+	<x:scenario label="Get birth events">
+		
+		<x:scenario label="As subject">
+			
+			<x:scenario label="Birth">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER7.xml" select="/app/view/data/person" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'birth'" />
+				<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER7'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="Christening">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER9.xml" select="/app/view/data/person" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'christening'" />
+				<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER9'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="Adoption">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER10.xml" select="/app/view/data/person" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'adoption'" />
+				<x:expect label="Subject of the event is the person-in" test="event/person/@ref = 'PER10'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="More than one type">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER14.xml" select="/app/view/data/person" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Sequence of three events returned" test="count(event) = 3" />
+				<x:expect label="Birth event" test="event/@type = 'birth'" />
+				<x:expect label="Christening event" test="event/@type = 'christening'" />
+				<x:expect label="Adoption event" test="event/@type = 'adoption'" />
+				<x:expect label="Subject of all the returned events is the person-in" test="count(event[person/@ref = 'PER14']) = 3" />
+				<x:expect label="Birth event is first" test="event[1]/@type = 'birth'" />
+				<x:expect label="Christening event is second" test="event[2]/@type = 'christening'" />
+				<x:expect label="Adoption event is last" test="event[3]/@type = 'adoption'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="As parent">
+			
+			<x:scenario label="No birth events of children recorded">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER7.xml" select="/app/view/data/person" as="element()" />
+					<x:param name="role">parent</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 0" />
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="Birth">
+					
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER11.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+					<x:param name="role">parent</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'birth'" />
+				<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="Christening">
+					
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER12.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+					<x:param name="role">parent</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'christening'" />
+				<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="Adoption">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER13.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+					<x:param name="role">parent</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Single result" test="count(event) = 1" />
+				<x:expect label="Birth event" test="event/@type = 'adoption'" />
+				<x:expect label="Subject of the event is the person-in" test="event/parent/@ref = 'PER3'" />
+				
+				
+			</x:scenario>
+			
+			<x:scenario label="More than one type">
+				
+				<x:call function="fn:get-birth-events">
+					<x:param name="person-in" href="../data/input/functions/PER15.xml" select="/app/view/data/person/related/person[@id = 'PER3']" as="element()" />
+					<x:param name="role">parent</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="Sequence of three events returned" test="count(event) = 3" />
+				<x:expect label="Birth event" test="event/@type = 'birth'" />
+				<x:expect label="Christening event" test="event/@type = 'christening'" />
+				<x:expect label="Adoption event" test="event/@type = 'adoption'" />
+				<x:expect label="A parent in of all the returned events is the person-in" test="count(event[parent/@ref = 'PER3']) = 3" />
+				<x:expect label="Birth event is first" test="event[1]/@type = 'birth'" />
+				<x:expect label="Christening event is second" test="event[2]/@type = 'christening'" />
+				<x:expect label="Adoption event is last" test="event[3]/@type = 'adoption'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+</x:description>

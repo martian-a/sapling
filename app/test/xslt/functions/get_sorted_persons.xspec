@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+	
+	<x:scenario label="Get sorted persons">
+		
+		<x:scenario label="Marriage">
+				
+			<x:scenario label="By year (no name)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER2.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All partners, sorted chronologically by year." select="/result/*">
+					<result>
+						<person ref="PER3" />
+						<person ref="PER2" />
+						<person ref="PER1" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="By name (no year)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER1.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All partners, sorted alphabetically by name." select="/result/*">
+					<result>
+						<person ref="PER3" />
+						<person ref="PER2" />
+						<person ref="PER1" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="By ID (no year or name)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER3.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All partners, sorted chronologically by year." select="/result/*">
+					<result>
+						<person ref="PER1" />
+						<person ref="PER3" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		<x:scenario label="Birth (subjects)">
+			
+			<x:scenario label="By year (no name)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER4.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All subects, sorted chronologically by year." select="/result/*">
+					<result>
+						<person ref="PER3" />
+						<person ref="PER4" />
+						<person ref="PER1" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="By name (no year)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER5.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All subjects, sorted alphabetically by name." select="/result/*">
+					<result>
+						<person ref="PER3" />
+						<person ref="PER2" />
+						<person ref="PER5" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="By ID (no year or name)">
+				
+				<x:call function="fn:get-sorted-persons">
+					<x:param name="event" href="../data/input/functions/PER6.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="All subjects, sorted chronologically by year." select="/result/*">
+					<result>
+						<person ref="PER1" />
+						<person ref="PER6" />
+					</result>
+				</x:expect>
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+</x:description>

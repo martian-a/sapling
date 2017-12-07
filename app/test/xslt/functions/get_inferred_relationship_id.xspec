@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+	
+	<x:scenario label="Get inferred relationship ID">
+		
+		<x:scenario label="From birth of child">
+			
+			<x:scenario label="Two parents">
+				
+				<x:call function="fn:get-inferred-relationship-id">
+					<x:param name="event" href="../data/input/functions/PER7.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="A single ID, composed of all the parents' IDs, sorted by ID (numeric)." select="'PER2PER3'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="From divorce">
+			
+			<x:scenario label="Two people">
+				
+				<x:call function="fn:get-inferred-relationship-id">
+					<x:param name="event" href="../data/input/functions/PER8.xml" select="/app/view/data/person/related/event[@id = 'EVE1']" as="element()" />
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="A single ID, composed of all the partners' IDs, sorted by ID (numeric)." select="'PER8PER9'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+</x:description>

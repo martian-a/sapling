@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+	
+	<x:scenario label="Get sort name">
+		
+		<x:scenario label="No persona">
+			
+			<x:call function="fn:get-sort-name">
+				<x:param select="/related/person">
+					<related>
+						<person id="PER1" />
+					</related>
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="''"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Only one persona to choose from">
+			
+			<x:call function="fn:get-sort-name">
+				<x:param select="/related/person">
+					<related>
+						<person id="PER1">
+							<persona><name><name>Zero</name> <name>Lima</name> <name family="yes">Alfa</name></name></persona>
+						</person>
+					</related>
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="The sole persona" select="'Alfa Zero Lima'" />
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Multiple personas to choose from">
+			
+			<x:scenario label="Default persona">
+				
+				<x:call function="fn:get-sort-name">
+					<x:param select="/related/person">
+						<related>
+							<person id="PER1">
+								<persona><name><name>Zero</name> <name>Lima</name> <name family="yes">Alfa</name></name></persona>
+								<persona><name><name>Alfa</name> <name>Lima</name> <name family="yes">Zero</name></name></persona>
+							</person>
+						</related>
+					</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="The first persona" select="'Alfa Zero Lima'" />
+				
+			</x:scenario>
+			
+			
+			<x:scenario label="Specific persona">
+				
+				<x:call function="fn:get-sort-name">
+					<x:param select="/related/person">
+						<related>
+							<person id="PER1">
+								<persona><name><name>Zero</name> <name>Lima</name> <name family="yes">Alfa</name></name></persona>
+								<persona><name><name>Alfa</name> <name>Lima</name> <name family="yes">Zero</name></name></persona>
+							</person>
+						</related>
+					</x:param>
+					<x:param select="/related/person/persona[2]">
+						<related>
+							<person id="PER1">
+								<persona><name><name>Zero</name> <name>Lima</name> <name family="yes">Alfa</name></name></persona>
+								<persona><name><name>Alfa</name> <name>Lima</name> <name family="yes">Zero</name></name></persona>
+							</person>
+						</related>
+					</x:param>
+				</x:call>
+				
+				<!-- check the result -->
+				<x:expect label="The second persona" select="'Zero Alfa Lima'" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+	
+</x:description>

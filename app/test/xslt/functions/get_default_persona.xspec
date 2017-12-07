@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../xslt/global.xsl">
+
+	<x:scenario label="Get default persona">
+		
+		<x:scenario label="No persona">
+			
+			<x:call function="fn:get-default-persona">
+				<x:param>
+					<person />
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="Empty" select="()"/>
+			
+		</x:scenario>
+		
+		<x:scenario label="Only one persona to choose from">
+			
+			<x:call function="fn:get-default-persona">
+				<x:param>
+					<person>
+						<persona><name><name family="yes">Alfa</name></name></persona>
+					</person>
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="The sole persona" select="/*">
+				<persona>
+					<name><name family="yes">Alfa</name></name>
+				</persona>			
+			</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="Multiple personas to choose from">
+			
+			<x:call function="fn:get-default-persona">
+				<x:param>
+					<person>
+						<persona><name><name family="yes">Alfa</name></name></persona>
+						<persona><name><name family="yes">Lima</name></name></persona>
+						<persona><name><name family="yes">Zero</name></name></persona>
+					</person>
+				</x:param>
+			</x:call>
+			
+			<!-- check the result -->
+			<x:expect label="The first persona" select="/*">
+				<persona>
+					<name><name family="yes">Alfa</name></name>
+				</persona>			
+			</x:expect>
+			
+		</x:scenario>
+
+	</x:scenario>
+	
+</x:description>

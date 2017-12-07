@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../../xslt/visualisations/family_tree.xsl">
+
+	<!-- 
+		Includes example of:
+		- death date but no date for birth/christening.
+	-->
+
+	<x:scenario label="Nodes (PER143)">
+		
+		<x:scenario label="Subject">
+			
+			<x:scenario label="is labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml"
+					label="Theophilus Holte"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER143']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER143']/property[@label = 'label']" />
+								
+			</x:scenario>
+			
+		</x:scenario>
+		
+		<x:scenario label="Partners">
+			
+			<x:scenario label="are labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml"
+					label="Alice Greenhalgh"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER137']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER137']/property[@label = 'label']" />
+				
+			</x:scenario>
+			
+			<x:scenario label="are sorted correctly (relationship start date, fallback date, name)">				
+					
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<!-- check the result -->
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Subject precedes Alice"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER143']/following-sibling::object/property[@label = 'id'] = 'PER137'" />
+				
+			</x:scenario>
+			
+			<x:scenario label="relationship">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<!-- check the result -->
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="follows first partner in the relationship"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER137PER143']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER143'" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml"
+					label="is labelled correctly"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER137PER143']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER137PER143']/property[@label = 'label']" />
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="Children">
+			
+			<x:scenario label="are labelled correctly">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml"
+					label="Thomas Posthumous Holte"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER144']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER144']/property[@label = 'label']" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml"
+					label="Cathering Holte"
+					select="/network/nodes/object[property[@label = 'id'] = 'PER145']/property[@label = 'label']"
+					test="/network/nodes/object[property[@label = 'id'] = 'PER145']/property[@label = 'label']" />
+				
+			</x:scenario>
+			
+			<x:scenario label="are after subject">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="First child follows subject"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER144']/preceding-sibling::object/property[@label = 'id'] = 'PER143'" />
+							
+
+			</x:scenario>
+			
+			<x:scenario label="are sorted correctly (parents' relationship start date, fallback date, name)">
+				
+				<x:context href="../../../data/input/graph-xml/PER143.xml" select="/*" />
+				
+				<!-- check the result -->
+				
+				<x:expect href="../../../data/expected/network-xml/PER143.xml" 
+					label="Second child follows immediately after first child"  
+					test="/network/nodes/object[property[@label = 'id'] = 'PER145']/preceding-sibling::object[1]/property[@label = 'id'] = 'PER144'" />				
+				
+			</x:scenario>
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+</x:description>

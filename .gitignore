@@ -1,0 +1,18 @@
+# Tool Artifacts
+*.xpr
+.project
+.settings
+.classpath
+/*/**/.gitignore
+
+# Directories
+
+/temp
+/dist
+/data
+/archive
+/resources
+
+# Files
+
+*.catalog.xml

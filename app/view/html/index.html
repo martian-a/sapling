@@ -1,0 +1,20 @@
+xquery version "3.0";
+
+import module namespace action = "http://ns.thecodeyard.co.uk/xquery/modules/action" at "../../modules/action.xq";
+
+declare namespace request="http://exist-db.org/xquery/request";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+
+declare option output:method "xhtml";
+declare option output:media-type "text/html";
+declare option output:indent "yes";
+declare option output:encoding "utf-8";
+
+
+let $path := string(request:get-parameter("path", "/"))
+let $request-id := string(request:get-parameter("id", ""))
+
+let $parameters := 
+	<parameters />
+
+return action:request-html($path, $request-id, $parameters)
