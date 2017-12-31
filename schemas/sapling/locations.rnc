@@ -1,4 +1,6 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace geo = "http://www.w3.org/2003/01/geo/wgs84_pos#"
+
 
 include "shared.rnc"
 
@@ -28,6 +30,11 @@ location-ref.near = element near {
 	entity-ref.content-model
 }
 
+location.geo.point = element geo:point {
+    location.geo.point.attlist,
+    location.geo.point.content-model
+}
+    
 
 # Content Models #
 
@@ -36,10 +43,14 @@ locations.content-model =
 	
 location.content-model =
 	name*,
+	location.geo.point?,
 	location-ref.within*,
 	location-ref.near*,
 	note*,
 	bibliography?
+    
+location.geo.point.content-model = 
+    empty
 
 # Attributes #
 
@@ -75,3 +86,8 @@ within.attlist =
 	
 near.attlist = 
 	location-ref.attlist
+	
+location.geo.point.attlist =
+    xml.attlist,
+    attribute geo:lat { xsd:decimal },
+    attribute geo:long { xsd:decimal }
