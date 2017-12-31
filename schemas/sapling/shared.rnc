@@ -43,6 +43,24 @@ body-matter.subheading |= element subheading {
 	body-matter.heading.content-model
 }
 
+bold |= element bold {
+    inline.mix.content-model	
+}
+
+italic |= element italic {
+    inline.mix.content-model	
+}
+
+quote-inline |= element quote {
+	quote.attlist,
+	inline.mix.content-model
+}
+
+quote-block |= element quote {
+	quote.attlist,
+	body-matter.content-model
+}
+
 date |= element date {
 	date.attlist,
 	text*
@@ -61,6 +79,11 @@ entity-ref |= (
 event-ref |= element event {
 	event-ref.attlist,
 	entity-ref.content-model
+}
+
+issue |= element issue {
+    issue.attlist,
+    issue.content-model
 }
 
 journal-ref |= element journal {
@@ -103,7 +126,7 @@ pages.content-model |=
 
 paragraph |= element p {
 	paragraph.attlist,
-	mixed { entity-ref* }
+    inline.mix.content-model	
 }
 
 person-ref |= element person {
@@ -164,6 +187,10 @@ person.name.title |= element title {
 publisher |= element publisher {
 	publisher.attlist,
 	publisher.content-model
+}
+
+quote.inline |= element quote {
+    inline.mix.content-model
 }
 
 series |= element series {
@@ -255,8 +282,23 @@ person.name.origin.content-model |=
 person.name.part.content-model |=
 	text
 
+inline.mix.content-model |=
+    mixed { 
+	   (
+	       entity-ref* |
+	       quote.inline |
+	       bold |
+	       italic |
+	       quote-inline
+	    )*
+	}
+
+issue.content-model |=
+	text
+
 journal-ref.content-model |=
 	volume?,
+	issue?,
 	date?,
 	pages?
 
@@ -309,6 +351,9 @@ event-ref.attlist |=
 entity-ref.attlist |=
 	xml.attlist,
 	attribute ref { xsd:IDREF }
+
+issue.attlist |=
+    xml.attlist
 
 journal-ref.attlist |=
 	entity-ref.attlist
@@ -380,6 +425,9 @@ person.name.title.attlist |=
 	
 publisher.attlist |=
 	xml.attlist
+	
+quote.attlist |=
+	xml.attlist	
 	
 series.attlist |=
 	xml.attlist

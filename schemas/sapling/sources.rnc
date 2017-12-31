@@ -41,6 +41,11 @@ source.author = element author {
 	source.contributor.content-model
 }
 
+source.bibliography = element bibliography {
+	source.bibliography.attlist,
+	source.bibliography.content-model
+}
+
 source.body = element body {
 	source.body.attlist,
 	source.body.content-model
@@ -54,6 +59,11 @@ source.body-matter = element body-matter {
 source.chapter = element chapter {
 	source.chapter.attlist,
 	source.chapter.content-model
+}
+
+source.citation = element citation {
+	source.citation.attlist,
+	source.citation.content-model
 }
 
 source.end-matter = element end-matter {
@@ -81,17 +91,17 @@ source.date |= element date {
 	source.date.content-model
 }
 
-source.inline.bold = element b {
+source.inline.bold = element bold {
 	source.inline.bold.attlist,
 	source.inline.content-model
 }
 
-source.inline.italic = element i {
+source.inline.italic = element italic {
 	source.inline.italic.attlist,
 	source.inline.content-model
 }
 
-source.inline.underline = element u {
+source.inline.underline = element underline {
 	source.inline.underline.attlist,
 	source.inline.content-model
 }
@@ -115,8 +125,7 @@ source.notes = element notes {
 	source.notes.content-model
 }
 
-
-# Content Models #
+source.summary = summary
 
 source.content-model =
 	source.front-matter,
@@ -132,12 +141,24 @@ source.body.content-model =
 source.chapter.content-model =
 	body-matter.heading,
 	body-matter.subheading*,
-	source.body
+	source.body,
+	source.notes?
+	
+source.citation.content-model =
+	 mixed { 
+	   (
+	       bold |
+	       italic
+	   )*
+	}
+
+source.bibliography.content-model =
+	source.citation+	
 
 source.body-matter.content-model =
 	source.body |
 	source.chapter* |
-	source.extract*
+	source.extract* 
 	
 source.contributor.content-model =
 	person.name.full
@@ -146,11 +167,15 @@ source.date.content-model =
 	text?
 	
 source.end-matter.content-model =
-	source.notes?
+	source.notes?,
+	source.bibliography?
 
 source.extract.content-model =
 	pages,
-	source.body
+	(
+	   source.body |
+	   summary
+	)
 	
 source.front-matter.content-model =
 	title*,
@@ -168,7 +193,7 @@ source.front-matter.generic.content-model =
 	publisher? &
 	location-ref* &
 	source.isbn? &
-	source.date+
+	source.date*
 	
 source.front-matter.journal.content-model =
 	source.front-matter.generic.content-model
@@ -191,6 +216,9 @@ source.note.content-model =
 source.note.label.content-model =
 	text
 
+source.summary.content-model =
+    source.inline.content-model    
+
 sources.content-model =
 	source*
 
@@ -208,6 +236,9 @@ source.acknowledgements.attlist =
 source.author.attlist =
 	entity-ref.attlist?
 
+source.bibliography.attlist =
+	xml.attlist
+	
 source.body.attlist =
 	xml.attlist
 
@@ -216,7 +247,11 @@ source.body-matter.attlist =
 
 source.chapter.attlist =
 	xml.attlist,
-	attribute sequence { xsd:integer }
+	attribute sequence { xsd:integer }?,
+    attribute publish { xsd:boolean }?
+    
+source.citation.attlist =
+	xml.attlist
 
 source.date.attlist =
 	date.attlist,
