@@ -24,13 +24,22 @@ journal = element journal {
 	journal.content-model
 }
 
+journal.issn = element issn {
+    journal.issn.attlist, 
+    journal.issn.content-model
+}
+
 
 # Content Models #
 
 journal.content-model =
 	title,
 	publisher,
-	location-ref
+	location-ref,
+	journal.issn?
+
+journal.issn.content-model =
+	text*
 
 journals.content-model =
 	journal*
@@ -42,6 +51,9 @@ journals.content-model =
 journal.attlist =
 	xml.attlist,
     attribute id { xsd:ID }
+		
+journal.issn.attlist =
+    xml.attlist
 		
 journals.attlist = 
 	xml.attlist	
