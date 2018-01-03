@@ -81,7 +81,7 @@
 											replace(lower-case($normalised), 'of', '') = '' or
 											replace(lower-case($normalised), 'the', '') = '' or 
 											replace(lower-case($normalised), 'and', '') = '' or
-											replace($name-part, 'a', '') = '' (: Block 'a' but not 'A' :)
+											replace($name-part[1], 'a', '') = '' (: Block 'a' but not 'A' :)
 										) 
 										then () (: Blacklisted value :)
 										else
