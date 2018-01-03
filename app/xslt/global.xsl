@@ -19,6 +19,7 @@
 	<xsl:param name="static" select="'false'" as="xs:string"/>
 
 	<xsl:strip-space elements="*"/>
+	<xsl:preserve-space elements="p"/>
 
 	<xsl:output method="html" encoding="utf-8" media-type="text/html" indent="yes" omit-xml-declaration="yes" version="5"/>
 

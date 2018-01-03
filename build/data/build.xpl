@@ -86,7 +86,7 @@
 			<p:group>
 
 				<p:store name="store" 
-					indent="true" 
+					indent="false" 
 					omit-xml-declaration="false" 
 					encoding="utf-8" 
 					method="xml" 
@@ -139,7 +139,7 @@
 		</p:xslt>
 		
 		<p:store name="store" 
-			indent="true" 
+			indent="false" 
 			omit-xml-declaration="false" 
 			encoding="utf-8" 
 			method="xml" 

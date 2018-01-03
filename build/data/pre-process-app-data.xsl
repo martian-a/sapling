@@ -32,6 +32,7 @@
 	<xsl:key name="location-within" match="data/locations/location" use="within/@ref" />
 	
 	
+	<xsl:preserve-space elements="*" />
 	
 	<doc:doc>
 		<doc:title>Initial template</doc:title>

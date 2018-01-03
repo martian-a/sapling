@@ -6,7 +6,7 @@
 	exclude-result-prefixes="#all"
 	version="2.0">
 	
-
+	<xsl:preserve-space elements="*" />
 	
 	<xsl:template match="/">
 		<xsl:result-document>
