@@ -106,10 +106,19 @@
 	</xsl:template>
 	
 	<xsl:template match="organisation" mode="href-html">
+		<xsl:param name="inline-value" as="xs:string?" tunnel="yes" />
+		
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('organisation/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
-				<xsl:apply-templates select="name" mode="href-html"/>
+				<xsl:choose>
+					<xsl:when test="$inline-value != ''">
+						<xsl:value-of select="$inline-value" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="name" mode="href-html"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>

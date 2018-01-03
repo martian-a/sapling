@@ -141,7 +141,23 @@
 	
 
 	<xsl:template match="related/location">
-		<xsl:apply-templates select="self::*" mode="in-context" />
+		<xsl:param name="inline-label" as="xs:string?" tunnel="yes" />
+		
+		<xsl:choose>
+			<xsl:when test="$inline-label != ''">
+				<xsl:apply-templates select="self::*" mode="without-context" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="self::*" mode="in-context" />	
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+
+	<xsl:template match="location" mode="without-context">
+		<xsl:param name="inline-label" as="xs:string?" tunnel="yes" />
+		
+		<xsl:apply-templates select="self::*" mode="href-html" />
 	</xsl:template>
 
 
@@ -165,7 +181,16 @@
 	
 	
 	<xsl:template match="location[@ref][not(ancestor::event)]">
-		<xsl:apply-templates select="key('location', @ref)" />
+		<xsl:param name="inline-value" as="xs:string?" tunnel="yes"/>
+		
+		<xsl:choose>
+			<xsl:when test="$inline-value != ''">
+				<xsl:apply-templates select="key('location', @ref)" mode="without-context" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="key('location', @ref)" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	
@@ -178,10 +203,19 @@
 	</xsl:template>
 	
 	<xsl:template match="related/location | entities/location | group/entries/location" mode="href-html">
+		<xsl:param name="inline-value" as="xs:string?" tunnel="yes" />
+		
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="concat('location/', @id)" as="xs:string"/>
 			<xsl:with-param name="content" as="item()">
-				<xsl:apply-templates select="name[1]" mode="href-html"/>
+				<xsl:choose>
+					<xsl:when test="$inline-value != ''">
+						<xsl:value-of select="$inline-value" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="name[1]" mode="href-html"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>

@@ -497,12 +497,18 @@
 	</doc:doc>
 	<xsl:template match="person[@id]" mode="href-html">
 		<xsl:param name="style" select="'formal'" tunnel="yes" as="xs:string?"/>
+		<xsl:param name="inline-value" as="xs:string?" tunnel="yes"/>
 		
 		<span class="person">
 			<xsl:call-template name="href-html">
 				<xsl:with-param name="path" select="concat('person/', @id)" as="xs:string"/>
 				<xsl:with-param name="content" as="item()">
-					<xsl:apply-templates select="persona[1]/name" mode="href-html"/>
+					<xsl:choose>
+						<xsl:when test="$inline-value != ''"><xsl:value-of select="$inline-value"/></xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="persona[1]/name" mode="href-html"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:if test="$style = 'formal'">

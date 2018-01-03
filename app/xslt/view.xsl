@@ -263,6 +263,13 @@
 			</entries>
 		</group>
 	</xsl:template>
+	
+	
+	<xsl:template match="*[name() = ('person', 'location', 'organisation')][@ref][text()/normalize-space() != '']" priority="100">
+		<xsl:next-match>
+			<xsl:with-param name="inline-value" select="text()" as="xs:string?" tunnel="yes" />
+		</xsl:next-match>	
+	</xsl:template>
 
 
 </xsl:stylesheet>
