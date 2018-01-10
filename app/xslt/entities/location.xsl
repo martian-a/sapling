@@ -4,7 +4,7 @@
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.style html.footer.scripts"/>
+	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
 	<xsl:template match="/app[view/data/location]" mode="html.header.scripts" priority="10">
 		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
@@ -176,7 +176,8 @@
 				<xsl:for-each-group select="fn:sort-locations(location)" group-by="fn:get-location-context(self::location)[@type = 'continent']">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+						<xsl:with-param name="group" select="current-group()" as="element()*" />						
+						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Continent Unknown'" as="xs:string" />
 					</xsl:call-template>	
