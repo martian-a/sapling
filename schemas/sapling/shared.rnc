@@ -251,7 +251,8 @@ volume |= element volume {
 body-matter.content-model |=
 	body-matter.section* &
 	paragraph* & 
-	table*
+	table* &
+	quote-block*
 	
 body-matter.heading.content-model |=
 	text
