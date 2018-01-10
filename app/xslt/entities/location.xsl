@@ -173,7 +173,7 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="fn:sort-locations(location)" group-by="fn:get-location-context(self::location)[@type = 'continent']">
+				<xsl:for-each-group select="fn:sort-locations(location[@type = 'country'])" group-by="fn:get-location-context(self::location)[@type = 'continent']">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
 						<xsl:with-param name="group" select="current-group()" as="element()*" />						
