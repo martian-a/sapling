@@ -1,9 +1,29 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.style html.footer.scripts"/>
+	
+	<xsl:template match="/app[view/data/location]" mode="html.header.scripts" priority="10">
+		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
+	</xsl:template>
+	
+	<xsl:template match="/app[view/data/location]" mode="html.header.style" priority="10">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+			integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+			crossorigin=""/>
+		<!-- Make sure you put this AFTER Leaflet's CSS -->
+		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+			integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+			crossorigin=""><xsl:comment>Leaflet (maps)</xsl:comment></script>
+	</xsl:template>
+	
+	<xsl:template match="/app[view/data/location]" mode="html.footer.scripts" priority="10">
+		<script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
+		<xsl:apply-templates select="view/data/location/geo:point" mode="#current" />
+	</xsl:template>
 	
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">
 		<xsl:apply-templates select="data/entities[location]"/>
@@ -32,6 +52,7 @@
 		<xsl:variable name="full-context" select="fn:get-full-location-context(self::location)" as="element()*" />
 		<xsl:variable name="locations-within" select="fn:get-locations-within(self::location, 1)" as="element()*" />
 		
+		<xsl:apply-templates select="geo:point" />		
 		<xsl:if test="(count($full-context) + count($locations-within)) > 0">
 			<div class="context">
 				<h2>Context</h2>
@@ -49,6 +70,38 @@
 				</xsl:if>
 			</div>
 		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="geo:point" priority="100" mode="#all">
+		<xsl:next-match>
+			<xsl:with-param name="map-id" select="concat('map-', parent::location/(@id | @ref))" as="xs:string" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	
+	<xsl:template match="geo:point">		
+		<xsl:param name="map-id" as="xs:string" />
+		<div id="{$map-id}" style="height:250px;"><xsl:comment>Leaflet (maps)</xsl:comment></div>
+	</xsl:template>
+	
+	<xsl:template match="geo:point" mode="html.footer.scripts">
+		<xsl:param name="map-id" as="xs:string" />
+		
+		<script>
+			<xsl:text>map('</xsl:text><xsl:value-of select="$map-id" /><xsl:text>', </xsl:text>
+			<xsl:value-of select="@geo:lat" />
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="@geo:long" />
+			<xsl:text>, </xsl:text>
+			<xsl:choose>
+				<xsl:when test="@zoom"><xsl:value-of select="@zoom" /></xsl:when>
+				<xsl:when test="parent::location/@type = 'continent'">3</xsl:when>
+				<xsl:when test="parent::location/@type = 'country'">5</xsl:when>
+				<xsl:when test="parent::location/@type = 'settlement'">10</xsl:when>
+				<xsl:otherwise>8</xsl:otherwise>
+			</xsl:choose>
+			<xsl:text>);</xsl:text>
+		</script>
 	</xsl:template>
 	
 	
