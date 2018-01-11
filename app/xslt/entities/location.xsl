@@ -243,40 +243,29 @@
 	</xsl:template>
 	
 	
-	<!-- Reference to a location in a note. -->
-	<xsl:template match="location[@ref][not(ancestor::event)]">
+	<!-- Reference to a location in a note or event summary. -->
+	<xsl:template match="location[@ref]">
 		<xsl:param name="inline-value" as="xs:string?" tunnel="yes"/>
-		<xsl:variable name="note-location" select="key('location', @ref)" as="element()" />
+		<xsl:variable name="location" select="key('location', @ref)" as="element()" />
 		
 		<xsl:choose>
 			<xsl:when test="$inline-value != ''">
-				<xsl:apply-templates select="$note-location" mode="without-context" />
+				<xsl:apply-templates select="$location" mode="without-context" />
 			</xsl:when>
-			<xsl:when test="$note-location[@type = ('country', 'continent')]">
-				<xsl:apply-templates select="$note-location" mode="without-context" />
+			<xsl:when test="$location[@type = ('country', 'continent')]">
+				<xsl:apply-templates select="$location" mode="without-context" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:apply-templates select="$note-location" />
+				<xsl:apply-templates select="$location" mode="in-context" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	
-	<xsl:template match="location[@ref][ancestor::event]">
-		<xsl:variable name="event-location" select="key('location', @ref)" as="element()" />
-		<xsl:choose>
-			<xsl:when test="$event-location[@type = ('country', 'continent')]">
-				<xsl:apply-templates select="$event-location" mode="without-context" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates select="$event-location" mode="in-context" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
+
 	
 	<xsl:template match="data/location" mode="href-html">
 		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>
 	</xsl:template>
+	
 	
 	<xsl:template match="related/location | entities/location | group/entries/location" mode="href-html">
 		<xsl:param name="inline-value" as="xs:string?" tunnel="yes" />
