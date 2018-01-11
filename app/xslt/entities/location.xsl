@@ -132,8 +132,16 @@
 	
 	
 	<xsl:template match="/app/view[data/location]" mode="view.title">
-		<xsl:value-of select="xs:string(data/location/name[1])"/>
+		<xsl:choose>
+			<xsl:when test="data/location/@type = 'building-number'">
+				<xsl:value-of select="concat(xs:string(data/location/name[1]), ' ', key('location', data/location/within[not(@rel = 'political')][1]/@ref)/xs:string(name[1]))"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="xs:string(data/location/name[1])"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
+
 	
 	
 	<xsl:template match="data/entities[location]">
