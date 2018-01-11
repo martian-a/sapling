@@ -58,18 +58,33 @@
 	<xsl:function name="fn:get-location-context" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		
-		<xsl:variable name="full-context" select="fn:get-full-location-context($location-in)" as="element()*" />
+		<xsl:variable name="full-context" as="document-node()">
+			<xsl:document>
+				<context>
+					<xsl:sequence select="fn:get-full-location-context($location-in)" />
+				</context>
+			</xsl:document>
+		</xsl:variable>
 		
-		<xsl:if test="$location-in/@type = 'address'">
-			<xsl:sequence select="$full-context[not(@type = ('country', 'continent'))][position() != last()][preceding-sibling::*/@type != 'settlement']" />		
+		<xsl:if test="$location-in/@type = ('address', 'building-number')">
+			<xsl:for-each select="$full-context/context/location[@type = ('building-number', 'address')]">
+				<xsl:sequence select="$location-in/key('location', current()/@id)" />
+			</xsl:for-each>
+			<xsl:for-each select="$full-context/context/location[not(@type = ('building-number', 'address', 'country', 'continent'))][1]">
+				<xsl:sequence select="$location-in/key('location', current()/@id)" />
+			</xsl:for-each>		
 		</xsl:if>
 		
 		<xsl:choose>
-			<xsl:when test="$full-context[@type = ('country', 'continent')]">
-				<xsl:sequence select="$full-context[@type = ('country', 'continent')][1]" />
+			<xsl:when test="$full-context/context/location[@type = ('country', 'continent')]">
+				<xsl:for-each select="$full-context/context/location[@type = ('country', 'continent')][1]">
+					<xsl:sequence select="$location-in/key('location', current()/@id)" />
+				</xsl:for-each>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:sequence select="$full-context[position() = last()]" />
+				<xsl:for-each select="$full-context/context/location[position() = last()]">
+					<xsl:sequence select="$location-in/key('location', current()/@id)" />
+				</xsl:for-each>
 			</xsl:otherwise>
 		</xsl:choose>
 		

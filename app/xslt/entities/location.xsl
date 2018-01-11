@@ -150,7 +150,7 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="fn:sort-locations(location)" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
+				<xsl:for-each-group select="fn:sort-locations(location[not(@type = 'building-number')])" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
 					<xsl:call-template name="generate-jump-navigation-group">
 						<xsl:with-param name="group" select="current-group()" as="element()*" />
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
@@ -194,6 +194,7 @@
 	</xsl:template>
 	
 
+	<!-- Entry in related locations list. -->
 	<xsl:template match="related/location">
 		<xsl:param name="inline-label" as="xs:string?" tunnel="yes" />
 		
@@ -234,22 +235,35 @@
 	</xsl:template>
 	
 	
+	<!-- Reference to a location in a note. -->
 	<xsl:template match="location[@ref][not(ancestor::event)]">
 		<xsl:param name="inline-value" as="xs:string?" tunnel="yes"/>
+		<xsl:variable name="note-location" select="key('location', @ref)" as="element()" />
 		
 		<xsl:choose>
 			<xsl:when test="$inline-value != ''">
-				<xsl:apply-templates select="key('location', @ref)" mode="without-context" />
+				<xsl:apply-templates select="$note-location" mode="without-context" />
+			</xsl:when>
+			<xsl:when test="$note-location[@type = ('country', 'continent')]">
+				<xsl:apply-templates select="$note-location" mode="without-context" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:apply-templates select="key('location', @ref)" />
+				<xsl:apply-templates select="$note-location" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 	
 	
 	<xsl:template match="location[@ref][ancestor::event]">
-		<xsl:apply-templates select="key('location', @ref)" mode="in-context" />
+		<xsl:variable name="event-location" select="key('location', @ref)" as="element()" />
+		<xsl:choose>
+			<xsl:when test="$event-location[@type = ('country', 'continent')]">
+				<xsl:apply-templates select="$event-location" mode="without-context" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="$event-location" mode="in-context" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template match="data/location" mode="href-html">

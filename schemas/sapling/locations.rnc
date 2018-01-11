@@ -62,6 +62,7 @@ location.attlist =
     attribute id { xsd:ID },
     attribute type { 
     	"landmark" |
+    	"building-number" |
     	"address" |
     	"district" |
     	"parish" |

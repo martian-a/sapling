@@ -287,8 +287,16 @@
 	<xsl:template match="event[not(summary)]" mode="summarise" priority="50">
 		<xsl:next-match />
 		<xsl:if test="location">
-			<xsl:text> in </xsl:text>
-			<xsl:apply-templates select="key('location', location/@ref)" mode="href-html" />
+			<xsl:variable name="event-location" select="key('location', location/@ref)" as="element()" />
+			<xsl:choose>
+				<xsl:when test="$event-location[@type = ('building-number', 'address')]">
+					<xsl:text> at </xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text> in </xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:apply-templates select="$event-location" mode="in-context" />
 		</xsl:if>
 		<xsl:text>.</xsl:text>
 	</xsl:template>
