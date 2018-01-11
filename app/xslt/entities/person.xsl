@@ -455,7 +455,28 @@
 		<div class="network-graph">
 			<h3>Family Tree</h3>
 			<div class="network-visualisation">
-				<object id="family-tree" data="{if ($static = 'true') then concat($normalised-path-to-images, 'network-graphs/svg/person/landscape') else concat($normalised-path-to-view-svg, 'person')}/{$subject-id}{if ($static = 'true') then '.svg' else '/family-tree/landscape/'}" type="image/svg+xml">
+				<xsl:variable name="data-url" as="xs:string*">
+					<xsl:choose>
+						<xsl:when test="$static = 'true'">
+							<xsl:value-of select="$normalised-path-to-images" />
+							<xsl:text>network-graphs/svg/person/landscape</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$normalised-path-to-view-svg" />
+							<xsl:text>person</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:value-of select="concat('/', $subject-id)" />
+					<xsl:choose>
+						<xsl:when test="$static = 'true'">
+							<xsl:text>.svg</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>/family-tree/landscape/</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<object id="family-tree" data="{string-join($data-url, '')}" type="image/svg+xml">
 					<xsl:if test="$static = 'true'">						
 						<img src="{concat($normalised-path-to-images, 'network-graphs/png/person/landscape')}/{$subject-id}.png" />
 					</xsl:if>
