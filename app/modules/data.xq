@@ -3,6 +3,7 @@ module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data";
 
 import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 
+declare namespace geo = "http://www.w3.org/2003/01/geo/wgs84_pos#";
 
 (:==================
   Anonymous Entities 
@@ -350,6 +351,7 @@ declare function data:simplify-location($param as element()) as element()? {
 		<location>{
 			$entity/@*,
 			$entity/name[1],
+			$entity/geo:point,
 			$entity/within
 		}</location>
 };

@@ -50,13 +50,13 @@
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<link rel="shortcut icon" href="{$normalised-path-to-images}favicon.ico" />
+				<xsl:apply-templates mode="html.header.style"/>
+				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
 				<xsl:apply-templates mode="html.header.scripts"/>
 				<xsl:if test="$static = 'true'">
 					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-342055-1"><xsl:comment> Google Analytics </xsl:comment></script>
 					<script src="{$normalised-path-to-js}analytics.js"><xsl:comment> Google Analytics </xsl:comment></script>
 				</xsl:if>
-				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
-				<xsl:apply-templates mode="html.header.style"/>
 			</head>
 			<body class="{if (/app/view/data/entities) then 'index' else 'entity'}">
 				<xsl:apply-templates mode="nav.site"/>
@@ -85,7 +85,6 @@
 		</title>		
 		<xsl:next-match/>
 	</xsl:template>
-	
 
 
 	<doc:doc>

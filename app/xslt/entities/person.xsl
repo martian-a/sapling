@@ -1,5 +1,5 @@
 <?xml-model href="http://ns.thecodeyard.co.uk/schema/cinnamon.sch?v=0.1.0" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 	
 	<doc:doc>
 		<doc:title>Key: Person</doc:title>
@@ -29,8 +29,10 @@
 	</xsl:template>
 	
 	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
+		<xsl:apply-templates select="view/data/person/related[location/geo:point]" mode="#current" />
 		<script src="{$normalised-path-to-js}init.js"><xsl:comment>origin: person</xsl:comment></script>
 	</xsl:template>
+
 
 
 	<doc:doc>

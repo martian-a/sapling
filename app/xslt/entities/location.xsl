@@ -6,23 +6,11 @@
 	
 	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
-	<xsl:template match="/app[view/data/location]" mode="html.header.scripts" priority="10">
-		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
-	</xsl:template>
-	
-	<xsl:template match="/app[view/data/location]" mode="html.header.style" priority="10">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-			integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-			crossorigin=""/>
-		<!-- Make sure you put this AFTER Leaflet's CSS -->
-		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-			integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-			crossorigin=""><xsl:comment>Leaflet (maps)</xsl:comment></script>
-	</xsl:template>
 	
 	<xsl:template match="/app[view/data/location]" mode="html.footer.scripts" priority="10">
 		<script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
 		<xsl:apply-templates select="view/data/location/geo:point" mode="#current" />
+		<xsl:next-match />
 	</xsl:template>
 	
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">
@@ -72,19 +60,19 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template match="geo:point" priority="100" mode="#all">
+	<xsl:template match="data/location/geo:point" priority="100" mode="#all">
 		<xsl:next-match>
 			<xsl:with-param name="map-id" select="concat('map-', parent::location/(@id | @ref))" as="xs:string" />
 		</xsl:next-match>
 	</xsl:template>
 	
 	
-	<xsl:template match="geo:point">		
+	<xsl:template match="data/location/geo:point">		
 		<xsl:param name="map-id" as="xs:string" />
 		<div id="{$map-id}" style="height:250px;"><xsl:comment>Leaflet (maps)</xsl:comment></div>
 	</xsl:template>
 	
-	<xsl:template match="geo:point" mode="html.footer.scripts">
+	<xsl:template match="data/location/geo:point" mode="html.footer.scripts">
 		<xsl:param name="map-id" as="xs:string" />
 		
 		<script>
@@ -100,6 +88,10 @@
 				<xsl:when test="parent::location/@type = 'settlement'">10</xsl:when>
 				<xsl:otherwise>8</xsl:otherwise>
 			</xsl:choose>
+			<xsl:text>,</xsl:text>
+			<xsl:text>[</xsl:text>
+			<xsl:text>[</xsl:text><xsl:value-of select="@geo:lat" /><xsl:text>,</xsl:text><xsl:value-of select="@geo:long" /><xsl:text>]</xsl:text>
+			<xsl:text>]</xsl:text>
 			<xsl:text>);</xsl:text>
 		</script>
 	</xsl:template>
@@ -286,11 +278,11 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="related" mode="map" priority="10">
+	<xsl:template match="related[location]" mode="map html.footer.scripts" priority="10">
 		<xsl:variable name="events" select="if (parent::event) then parent::event else event" as="element()*" />
 		
 		<xsl:next-match>
-			<xsl:with-param name="locations" select="$events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref)" as="element()*" />
+			<xsl:with-param name="locations" select="fn:sort-locations($events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref))" as="element()*" />
 		</xsl:next-match>
 	</xsl:template>
 	
@@ -301,21 +293,57 @@
 	</xsl:template>
 	
 	
-	
-	
 	<xsl:template match="related | derived-from" mode="map">
 		<xsl:param name="locations" as="element()*" />
 		
 		<xsl:if test="count($locations) > 0">
 			<div class="locations">
 				<h2>Locations</h2>
+				
+				<xsl:if test="self::related and $locations[geo:point]">
+					<script>
+						<xsl:text>var </xsl:text><xsl:value-of select="concat('map', ancestor::data/*/@id, 'LocationsMarkers')" /><xsl:text> = [</xsl:text>
+						<xsl:for-each select="$locations/geo:point">
+							<xsl:text>[</xsl:text><xsl:value-of select="@geo:lat" /><xsl:text>,</xsl:text><xsl:value-of select="@geo:long" /><xsl:text>, "</xsl:text><xsl:value-of select="parent::location/name[1]" /><xsl:text>"]</xsl:text><xsl:if test="position() != last()">,</xsl:if>
+						</xsl:for-each>
+						<xsl:text>];</xsl:text>
+					</script>
+					<div id="map-{ancestor::data/*/@id}-locations" style="height:250px;" class="map"><xsl:comment>Leaflet (maps)</xsl:comment></div>
+				</xsl:if>
+				
 				<ul>
+					<xsl:if test="count($locations) > 6">
+						<xsl:attribute name="class">multi-column</xsl:attribute>
+					</xsl:if>
 					<xsl:for-each select="$locations">
 						<li><xsl:apply-templates select="self::*" /></li>
 					</xsl:for-each>
 				</ul>
+				
 			</div>
 		</xsl:if>
+	</xsl:template>
+	
+	
+	<xsl:template match="related[location/geo:point]" mode="html.footer.scripts">
+		<xsl:param name="locations" as="element()*" />
+		<xsl:variable name="map-id" select="concat('map-', ancestor::data/*/@id, '-locations')" as="xs:string" />
+		
+		<xsl:variable name="map-focus" select="fn:get-map-focus($locations)" as="element()" />
+		
+		
+		<script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
+		<script>
+			<xsl:text>map('</xsl:text><xsl:value-of select="$map-id" /><xsl:text>', </xsl:text>
+			<xsl:value-of select="$map-focus/@geo:lat" />
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="$map-focus/@geo:long" />
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="$map-focus/@zoom" />
+			<xsl:text>,</xsl:text>
+			<xsl:value-of select="concat('map', ancestor::data/*/@id, 'LocationsMarkers')" />
+			<xsl:text>);</xsl:text>
+		</script>
 	</xsl:template>
 	
 </xsl:stylesheet>

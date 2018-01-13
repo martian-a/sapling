@@ -1,5 +1,6 @@
 @import 'reset.css';
 @import 'default.css';
+
 /**********
  * Body 
  */
@@ -55,7 +56,8 @@ div.main {
 
 
 
-body {
+body,
+div.map div.leaflet-popup-content {
 	font-family: fell, dejavu;
 }
 
@@ -745,3 +747,15 @@ div.nav-index:first-of-type {
 }
 
 /* End of Chronological Index */
+
+/* Map */
+
+div.map {
+    margin-bottom: 1.5em;
+}
+
+div.map .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+}
+
+/* End of Map */

@@ -1,6 +1,7 @@
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	exclude-result-prefixes="#all" version="2.0">
 	
@@ -128,7 +129,105 @@
 			</xsl:choose>
 		</xsl:for-each>
 		
+	</xsl:function>	
+	
+	<xsl:function name="fn:location-is-within" as="xs:boolean">
+		<xsl:param name="location" as="element()" />
+		<xsl:param name="is-within" as="element()" />
+		
+		<xsl:value-of select="if ($location[@id = $is-within/@id] or fn:get-full-location-context($location)[(@id | @ref) = $is-within/(@id | @ref)]) then true() else false()" />
+		
 	</xsl:function>
+	
+	<xsl:function name="fn:get-broadest-shared-location-context">
+		<xsl:param name="locations" as="element()*" />
+		
+		<xsl:variable name="planet-earth" as="element()">
+			<location type="planet">
+				<name>Planet Earth</name>
+				<geo:point geo:lat="22.646479" geo:long="23.654232" zoom="1" />
+			</location>
+		</xsl:variable>
+			
+		<xsl:sequence select="fn:get-broadest-shared-location-context($locations, $planet-earth)" />
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-broadest-shared-location-context">
+		<xsl:param name="locations" as="element()*" />
+		<xsl:param name="current" as="element()" />
+		
+		<xsl:variable name="first-location-context" as="document-node()">
+			<xsl:document>
+				<context>
+					<xsl:sequence select="fn:get-full-location-context($locations[1])" />
+				</context>
+			</xsl:document>
+		</xsl:variable>
+		
+		<xsl:variable name="candidate" as="element()?">
+			<xsl:choose>
+				<xsl:when test="$current[@type = 'planet']">
+					<xsl:sequence select="$first-location-context/context/location[position() = last()]" />
+				</xsl:when>
+				<xsl:when test="$first-location-context/context/location[@id = $current/@id][not(preceding-sibling::location[geo:point])]">
+					<xsl:sequence select="$locations[1]" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:sequence select="$first-location-context/context/location[@id = $current/@id]/preceding-sibling::location[geo:point][1]" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:choose>
+			<xsl:when test="count($candidate) > 0 and not($locations[fn:location-is-within(self::location, $candidate) = false()])">
+				<xsl:sequence select="fn:get-broadest-shared-location-context($locations, $candidate)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:sequence select="$current" />
+			</xsl:otherwise>
+		</xsl:choose>	
+		
+	</xsl:function>
+	
+	
+	
+	
+	<xsl:function name="fn:get-map-focus" as="element()">
+		<xsl:param name="locations" as="element()*" />
+			
+		
+			<xsl:variable name="broadest-context" select="fn:get-broadest-shared-location-context($locations)" as="element()" />
+					
+			<xsl:choose>
+				<xsl:when test="$broadest-context[@type = 'planet']">
+					<xsl:copy-of select="$broadest-context/geo:point" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="zoom" as="xs:integer"> 
+						<xsl:choose>
+							<xsl:when test="normalize-space($broadest-context/geo:point/@zoom) != ''">
+								<xsl:value-of select="$broadest-context/geo:point/@zoom" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="zoom">
+									<xsl:choose>
+										<xsl:when test="$broadest-context/@type = 'continent'">3</xsl:when>
+										<xsl:when test="$broadest-context/@type = 'country'">5</xsl:when>
+										<xsl:when test="$broadest-context/@type = 'settlement'">10</xsl:when>
+										<xsl:otherwise>8</xsl:otherwise>
+									</xsl:choose>							
+								</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<geo:point geo:lat="{$broadest-context/geo:point/@geo:lat}" geo:long="{$broadest-context/geo:point/@geo:long}" zoom="{$zoom}" />
+				</xsl:otherwise>
+			</xsl:choose>
+		
+	</xsl:function>
+	
 	
 	
 	<xsl:function name="fn:get-default-persona" as="element()?">

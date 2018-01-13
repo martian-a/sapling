@@ -1,4 +1,4 @@
-function map(id, lat, lon, zoom) {
+function map(id, lat, lon, zoom, markers) {
 
     var mymap = L.map(id).setView([lat, lon], zoom);
     
@@ -8,8 +8,15 @@ function map(id, lat, lon, zoom) {
    		id: 'mapbox.streets',
     	accessToken: accessTokenMapBox
     }).addTo(mymap);
-        
-    var marker = L.marker([lat, lon]).addTo(mymap);
+    
+    for (i in markers) {
 
+        var marker = L.marker([markers[i][0], markers[i][1]]).addTo(mymap);
+        
+        // If the marker has a label, add a popup (containing the label) to the marker 
+        if(typeof markers[i][2] !== 'undefined') {
+            marker.bindPopup(markers[i][2]);
+        }
+    }
 };
 
