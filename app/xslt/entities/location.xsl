@@ -4,15 +4,55 @@
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
-	
-	
-	<xsl:template match="/app[view/data/location]" mode="html.footer.scripts" priority="10">
-		<script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
-		<xsl:apply-templates select="view/data/location/geo:point" mode="#current" />
-		<xsl:next-match />
+	<doc:doc>
+		<doc:title>Locations</doc:title>
+		<doc:desc>Builds the core collection of locations associated with this view.</doc:desc>
+		<doc:notes>
+			<doc:note>
+				<doc:ul>
+					<doc:ingress>Used by:</doc:ingress>
+					<doc:li>location indexes</doc:li>
+					<doc:li>related location lists</doc:li>
+					<doc:li>maps</doc:li>
+				</doc:ul>
+			</doc:note>
+			<doc:note>
+				<doc:p>Called prior to multi-marker map variable names and call to map().</doc:p>
+			</doc:note>
+			<doc:note>
+				<doc:p>Used on person profile.</doc:p>
+			</doc:note>
+		</doc:notes>
+	</doc:doc>
+	<xsl:template match="app/view[data[entities/location or location or person[related/location] or name[related/location]]]" mode="html.body html.footer.scripts" priority="100">
+		<xsl:variable name="locations" as="element()*">
+			<xsl:choose>
+				<!-- Locations index -->
+				<xsl:when test="data/entities/location"><xsl:sequence select="data/entities/location" /></xsl:when>
+				<!-- Location profile -->
+				<xsl:when test="data/location"><xsl:sequence select="data/location" /></xsl:when>
+				<!-- Person profile -->
+				<xsl:otherwise>
+					<xsl:variable name="events" select="data/*/related/event" as="element()*" />
+					<xsl:sequence select="(data/*/note, $events)/descendant::location" />
+				</xsl:otherwise> 
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:next-match>
+			<xsl:with-param name="locations" select="fn:sort-locations($locations/key('location', (@id | @ref)))" as="element()*" tunnel="yes" />
+		</xsl:next-match>
 	</xsl:template>
 	
+	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+
+	<!-- Entry point for Location related html.footer.scripts -->
+	<xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point]]" mode="html.footer.scripts" priority="50">
+		<xsl:next-match />
+		<xsl:apply-templates select="view" mode="#current" />
+	</xsl:template>
+
+
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">
 		<xsl:apply-templates select="data/entities[location]"/>
 	</xsl:template>
@@ -24,6 +64,7 @@
 	
 	<xsl:template match="data/location">
 		<xsl:apply-templates select="@type"/>
+		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />
 		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
@@ -39,8 +80,7 @@
 	<xsl:template match="data/location" mode="context">
 		<xsl:variable name="full-context" select="fn:get-full-location-context(self::location)" as="element()*" />
 		<xsl:variable name="locations-within" select="fn:get-locations-within(self::location, 1)" as="element()*" />
-		
-		<xsl:apply-templates select="geo:point" />		
+				
 		<xsl:if test="(count($full-context) + count($locations-within)) > 0">
 			<div class="context">
 				<h2>Context</h2>
@@ -58,42 +98,6 @@
 				</xsl:if>
 			</div>
 		</xsl:if>
-	</xsl:template>
-	
-	<xsl:template match="data/location/geo:point" priority="100" mode="#all">
-		<xsl:next-match>
-			<xsl:with-param name="map-id" select="concat('map-', parent::location/(@id | @ref))" as="xs:string" />
-		</xsl:next-match>
-	</xsl:template>
-	
-	
-	<xsl:template match="data/location/geo:point">		
-		<xsl:param name="map-id" as="xs:string" />
-		<div id="{$map-id}" style="height:250px;"><xsl:comment>Leaflet (maps)</xsl:comment></div>
-	</xsl:template>
-	
-	<xsl:template match="data/location/geo:point" mode="html.footer.scripts">
-		<xsl:param name="map-id" as="xs:string" />
-		
-		<script>
-			<xsl:text>map('</xsl:text><xsl:value-of select="$map-id" /><xsl:text>', </xsl:text>
-			<xsl:value-of select="@geo:lat" />
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="@geo:long" />
-			<xsl:text>, </xsl:text>
-			<xsl:choose>
-				<xsl:when test="@zoom"><xsl:value-of select="@zoom" /></xsl:when>
-				<xsl:when test="parent::location/@type = 'continent'">3</xsl:when>
-				<xsl:when test="parent::location/@type = 'country'">5</xsl:when>
-				<xsl:when test="parent::location/@type = 'settlement'">10</xsl:when>
-				<xsl:otherwise>8</xsl:otherwise>
-			</xsl:choose>
-			<xsl:text>,</xsl:text>
-			<xsl:text>[</xsl:text>
-			<xsl:text>[</xsl:text><xsl:value-of select="@geo:lat" /><xsl:text>,</xsl:text><xsl:value-of select="@geo:long" /><xsl:text>]</xsl:text>
-			<xsl:text>]</xsl:text>
-			<xsl:text>);</xsl:text>
-		</script>
 	</xsl:template>
 	
 	
@@ -137,6 +141,8 @@
 	
 	
 	<xsl:template match="data/entities[location]">
+		<xsl:param name="locations" as="element()*" tunnel="yes" />
+		
 		<div class="contents">
 			<p>Browse by:</p>
 			<ul>
@@ -144,13 +150,18 @@
 				<li><a href="#nav-country">Country</a></li>
 			</ul>
 		</div>
+		
+		<xsl:if test="$locations[geo:point]">
+			<xsl:apply-templates select="parent::data" mode="map" />
+		</xsl:if>
+		
 		<div class="nav-index alphabetical" id="nav-alpha">
 			<h2>By Name
 				<xsl:text> </xsl:text>
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="fn:sort-locations(location[not(@type = 'building-number')])" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
+				<xsl:for-each-group select="$locations[not(@type = 'building-number')]" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
 					<xsl:call-template name="generate-jump-navigation-group">
 						<xsl:with-param name="group" select="current-group()" as="element()*" />
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
@@ -173,7 +184,7 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="fn:sort-locations(location[@type = 'country'])" group-by="fn:get-location-context(self::location)[@type = 'continent']">
+				<xsl:for-each-group select="$locations[@type = 'country']" group-by="fn:get-location-context(self::location)[@type = 'continent']">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
 						<xsl:with-param name="group" select="current-group()" as="element()*" />						
@@ -278,37 +289,23 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="related[location]" mode="map html.footer.scripts" priority="10">
-		<xsl:variable name="events" select="if (parent::event) then parent::event else event" as="element()*" />
-		
-		<xsl:next-match>
-			<xsl:with-param name="locations" select="fn:sort-locations($events/descendant::location[not(ancestor::related/parent::event)]/key('location', @ref))" as="element()*" />
-		</xsl:next-match>
-	</xsl:template>
 	
-	<xsl:template match="derived-from" mode="map" priority="10">		
+	<xsl:template match="derived-from" mode="locations" priority="10">		
 		<xsl:next-match>
-			<xsl:with-param name="locations" select="location/key('location', @ref)" as="element()*" />
+			<xsl:with-param name="locations" select="location/key('location', @ref)" as="element()*" tunnel="yes" />
 		</xsl:next-match>
 	</xsl:template>
 	
 	
-	<xsl:template match="related | derived-from" mode="map">
-		<xsl:param name="locations" as="element()*" />
+	<xsl:template match="related | derived-from" mode="locations">
+		<xsl:param name="locations" as="element()*" tunnel="yes" />
 		
 		<xsl:if test="count($locations) > 0">
 			<div class="locations">
 				<h2>Locations</h2>
 				
 				<xsl:if test="self::related and $locations[geo:point]">
-					<script>
-						<xsl:text>var </xsl:text><xsl:value-of select="concat('map', ancestor::data/*/@id, 'LocationsMarkers')" /><xsl:text> = [</xsl:text>
-						<xsl:for-each select="$locations/geo:point">
-							<xsl:text>[</xsl:text><xsl:value-of select="@geo:lat" /><xsl:text>,</xsl:text><xsl:value-of select="@geo:long" /><xsl:text>, "</xsl:text><xsl:value-of select="parent::location/name[1]" /><xsl:text>"]</xsl:text><xsl:if test="position() != last()">,</xsl:if>
-						</xsl:for-each>
-						<xsl:text>];</xsl:text>
-					</script>
-					<div id="map-{ancestor::data/*/@id}-locations" style="height:250px;" class="map"><xsl:comment>Leaflet (maps)</xsl:comment></div>
+					<xsl:call-template name="insert-map" />
 				</xsl:if>
 				
 				<ul>
@@ -323,27 +320,6 @@
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
-	
-	<xsl:template match="related[location/geo:point]" mode="html.footer.scripts">
-		<xsl:param name="locations" as="element()*" />
-		<xsl:variable name="map-id" select="concat('map-', ancestor::data/*/@id, '-locations')" as="xs:string" />
-		
-		<xsl:variable name="map-focus" select="fn:get-map-focus($locations)" as="element()" />
-		
-		
-		<script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
-		<script>
-			<xsl:text>map('</xsl:text><xsl:value-of select="$map-id" /><xsl:text>', </xsl:text>
-			<xsl:value-of select="$map-focus/@geo:lat" />
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="$map-focus/@geo:long" />
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="$map-focus/@zoom" />
-			<xsl:text>,</xsl:text>
-			<xsl:value-of select="concat('map', ancestor::data/*/@id, 'LocationsMarkers')" />
-			<xsl:text>);</xsl:text>
-		</script>
-	</xsl:template>
+
 	
 </xsl:stylesheet>

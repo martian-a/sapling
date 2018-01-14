@@ -216,6 +216,8 @@
 										<xsl:when test="$broadest-context/@type = 'continent'">3</xsl:when>
 										<xsl:when test="$broadest-context/@type = 'country'">5</xsl:when>
 										<xsl:when test="$broadest-context/@type = 'settlement'">10</xsl:when>
+										<xsl:when test="$broadest-context/@type = 'address'">13</xsl:when>
+										<xsl:when test="$broadest-context/@type = 'building-number'">17</xsl:when>
 										<xsl:otherwise>8</xsl:otherwise>
 									</xsl:choose>							
 								</xsl:attribute>

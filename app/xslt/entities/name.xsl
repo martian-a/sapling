@@ -27,7 +27,7 @@
 	<xsl:template match="/app/view/data/name">
 		<xsl:apply-templates select="derived-from[person]" mode="people" /> 
 		<xsl:apply-templates select="derived-from[organisation]" mode="organisations" /> 
-		<xsl:apply-templates select="derived-from[location]" mode="map" />
+		<xsl:apply-templates select="derived-from[location]" mode="locations" />
 	</xsl:template>
 	
 	<xsl:template match="derived-from/person">

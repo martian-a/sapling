@@ -18,7 +18,7 @@
 	<xsl:template match="data/organisation">
 		<xsl:apply-templates select="related[person]" mode="people" />
 		<xsl:apply-templates select="related[organisation]" mode="organisations" />
-		<xsl:apply-templates select="related[location]" mode="map" />
+		<xsl:apply-templates select="related[location]" mode="locations" />
 		<xsl:apply-templates select="related[event]" mode="timeline" />
 	</xsl:template>
 	

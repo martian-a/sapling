@@ -29,7 +29,7 @@
 	</xsl:template>
 	
 	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
-		<xsl:apply-templates select="view/data/person/related[location/geo:point]" mode="#current" />
+		<xsl:apply-templates select="view[data/person/related/location/geo:point]" mode="#current" />
 		<script src="{$normalised-path-to-js}init.js"><xsl:comment>origin: person</xsl:comment></script>
 	</xsl:template>
 
@@ -192,7 +192,7 @@
 		<xsl:apply-templates select="self::person[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[organisation]" mode="organisations"/>
-		<xsl:apply-templates select="related[location]" mode="map" />
+		<xsl:apply-templates select="related[location]" mode="locations" />
 	</xsl:template>
 	
 	

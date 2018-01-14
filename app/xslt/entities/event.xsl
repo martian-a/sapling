@@ -142,7 +142,7 @@
 	<xsl:template match="data/event">
 		<xsl:apply-templates select="self::*" mode="timeline" />
 		<xsl:apply-templates select="related[person]" mode="people" />
-		<xsl:apply-templates select="related[location]" mode="map" />
+		<xsl:apply-templates select="related[location]" mode="locations" />
 	</xsl:template>
 	
 	<!--

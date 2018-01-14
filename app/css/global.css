@@ -754,6 +754,19 @@ div.map {
     margin-bottom: 1.5em;
 }
 
+html.location div.map {
+    height: 250px;
+}
+
+html.location body.index div.map {
+    height: 500px;
+}
+
+html.person div.map {
+    height: 300px;
+}
+
+
 div.map .leaflet-popup-content-wrapper {
     border-radius: 8px;
 }

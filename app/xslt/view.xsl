@@ -8,6 +8,7 @@
 	<xsl:include href="custom/static_content.xsl"/>
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>
+	<xsl:include href="custom/map.xsl" />
 
 
 
@@ -15,7 +16,7 @@
 		<doc:title>HTML header: style.</doc:title>
 		<doc:desc>Style rules that apply to more than one view.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/location or view/data/person]" mode="html.header.style" priority="20">
+	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.style" priority="50">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
 			integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
 			crossorigin=""/>
@@ -27,7 +28,7 @@
 		<doc:title>HTML header: scripts.</doc:title>
 		<doc:desc>Javascript rules that apply to more than one view.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/location or view/data/person]" mode="html.header.scripts" priority="20">
+	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.scripts" priority="50">
 		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
 		<!-- Make sure you put this AFTER Leaflet's CSS -->
 		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
