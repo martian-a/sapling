@@ -48,8 +48,17 @@
 			<head>
 				<xsl:apply-templates mode="html.header"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-				<link rel="shortcut icon" href="{$normalised-path-to-images}favicon.ico" />
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+				<!-- link rel="shortcut icon" href="{$normalised-path-to-images}favicon.ico"/ -->
+				<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+				<link rel="manifest" href="/site.webmanifest"/>
+				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000033"/>
+				<meta name="apple-mobile-web-app-title" content="Blue Gum Tree"/>
+				<meta name="application-name" content="Blue Gum Tree"/>
+				<meta name="msapplication-TileColor" content="#000033"/>
+				<meta name="theme-color" content="#000033"/>
 				<xsl:apply-templates mode="html.header.style"/>
 				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
 				<xsl:apply-templates mode="html.header.scripts"/>
