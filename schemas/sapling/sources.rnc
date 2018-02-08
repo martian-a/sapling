@@ -21,6 +21,10 @@ start |= sources
 
 # Elements #
 
+link =
+    source.date,
+    link-ref
+
 sources = element sources { 
 	sources.attlist, 
 	sources.content-model
@@ -171,7 +175,8 @@ source.end-matter.content-model =
 	source.bibliography?
 
 source.extract.content-model =
-	pages,
+	pages?,
+	link?,
 	(
 	   source.body |
 	   summary
@@ -183,7 +188,7 @@ source.front-matter.content-model =
 	series-group.content-model,
 	source.author*,
 	(
-		source.front-matter.generic.content-model | 
+		source.front-matter.generic.content-model |
 		journal-ref
 	),
 	link?,
@@ -266,7 +271,8 @@ source.end-matter.attlist =
 	xml.attlist
 
 source.extract.attlist =
-	xml.attlist
+	xml.attlist,
+	attribute id { xsd:string }?
 
 source.front-matter.attlist =
 	xml.attlist

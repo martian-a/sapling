@@ -14,7 +14,7 @@
 				<doc:li>exclude person records that aren't yet ready for publishing</doc:li>
 				<doc:li>exclude event records that aren't related to a publishable person</doc:li>
 				<doc:li>exclude organisation records that aren't related to a publishable person or event</doc:li>
-				<doc:li>exclude location records that aren't related to a publishable person, event or organisation</doc:li>
+				<doc:li>exclude location records that aren't related to a publishable person, event, organisation or other (publishable) location.</doc:li>
 				<doc:li>anonymise or remove cross-references to person records that aren't yet ready for publishing</doc:li>
 			</doc:ul>
 		</doc:desc>
@@ -136,32 +136,40 @@
 		
 		<!-- A look-up list of all locations that shoudn't be published because they don't involve a published person, either directly or indirectly via a cross-reference. -->
 		<xsl:variable name="unpublished-locations" as="element()*">
-			<xsl:variable name="lacks-direct-reference" as="element()*">
-				<xsl:for-each select="$data/locations/location">
-					
-					<xsl:variable name="locations-within" select="fn:get-locations-within(self::location)" as="element()*" />
-					
-					<xsl:variable name="references-from-published-entities" as="element()*">
+			
+			<xsl:variable name="ignoring-references-from-other-locations" as="element()*">
+				<xsl:variable name="lacks-direct-reference" as="element()*">
+					<xsl:for-each select="$data/locations/location">
 						
-						<!-- references from published people -->
-						<xsl:sequence select="$people/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
+						<xsl:variable name="locations-within" select="fn:get-locations-within(self::location)" as="element()*" />
 						
-						<!-- references from published events -->
-						<xsl:sequence select="$data/events/event[not(@id = $unpublished-events/@id)]/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
+						<xsl:variable name="references-from-published-entities" as="element()*">
+							
+							<!-- references from published people -->
+							<xsl:sequence select="$people/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
+							
+							<!-- references from published events -->
+							<xsl:sequence select="$data/events/event[not(@id = $unpublished-events/@id)]/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
+							
+							<!-- references from published organisations -->
+							<xsl:sequence select="$data/organisations/organisation[not(@id = $unpublished-organisations/@id)]/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
+							
+						</xsl:variable>
 						
-						<!-- references from published organisations -->
-						<xsl:sequence select="$data/organisations/organisation[not(@id = $unpublished-organisations/@id)]/descendant::location[@ref = (current()/@id, $locations-within/@id)]" />
-						
-					</xsl:variable>
-					
-					<xsl:if test="count($references-from-published-entities) = 0">
-						<xsl:sequence select="self::*" />
-					</xsl:if>
-				</xsl:for-each>
+						<xsl:if test="count($references-from-published-entities) = 0">
+							<xsl:sequence select="self::*" />
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:variable>
+				
+				<xsl:variable name="has-direct-reference" select="$data/locations/location[not(@id = $lacks-direct-reference/@ref)]" as="element()*" />
+				<xsl:sequence select="$lacks-direct-reference[not(@id = $has-direct-reference/descendant::near/@ref)]" />
 			</xsl:variable>
 			
-			<xsl:variable name="has-direct-reference" select="$data/locations/location[not(@id = $lacks-direct-reference/@ref)]" as="element()*" />
-			<xsl:sequence select="$lacks-direct-reference[not(@id = $has-direct-reference/descendant::near/@ref)]" />
+			<xsl:variable name="published-locations-first-pass" select="$data/locations/location[not(@id = $ignoring-references-from-other-locations/@id)]" />
+			
+			<xsl:sequence select="fn:filter-locations($ignoring-references-from-other-locations, $published-locations-first-pass)" />
+			
 		</xsl:variable>
 		
 		<xsl:copy>
@@ -175,6 +183,22 @@
 		
 	</xsl:template>
 
+
+	<xsl:function name="fn:filter-locations" as="element()*">
+		<xsl:param name="unpublished-events" as="element()*" />
+		<xsl:param name="published-events" as="element()*" />
+		
+		<xsl:variable name="referenced-by-published-events" select="$unpublished-events[@id = $published-events/descendant::*/@ref[starts-with(., 'LOC')]]" />
+		<xsl:choose>
+			<xsl:when test="count($referenced-by-published-events) &gt; 0">
+				<xsl:sequence select="fn:filter-locations($unpublished-events[not(@id = $referenced-by-published-events/@id)], ($published-events | $referenced-by-published-events))" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:sequence select="$unpublished-events" />
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:function>
 	
 	<doc:doc>
 		<doc:desc>

@@ -96,10 +96,13 @@ location-ref |= element location {
 	entity-ref.content-model
 }
 
-link |= element link {
+link-ref |= element link {
 	link.attlist,
 	empty
 }
+
+link |=
+    link-ref
 
 name |= element name { 
 	name.attlist,
@@ -254,8 +257,11 @@ body-matter.content-model |=
 	table* &
 	quote-block*
 	
-body-matter.heading.content-model |=
-	text
+body-matter.heading.content-model |= 
+    (
+        text |
+        note-ref?
+    )*
 	
 body-matter.section.content-model |=
 	body-matter.heading?,
@@ -320,7 +326,16 @@ table.content-model |=
 	table.row*
 	
 table.row.content-model |=
-	table.cell*
+	(
+	   (
+	       table.cell |
+	       table.heading-cell
+	    )* |
+	    (
+	       table.heading-cell+,
+	       table.cell+
+	    )
+	)
 	
 table.cell.content-model |=
 	mixed {
@@ -434,7 +449,8 @@ series.attlist |=
 	xml.attlist
 
 source-ref.attlist |=
-	entity-ref.attlist
+	entity-ref.attlist,
+	attribute extract { xsd:string }?
 
 summary.attlist |=
 	xml.attlist	
@@ -455,7 +471,7 @@ title.attlist |=
 
 volume.attlist |=
 	xml.attlist,
-	attribute number { xsd:integer }
+	attribute number { xsd:decimal }?
 	
 xml.attlist |= 
 	xml.anyElement.attlist

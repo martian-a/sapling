@@ -5,7 +5,7 @@
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
 	<doc:doc>
-		<doc:title>Locations</doc:title>
+		<doc:title>Locations collection</doc:title>
 		<doc:desc>Builds the core collection of locations associated with this view.</doc:desc>
 		<doc:notes>
 			<doc:note>
@@ -15,12 +15,6 @@
 					<doc:li>related location lists</doc:li>
 					<doc:li>maps</doc:li>
 				</doc:ul>
-			</doc:note>
-			<doc:note>
-				<doc:p>Called prior to multi-marker map variable names and call to map().</doc:p>
-			</doc:note>
-			<doc:note>
-				<doc:p>Used on person profile.</doc:p>
 			</doc:note>
 		</doc:notes>
 	</doc:doc>
@@ -44,13 +38,20 @@
 		</xsl:next-match>
 	</xsl:template>
 	
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
-
 	<!-- Entry point for Location related html.footer.scripts -->
 	<xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point]]" mode="html.footer.scripts" priority="50">
 		<xsl:next-match />
 		<xsl:apply-templates select="view" mode="#current" />
 	</xsl:template>
+
+	<xsl:template match="/app[view[data[entities/location or location]]]" mode="html.footer.scripts" priority="10">
+		<xsl:next-match />
+	</xsl:template>
+
+
+	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+	
+
 
 
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">
@@ -252,10 +253,10 @@
 		<xsl:variable name="location" select="key('location', @ref)" as="element()" />
 		
 		<xsl:choose>
-			<xsl:when test="$inline-value != ''">
+			<xsl:when test="normalize-space($inline-value) != ''">
 				<xsl:apply-templates select="$location" mode="without-context" />
 			</xsl:when>
-			<xsl:when test="$location[@type = ('country', 'continent')]">
+			<xsl:when test="$location[@type = ('country', 'continent', 'ocean')]">
 				<xsl:apply-templates select="$location" mode="without-context" />
 			</xsl:when>
 			<xsl:otherwise>

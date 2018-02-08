@@ -12,45 +12,53 @@
 		<sch:rule context="date">
 		
 			<sch:let name="month-name" value="
-				if (@month = 1) 
-				then 'January'
-				else if (@month = 2)
-				then 'February'
-				else if (@month = 3)
-				then 'March'
-				else if (@month = 4)
-				then 'April'
-				else if (@month = 5)
-				then 'May'
-				else if (@month = 6)
-				then 'June'
-				else if (@month = 7)
-				then 'July'
-				else if (@month = 8)
-				then 'August'
-				else if (@month = 9)
-				then 'September'
-				else if (@month = 10)
-				then 'October'
-				else if (@month = 11)
-				then 'November'
-				else if (@month = 12)
-				then 'December'
-				else ''" />
+				if (normalize-space(@month) != '')
+				then (
+					if (@month = 1) 
+					then 'January'
+					else if (@month = 2)
+					then 'February'
+					else if (@month = 3)
+					then 'March'
+					else if (@month = 4)
+					then 'April'
+					else if (@month = 5)
+					then 'May'
+					else if (@month = 6)
+					then 'June'
+					else if (@month = 7)
+					then 'July'
+					else if (@month = 8)
+					then 'August'
+					else if (@month = 9)
+					then 'September'
+					else if (@month = 10)
+					then 'October'
+					else if (@month = 11)
+					then 'November'
+					else if (@month = 12)
+					then 'December'
+					else ''
+				)
+				else ''"
+			/>
 			
 			<sch:let name="max-days" value="
-				if (@month = 2) 
+				if ($month-name = 'February') 
 				then 29
-				else if (@month = (4, 6, 9, 11))
+				else if ($month-name = ('April', 'June', 'September', 'November'))
 				then 30
 				else 31" />
 				
 					
 			<!-- Month number -->
-			<sch:report test="self::*/@month[. &lt; 1 or . &gt; 12]">Invalid date.  Month must be between 1 and 12.</sch:report>	
-			
+			<sch:report test="self::*/@month[$month-name != ''][. &lt; 1 or . &gt; 12]">Invalid date.  Month must be between 1 and 12.</sch:report>	
+						
+			<!-- Day number -->
+			<sch:report test="self::*[@day = '']">Invalid date. Day value must be a number.</sch:report>
+						
 			<!-- Days in month -->
-			<sch:report test="self::*[@month]/@day[. &gt; $max-days]">Invalid date.  Too many days in the month.  No more than <sch:value-of select="$max-days"/> expected<sch:value-of select="if ($month-name != '') then concat(' in ', $month-name) else ()" />.</sch:report>
+			<sch:report test="self::*[@month]/@day[. != ''][. &gt; $max-days]">Invalid date.  Too many days in the month.  No more than <sch:value-of select="$max-days"/> expected<sch:value-of select="if ($month-name != '') then concat(' in ', $month-name) else ()" />.</sch:report>
 			
 			<!-- Date part dependencies -->
 			<sch:report test="self::*[@day]/not(@month)">Invalid date. A date with a day value must also have a month value.</sch:report>			
@@ -62,7 +70,7 @@
 	
 	<sch:pattern>
 		
-		<sch:title>IDs</sch:title>
+		<sch:title>ID Prefix</sch:title>
 		
 		<sch:let name="entities" value="'person', 'location', 'event', 'organisation', 'name'" />
 		
@@ -87,7 +95,6 @@
 		</sch:rule>
 		
 	</sch:pattern>
-	
 	
 	
 	<sch:pattern>
@@ -174,7 +181,7 @@
 		
 	</sch:pattern>
 	
-	
+
 	<sch:pattern>
 		
 		<sch:title>Event</sch:title>
@@ -209,5 +216,46 @@
 		
 	</sch:pattern>
 	
+	<sch:pattern>
+		
+		<sch:title>Sources</sch:title>
+		
+		<sch:let name="events" value="/app/data/events/event" />
+		<sch:let name="people" value="/app/data/people/person" />
+		<sch:let name="locations" value="/app/data/locations/location" />
+		<sch:let name="organisations" value="/app/data/organisations/organisation" />
+		
+		<sch:rule context="/app/data/sources/source">
+			
+			<sch:let name="source-id" value="self::source/@id" />
+			<sch:let name="total-references" value="count(($events, $people, $locations, $organisations)/sources/source[@ref = $source-id])" />
+			
+			<sch:assert test="self::source[$total-references > 0]">Unused source.  This source has NOT been referenced yet.</sch:assert>	
+		
+		</sch:rule>
+		
+	</sch:pattern>
+	
+	<sch:pattern>
+		
+		<sch:title>Source Extracts</sch:title>
+		
+		<sch:rule context="source/body-matter/extract">
+			
+			<sch:let name="highest-id" value="parent::body-matter/extract[
+					@id/not(number(substring-after(., 'EXT')) &lt; parent::extract/preceding-sibling::extract/@id/number(substring-after(., 'EXT')))
+				][
+					@id/not(number(substring-after(., 'EXT')) &lt; parent::extract/following-sibling::extract/@id/number(substring-after(., 'EXT')))
+				][1]/@id" />
+			<sch:let name="next-id" value="concat('EXT', number(substring-after($highest-id, 'EXT')) + 1)" />
+			
+			<sch:report test="self::extract[@id = current()/preceding-sibling::extract/@id]">Duplicate ID. <sch:value-of select="@id" /> has already been assigned to an extract associated with this source.  Change to <sch:value-of select="$next-id"/></sch:report>
+			
+			<sch:assert test="self::extract[(pages or link) or ancestor::source/front-matter[descendant::pages or descendant::link]]">Missing location. Either page numbers or a link to the extract must be provided.</sch:assert>
+			
+		</sch:rule>
+		
+	</sch:pattern>
+
 	
 </sch:schema>

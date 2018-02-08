@@ -71,14 +71,14 @@
 			<xsl:for-each select="$full-context/context/location[@type = ('building-number', 'address')]">
 				<xsl:sequence select="$location-in/key('location', current()/@id)" />
 			</xsl:for-each>
-			<xsl:for-each select="$full-context/context/location[not(@type = ('building-number', 'address', 'country', 'continent'))][1]">
+			<xsl:for-each select="$full-context/context/location[not(@type = ('building-number', 'address', 'country', 'continent', 'ocean'))][1]">
 				<xsl:sequence select="$location-in/key('location', current()/@id)" />
 			</xsl:for-each>		
 		</xsl:if>
 		
 		<xsl:choose>
-			<xsl:when test="$full-context/context/location[@type = ('country', 'continent')]">
-				<xsl:for-each select="$full-context/context/location[@type = ('country', 'continent')][1]">
+			<xsl:when test="$full-context/context/location[@type = ('country', 'continent', 'ocean')]">
+				<xsl:for-each select="$full-context/context/location[@type = ('country', 'continent', 'ocean')][1]">
 					<xsl:sequence select="$location-in/key('location', current()/@id)" />
 				</xsl:for-each>
 			</xsl:when>
@@ -213,6 +213,7 @@
 							<xsl:otherwise>
 								<xsl:attribute name="zoom">
 									<xsl:choose>
+										<xsl:when test="$broadest-context/@type = 'ocean'">3</xsl:when>
 										<xsl:when test="$broadest-context/@type = 'continent'">3</xsl:when>
 										<xsl:when test="$broadest-context/@type = 'country'">5</xsl:when>
 										<xsl:when test="$broadest-context/@type = 'settlement'">10</xsl:when>

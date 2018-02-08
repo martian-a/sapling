@@ -71,7 +71,8 @@ location.attlist =
     	"region" |
     	"state" |
     	"country" |
-    	"continent"
+    	"continent" |
+    	"ocean"
     },
     attribute mobile { xsd:boolean }? # Consider "transient" as an alternative name
     
