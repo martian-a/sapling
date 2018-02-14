@@ -1,0 +1,40 @@
+<events>
+	<event id="EVE1" type="birth">
+		<date day="24" month="2" year="1500"/>
+		<person ref="PER1"/>
+		<location ref="LOC1"/>
+	</event>
+	<event id="EVE2" type="death">
+		<date day="21" month="9" year="1558"/>
+		<person ref="PER1"/>
+		<location ref="LOC5"/>
+	</event>
+	<event id="EVE3" type="historical">
+		<date year="1506"/>
+		<summary>
+			<person ref="PER1"/> becomes ruler of <location ref="LOC1"/>
+		</summary>
+	</event>
+	<event id="EVE4" type="marriage">
+		<date day="10" month="3" year="1526"/>
+		<person ref="PER1"/>
+		<person ref="PER2"/>
+		<location ref="LOC8"/>
+	</event>
+	<event id="EVE5" type="birth">
+		<date day="22" month="11" year="1529"/>
+		<person ref="PER4"/>
+		<parent type="biological" ref="PER1"/>
+		<parent type="biological" ref="PER2"/>
+	</event>
+	<event id="EVE6" type="death">
+		<date year="1530"/>
+		<person ref="PER4"/>
+	</event>
+	<event id="EVE7" type="historical">
+		<date day="28" month="6" year="1519"/>
+		<summary>
+			<person ref="PER1"/> becomes ruler of the <organisation ref="ORG1"/>
+		</summary>
+	</event>
+</events>

@@ -15,4 +15,5 @@
 
 # Files
 
+**/*.bak
 *.catalog.xml

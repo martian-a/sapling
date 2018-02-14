@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://ns.thecodeyard.co.uk/schema/sapling.rnc?v=3.0.0" type="application/relax-ng-compact-syntax"?>
+<?xml-model href="http://ns.thecodeyard.co.uk/schema/sapling.sch?v=3.0.0" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<app xmlns:xi="http://www.w3.org/2001/XInclude">
+	<name>Sapling</name>
+	<data>
+		<xi:include href="people.xml" />
+		<xi:include href="events.xml" />
+		<xi:include href="locations.xml" />
+		<xi:include href="organisations.xml" />
+	</data>
+	<views>
+		<index path="/" default="true">
+			<title>Sapling</title>
+			<method type="html"/>
+<sub>
+				<index path="person">
+					<title>People</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index>
+				<!-- index path="event">
+					<title>Events</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index -->
+				<index path="location">
+					<title>Locations</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index>
+				<index path="organisation">
+					<title>Organisations</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index>
+				<index path="name">
+					<title>Names</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index>
+</sub>
+		</index>
+	</views>
+	<assets>
+		<image role="site-logo">
+			<title>Sapling</title>
+			<file path="logo.png" height="1048" width="1048"/>
+			<file path="logo.small.png" height="100" width="100"/>
+		</image>
+	</assets>
+</app>

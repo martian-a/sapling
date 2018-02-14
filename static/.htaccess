@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# Redirect from www.bluegumtree.com to bluegumtree.com
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
-
-# Redirect from http to https
-RewriteCond %{HTTPS} off
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

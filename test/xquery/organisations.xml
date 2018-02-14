@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organisations>
+	<organisation id="ORG1">
+		<name>Holy Roman Empire</name>
+	</organisation>
+	<organisation id="ORG2">
+		<name>Total Unconnected</name>
+	</organisation>
+</organisations>

@@ -34,8 +34,10 @@
 			</d:note>
 		</d:doc>
 	</p:documentation>
-	<p:variable name="href-app" select="/build/source/app/@href" />
-	<p:variable name="href-static" select="/build/source/static/@href" />
+	<p:variable name="href-app-generic" select="/build/source/app[@role = 'generic']/@href" />
+	<p:variable name="href-app-custom" select="/build/source/app[@role = 'custom']/@href" />
+	<p:variable name="href-static-generic" select="/build/source/static[@role = 'generic']/@href" />
+	<p:variable name="href-static-custom" select="/build/source/static[@role = 'custom']/@href" />
 	<p:variable name="href-xml" select="concat(/build/output/site/@href, 'xml/')" />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'html/')" />
 	
@@ -44,8 +46,21 @@
 			<d:desc>Copy javascript and style assets that the result will depend on the output directory.</d:desc>
 		</d:doc>
 	</p:documentation>
-	<tcy:copy-dependencies name="copy-dependencies-from-app">
-		<p:with-option name="href" select="$href-app" />
+	<tcy:copy-dependencies name="copy-generic-dependencies-from-app">
+		<p:with-option name="href" select="$href-app-generic" />
+		<p:with-option name="target" select="concat($target, '/assets/')" />
+		<p:with-option name="exclude-filter" select="'modules|test|utils|view|xslt'" />
+	</tcy:copy-dependencies>
+	
+	<p:sink />
+	
+	<p:documentation>
+		<d:doc scope="step">
+			<d:desc>Copy javascript and style assets that the result will depend on the output directory.</d:desc>
+		</d:doc>
+	</p:documentation>
+	<tcy:copy-dependencies name="copy-custom-dependencies-from-app">
+		<p:with-option name="href" select="$href-app-custom" />
 		<p:with-option name="target" select="concat($target, '/assets/')" />
 		<p:with-option name="exclude-filter" select="'modules|test|utils|view|xslt'" />
 	</tcy:copy-dependencies>
@@ -57,15 +72,27 @@
 			<d:desc>Copy miscellaneous assets that the result will depend on the output directory.</d:desc>
 		</d:doc>
 	</p:documentation>
-	<tcy:copy-dependencies name="copy-dependencies-from-static">
-		<p:with-option name="href" select="$href-static" />
+	<tcy:copy-dependencies name="copy-generic-dependencies-from-static">
+		<p:with-option name="href" select="$href-static-generic" />
+		<p:with-option name="target" select="concat($target, '/')" />
+	</tcy:copy-dependencies>
+	
+	<p:sink />
+	
+	<p:documentation>
+		<d:doc scope="step">
+			<d:desc>Copy miscellaneous assets that the result will depend on the output directory.</d:desc>
+		</d:doc>
+	</p:documentation>
+	<tcy:copy-dependencies name="copy-custom-dependencies-from-static">
+		<p:with-option name="href" select="$href-static-custom" />
 		<p:with-option name="target" select="concat($target, '/')" />
 	</tcy:copy-dependencies>
 	
 	<p:sink />
 	
 	<p:load name="load-stylesheet">
-		<p:with-option name="href" select="concat($href-app, 'xslt/global.xsl')" />
+		<p:with-option name="href" select="concat($href-app-generic, 'xslt/global.xsl')" />
 	</p:load>
 	
 	
@@ -88,8 +115,10 @@
 	</p:documentation>
 	<p:wrap-sequence wrapper="c:created">
 		<p:input port="source">
-			<p:pipe port="result" step="copy-dependencies-from-app" />
-			<p:pipe port="result" step="copy-dependencies-from-static" />
+			<p:pipe port="result" step="copy-generic-dependencies-from-app" />
+			<p:pipe port="result" step="copy-custom-dependencies-from-app" />
+			<p:pipe port="result" step="copy-generic-dependencies-from-static" />
+			<p:pipe port="result" step="copy-custom-dependencies-from-static" />
 			<p:pipe port="result" step="generate-html" />
 		</p:input>
 	</p:wrap-sequence>

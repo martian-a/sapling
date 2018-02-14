@@ -16,18 +16,18 @@
 		</d:desc>
 	</p:documentation>
 	
-	<p:option name="scope" />
-	<p:option name="role" select="'core'" />
-	
-	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
-	<p:import href="pre-process/pre_process.xpl" />
-	
 	<p:input port="config" primary="true" />
 	
 	<p:output port="result" sequence="true">
 		<p:pipe port="result" step="results" />
 	</p:output>
 	
+	<p:option name="scope" />
+	<p:option name="role" select="'core'" />
+	
+	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
+	<p:import href="pre-process/pre_process.xpl" />
+		
 	<p:import href="generate_name_entities.xpl" />
 
 	<p:variable name="href" select="/build/source/data[@role = $role]/@href" />

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locations>
+	<location id="LOC1" type="settlement">
+		<name>Ghent</name>
+		<within ref="LOC3" />
+	</location>
+	<location id="LOC3" type="country">
+		<name>Belgium</name>
+		<within ref="LOC4" />
+	</location>
+	<location id="LOC4" type="continent">
+		<name>Europe</name>
+	</location>
+	<location id="LOC5" type="address">
+		<name>Monastery of Yuste</name>
+		<within ref="LOC6" />
+	</location>
+	<location id="LOC6" type="settlement">
+		<name>Cuacos de Yuste</name>
+		<within ref="LOC7" />
+	</location>
+	<location id="LOC7" type="country">
+		<name>Spain</name>
+		<within ref="LOC4" />
+	</location>
+	<location id="LOC8" type="settlement">
+		<name>Seville</name>
+		<within ref="LOC7" />
+	</location>
+	<location id="LOC9" type="settlement">
+		<name>Cordoba</name>
+		<near ref="LOC8"/>
+	</location>
+	<location id="LOC10" type="settlement">
+		<name>Grenada</name>
+		<near ref="LOC8"/>
+	</location>
+	<location id="LOC11" type="settlement">
+		<name>Cájar</name>
+		<near ref="LOC10"/>
+	</location>
+</locations>

@@ -29,7 +29,7 @@
 	<p:import href="generate_svg.xpl" />
 	<p:import href="generate_png.xpl" />
 	
-	<p:variable name="href-app" select="/build/source/app/@href" />
+	<p:variable name="href-app" select="/build/source/app[@role = 'generic']/@href" />
 	<p:variable name="path-to-view-html" select="'../../../../../../'" />
 	<p:variable name="path-to-view-assets" select="'assets/'"  />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'html/', $path-to-view-assets, 'images/network-graphs/')" />

@@ -1,0 +1,32 @@
+<people>
+	<person id="PER1" year="1500" publish="true">
+		<persona>
+			<name xml:lang="en"><name>Charles</name> <ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name>
+			<gender>Male</gender>
+		</persona>
+		<persona>
+			<name xml:lang="en"><name>Charles</name> <origin><particle>of</particle> <location>Ghent</location></origin></name>
+			<gender>Male</gender>
+		</persona>
+		<persona>
+			<name xml:lang="en"><name>Charles</name> <origin><particle>of</particle> <location>Spain</location></origin></name>
+			<gender>Male</gender>
+		</persona>
+	</person>
+	<person id="PER2" year="1530" publish="true">
+		<persona>
+			<name xml:lang="en"><name>Isabella</name> <origin><particle>of</particle> <location>Portugal</location></origin></name>
+			<gender>Female</gender>
+		</persona>
+	</person>
+	<person id="PER3" year="2017" publish="true">
+		<persona>
+			<name><name>Random</name> <name>Nobody</name></name>
+		</persona>
+	</person>
+	<person id="PER4" year="1529" publish="true">
+		<persona>
+			<name><name>Ferdinand</name></name>
+		</persona>
+	</person>
+</people>
