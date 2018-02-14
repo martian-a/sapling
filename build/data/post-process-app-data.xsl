@@ -14,8 +14,7 @@
 		</xsl:result-document>
 	</xsl:template>	
 	
-	
-	<!-- Suppress person records that aren't explicitly set to publish. -->
+	<!-- Suppress embedded data as it's being published separately. -->
 	<xsl:template match="/app/data/node()" />	
 	
 	

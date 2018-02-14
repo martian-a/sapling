@@ -11,17 +11,16 @@
 	
 	
 	<p:documentation>
-		<d:doc scope="pipeline">
-			<d:desc>
-				<d:p>Copies source XML files to the destination specified.</d:p>
-			</d:desc>
-		</d:doc>
+		<d:desc>
+			<d:p>Copies source XML files to the destination specified.</d:p>
+		</d:desc>
 	</p:documentation>
 	
 	<p:option name="scope" />
 	<p:option name="role" select="'core'" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
+	<p:import href="pre-process/pre_process.xpl" />
 	
 	<p:input port="config" primary="true" />
 	
@@ -41,9 +40,7 @@
 			
 	<p:group name="pre-process-app-data">
 		
-		<p:output port="result" sequence="true">
-			<p:pipe port="result" step="modify-xml" />
-		</p:output>
+		<p:output port="result" sequence="false" />
 		
 		<p:variable name="source-file-path" select="concat($href, 'app.xml')" />
 		
@@ -51,22 +48,13 @@
 			<p:with-option name="href" select="$source-file-path" />
 		</p:load>
 
-		<p:load name="load-stylesheet" dtd-validate="false" href="pre-process-app-data.xsl" />
-		
-		<p:xslt name="modify-xml"> 
-			<p:input port="stylesheet">
-				<p:pipe port="result" step="load-stylesheet" />
-			</p:input>
+		<tcy:pre-process-data>
 			<p:input port="source">
 				<p:pipe port="result" step="source-data" />
 			</p:input>
-			<p:input port="parameters">
-				<p:empty />
-			</p:input>
-		</p:xslt>
+		</tcy:pre-process-data>
 		
 	</p:group>
-	
 	
 	<p:documentation>
 		<d:doc scope="step">
