@@ -8,6 +8,7 @@
             <body>
                 <h1>Test Results</h1>
                 <xsl:for-each-group select="testsuites/testsuite" group-by="number(@failures) = 0">
+                    <xsl:sort select="current-grouping-key()" data-type="text" order="ascending"/>
                     <div>
                         <h2>
                             <xsl:choose>
@@ -15,7 +16,9 @@
                                 <xsl:otherwise>Failed</xsl:otherwise>
                             </xsl:choose>
                         </h2>
-                        <xsl:apply-templates select="current-group()"/>
+                        <xsl:apply-templates select="current-group()">
+                            <xsl:sort select="@package" data-type="text" order="ascending"/>
+                        </xsl:apply-templates>
                     </div>
                 </xsl:for-each-group>
             </body>
@@ -29,16 +32,26 @@
             </h3>
             <table class="tests">
                 <tr>
-                    <th>Status</th><th>Total</th>
+                    <th>Status</th>
+                    <th>Total</th>
                 </tr>
                 <tr>
-                    <td>Pending</td><td><xsl:value-of select="@pending" /></td>
+                    <td>Pending</td>
+                    <td>
+                        <xsl:value-of select="@pending" />
+                    </td>
                 </tr>
                 <tr>
-                    <td>Passed</td><td><xsl:value-of select="number(@tests) - number(@failures)" /></td>
+                    <td>Passed</td>
+                    <td>
+                        <xsl:value-of select="number(@tests) - number(@failures)" />
+                    </td>
                 </tr>
                 <tr>
-                    <td>Failed</td><td><xsl:value-of select="@failures" /></td>
+                    <td>Failed</td>
+                    <td>
+                        <xsl:value-of select="@failures" />
+                    </td>
                 </tr>
             </table>
             <div class="testcases">
@@ -46,8 +59,11 @@
                 <ul>
                     <xsl:for-each-group select="testcase" group-by="@class">
                         <li>
-                            <p class="class"><xsl:value-of select="current-grouping-key()" /></p>
-                            <p>Total Cases: <xsl:value-of select="count(current-group())" /></p>
+                            <p class="class">
+                                <xsl:value-of select="current-grouping-key()" />
+                            </p>
+                            <p>Total Cases: <xsl:value-of select="count(current-group())" />
+                            </p>
                             <xsl:apply-templates select="current-group()[failure]" />
                         </li>
                     </xsl:for-each-group>
@@ -75,7 +91,9 @@
     </xsl:template>
     
     <xsl:template match="testcase/failure/@*">
-        <p><xsl:value-of select="name()" />: <xsl:value-of select="." /></p>
+        <p>
+            <xsl:value-of select="name()" />: <xsl:value-of select="." />
+        </p>
     </xsl:template>
     
     <xsl:template match="testcase/output">
@@ -91,12 +109,16 @@
     </xsl:template>
         
     <xsl:template match="element()" mode="sample">
-        <xsl:text>&lt;</xsl:text><xsl:value-of select="name()" /><xsl:apply-templates select="@*" mode="#current" />
+        <xsl:text>&lt;</xsl:text>
+        <xsl:value-of select="name()" />
+        <xsl:apply-templates select="@*" mode="#current" />
         <xsl:choose>
             <xsl:when test="node()">
                 <xsl:text>&gt;</xsl:text>
                 <xsl:apply-templates select="node()" mode="#current" />
-                <xsl:text>&lt;/</xsl:text><xsl:value-of select="name()" /><xsl:text>&gt;</xsl:text>
+                <xsl:text>&lt;/</xsl:text>
+                <xsl:value-of select="name()" />
+                <xsl:text>&gt;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text> /&gt;</xsl:text>
@@ -106,7 +128,11 @@
     </xsl:template>
     
     <xsl:template match="attribute()" mode="sample">
-        <xsl:text> </xsl:text><xsl:value-of select="name()" /><xsl:text>="</xsl:text><xsl:value-of select="." /><xsl:text>"</xsl:text>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="name()" />
+        <xsl:text>="</xsl:text>
+        <xsl:value-of select="." />
+        <xsl:text>"</xsl:text>
     </xsl:template>
     
     <xsl:template match="text()" mode="sample">
@@ -114,11 +140,17 @@
     </xsl:template>
 
     <xsl:template match="comment()" mode="sample">
-        <xsl:text>&lt;!-- </xsl:text><xsl:value-of select="." /><xsl:text> --&gt;</xsl:text>
+        <xsl:text>&lt;!-- </xsl:text>
+        <xsl:value-of select="." />
+        <xsl:text> --&gt;</xsl:text>
     </xsl:template>
     
     <xsl:template match="processing-instruction()" mode="sample">
-        <xsl:text>&lt;?</xsl:text><xsl:value-of select="name()" /><xsl:text> </xsl:text><xsl:value-of select="." /><xsl:text>?&gt;</xsl:text>
+        <xsl:text>&lt;?</xsl:text>
+        <xsl:value-of select="name()" />
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="." />
+        <xsl:text>?&gt;</xsl:text>
     </xsl:template>
 
 </xsl:stylesheet>

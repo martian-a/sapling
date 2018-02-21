@@ -8,6 +8,9 @@
 		<date day="21" month="9" year="1558"/>
 		<person ref="PER1"/>
 		<location ref="LOC5"/>
+		<sources>
+			<source ref="SOU1"><summary>Date and location.</summary></source>
+		</sources>
 	</event>
 	<event id="EVE3" type="historical">
 		<date year="1506"/>

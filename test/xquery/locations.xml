@@ -18,6 +18,7 @@
 	<location id="LOC6" type="settlement">
 		<name>Cuacos de Yuste</name>
 		<within ref="LOC7" />
+		<near ref="LOC12" />
 	</location>
 	<location id="LOC7" type="country">
 		<name>Spain</name>
@@ -38,5 +39,17 @@
 	<location id="LOC11" type="settlement">
 		<name>Cájar</name>
 		<near ref="LOC10"/>
+	</location>
+	<location id="LOC12" type="settlement">
+		<name>Aldeanueva de la Vera</name>
+		<near ref="LOC13" />
+	</location>
+	<location id="LOC13" type="settlement">
+		<name>Jarandilla de la Vera</name>
+		<near ref="LOC12" />
+		<near ref="LOC14" />
+	</location>
+	<location id="LOC14" type="settlement">
+		<name>Guijo de Santa Bárbara</name>
 	</location>
 </locations>

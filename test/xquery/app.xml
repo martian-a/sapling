@@ -4,16 +4,17 @@
 <app xmlns:xi="http://www.w3.org/2001/XInclude">
 	<name>Sapling</name>
 	<data>
-		<xi:include href="people.xml" />
-		<xi:include href="events.xml" />
-		<xi:include href="locations.xml" />
-		<xi:include href="organisations.xml" />
+		<xi:include href="people.xml"/>
+		<xi:include href="events.xml"/>
+		<xi:include href="locations.xml"/>
+		<xi:include href="organisations.xml"/>
+		<xi:include href="sources.xml"/>
 	</data>
 	<views>
 		<index path="/" default="true">
 			<title>Sapling</title>
 			<method type="html"/>
-<sub>
+			<sub>
 				<index path="person">
 					<title>People</title>
 					<method type="xml"/>
@@ -39,7 +40,12 @@
 					<method type="xml"/>
 					<method type="html"/>
 				</index>
-</sub>
+				<index path="source">
+					<title>Sources</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</index>
+			</sub>
 		</index>
 	</views>
 	<assets>

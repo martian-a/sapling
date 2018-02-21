@@ -42,11 +42,15 @@ declare
 
 	(: Valid id, one ancestor :)
 	%test:args('LOC3')
-	%test:assertEquals('<result><location id="LOC4" type="continent"><name>Europe</name></location></result>') 
+	%test:assertXPath("$result[count(location) = 1]")
+	%test:assertXPath("$result/location[@id = 'LOC4']")
 
 	(: Valid id, more than one ancestor :)
 	%test:args('LOC5')
-	%test:assertEquals('<result><location id="LOC6" type="settlement"><name>Cuacos de Yuste</name><within ref="LOC7"/></location><location id="LOC7" type="country"><name>Spain</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></result>') 
+	%test:assertXPath("$result[count(location) = 3]")
+	%test:assertXPath("$result/location[@id = 'LOC6']")
+	%test:assertXPath("$result/location[@id = 'LOC7']")
+	%test:assertXPath("$result/location[@id = 'LOC4']")
 
 
 function unit:get-location-context($param) {
@@ -66,12 +70,15 @@ declare
 
 	(: Valid id, one descendant :)
 	%test:args('LOC6')
-	%test:assertEquals('<result><location id="LOC5" type="address"><name>Monastery of Yuste</name><within ref="LOC6"/></location></result>') 
+	%test:assertXPath("$result[count(location) = 1]")
+	%test:assertXPath("$result/location[@id = 'LOC5']")
 
 	(: Valid id, more than one descendant :)
 	%test:args('LOC7')
-	%test:assertEquals('<result><location id="LOC6" type="settlement"><name>Cuacos de Yuste</name><within ref="LOC7"/></location><location id="LOC5" type="address"><name>Monastery of Yuste</name><within ref="LOC6"/></location><location id="LOC8" type="settlement"><name>Seville</name><within ref="LOC7"/></location></result>') 
-
+	%test:assertXPath("$result[count(location) = 3]")
+	%test:assertXPath("$result/location[@id = 'LOC5']")
+	%test:assertXPath("$result/location[@id = 'LOC6']")
+	%test:assertXPath("$result/location[@id = 'LOC8']")
 
 function unit:get-locations-within($param) {
 	<result>{data:get-locations-within(data:get-entity($param))}</result>
@@ -85,21 +92,24 @@ declare
 	%test:assertEquals('<result/>')
 
 	(: Valid id, no nearby locations :)
-	%test:args('LOC6')
+	%test:args('LOC7')
 	%test:assertEquals('<result/>') 
-
+	
 	(: Valid id, one nearby location :)
-	%test:args('LOC11')
-	%test:assertEquals('<result><location id="LOC10" type="settlement"><name>Grenada</name><near ref="LOC8"/></location></result>') 
+	%test:args('LOC6')
+	%test:assertXPath("$result[count(location) = 1]")
+	%test:assertXPath("$result/location[@id = 'LOC12']")
 
 	(: Valid id, more than one nearby location :)
-	%test:args('LOC8')
-	%test:assertEquals('<result><location id="LOC9" type="settlement"><name>Cordoba</name><near ref="LOC8"/></location><location id="LOC10" type="settlement"><name>Grenada</name><near ref="LOC8"/></location></result>') 
+	%test:args('LOC13')
+	%test:assertXPath("$result[count(location) = 2]")
+	%test:assertXPath("$result/location[@id = 'LOC12']")
+	%test:assertXPath("$result/location[@id = 'LOC14']")
 
 	(: Valid id, indirectly referenced :)
-	%test:args('LOC10')
-	%test:assertEquals('<result><location id="LOC8" type="settlement"><name>Seville</name><within ref="LOC7"/></location><location id="LOC11" type="settlement"><name>Cájar</name><near ref="LOC10"/></location></result>') 
-
+	%test:args('LOC14')
+	%test:assertXPath("$result[count(location) = 1]")
+	%test:assertXPath("$result/location[@id = 'LOC13']")
 
 function unit:get-locations-near($param) {
 	<result>{data:get-locations-near(data:get-entity($param))}</result>

@@ -64,12 +64,12 @@ function unit:get-view($param) {
 
 declare
 		
-	(: Valid path, no id :) 
+	(: Valid path, no id - INDEX :) 
 	%test:args('organisation', '')
 	%test:assertXPath("$result/view[@path = 'organisation']")
-	%test:assertXPath("count($result/view/data/entities/organisation) &gt; 1")
+	%test:assertXPath("count($result/view/data/entities/organisation) &gt; 0")
 				
-	(: Valid path, valid id :)
+	(: Valid path, valid id - PROFILE :)
 	%test:args('organisation', 'ORG1')
 	%test:assertXPath("$result/view[@path = 'organisation/ORG1']")
 	%test:assertXPath("count($result/view/data/organisation) = 1")

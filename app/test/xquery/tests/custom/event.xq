@@ -79,7 +79,7 @@ function unit:is-valid-id($param1, $param2) {
 };
 
 
-
+(:
 declare
 		
 	(: Valid index :)
@@ -89,15 +89,16 @@ declare
 function unit:get-view($param) {
     data:get-view($param)
 };
+:)
 
-
+(:
 declare
-		
-	(: Valid path, no id :) 
+			
+	(: Valid path, no id :)
 	%test:args('event', '')
 	%test:assertXPath("$result/view[@path = 'event']")
-	%test:assertXPath("count($result/view/data/entities/event) &gt; 1")
-				
+	%test:assertXPath("count($result/view/data/entities/event) = 0")
+	
 	(: Valid path, valid id :)
 	%test:args('event', 'EVE1')
 	%test:assertXPath("$result/view[@path = 'event/EVE1']")
@@ -107,3 +108,4 @@ declare
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)
 };
+:)
