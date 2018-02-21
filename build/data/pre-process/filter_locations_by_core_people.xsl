@@ -11,6 +11,7 @@
     <xsl:output encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
     
+    <xsl:key name="location" match="/app/data/locations/location" use="@id" />
    
     <xsl:template match="/">
         <xsl:result-document>
@@ -26,24 +27,32 @@
     </doc:doc>
     <xsl:template match="data/locations">
     
-        <!-- Core locations -->
-        <xsl:variable name="referenced-from-core-entities" as="element()*">
-            <xsl:apply-templates select="location" mode="direct-reference" />
-        </xsl:variable>  
-        
-        <!-- Other locations that core locations have a dependency on. -->
-        <xsl:variable name="referenced-from-core-locations" as="element()*">
-            <xsl:apply-templates select="$referenced-from-core-entities/descendant::*[@ref = /app/data/locations/location/@id]" mode="indirect-reference" />
+        <xsl:variable name="referenced-locations" as="element()*">
+            
+            <!-- Core locations -->
+            <xsl:variable name="referenced-from-core-entities" as="element()*">
+                <xsl:apply-templates select="location" mode="direct-reference" />
+            </xsl:variable>  
+            
+            <!-- Other locations that core locations have a dependency on. -->
+            <xsl:variable name="referenced-from-core-locations" as="element()*">
+                <xsl:apply-templates select="$referenced-from-core-entities" mode="indirect-reference" />
+            </xsl:variable>
+            
+            <xsl:for-each-group select="$referenced-from-core-entities | $referenced-from-core-locations" group-by="@id">
+                <xsl:sort select="number(translate(current-grouping-key(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', ''))" data-type="number" order="ascending" />
+                <xsl:sequence select="current-group()[1]" />
+            </xsl:for-each-group>
+            
         </xsl:variable>
+    
+        
         
         <xsl:copy>
             <xsl:apply-templates select="@*" />
             
             <!-- Merge and de-dupe the collections of core locations and their dependencies. -->
-            <xsl:for-each-group select="$referenced-from-core-entities | $referenced-from-core-locations" group-by="@id">
-                <xsl:sort select="number(translate(current-grouping-key(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', ''))" data-type="number" order="ascending" />
-                <xsl:apply-templates select="current-group()[1]" />
-            </xsl:for-each-group>
+            <xsl:apply-templates select="location[@id = $referenced-locations/@id]" />
             
         </xsl:copy>
         
@@ -68,23 +77,31 @@
     
     <doc:doc>
         <doc:desc>
-            <doc:p>Match references to locations. Includes near, within, etc. as well as location/@ref.</doc:p>
+            <doc:p>Add back in a location record that is indirectly referenced by a core location.</doc:p>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="*[@ref]" mode="indirect-reference">        
-        <xsl:apply-templates select="/app/data/locations/location[@id = current()/@ref]" mode="#current" />
+    <xsl:template match="location[@id]" mode="indirect-reference">
+        <xsl:param name="already-referenced" as="element()*" tunnel="yes" />
+      
+        <xsl:variable name="updated-already-referenced" as="element()*">
+            <xsl:copy-of select="$already-referenced" />
+            <xsl:copy-of select="self::location" />
+        </xsl:variable>
+      
+        <xsl:copy-of select="self::location" />
+        <xsl:apply-templates select="descendant::*[@ref[not(. = $updated-already-referenced/@id)] = /app/data/locations/location/@id]" mode="#current">
+            <xsl:with-param name="already-referenced" select="$updated-already-referenced" as="element()*" tunnel="yes" />
+        </xsl:apply-templates>
     </xsl:template>
     
     
     <doc:doc>
         <doc:desc>
-            <doc:p>Add back in a location record that is indirectly referenced by a core location.</doc:p>
+            <doc:p>Match references to locations. Includes near, within, etc. as well as location/@ref.</doc:p>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="location[@id]" mode="indirect-reference">        
-        <xsl:copy-of select="self::location" />
-        <xsl:apply-templates select="descendant::*[@ref = /app/data/locations/location/@id]" mode="#current" />
+    <xsl:template match="*[@ref]" mode="indirect-reference">        
+        <xsl:apply-templates select="key('location', @ref)" mode="#current" />
     </xsl:template>
-    
     
 </xsl:stylesheet>
