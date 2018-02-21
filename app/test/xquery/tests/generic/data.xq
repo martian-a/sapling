@@ -55,8 +55,18 @@ declare
 	(: Valid id - Name :)
 	%test:args('NAM1')
 	%test:assertXPath("count($result) = 1")
-	%test:assertXPath("$result/@id = 'NAM1'") 
+	%test:assertXPath("$result/@id = 'NAM1'")
 	
+	(: Valid id - Source :)
+	%test:args('SOU1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'SOU1'") 
+
+	(: Valid id - Journal :)
+	%test:args('JOU1')
+	%test:assertXPath("count($result) = 1")
+	%test:assertXPath("$result/@id = 'JOU1'") 
+
 function unit:get-entity-from-string($param) {
     data:get-entity($param)
 };

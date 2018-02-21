@@ -22,7 +22,7 @@ declare
 			
 	(: Valid id :)
 	%test:args('NAM9')
-	%test:assertEquals('<name id="NAM9" key="ferdinand"><name>Ferdinand</name><derived-from><person ref="PER4"/></derived-from></name>') 
+	%test:assertXPath("$result[@id = 'NAM9']")
 
 function unit:get-entity($param) {
     data:get-entity($param)
@@ -32,11 +32,18 @@ function unit:get-entity($param) {
 declare
 	
 	(: Valid id :)
-	%test:args('NAM10')
-	%test:assertEquals('<name id="NAM10" key="ghent"><name>Ghent</name><derived-from><location ref="LOC1"/></derived-from><related><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></related></name>') 
-	
-function unit:augment-entity($param) {
-    data:augment-entity(data:get-entity($param))
+	%test:args('Ghent')
+    %test:assertXPath("$result[@key = 'ghent']")
+    %test:assertXPath("$result/derived-from[location/@ref = 'LOC1']")
+    %test:assertXPath("$result/related[location/@id = 'LOC1']")
+    %test:assertXPath("$result/related[location/@id = 'LOC3']")
+    %test:assertXPath("$result/related[location/@id = 'LOC4']")	
+    %test:assertXPath("$result/related[count(*) = 3]")
+
+function unit:augment-entity($name) {
+
+    let $param := data:get-entities('name')[name = $name]
+    return data:augment-entity(data:get-entity($param))
 };
 
 declare
@@ -79,7 +86,6 @@ declare
 	%test:assertXPath("$result/view[@path = 'name/NAM9']")
 	%test:assertXPath("count($result/view/data/name) = 1")
 	%test:assertXPath("$result/view/data/name[@id = 'NAM9']")
-	%test:assertXPath("$result/view/data/name[@key = 'ferdinand']")
 	
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)
