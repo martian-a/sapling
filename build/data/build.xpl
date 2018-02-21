@@ -26,6 +26,7 @@
 	<p:option name="role" select="'core'" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
+	<p:import href="../../../genealogy-data-global/utils/xproc/build.xpl" />
 	<p:import href="pre-process/pre_process.xpl" />
 		
 	<p:import href="generate_name_entities.xpl" />
@@ -37,7 +38,31 @@
 		<p:with-option name="href" select="$target" />
 	</cxf:mkdir>
 
+	<p:for-each name="update-sources">
+		
+		<p:iteration-source select="/build/source/data[@role = ('core', 'shared')]">
+			<p:pipe port="config" step="build-data" />
+		</p:iteration-source>
+		
+		<p:group>
 			
+			<tcy:build-sources>
+				<p:input port="source">
+					<p:empty />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+				<p:with-option name="href" select="concat(data/@href, 'sources/')"/>
+			</tcy:build-sources>
+			
+			<p:sink />
+			
+		</p:group>
+		
+	</p:for-each>
+
+
 	<p:group name="pre-process-app-data">
 		
 		<p:output port="result" sequence="false" />
