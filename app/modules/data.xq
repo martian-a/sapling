@@ -319,6 +319,7 @@ declare function data:simplify-entity($param as element()) as element() {
 	case "location" return data:simplify-location($param)
 	case "event" return data:simplify-event($param)
 	case "name" return data:simplify-derived-name($param)
+	case "source" return data:simplify-source($param)
 	default return $param
 
 };
@@ -373,6 +374,16 @@ declare function data:simplify-derived-name($param as element()) as element()? {
 		<name>{
 			$entity/@*,
 			$entity/name[1]
+		}</name>
+};
+
+declare function data:simplify-source($param as element()) as element()? {
+	
+	for $entity in $param/self::source[starts-with(@id, 'SOU')]
+	return
+		<name>{
+			$entity/@*,
+			$entity/front-matter/title
 		}</name>
 };
 
