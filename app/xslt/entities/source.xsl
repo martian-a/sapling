@@ -94,32 +94,32 @@
                 </xsl:document>
             </xsl:variable>
             
-            <xsl:variable name="filter" select="tokenize(translate(upper-case($bibliography), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', ''), '.')" as="xs:string*" />
+            <xsl:variable name="filter" select="string-join(distinct-values(for $ch in string-to-codepoints(
+                        translate(
+                            upper-case($bibliography), 
+                            'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 
+                            ''
+                        )
+                    ) return codepoints-to-string($ch)), '')" as="xs:string?" />
             
             <xsl:variable name="entries" as="element()*">
-                <xsl:for-each-group select="$bibliography/bibliography/source" group-by="translate(substring(., 1, 1), $filter, '') = ''">
-                    <xsl:choose>
-                        <xsl:when test="current-grouping-key() = true()">
-                            <xsl:call-template name="generate-jump-navigation-group">
-                                <xsl:with-param name="group" select="current-group()" as="element()*" />
-                                <xsl:with-param name="key" select="''" as="xs:string" />
-                                <xsl:with-param name="misc-match-test" select="''" as="xs:string" />
-                                <xsl:with-param name="misc-match-label" select="'Miscellaneous'" as="xs:string" />
-                            </xsl:call-template>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:for-each-group select="current-group()" group-by="substring(upper-case(.), 1, 1)">
-                                <xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
-                                <xsl:call-template name="generate-jump-navigation-group">
-                                    <xsl:with-param name="group" select="current-group()" as="element()*" />
-                                    <xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
-                                    <xsl:with-param name="misc-match-test" select="''" as="xs:string" />
-                                    <xsl:with-param name="misc-match-label" select="'Unattributed'" as="xs:string" />
-                                </xsl:call-template>	
-                            </xsl:for-each-group>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                <xsl:for-each-group select="$bibliography/bibliography/source" group-by="substring(translate(upper-case(.), $filter, ''), 1, 1)">
+                    <xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
                     
+                    <xsl:variable name="sorted-entries" as="element()*">
+                        <xsl:for-each select="current-group()">
+                            <xsl:sort select="translate(., $filter, '')" data-type="text" />
+                            <xsl:sequence select="self::*" />
+                        </xsl:for-each>
+                    </xsl:variable>
+                    
+                    
+                    <xsl:call-template name="generate-jump-navigation-group">
+                        <xsl:with-param name="group" select="$sorted-entries" as="element()*" />
+                        <xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
+                        <xsl:with-param name="misc-match-test" select="''" as="xs:string" />
+                        <xsl:with-param name="misc-match-label" select="'Miscellaneous'" as="xs:string" />
+                    </xsl:call-template>	
                 </xsl:for-each-group>
             </xsl:variable>
             
