@@ -34,6 +34,16 @@
 	
 	<p:xslt> 
 		<p:input port="stylesheet">
+			<p:document href="dereference_journals.xsl" />
+		</p:input>
+		<p:input port="parameters">
+			<p:empty />
+		</p:input>
+	</p:xslt>
+	
+	
+	<p:xslt> 
+		<p:input port="stylesheet">
 			<p:document href="sort_entities.xsl" />
 		</p:input>
 		<p:input port="parameters">

@@ -429,5 +429,26 @@
 		</xsl:for-each>
 		
 	</xsl:function>
+	
+	
+	<xsl:function name="fn:month-name" as="xs:string?">
+		<xsl:param name="number" as="xs:integer?" />
+		
+		<xsl:choose>
+			<xsl:when test="$number = 1">January</xsl:when>
+			<xsl:when test="$number = 2">February</xsl:when>
+			<xsl:when test="$number = 3">March</xsl:when>
+			<xsl:when test="$number = 4">April</xsl:when>
+			<xsl:when test="$number = 5">May</xsl:when>
+			<xsl:when test="$number = 6">June</xsl:when>
+			<xsl:when test="$number = 7">July</xsl:when>
+			<xsl:when test="$number = 8">August</xsl:when>
+			<xsl:when test="$number = 9">September</xsl:when>
+			<xsl:when test="$number = 10">October</xsl:when>
+			<xsl:when test="$number = 11">November</xsl:when>
+			<xsl:when test="$number = 12">December</xsl:when>
+			<xsl:otherwise />
+		</xsl:choose>
+	</xsl:function>
 		
 </xsl:stylesheet>

@@ -423,23 +423,7 @@
 		<doc:title>Event Date: Month</doc:title>
 	</doc:doc>
 	<xsl:template match="event/date/@month">
-		<span class="month">
-			<xsl:choose>
-				<xsl:when test=". = 1">January</xsl:when>
-				<xsl:when test=". = 2">February</xsl:when>
-				<xsl:when test=". = 3">March</xsl:when>
-				<xsl:when test=". = 4">April</xsl:when>
-				<xsl:when test=". = 5">May</xsl:when>
-				<xsl:when test=". = 6">June</xsl:when>
-				<xsl:when test=". = 7">July</xsl:when>
-				<xsl:when test=". = 8">August</xsl:when>
-				<xsl:when test=". = 9">September</xsl:when>
-				<xsl:when test=". = 10">October</xsl:when>
-				<xsl:when test=". = 11">November</xsl:when>
-				<xsl:when test=". = 12">December</xsl:when>
-				<xsl:otherwise />
-			</xsl:choose>
-		</span>
+		<span class="month"><xsl:value-of select="fn:month-name(.)" /></span>
 	</xsl:template>
 	
 	

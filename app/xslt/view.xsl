@@ -1,10 +1,14 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 
+	<xsl:variable name="ldquo" select="codepoints-to-string(8220)" as="xs:string" />
+	<xsl:variable name="rdquo" select="codepoints-to-string(8221)" as="xs:string" />
+
 	<xsl:include href="entities/location.xsl"/>
 	<xsl:include href="entities/person.xsl"/>
 	<xsl:include href="entities/name.xsl"/>
 	<xsl:include href="entities/event.xsl"/>
 	<xsl:include href="entities/organisation.xsl"/>
+	<xsl:include href="entities/source.xsl"/>
 	<xsl:include href="custom/static_content.xsl"/>
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>

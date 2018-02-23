@@ -9,4 +9,16 @@
             <link href="https://en.wikipedia.org/w/index.php?title=Charles_V,_Holy_Roman_Emperor&amp;oldid=825597678" />
         </front-matter>
     </source>
+    <source id="SOU2">
+        <front-matter>
+            <title>Diary of a Holy Roman Emperor</title>
+            <publisher>Private Publication</publisher>
+            <date year="2018" month="21" day="2" rel="published">21 February 2018</date>
+        </front-matter>
+        <body-matter>
+            <body>
+                <p>Mouldering in the <location ref="LOC5">monastery</location>.  Editing <source ref="SOU1">my profile</source> on Wikipedia for kicks.</p>
+            </body>
+        </body-matter>
+    </source>
 </sources>

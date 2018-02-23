@@ -367,6 +367,16 @@ declare function data:simplify-event($param as element()) as element()? {
 		}</event>
 };
 
+declare function data:simplify-source($param as element()) as element()? {
+	
+	for $entity in $param/self::source[starts-with(@id, 'SOU')]
+	return
+		<source>{
+			$entity/@*,
+			$entity/front-matter
+		}</source>
+};
+
 declare function data:simplify-derived-name($param as element()) as element()? {
 	
 	for $entity in $param/self::name[starts-with(@id, 'NAM')]
@@ -374,16 +384,6 @@ declare function data:simplify-derived-name($param as element()) as element()? {
 		<name>{
 			$entity/@*,
 			$entity/name[1]
-		}</name>
-};
-
-declare function data:simplify-source($param as element()) as element()? {
-	
-	for $entity in $param/self::source[starts-with(@id, 'SOU')]
-	return
-		<name>{
-			$entity/@*,
-			$entity/front-matter/title
 		}</name>
 };
 
@@ -523,6 +523,22 @@ declare function data:get-related-organisations($entity as element(), $related-e
 	return $organisation
 
 };
+
+
+declare function data:get-related-sources($entity as element()) as element()* {
+
+	let $entities := $entity
+	let $references :=
+		let $references-from-entity-to-sources := $entities/descendant::source/@ref/xs:string(.)
+		let $references-to-entity-from-sources := data:get-entities('source')/self::source[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+		return distinct-values(($references-from-entity-to-sources, $references-to-entity-from-sources))
+	for $ref in $references
+	let $source := data:get-entity($ref)/self::source[@id != $entity/@id]
+	order by $source/number(substring-after(@id, 'SOU')) ascending
+	return $source
+
+};
+
 
 
 declare function data:get-events-involving-people() as element()* {

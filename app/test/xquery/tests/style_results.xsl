@@ -17,7 +17,7 @@
                             </xsl:choose>
                         </h2>
                         <xsl:apply-templates select="current-group()">
-                            <xsl:sort select="@package" data-type="text" order="ascending"/>
+                            <!-- xsl:sort select="@package" data-type="text" order="ascending"/ -->
                         </xsl:apply-templates>
                     </div>
                 </xsl:for-each-group>

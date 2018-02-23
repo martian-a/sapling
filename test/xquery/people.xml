@@ -29,4 +29,15 @@
 			<name><name>Ferdinand</name></name>
 		</persona>
 	</person>
+	
+	<person id="PER6" year="1527" publish="true">
+		<persona>
+			<name><name>Phillip</name></name>
+		</persona>
+	</person>
+	<person id="PER5" year="1528" publish="true">
+		<persona>
+			<name><name>Maria</name></name>
+		</persona>
+	</person>
 </people>

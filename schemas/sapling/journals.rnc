@@ -29,23 +29,17 @@ journal.issn = element issn {
     journal.issn.content-model
 }
 
-journal.location-ref = (
-    location-ref |
-    (
-        element location {
-           journal.location-ref.attlist?,
-	       entity-ref.content-model
-	   }
-	)
-)
-
+journal.location = element location {
+    text*
+}   
+    
 
 # Content Models #
 
 journal.content-model =
 	title,
 	publisher?,
-	journal.location-ref?,
+	journal.location?,
 	journal.issn?
 
 journal.issn.content-model =

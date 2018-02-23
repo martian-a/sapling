@@ -256,6 +256,35 @@
 		</sch:rule>
 		
 	</sch:pattern>
+	
+	
+	<sch:pattern>
+		
+		<sch:title>Source Author Variants</sch:title>
+		
+		<sch:rule context="author/name">
+			
+			<sch:assert test="self::name[name[@family = 'yes']]">New citation variant.  Author has no family name.</sch:assert>
+			<sch:report test="self::name[count(name[@family = 'yes']) &gt; 1]">New citation variant.  Author has more than one family name.</sch:report>
+			<sch:assert test="self::name[name[not(@family = 'yes')]]">New citation variant.  Author has no forename.</sch:assert>
+			
+		</sch:rule>
+		
+	</sch:pattern>
+	
+	
+	<sch:pattern>
+		
+		<sch:title>Source Title Variants</sch:title>
+		
+		<sch:rule context="data/sources/source">
+			
+			<sch:assert test="self::source[front-matter/title]">New citation variant.  Source has no title.</sch:assert>
+			<sch:report test="self::source[count(front-matter/title) &gt; 1]">New citation variant.  Source has more than one title.</sch:report>
+			
+		</sch:rule>
+		
+	</sch:pattern>
 
 	
 </sch:schema>

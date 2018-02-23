@@ -114,6 +114,10 @@ source.isbn = element isbn {
 	text*
 }
 
+source.location = element location {
+	text*
+}
+
 source.note = element note {
 	source.note.attlist,
 	source.note.content-model
@@ -196,7 +200,7 @@ source.front-matter.content-model =
 	
 source.front-matter.generic.content-model =
 	publisher? &
-	location-ref* &
+	source.location? &
 	source.isbn? &
 	source.date*
 	

@@ -40,4 +40,26 @@
 			<person ref="PER1"/> becomes ruler of the <organisation ref="ORG1"/>
 		</summary>
 	</event>
+	
+	<event id="EVE8" type="birth">
+		<date day="21" month="5" year="1527"/>
+		<person ref="PER5"/>
+		<parent type="biological" ref="PER1"/>
+		<parent type="biological" ref="PER2"/>
+	</event>
+	<event id="EVE9" type="death">
+		<date day="13" month="9" year="1598"/>
+		<person ref="PER5"/>
+	</event>
+	
+	<event id="EVE10" type="birth">
+		<date day="21" month="6" year="1528"/>
+		<person ref="PER6"/>
+		<parent type="biological" ref="PER1"/>
+		<parent type="biological" ref="PER2"/>
+	</event>
+	<event id="EVE11" type="death">
+		<date day="26" month="2" year="1603"/>
+		<person ref="PER6"/>
+	</event>
 </events>
