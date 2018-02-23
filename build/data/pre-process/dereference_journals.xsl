@@ -39,7 +39,7 @@
 		<xsl:variable name="definition" select="key('journal', @ref)" as="element()" />
 		
 		<xsl:copy>
-			<xsl:apply-templates select="$definition/@*, $definition/node()" />
+			<xsl:apply-templates select="$definition/@*[name() != 'id'], $definition/node()" />
 			<issue>
 				<xsl:apply-templates select="@*[name() != 'ref'], node()" />
 			</issue>

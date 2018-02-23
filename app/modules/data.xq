@@ -373,7 +373,7 @@ declare function data:simplify-source($param as element()) as element()? {
 	return
 		<source>{
 			$entity/@*,
-			$entity/front-matter
+			$entity/reference
 		}</source>
 };
 
