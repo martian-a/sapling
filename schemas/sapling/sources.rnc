@@ -12,7 +12,7 @@ include "shared.rnc" {
 		
 }
 
-include "journals.rnc"
+include "serials.rnc"
 
 
 # Root Element #
@@ -300,11 +300,7 @@ source.front-matter.attlist =
 	xml.attlist
 
 source.front-matter.journal.attlist =
-	xml.attlist,
-	attribute type {
-	   "newspaper" |
-	   "journal"
-	}?
+    serial.attlist
 	
 source.front-matter.map.attlist =
 	xml.attlist

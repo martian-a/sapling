@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	stylesheet="../../../../build/data/pre-process/insert_references.xsl">
+
+	<x:scenario label="References">
+		
+		<x:scenario label="Map (serial)">
+			
+			<x:context>
+				<data>
+					<sources>
+						<source id="SOU11">
+							<front-matter>
+								<title>Morayshire</title>
+								<serial>								
+									<title>Name Books, 1868-1871</title>
+									<author>Ordnance Survey</author>
+									<part>									
+										<volume number="9"/>
+										<date rel="published" year="1871">1871</date>									
+									</part>
+								</serial>
+								<link href="https://scotlandsplaces.gov.uk/digital-volumes/ordnance-survey-name-books/morayshire-os-name-books-1868-1871/morayshire-volume-09/100" />
+							</front-matter>						
+						</source>
+					</sources>
+				</data>
+			</x:context>			
+			
+			<!-- check the result -->
+			<x:expect label="Map reference (serial)" test="data/sources/source/reference">
+				<reference type="bibliographic" style="book">
+					<titles>
+						<title>Morayshire</title>
+					</titles>
+					<series>Morayshire Ordnance Survey Name Books,
+						1868-1871</series>
+					<publisher>Ordnance Survey</publisher>
+					<date rel="published" year="1871">1871</date>
+				</reference>
+			</x:expect>
+			
+		</x:scenario>
+	
+	</x:scenario>
+	
+</x:description>

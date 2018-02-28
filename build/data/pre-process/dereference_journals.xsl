@@ -7,16 +7,16 @@
 	version="2.0">
 	
 	<doc:doc scope="stylesheet">
-		<doc:desc>Dereference journals.</doc:desc>
+		<doc:desc>Dereference serial publications.</doc:desc>
 	</doc:doc>
 	
 	<xsl:include href="../../utils/identity.xsl" />
 	
 	
 	<doc:doc>
-		<doc:desc>Handy key for quickly finding a journal definition.</doc:desc>
+		<doc:desc>Handy key for quickly finding a serial publication definition.</doc:desc>
 	</doc:doc>
-	<xsl:key name="journal" match="/app/data/journals/journal" use="@id" />
+	<xsl:key name="serial" match="/app/data/serials/serial" use="@id" />
 	
 	
 	<doc:doc>
@@ -33,23 +33,23 @@
 	
 	
 	<doc:doc>
-		<doc:desc>Match all references to a journal and replace with the actual data from the referenced journal definition.</doc:desc>
+		<doc:desc>Match all references to a serial publication and replace with the actual data from the referenced serial definition.</doc:desc>
 	</doc:doc>
-	<xsl:template match="journal[@ref]">
-		<xsl:variable name="definition" select="key('journal', @ref)" as="element()" />
+	<xsl:template match="serial[@ref]">
+		<xsl:variable name="definition" select="key('serial', @ref)" as="element()" />
 		
 		<xsl:copy>
 			<xsl:apply-templates select="$definition/@*[name() != 'id'], $definition/node()" />
-			<issue>
+			<part>
 				<xsl:apply-templates select="@*[name() != 'ref'], node()" />
-			</issue>
+			</part>
 		</xsl:copy>
 	</xsl:template>
 	
 	
 	<doc:doc>
-		<doc:desc>Suppress journal definitions.</doc:desc>
+		<doc:desc>Suppress serial definitions.</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app/data/journals" />
+	<xsl:template match="/app/data/serials" />
 	
 </xsl:stylesheet>

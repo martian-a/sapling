@@ -41,7 +41,7 @@
     <doc:doc>
         <doc:desc>Select and structure the components required for a bibliographic entry for a non-serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="source[front-matter[not(journal) and not(map)]]" mode="bibliography.structure">
+    <xsl:template match="source[front-matter[not(serial)]]" mode="bibliography.structure">
         <xsl:attribute name="style">book</xsl:attribute>
         <xsl:apply-templates select="front-matter[author]" mode="bibliography.structure.creators" />
         <xsl:apply-templates select="front-matter" mode="bibliography.structure.title" />
@@ -55,14 +55,14 @@
     <doc:doc>
         <doc:desc>Select and structure the components required for a bibliographic entry for a serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="source[front-matter/journal]" mode="bibliography.structure">
-        <xsl:attribute name="style" select="if (front-matter/journal/@type) then front-matter/journal/@type else 'journal'" />
+    <xsl:template match="source[front-matter/serial/@type = 'journal']" mode="bibliography.structure">
+        <xsl:attribute name="style">journal</xsl:attribute>
         <xsl:apply-templates select="front-matter[author]" mode="bibliography.structure.creators" />
         <xsl:apply-templates select="front-matter" mode="bibliography.structure.article.title" />
         <journal>
-            <xsl:apply-templates select="front-matter/journal[title]" mode="bibliography.structure.journal.title" />
-            <xsl:apply-templates select="front-matter/journal/issue[volume or issue or date]" mode="bibliography.structure.journal.issue" />
-            <xsl:apply-templates select="front-matter/journal/issue[pages]" mode="bibliography.structure.journal.pages" />
+            <xsl:apply-templates select="front-matter/serial[title]" mode="bibliography.structure.serial.title" />
+            <xsl:apply-templates select="front-matter/serial/issue[volume or issue or date]" mode="bibliography.structure.serial.issue" />
+            <xsl:apply-templates select="front-matter/serial/issue[pages]" mode="bibliography.structure.serial.pages" />
         </journal>
     </xsl:template>
     
@@ -72,7 +72,7 @@
     </doc:doc>
     <xsl:template match="source[front-matter/map]" mode="bibliography.structure">
         <xsl:attribute name="style">map</xsl:attribute>
-        <xsl:apply-templates select="front-matter[author]" mode="bibliography.structure.creators" />
+        <xsl:apply-templates select="front-matter[author or map/author]" mode="bibliography.structure.creators" />
         <xsl:apply-templates select="front-matter" mode="bibliography.structure.map" />
         <map>
             <xsl:apply-templates select="front-matter/map/scale" mode="bibliography.structure.map" />
@@ -84,6 +84,18 @@
     </xsl:template>
     
     
+    <doc:doc>
+        <doc:desc>Select and structure the components required for a bibliographic entry for a generic serial source.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source[front-matter/serial/@type/normalize-space(.) = '']" mode="bibliography.structure">
+        <xsl:attribute name="style">generic-serial</xsl:attribute>
+        <xsl:apply-templates select="front-matter[descendant::author]" mode="bibliography.structure.creators" />
+        <xsl:apply-templates select="front-matter" mode="bibliography.structure.title" />
+        <xsl:apply-templates select="front-matter[series or serial/title]" mode="bibliography.structure.series" />
+        <xsl:apply-templates select="front-matter[descendant::location]" mode="bibliography.structure.location" />
+        <xsl:apply-templates select="front-matter[descendant::publisher]" mode="bibliography.structure.publisher" />
+        <xsl:apply-templates select="front-matter[descendant::date/@rel = ('published', 'revised')]" mode="bibliography.structure.date" />
+    </xsl:template>
     
     
     <doc:doc>
@@ -91,13 +103,15 @@
     </doc:doc>
     <xsl:template match="source/front-matter" mode="bibliography.structure.creators">
         
+        <xsl:variable name="authors" select="descendant::author" as="element()*" />
+        
         <creators>
             <xsl:choose>
-                <xsl:when test="count(author) &gt; 5">
-                    <xsl:apply-templates select="author[1]" mode="bibliography.structure.creators.et-al" />
+                <xsl:when test="count($authors) &gt; 5">
+                    <xsl:apply-templates select="$authors[1]" mode="bibliography.structure.creators.et-al" />
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:apply-templates select="author" mode="#current" />
+                    <xsl:apply-templates select="$authors" mode="#current" />
                 </xsl:otherwise>
             </xsl:choose>
         </creators>
@@ -105,7 +119,7 @@
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/author[count(preceding-sibling::author) = 0]" mode="bibliography.structure.creators.et-al">
+    <xsl:template match="author" mode="bibliography.structure.creators.et-al">
         <xsl:copy>
             <xsl:apply-templates select="@*" />
             <xsl:attribute name="et-al">true</xsl:attribute>
@@ -114,16 +128,16 @@
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/author" mode="bibliography.structure.creators">
+    <xsl:template match="author" mode="bibliography.structure.creators">
         <xsl:copy>
             <xsl:apply-templates select="@*, name" mode="#current" />
         </xsl:copy>
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/author/name" mode="bibliography.structure.creators">
+    <xsl:template match="author/name" mode="bibliography.structure.creators">
         <xsl:choose>
-            <xsl:when test="count(preceding-sibling::author) = 0">
+            <xsl:when test="position() = 1">
                 <xsl:copy>
                     <xsl:copy-of select="@*" />
                     <xsl:apply-templates select="name[@family = 'yes']" />
@@ -207,7 +221,7 @@
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/journal/title" mode="bibliography.structure.language.small-words">
+    <xsl:template match="source/front-matter/serial/title" mode="bibliography.structure.language.small-words">
         <xsl:copy>
             <xsl:copy-of select="@*" />
             <xsl:for-each select="tokenize(., ' ')">
@@ -261,9 +275,9 @@
     
     
     <doc:doc>
-        <doc:desc>Add the journal title into the structure of a bibliographic reference.</doc:desc>
+        <doc:desc>Add the serial title into the structure of a bibliographic reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/front-matter/journal" mode="bibliography.structure.journal.title">
+    <xsl:template match="source/front-matter/serial" mode="bibliography.structure.serial.title">
         <xsl:apply-templates select="self::*" mode="bibliography.structure.language">
             <xsl:with-param name="element-name" as="xs:string">title</xsl:with-param>
         </xsl:apply-templates>
@@ -271,12 +285,12 @@
     
     
     <doc:doc>
-        <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference for a journal.</doc:desc>
+        <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference for a serial.</doc:desc>
         <doc:note>
             <doc:p>See separate template for newspapers.</doc:p>
         </doc:note>
     </doc:doc>
-    <xsl:template match="front-matter/journal/issue" mode="bibliography.structure.journal.issue" priority="10">
+    <xsl:template match="front-matter/serial/issue" mode="bibliography.structure.serial.issue" priority="10">
         <issue>
             <xsl:next-match />
         </issue>
@@ -284,12 +298,12 @@
     
     
     <doc:doc>
-        <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference for a journal.</doc:desc>
+        <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference for a serial.</doc:desc>
         <doc:note>
             <doc:p>See separate template for newspapers.</doc:p>
         </doc:note>
     </doc:doc>
-    <xsl:template match="front-matter/journal[not(@type)]/issue" mode="bibliography.structure.journal.issue">
+    <xsl:template match="front-matter/serial[not(@type)]/issue" mode="bibliography.structure.serial.issue">
         <xsl:copy-of select="volume" />
         <xsl:copy-of select="issue" />
         <xsl:copy-of select="date" />
@@ -298,7 +312,7 @@
     <doc:doc>
         <doc:desc>Add the date into the structure of a bibliographic reference for a newspaper.</doc:desc>
     </doc:doc>
-    <xsl:template match="front-matter/journal[@type = 'newspaper']/issue" mode="bibliography.structure.journal.issue">
+    <xsl:template match="front-matter/serial[@type = 'newspaper']/issue" mode="bibliography.structure.serial.issue">
         <xsl:copy-of select="date" />
     </xsl:template>
     
@@ -306,7 +320,7 @@
     <doc:doc>
         <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="front-matter/journal/issue" mode="bibliography.structure.journal.pages">
+    <xsl:template match="front-matter/serial/issue" mode="bibliography.structure.serial.pages">
         <xsl:copy-of select="pages" />
     </xsl:template>
     
