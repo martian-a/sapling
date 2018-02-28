@@ -21,7 +21,14 @@
         <xsl:apply-templates />
     </xsl:template>
     
-    
+
+    <xsl:template match="data/sources/source" mode="bibliography.structure" priority="100">
+        <reference type="bibliographic">
+            <xsl:next-match />
+        </reference>
+    </xsl:template>
+
+
     <xsl:template match="data/sources/source">
         <xsl:copy>
             <xsl:apply-templates select="@*" />
@@ -31,17 +38,10 @@
     </xsl:template>
     
     
-    <xsl:template match="data/sources/source" mode="bibliography.structure" priority="100">
-        <reference type="bibliographic">
-            <xsl:next-match />
-        </reference>
-    </xsl:template>
-    
-    
     <doc:doc>
         <doc:desc>Select and structure the components required for a bibliographic entry for a non-serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="source[front-matter/not(journal)]" mode="bibliography.structure">
+    <xsl:template match="source[front-matter[not(journal) and not(map)]]" mode="bibliography.structure">
         <xsl:attribute name="style">book</xsl:attribute>
         <xsl:apply-templates select="front-matter[author]" mode="bibliography.structure.creators" />
         <xsl:apply-templates select="front-matter" mode="bibliography.structure.title" />
@@ -67,6 +67,23 @@
     </xsl:template>
     
     
+    <doc:doc>
+        <doc:desc>Select and structure the components required for a bibliographic entry for a map.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source[front-matter/map]" mode="bibliography.structure">
+        <xsl:attribute name="style">map</xsl:attribute>
+        <xsl:apply-templates select="front-matter[author]" mode="bibliography.structure.creators" />
+        <xsl:apply-templates select="front-matter" mode="bibliography.structure.map" />
+        <map>
+            <xsl:apply-templates select="front-matter/map/scale" mode="bibliography.structure.map" />
+            <xsl:apply-templates select="front-matter[series]" mode="bibliography.structure.series" />
+        </map>
+        <xsl:apply-templates select="front-matter[location]" mode="bibliography.structure.location" />
+        <xsl:apply-templates select="front-matter" mode="bibliography.structure.publisher" />
+        <xsl:apply-templates select="front-matter[date/@rel = ('published', 'revised')]" mode="bibliography.structure.date" />
+    </xsl:template>
+    
+    
     
     
     <doc:doc>
@@ -80,7 +97,7 @@
                     <xsl:apply-templates select="author[1]" mode="bibliography.structure.creators.et-al" />
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:apply-templates select="author" />
+                    <xsl:apply-templates select="author" mode="#current" />
                 </xsl:otherwise>
             </xsl:choose>
         </creators>
@@ -92,17 +109,31 @@
         <xsl:copy>
             <xsl:apply-templates select="@*" />
             <xsl:attribute name="et-al">true</xsl:attribute>
-            <xsl:apply-templates select="name" />
+            <xsl:apply-templates select="name" mode="bibliography.structure.creators" />
         </xsl:copy>
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/author[count(preceding-sibling::author) = 0]/name">
+    <xsl:template match="source/front-matter/author" mode="bibliography.structure.creators">
         <xsl:copy>
-            <xsl:copy-of select="@*" />
-            <xsl:apply-templates select="name[@family = 'yes']" />
-            <xsl:apply-templates select="node()[not(self::name/@family = 'yes')]" />
-        </xsl:copy>       
+            <xsl:apply-templates select="@*, name" mode="#current" />
+        </xsl:copy>
+    </xsl:template>
+    
+    
+    <xsl:template match="source/front-matter/author/name" mode="bibliography.structure.creators">
+        <xsl:choose>
+            <xsl:when test="count(preceding-sibling::author) = 0">
+                <xsl:copy>
+                    <xsl:copy-of select="@*" />
+                    <xsl:apply-templates select="name[@family = 'yes']" />
+                    <xsl:apply-templates select="node()[not(self::name/@family = 'yes')]" />
+                </xsl:copy> 
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates select="self::*" />
+            </xsl:otherwise>
+        </xsl:choose>              
     </xsl:template>
     
     
@@ -110,7 +141,7 @@
     <doc:doc>
         <doc:desc>Add the source title into the structure of a bibliographic reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/front-matter" mode="bibliography.structure.title bibliography.structure.article.title">
+    <xsl:template match="source/front-matter" mode="bibliography.structure.title bibliography.structure.article.title bibliography.structure.map">
         
         <titles>
             <xsl:choose>
@@ -126,8 +157,17 @@
             <xsl:apply-templates select="self::*" mode="bibliography.structure.language">
                 <xsl:with-param name="element-name" as="xs:string">subtitle</xsl:with-param>
             </xsl:apply-templates>
+            <xsl:apply-templates select="map/sheet" mode="#current" />
         </titles>
         
+    </xsl:template>
+    
+    
+    <doc:doc>
+        <doc:desc>Add a map sheet number into the structure of a bibliographic reference.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source/front-matter/map/sheet | source/front-matter/map/scale" mode="bibliography.structure.map">
+        <xsl:copy-of select="self::*" />
     </xsl:template>
     
     
@@ -148,7 +188,7 @@
         <doc:note>Currently defaults to the first in English.</doc:note>
     </doc:doc>
     <xsl:template match="*" mode="bibliography.structure.language">
-        <xsl:param name="element-name" select="xs:string" />
+        <xsl:param name="element-name" as="xs:string" />
         
         <xsl:choose>
             <xsl:when test="*[name() = $element-name][@xml:lang = 'en']">

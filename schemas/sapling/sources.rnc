@@ -90,6 +90,16 @@ source.front-matter.journal = element journal {
 	source.front-matter.journal.content-model
 }
 
+source.front-matter.map = element map {
+	source.front-matter.map.attlist,
+	source.front-matter.map.content-model
+}
+
+source.front-matter.map.sheet = element sheet {
+	source.front-matter.map.sheet.attlist,
+	source.front-matter.map.sheet.content-model
+}
+
 source.date |= element date {
 	source.date.attlist,
 	source.date.content-model
@@ -206,6 +216,14 @@ source.front-matter.generic.content-model =
 	
 source.front-matter.journal.content-model =
 	source.front-matter.generic.content-model
+	
+
+source.front-matter.map.content-model =
+	source.front-matter.map.sheet?,
+	source.date?
+	
+source.front-matter.map.sheet.content-model =
+	text*
 
 source.inline.content-model =
 	mixed { 
@@ -282,6 +300,16 @@ source.front-matter.attlist =
 	xml.attlist
 
 source.front-matter.journal.attlist =
+	xml.attlist,
+	attribute type {
+	   "newspaper" |
+	   "journal"
+	}?
+	
+source.front-matter.map.attlist =
+	xml.attlist
+	
+source.front-matter.map.sheet.attlist =
 	xml.attlist
 	
 source.inline.bold.attlist =

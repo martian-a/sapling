@@ -18,19 +18,32 @@
     </doc:doc>
     <xsl:key name="source" match="related/source | data/source | entities/source" use="@id" />
     
+    <xsl:key name="note" match="notes[ancestor::source]/note[@id]" use="@id" />
+    
+    
+    <xsl:include href="../custom/bibliography.xsl" />
+    <xsl:include href="../custom/body-matter.xsl" />
+    
     
     <doc:doc>
         <doc:desc>
             <doc:ul>
                 <doc:ingress>Default match for main modes:</doc:ingress>
                 <doc:li>HTML header</doc:li>
-                <doc:li>scripts in the header</doc:li>
-                <doc:li>style in the header</doc:li>
-                <doc:li>scripts in the footer</doc:li>
+                <doc:li>scripts in the html header</doc:li>
+                <doc:li>scripts at the foot of the html document</doc:li>
             </doc:ul>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/source] | /app[view/data/source]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+    <xsl:template match="/app[view/data/entities/source] | /app[view/data/source]" mode="html.header html.header.scripts html.footer.scripts"/>
+    
+    
+    <doc:doc>
+        <doc:desc>Import a style rules specific to sources (in the HTML header).</doc:desc>
+    </doc:doc>
+    <xsl:template match="/app[view/data/source] | /app[view/data/entities/source]" mode="html.header.style">
+        <link href="{$normalised-path-to-css}source.css" type="text/css" rel="stylesheet" /> 
+    </xsl:template>
     
     
     <doc:doc>
@@ -45,7 +58,10 @@
         <doc:desc>Source profile title</doc:desc>
     </doc:doc>
     <xsl:template match="/app/view[data/source]" mode="view.title">
-        <xsl:value-of select="xs:string(data/source/reference[1]/titles/title)" />
+        <xsl:variable name="title">
+            <xsl:apply-templates select="data/source/reference[@type = 'bibliographic']/titles/title" mode="view.title" />
+        </xsl:variable>
+        <xsl:value-of select="xs:string($title)" />
     </xsl:template>
     
     
@@ -69,6 +85,9 @@
         <doc:desc>Defines the structure of the HTML body of a source profile.</doc:desc>
     </doc:doc>
     <xsl:template match="data/source">
+        <xsl:apply-templates select="front-matter" />
+        <xsl:apply-templates select="body-matter" />
+        <xsl:apply-templates select="end-matter" />
         <xsl:apply-templates select="related[person]" mode="people" />
         <xsl:apply-templates select="related[organisation]" mode="organisations" />
         <xsl:apply-templates select="related[location]" mode="locations" />
@@ -195,93 +214,53 @@
     
     
    
-    <doc:doc>
-        <doc:desc>Preface a bilbiographic entry with it's authors.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference">
-        <span class="reference {@type} {@style}">
-            <xsl:apply-templates />
-        </span>
+    
+    <xsl:template match="source/front-matter">
+        <div class="bibliographic-data">
+            <xsl:apply-templates select="subtitle" mode="source.profile" />
+            <xsl:apply-templates select="series" mode="source.profile" />
+            <xsl:apply-templates select="self::*[author]" mode="source.profile.authors" />
+            <xsl:apply-templates select="publisher" mode="source.profile" />
+            <xsl:apply-templates select="journal" mode="source.profile" />    
+            <xsl:apply-templates select="descendant::location" mode="source.profile" />
+            <xsl:apply-templates select="date[@rel = 'published']" mode="source.profile" />
+            <xsl:apply-templates select="date[@rel = 'revised']" mode="source.profile" />
+            <xsl:apply-templates select="descendant::pages" mode="source.profile" />
+            <xsl:apply-templates select="descendant::link" mode="source.profile" />
+        </div>
     </xsl:template>
     
     
-    
-    
-    
-    <doc:doc>
-        <doc:desc>Preface a bilbiographic entry with it's authors.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/creators">
-        <xsl:apply-templates select="author" />
-        <xsl:text>. </xsl:text>
+    <xsl:template match="source/front-matter/subtitle" mode="source.profile">
+        <div class="sub-title">
+            <h2>Subtitle</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
     </xsl:template>
     
-
-    <doc:doc>
-        <doc:desc>Append et al where required.</doc:desc>
-    </doc:doc>   
-    <xsl:template match="source/reference/creators/author[@et-al = 'true']" priority="20">
-        <xsl:next-match />
-        <xsl:text> </xsl:text><span class="author et-al">et al</span>
-    </xsl:template>  
-    
-
-    <doc:doc>
-        <doc:desc>The first author in a bibliography entry.</doc:desc>
-        <doc:note>Surname first, then forenames.</doc:note>
-    </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() = 1]">
-        <xsl:apply-templates select="name" mode="#current" />
-    </xsl:template>    
-    
- 
-    
-    
-    <doc:doc>
-        <doc:desc>Authors (other than the first) in a bibliography entry.</doc:desc>
-        <doc:note>Fornames first, then surname.</doc:note>
-    </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() &gt; 1]">
-        <xsl:choose>
-            <xsl:when test="following-sibling::author">
-                <xsl:text>, </xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text> and </xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
-        <xsl:apply-templates select="name" mode="#current" />
+    <xsl:template match="source/front-matter/series" mode="source.profile">
+        <div class="series">
+            <h2>Series</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
     </xsl:template>
     
-       
-       
-    <doc:doc>
-        <doc:desc>Wrap the name of each author in a span.</doc:desc>
-    </doc:doc>   
-    <xsl:template match="source/reference/creators/author/name" priority="10">
-        <span class="author">
-            <xsl:next-match />
-        </span>
-    </xsl:template>  
-       
-    
-    <doc:doc>
-        <doc:desc>Format the name of the first author.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/creators/author[1]/name">
-        <!-- Surname -->
-        <xsl:apply-templates select="name[@family = 'yes']" mode="#current" />
-        <!-- Comma and non-breaking space -->
-        <xsl:text>,</xsl:text><xsl:value-of select="codepoints-to-string(160)" />
-        <!-- Forename(s) -->
-        <xsl:apply-templates select="name[not(@family = 'yes')]" mode="#current" />
+    <xsl:template match="source/front-matter" mode="source.profile.authors">
+        <div class="creators">
+            <h2>Author(s)</h2>
+            <ul>
+                <xsl:for-each select="author">
+                    <li><xsl:apply-templates select="name" /></li>
+                </xsl:for-each>
+            </ul>
+        </div>
     </xsl:template>
     
     
     <doc:doc>
         <doc:desc>Format the name of an author other than the first author.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() &gt; 1]/name">
+    <xsl:template match="source/front-matter/author/name">
         <!-- Forename(s) -->
         <xsl:apply-templates select="name[not(@family = 'yes')]" mode="#current" />
         <!-- Non-breaking space -->
@@ -290,303 +269,241 @@
         <xsl:apply-templates select="name[@family = 'yes']" mode="#current" />        
     </xsl:template>
     
-   
-    <doc:doc>
-        <doc:desc>Format the surname of an author.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/creators/author/name/name[@family = 'yes']">
-        <span class="family-name"><xsl:value-of select="." /></span>    
-   </xsl:template>
-   
-   
-    <doc:doc>
-        <doc:desc>Format the forenames of an author.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/creators/author/name/name[not(@family = 'yes')]">
-        <xsl:choose>
-            <xsl:when test="position() = 1">
-                <span class="forename"><xsl:value-of select="." /></span>                  
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:if test="position() = 2"><xsl:text> </xsl:text></xsl:if>
-                <span class="initial"><xsl:value-of select="substring(upper-case(.), 1, 1)" /></span>  
-                <xsl:if test="following-sibling::name[not(@family = 'yes')] or ancestor::author[1][following-sibling::author]">
-                    <xsl:text>.</xsl:text>
-                </xsl:if>
-            </xsl:otherwise>
-        </xsl:choose>
+    
+    <xsl:template match="source/front-matter/publisher" mode="source.profile">
+        <div class="publisher">
+            <h2>Publisher</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
     </xsl:template>
     
     
     
+    <xsl:template match="location[ancestor::front-matter/parent::source]" mode="source.profile">
+        <div class="location">
+            <h2>Location</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
+    </xsl:template>
     
     
-   
-    <doc:doc>
-        <doc:desc>Format the title of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = ('journal', 'newspaper')]/titles/title" priority="50">
-        <xsl:value-of select="$ldquo" /><xsl:next-match /><xsl:text>.</xsl:text><xsl:value-of select="$rdquo" /><xsl:text> </xsl:text>
-    </xsl:template>  
+    <xsl:template match="source/front-matter/journal" mode="source.profile">
+        <div class="{@type}">
+            <xsl:apply-templates select="title" mode="#current" />
+            <xsl:apply-templates select="issue/volume" mode="#current" />
+            <xsl:apply-templates select="issue/issue" mode="#current" />
+            <xsl:apply-templates select="issue/date" mode="#current" />
+        </div>
+    </xsl:template>
     
     
-    <doc:doc>
-        <doc:desc>Append a full stop to the end of the title sequence of a book reference.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'book']/titles" priority="50">
-        <xsl:next-match /><xsl:text>. </xsl:text>
-    </xsl:template>  
+    <xsl:template match="source/front-matter/journal/title" mode="source.profile">
+        <div class="title">
+            <h2><xsl:choose>
+                <xsl:when test="parent::journal/@type = 'newspaper'">Newspaper</xsl:when>
+                <xsl:when test="parent::journal/@type = 'journal'">Journal</xsl:when>
+                <xsl:otherwise>Serial Publication</xsl:otherwise>
+            </xsl:choose></h2>
+            <p><xsl:apply-templates select="self::*" /></p>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="source/front-matter/journal/issue/volume" mode="source.profile">
+        <div class="volume">
+            <h2>Volume</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
+    </xsl:template>
 
-        
-    <doc:doc>
-        <doc:desc>Format the title of non-serial source or serial article.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/titles/title" priority="20"> 
-       <span class="title"><xsl:next-match /></span>
-    </xsl:template>   
+    <xsl:template match="source/front-matter/journal/issue/issue" mode="source.profile">
+        <div class="volume">
+            <h2>Issue</h2>
+            <p><xsl:apply-templates /></p>
+        </div>
+    </xsl:template>
     
     
-    <doc:doc>
-        <doc:desc>Format the title of a journal.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/title" priority="30">
-        <span class="journal-title"><xsl:next-match /></span>
-    </xsl:template>  
+    <xsl:template match="date[ancestor::front-matter/parent::source]" mode="source.profile" priority="10">
+        <div class="date">
+            <h2><xsl:next-match /></h2>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="normalize-space(.) != ''">
+                        <xsl:value-of select="." />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="@day, @month, @year" mode="#current" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+        </div>
+    </xsl:template>
+ 
     
-    
-    <doc:doc>
-        <doc:desc>Append a space after a journal title.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/title" priority="20">
-        <xsl:next-match /><xsl:text> </xsl:text>
+    <xsl:template match="source/front-matter/date[not(@rel) or @rel = 'published']" mode="source.profile">
+        <xsl:text>Publication Date</xsl:text>
+    </xsl:template>
+ 
+    <xsl:template match="source/front-matter/journal/issue/date" mode="source.profile">
+        <xsl:text>Issue Date</xsl:text>
+    </xsl:template>
+ 
+    <xsl:template match="date[@rel = 'revised'][ancestor::front-matter/parent::source]" mode="source.profile">
+        <xsl:text>Revision Date</xsl:text>
     </xsl:template>
     
     
     <doc:doc>
-        <doc:desc>Wrap an inferred title in square brackets.</doc:desc>
+        <doc:desc>Date.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/titles/title[@status = 'inferred']" priority="10"> 
-        <xsl:text>[</xsl:text><xsl:next-match /><xsl:text>]</xsl:text>
-    </xsl:template>   
-    
-    <doc:doc>
-        <doc:desc>Output a source or journal title.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/titles/title | source/reference/journal/title"> 
-        <xsl:value-of select="node()" />
-    </xsl:template> 
+    <xsl:template match="date[ancestor::front-matter/parent::source]/@*[name() = ('day', 'year')]" mode="source.profile">
+        <xsl:value-of select="." />
+    </xsl:template>
     
     
     <doc:doc>
-        <doc:desc>Format the subtitle of non-serial source or serial article.</doc:desc>
+        <doc:desc>Date.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/titles/subtitle">
-        <xsl:text>: </xsl:text>
-        <span class="title subtitle"><xsl:copy-of select="node()" /></span>
-    </xsl:template>  
-    
-    
-    <doc:doc>
-        <doc:desc>Format the series of non-serial source or serial article.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/series">
-        <span class="series"><xsl:text>(</xsl:text><xsl:copy-of select="node()" /><xsl:text>). </xsl:text></span>
-    </xsl:template>  
-    
-    
-    <doc:doc>
-        <doc:desc>Format the serial volume, issue and date of a journal.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/issue">
-        <xsl:apply-templates select="volume[normalize-space(@number) != '' or normalize-space(.) != '']" mode="#current" />
-        <xsl:if test="volume[normalize-space(@number) = '' and normalize-space(.) != ''] and issue"><xsl:text>, </xsl:text></xsl:if>
-        <xsl:apply-templates select="issue" mode="#current" />
+    <xsl:template match="date[ancestor::front-matter/parent::source]/@month" mode="source.profile">
         <xsl:text> </xsl:text>
-        <xsl:apply-templates select="date" mode="#current" />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the volume of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/issue/volume" priority="10">
-        <span class="volume"><xsl:next-match /></span>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Output a custom volume label.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/issue/volume[normalize-space(.) != '']">
-        <xsl:value-of select="." />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Output a standard numbered volume label.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/issue/volume[normalize-space(.) = '']">
-        <xsl:value-of select="@number" />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the issue of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/issue/issue">
-        <span class="issue"><xsl:value-of select="." /></span>
-    </xsl:template>
-        
-    
-    <doc:doc>
-        <doc:desc>Prepend a colon before journal page numbers.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/pages" priority="10">
-        <xsl:text>: </xsl:text><xsl:next-match />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Prepend a comma before newspaper page numbers.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/pages" priority="10">
-        <xsl:text>, </xsl:text><xsl:next-match />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the page numbers of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/pages">
-        <span class="pages"><xsl:apply-templates select="@start" mode="#current" /></span>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the starting page number of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/pages/@start">
-        <xsl:value-of select="." />
-        <xsl:apply-templates select="parent::pages/@end[. != current()]" mode="#current" />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the end page number of serial source.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/pages/@end">
-        <xsl:text>-</xsl:text><xsl:value-of select="." />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Include the location in a bibliography entry.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/location">
-        <span class="location"><xsl:value-of select="normalize-space(.)" /></span>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the publisher in a bilbiographic entry.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/publisher" priority="10">
-        <span class="publisher"><xsl:next-match /></span>
-        <xsl:choose>
-            <xsl:when test="following-sibling::date[@rel = ('published', 'revised')]"><xsl:text>, </xsl:text></xsl:when>
-            <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Include the publisher in a bilbiographic entry.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/publisher">
-        <xsl:if test="preceding-sibling::location"><xsl:text>: </xsl:text></xsl:if>
-        <xsl:value-of select="." />
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Include the publication or revision date in a book reference.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'book']/date">
-        <span class="date {@rel}">
-            <xsl:value-of select="if (@year) then @year else ." />
-            <xsl:if test="@rel = 'revised'"> (rev)</xsl:if>
-        </span>
-        <xsl:choose>
-            <xsl:when test="following-sibling::date">
-                <xsl:text>, </xsl:text>
-            </xsl:when>
-            <xsl:otherwise>.</xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Include the publication or revision date in a newspaper reference.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/issue/date" priority="50">
-        <xsl:text>, </xsl:text>
-        <span class="date published">
-            <xsl:next-match />
-        </span>
-    </xsl:template>
-        
-    
-    <doc:doc>
-        <doc:desc>Include the publication or revision date in a journal reference.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/issue/date" priority="50">
-        <span class="date published">
-            <xsl:text>(</xsl:text>
-            <xsl:next-match />
-            <xsl:text>)</xsl:text></span>
-    </xsl:template>
-    
-    
-    <doc:doc>
-        <doc:desc>Format the publication date in a newspaper reference.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/issue/date[@day and @month and @year]">
-        <xsl:value-of select="substring(fn:month-name(@month), 1, 3)" />
+        <xsl:value-of select="fn:month-name(.)" />
         <xsl:text> </xsl:text>
-        <xsl:value-of select="@day" />
-        <xsl:text>, </xsl:text>
-        <xsl:value-of select="@year" />
     </xsl:template>
     
     
-    <doc:doc>
-        <doc:desc>Format the publication date in a serial reference (other than a newspaper) when day, month and year are all present.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference[not(@style = 'newspaper')]/journal/issue/date[@day and @month and @year]">
+    <xsl:template match="pages[ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" mode="source.profile">
+        <div class="pages">
+            <h2>
+                <xsl:text>Page</xsl:text>
+                <xsl:if test="@end[number(.) != number(parent::pages/@start)]">
+                    <xsl:text> Range</xsl:text>
+                </xsl:if>
+            </h2>
+            <p><xsl:apply-templates select="self::*" /></p>
+        </div>
+    </xsl:template>
+    
+    
+    <xsl:template match="source/front-matter/link" mode="source.profile">
+        <div class="link">
+            <h2>Link</h2>
+            <p><xsl:apply-templates select="self::link, parent::*/date[@rel = 'retrieved']" /></p>
+        </div>
+    </xsl:template>
+    
+
+    <xsl:template match="date[@rel = 'revised'][ancestor::front-matter/parent::source]" priority="20">
+        <xsl:if test="parent::*/date[@rel = 'published']"><xsl:text>, </xsl:text></xsl:if>
+        <xsl:next-match />
+        <xsl:text> (rev)</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="date[@rel = 'retrieved'][ancestor::front-matter/parent::source]" priority="20">
+        <xsl:text> (retrieved: </xsl:text><xsl:next-match /><xsl:text>)</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="date[ancestor::front-matter/parent::source]" priority="10">
+        <span class="date {@rel}"><xsl:next-match /></span>
+    </xsl:template>
+    
+    <xsl:template match="date[normalize-space(.) != ''][ancestor::front-matter/parent::source]">
+        <xsl:value-of select="." />
+    </xsl:template>
+    
+    <xsl:template match="date[normalize-space(.) = ''][@day and @month and @year][ancestor::front-matter/parent::source]">
         <xsl:value-of select="@day" />
         <xsl:text> </xsl:text>
-        <xsl:value-of select="substring(fn:month-name(@month), 1, 3)" />
+        <xsl:value-of select="substring(fn:month-name(@month), 1, 3)"/>
         <xsl:text> </xsl:text>
         <xsl:value-of select="@year" />
     </xsl:template>
     
-    
-    <doc:doc>
-        <doc:desc>Format the publication date for a serial reference (other than a newspaper) when only month and year are present.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/journal/issue/date[not(@day) and @month and @year]">
-        <xsl:value-of select="fn:month-name(@month)" />
+    <xsl:template match="date[normalize-space(.) = ''][not(@day) and @month and @year][ancestor::front-matter/parent::source]">
+        <xsl:value-of select="substring(fn:month-name(@month), 1, 3)"/>
         <xsl:text> </xsl:text>
         <xsl:value-of select="@year" />
     </xsl:template>
     
+    <xsl:template match="date[normalize-space(.) = ''][not(@day) and not(@month) and @year][ancestor::front-matter/parent::source]">
+        <xsl:value-of select="@year" />
+    </xsl:template>
+    
+    
+    <xsl:template match="link[ancestor::source]">
+        <a href="{@href}"><xsl:value-of select="@href" /></a>
+    </xsl:template>
+    
+    
+    
+    <xsl:template match="source/body-matter[body]">
+        <h2>Content</h2>
+        <xsl:apply-templates select="body" />
+    </xsl:template>
+    
+    <xsl:template match="source/body-matter[extract]">
+        <h2>Extract(s)</h2>
+        <xsl:apply-templates select="extract" />        
+    </xsl:template>
+    
+    <xsl:template match="source/body-matter/extract">
+        <div class="extract">
+            <xsl:apply-templates select="pages" mode="source.profile" />
+            <xsl:apply-templates select="body" />            
+        </div>
+    </xsl:template>
+
+
+    <doc:doc>
+        <doc:desc>Bibliography section in the end matter of a source document.</doc:desc>
+        <doc:note>
+            <doc:p>The entries are formatted as they were in the original source document, so just need to be copied out; inappropriate to restructure, etc.</doc:p>
+        </doc:note>
+    </doc:doc>
+    <xsl:template match="source/end-matter/bibliography[citation]">
+        <div class="bibliography">
+            <h2>Bibliography</h2>
+            <ul>
+                <xsl:for-each select="citation">
+                    <li><p><xsl:apply-templates select="node()" mode="body" /></p></li>
+                </xsl:for-each>
+            </ul>
+        </div>
+    </xsl:template>
+    
     
     <doc:doc>
-        <doc:desc>Format the publication date for a serial reference (other than a newspaper) when only year is present.</doc:desc>
+        <doc:desc>An empty bibliography section in the end matter of a source document.</doc:desc>
+        <doc:note>
+            <doc:p>Shouldn't occur.  Can this be deleted?</doc:p>
+        </doc:note>
     </doc:doc>
-    <xsl:template match="source/reference/journal/issue/date[not(@day) and not(@month) and @year]">
-        <xsl:value-of select="@year" />
+    <xsl:template match="source/end-matter/bibliography[not(citation)]" />
+
+    <xsl:template match="source/end-matter[bibliography or notes]" priority="50">
+        <div class="end-matter">
+            <xsl:next-match />
+        </div>
+    </xsl:template>
+    
+    
+    <xsl:template match="source/end-matter/notes">
+        <div class="notes">
+            <h2>Source Notes</h2>
+            <xsl:apply-templates select="note" />
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="notes[ancestor::source]/note[@id]">
+        <div id="{@id}" class="note">
+            <h3>
+                <a href="#{@id}-ref" class="nav" title="Continue reading">▴</a>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="label" />
+            </h3>
+            <xsl:apply-templates select="*[name() != 'label']" mode="body" />
+        </div>
     </xsl:template>
     
    
+    
 </xsl:stylesheet>
