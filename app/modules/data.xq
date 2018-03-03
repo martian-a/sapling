@@ -396,8 +396,9 @@ declare function data:augment-entity($param as element()) as element()? {
 		let $people := data:get-related-people($entity, $events)
 		let $organisations := data:get-related-organisations($entity, $events)
 		let $locations := data:get-related-locations($entity, $events, ())
+		let $sources := data:get-related-sources($entity, $events)
 		return (  
-			for $related-entity in ($events, $people, $organisations, $locations)
+			for $related-entity in ($events, $people, $organisations, $locations, $sources)
 			return data:simplify-entity($related-entity)
 		)
 		
@@ -526,12 +527,16 @@ declare function data:get-related-organisations($entity as element(), $related-e
 
 
 declare function data:get-related-sources($entity as element()) as element()* {
+	data:get-related-sources($entity, data:get-related-events($entity))
+};
 
-	let $entities := $entity
+declare function data:get-related-sources($entity as element(), $related-events as element()*) as element()* {
+
+	let $entities := ($entity, $related-events)
 	let $references :=
-		let $references-from-entity-to-sources := $entities/descendant::source/@ref/xs:string(.)
+		let $references-from-entities-to-sources := $entities/descendant::source/@ref/xs:string(.)
 		let $references-to-entity-from-sources := data:get-entities('source')/self::source[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
-		return distinct-values(($references-from-entity-to-sources, $references-to-entity-from-sources))
+		return distinct-values(($references-from-entities-to-sources, $references-to-entity-from-sources))
 	for $ref in $references
 	let $source := data:get-entity($ref)/self::source[@id != $entity/@id]
 	order by $source/number(substring-after(@id, 'SOU')) ascending

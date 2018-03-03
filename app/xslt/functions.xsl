@@ -56,6 +56,41 @@
 	</xsl:function>
 	
 	
+	<xsl:function name="fn:sort-sources" as="element()*">
+		<xsl:param name="sources-in" as="element()*" />
+		
+		
+		<xsl:for-each-group select="$sources-in" group-by="translate(substring(upper-case(reference[@type = 'bibliographic']), 1, 1), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '') = ''">
+			<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" /> 
+			
+			<xsl:choose>
+				<xsl:when test="current-grouping-key() = false()">
+					
+					<xsl:for-each select="current-group()">
+						<xsl:sort select="xs:string(.)" data-type="text" />
+						<xsl:sequence select="self::*" />
+					</xsl:for-each>			
+					
+				</xsl:when>
+				<xsl:otherwise>
+					
+					<xsl:for-each-group select="current-group()" group-by="substring(upper-case(reference[@type = 'bibliographic']), 1, 1)">
+						<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
+						
+						<xsl:for-each select="current-group()">
+							<xsl:sort select="xs:string(.)" data-type="text" />
+							<xsl:sequence select="self::*" />
+						</xsl:for-each>
+	
+					</xsl:for-each-group>
+					
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each-group>		
+		
+	</xsl:function>
+	
+	
 	<xsl:function name="fn:get-location-context" as="element()*">
 		<xsl:param name="location-in" as="element()" />
 		

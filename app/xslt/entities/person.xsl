@@ -202,6 +202,7 @@
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[organisation]" mode="organisations"/>
 		<xsl:apply-templates select="related[location]" mode="locations" />
+	    <xsl:apply-templates select="related[source]" mode="sources"/>
 	</xsl:template>
 	
 	

@@ -182,6 +182,22 @@
     <xsl:template match="entities/source" />
     
     
+    <xsl:template match="related" mode="sources">
+        <xsl:param name="sources" select="source" as="element()*"/>
+        
+        <div class="sources">
+            <h2>Sources</h2>
+            <ul>
+                <xsl:for-each select="fn:sort-sources($sources)">
+                    <li>
+                        <xsl:apply-templates select="self::*" mode="href-html"/>
+                    </li>
+                </xsl:for-each>
+            </ul>
+        </div>
+    </xsl:template>
+    
+    
     <doc:doc>
         <doc:desc>Matches a reference to a source and generates a link to it's profile page.</doc:desc>
     </doc:doc>
@@ -198,15 +214,8 @@
         
         <xsl:call-template name="href-html">
             <xsl:with-param name="path" select="concat('source/', @id)" as="xs:string"/>
-            <xsl:with-param name="content" as="item()">
-                <xsl:choose>
-                    <xsl:when test="$inline-value != ''">
-                        <xsl:value-of select="$inline-value" />
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="front-matter/title" />
-                    </xsl:otherwise>
-                </xsl:choose>
+            <xsl:with-param name="content" as="item()*">
+                <xsl:apply-templates select="reference"/>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
