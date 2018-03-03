@@ -4,23 +4,13 @@ include "shared.rnc"
 
 
 # Root Element #
-start |= derived-names
+start |= derived-name.collection
 
 # Elements #
 
-derived-names = element names { 
-	derived-names.attlist, 
-	derived-names.content-model
-}
-
-derived-name = element name { 
-	derived-name.attlist, 
-	derived-name.content-model
-}
-
-derived-name.label = element name {
-	derived-name.label.attlist,
-	text*
+derived-name.collection = element names { 
+	derived-name.collection.attlist, 
+	derived-name.collection.content-model
 }
 
 derived-name.derived-from = element derived-from {
@@ -28,29 +18,40 @@ derived-name.derived-from = element derived-from {
 	derived-name.derived-from.content-model
 }
 
+derived-name.entity = element name { 
+	derived-name.entity.attlist, 
+	derived-name.entity.content-model
+}
+
+derived-name.label = element name {
+	derived-name.label.attlist,
+	text*
+}
+
+
 
 # Content Models #
 
-derived-names.content-model =
-	derived-name*
+derived-name.collection.content-model =
+	derived-name.entity*
 
-derived-name.content-model =
+derived-name.entity.content-model =
 	derived-name.label,
 	derived-name.derived-from?
 
 derived-name.derived-from.content-model =
 	(
-		person-ref |
-		organisation-ref |
-		location-ref
+		shared.entity-ref.person |
+		shared.entity-ref.organisation |
+		shared.entity-ref.location
 	)*
 
 # Attributes #
 
-derived-names.attlist = 
+derived-name.collection.attlist = 
 	xml.attlist
 		
-derived-name.attlist =
+derived-name.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
     attribute key { xsd:string },

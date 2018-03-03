@@ -18,20 +18,27 @@
         </xsl:result-document>
     </xsl:template>
     
-        
+    
     <doc:doc>
         <doc:desc>
-            <doc:p>Suppress event records that don't involve a person who is due to be published.</doc:p>
+            <doc:p>Remove the include element.</doc:p>
+        </doc:desc>
+        <doc:note>
+            <doc:p>Children of this element should become children of the data element instead.</doc:p>
+        </doc:note>
+    </doc:doc>
+    <xsl:template match="/app/data/include">
+        
+        <xsl:apply-templates select="node()" />
+        
+    </xsl:template>
+   
+    
+    <doc:doc>
+        <doc:desc>
+            <doc:p>Suppress all non-core entities.</doc:p>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="event[@id]" priority="10">
- 
-        <xsl:variable name="references-to-core-people" select="descendant::*[@ref = /app/data/people/person/@id]" />
- 
-        <xsl:if test="count($references-to-core-people) &gt; 0">
-            <xsl:next-match />
-        </xsl:if>
-    </xsl:template>	
-    
+    <xsl:template match="/app/data/exclude" />
     
 </xsl:stylesheet>

@@ -4,27 +4,27 @@ include "shared.rnc"
 
 
 # Root Element #
-start |= events
+start |= event.collection
 
 # Elements #
 
-events = element events { 
-	events.attlist, 
-	events.content-model
+event.collection = element events { 
+	event.collection.attlist, 
+	event.collection.content-model
 }	
 
-event = element event {
-	event.attlist,
-	event.content-model
+event.entity = element event {
+	event.entity.attlist,
+	event.entity.content-model
 }
 	
-parental-ref = element parent {
-	parental-ref.attlist,
+event.entity-ref.parent = element parent {
+	event.entity-ref.parent.attlist,
 	empty
 }
 
-preceded-by = element preceded-by {
-	event-ref.attlist,
+event.entity-ref.preceded-by = element preceded-by {
+	shared.entity-ref.event.attlist,
 	empty
 }
 
@@ -32,25 +32,25 @@ preceded-by = element preceded-by {
 
 # Content Models #
 
-events.content-model =
-	event*
+event.collection.content-model =
+	event.entity*
 	
-event.content-model =
-	date?,
-	preceded-by*,
-	person-ref*,
-	parental-ref*,
-	location-ref*,
-	summary?,
-	bibliography?
+event.entity.content-model =
+	shared.date?,
+	event.entity-ref.preceded-by*,
+	shared.entity-ref.person*,
+	event.entity-ref.parent*,
+	shared.entity-ref.location*,
+	shared.summary?,
+	shared.bibliography?
 
 
 # Attributes #
 
-events.attlist = 
+event.collection.attlist = 
 	xml.attlist
 	
-event.attlist =
+event.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
     attribute type {
@@ -68,8 +68,8 @@ event.attlist =
 		)
     }
     
-parental-ref.attlist = 
-	person-ref.attlist,
+event.entity-ref.parent.attlist = 
+	shared.entity-ref.person.attlist,
 	attribute type {
 		"biological" |
 		"adoptive" |

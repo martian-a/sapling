@@ -24,364 +24,314 @@ start |= notAllowed
 
 # Elements #
 
-bibliography |= element sources {
-	source-ref*
+shared.bibliography |= element sources {
+	shared.entity-ref.source*
 }
 
-body-matter.heading |= element heading {
-	body-matter.heading.attlist,
-	body-matter.heading.content-model
+shared.body |= element body {
+	shared.body.attlist,
+	shared.body.content-model
 }
 
-body-matter.section |= element section {
-	body-matter.section.attlist,
-	body-matter.section.content-model
+shared.body-matter.bold |= element bold {
+    shared.inline.mix.content-model	
 }
 
-body-matter.subheading |= element subheading {
-	body-matter.heading.attlist,
-	body-matter.heading.content-model
+shared.body-matter.heading |= element heading {
+	shared.body-matter.heading.attlist,    
+	shared.inline.mix.content-model	
 }
 
-bold |= element bold {
-    inline.mix.content-model	
+shared.body-matter.italic |= element italic {
+    shared.inline.mix.content-model	
 }
 
-italic |= element italic {
-    inline.mix.content-model	
+shared.body-matter.paragraph |= element p {
+	shared.body-matter.paragraph.attlist,
+    shared.inline.mix.content-model	
 }
 
-quote-inline |= element quote {
-	quote.attlist,
-	inline.mix.content-model
+
+shared.body-matter.quote-inline |= element quote {
+	shared.body-matter.quote.attlist,
+	shared.inline.mix.content-model
 }
 
-quote-block |= element quote {
-	quote.attlist,
-	body-matter.content-model
+shared.body-matter.quote-block |= element quote {
+	shared.body-matter.quote.attlist,
+	shared.body.content-model
 }
 
-date |= element date {
-	date.attlist,
+shared.body-matter.section |= element section {
+	shared.body-matter.section.attlist,
+	shared.body.content-model
+}
+
+shared.body-matter.subheading |= element subheading {
+	shared.body-matter.heading.attlist,    
+	shared.inline.mix.content-model	
+}
+
+shared.body-matter.table |= element table {
+	shared.body-matter.table.attlist,
+	shared.body-matter.table.content-model
+}
+
+shared.body-matter.table.row |= element tr {
+	shared.body-matter.table.row.attlist,
+	shared.body-matter.table.row.content-model
+}
+
+shared.body-matter.table.cell |= element td {
+	shared.body-matter.table.cell.attlist,
+	shared.body-matter.table.cell.content-model
+}
+
+shared.body-matter.table.heading-cell |= element th {
+	shared.body-matter.table.cell.attlist,
+	shared.body-matter.table.cell.content-model
+}
+
+shared.body-matter.underline |= element underline {
+    shared.inline.mix.content-model
+}
+
+shared.date |= element date {
+	shared.date.attlist,
 	text*
 }
 
-entity-ref |= (
-	person-ref | 
-	event-ref | 
-	location-ref | 
-	organisation-ref |
-	source-ref |
-	journal-ref |
-	note-ref
+shared.entity-ref |= (
+	shared.entity-ref.person | 
+	shared.entity-ref.event | 
+	shared.entity-ref.location | 
+	shared.entity-ref.organisation |
+	shared.entity-ref.source
 )
 
-event-ref |= element event {
-	event-ref.attlist,
-	entity-ref.content-model
+shared.entity-ref.event |= element event {
+	shared.entity-ref.event.attlist,
+	shared.entity-ref.content-model
 }
 
-issue |= element issue {
-    issue.attlist,
-    issue.content-model
+shared.entity-ref.location |= element location {
+	shared.entity-ref.location.attlist,
+	shared.entity-ref.content-model
 }
 
-journal-ref |= element journal {
-	journal-ref.attlist,
-	journal-ref.content-model
+shared.entity-ref.organisation |= element organisation {
+	shared.entity-ref.organisation.attlist,
+	shared.entity-ref.content-model
 }
 
-location-ref |= element location {
-	location-ref.attlist,
-	entity-ref.content-model
+shared.entity-ref.person |= element person {
+	shared.entity-ref.person.attlist,
+	shared.entity-ref.content-model
 }
 
-link-ref |= element link {
-	link.attlist,
+shared.entity-ref.source |= element source {
+	shared.entity-ref.source.attlist,
+	shared.summary?
+}
+
+shared.link |= element link {
+	shared.link.attlist,
 	empty
 }
 
-link |=
-    link-ref
-
-name |= element name { 
-	name.attlist,
+shared.name |= element name { 
+	shared.name.attlist,
 	text*
 }
 
-note |= element note {
-	note.attlist,
-	paragraph*
+shared.note |= element note {
+	shared.note.attlist,
+	shared.body-matter.paragraph*
 }
 
-note-ref |= element note {
-	note-ref.attlist,
-	entity-ref.content-model
+shared.person.name.full |= element name {
+	shared.person.name.full.attlist,
+	shared.person.name.full.content-model
 }
 
-organisation-ref |= element organisation {
-	organisation-ref.attlist,
-	entity-ref.content-model
+shared.person.name.honorific |= element honorific {
+	shared.person.name.honorific.attlist,
+	shared.person.name.part.content-model
 }
 
-pages.content-model |=
-	empty
-
-paragraph |= element p {
-	paragraph.attlist,
-    inline.mix.content-model	
+shared.person.name.location |= element location {
+	shared.person.name.location.attlist,
+	shared.person.name.part.content-model
 }
 
-person-ref |= element person {
-	person-ref.attlist,
-	entity-ref.content-model
+shared.person.name.ordinal |= element ordinal {
+	shared.person.name.ordinal.attlist,
+	shared.person.name.part.content-model
 }
 
-pages |= element pages {
-	pages.attlist,
-	pages.content-model
+shared.person.name.origin |= element origin {
+	shared.person.name.origin.attlist,
+	shared.person.name.origin.content-model
 }
 
-person.name.full |= element name {
-	person.name.full.attlist,
-	person.name.full.content-model
+shared.person.name.part |= element name {
+	shared.person.name.part.attlist,
+	shared.person.name.part.content-model
 }
 
-person.name.honorific |= element honorific {
-	person.name.honorific.attlist,
-	person.name.part.content-model
+shared.person.name.particle |= element particle {
+	shared.person.name.particle.attlist,
+	shared.person.name.part.content-model
 }
 
-person.name.location |= element location {
-	person.name.location.attlist,
-	person.name.part.content-model
+shared.person.name.prefix |= element prefix {
+	shared.person.name.prefix.attlist,
+	shared.person.name.part.content-model
 }
 
-person.name.ordinal |= element ordinal {
-	person.name.ordinal.attlist,
-	person.name.part.content-model
-}
-
-person.name.origin |= element origin {
-	person.name.origin.attlist,
-	person.name.origin.content-model
-}
-
-person.name.part |= element name {
-	person.name.part.attlist,
-	person.name.part.content-model
-}
-
-person.name.particle |= element particle {
-	person.name.particle.attlist,
-	person.name.part.content-model
-}
-
-person.name.prefix |= element prefix {
-	person.name.prefix.attlist,
-	person.name.part.content-model
-}
-
-person.name.title |= element title {
-	person.name.title.attlist,
-	person.name.part.content-model
-}
-
-publisher |= element publisher {
-	publisher.attlist,
-	publisher.content-model
-}
-
-quote.inline |= element quote {
-    inline.mix.content-model
-}
-
-series |= element series {
-	series.attlist,
-	series.content-model
-}
-
-source-ref |= element source {
-	source-ref.attlist,
-	summary?
-}
-
-summary |= element summary { 
-	summary.attlist,
-	mixed { entity-ref* }
-}
-
-table |= element table {
-	table.attlist,
-	table.content-model
-}
-
-table.row |= element tr {
-	table.row.attlist,
-	table.row.content-model
-}
-
-table.cell |= element td {
-	table.cell.attlist,
-	table.cell.content-model
-}
-
-table.heading-cell |= element th {
-	table.cell.attlist,
-	table.cell.content-model
-}
-
-title |= element title {
-	title.attlist,
-	text*
-}
-
-subtitle |= element subtitle {
-	title.attlist,
-	text*
+shared.person.name.title |= element title {
+	shared.person.name.title.attlist,
+	shared.person.name.part.content-model
 }
 
 
-volume |= element volume {
-	volume.attlist,
-	volume.content-model
+shared.summary |= element summary { 
+	shared.summary.attlist,
+	mixed { shared.entity-ref* }
 }
+
 
 
 
 # Content Models #
 	
-body-matter.content-model |=
-	body-matter.section* &
-	paragraph* & 
-	table* &
-	quote-block*
+shared.body.content-model |=
+	shared.body-matter.content-model
 	
-body-matter.heading.content-model |= 
-    (
-        text |
-        note-ref?
-    )*
-	
-body-matter.section.content-model |=
-	body-matter.heading?,
-	body-matter.subheading*,
-	body-matter.content-model
-	
-entity-ref.content-model |=
-	empty
+shared.body-matter.content-model |=
+    shared.body-matter.paragraph*	
 
-person.name.full.content-model |=	
-	mixed {
-		person.name.title |
-		person.name.prefix |
-		person.name.honorific |
-		person.name.part |
-		person.name.ordinal |
-		person.name.origin
-	}*
+shared.body-matter.table.content-model |=
+	shared.body-matter.table.row*
 	
-person.name.origin.content-model |=
-	person.name.particle,
-	text,
-	person.name.location
-
-person.name.part.content-model |=
-	text
-
-inline.mix.content-model |=
-    mixed { 
-	   (
-	       entity-ref* |
-	       quote.inline |
-	       bold |
-	       italic |
-	       quote-inline
-	    )*
-	}
-
-issue.content-model |=
-	text
-
-journal-ref.content-model |=
-	volume?,
-	issue?,
-	date?,
-	pages?
-
-pages.content-model |=
-	text
-	
-publisher.content-model |=
-	text
-	
-series.content-model |=
-	text
-	
-series-group.content-model |=
-	series?,
-	volume?
-	
-table.content-model |=
-	table.row*
-	
-table.row.content-model |=
+shared.body-matter.table.row.content-model |=
 	(
 	   (
-	       table.cell |
-	       table.heading-cell
+	       shared.body-matter.table.cell |
+	       shared.body-matter.table.heading-cell
 	    )* |
 	    (
-	       table.heading-cell+,
-	       table.cell+
+	       shared.body-matter.table.heading-cell+,
+	       shared.body-matter.table.cell+
 	    )
 	)
 	
-table.cell.content-model |=
+shared.body-matter.table.cell.content-model |=
 	mixed {
-		paragraph*
+		shared.body-matter.paragraph*
 	}
+
+
+shared.entity-ref.content-model |=
+    text*
+
+shared.person.name.full.content-model |=	
+	mixed {
+		shared.person.name.title |
+		shared.person.name.prefix |
+		shared.person.name.honorific |
+		shared.person.name.part |
+		shared.person.name.ordinal |
+		shared.person.name.origin
+	}*
 	
-volume.content-model |=
+shared.person.name.origin.content-model |=
+	shared.person.name.particle,
+	text,
+	shared.person.name.location
+
+shared.person.name.part.content-model |=
 	text
 
+shared.inline.mix.content-model |=
+    mixed { 
+	   (
+	       shared.entity-ref* |
+	       shared.body-matter.quote-inline |
+	       shared.body-matter.bold |
+	       shared.body-matter.italic |
+	       shared.body-matter.underline
+	    )*
+	}
+
+shared.summary.content-model |=
+    text*  
 
 
-# Attributes #
+
+
+
+
+# Attributes #	
+
+shared.body.attlist |=
+    xml.attlist
+    
+shared.body-matter.heading.attlist |=
+    xml.attlist    
+
+shared.body-matter.paragraph.attlist |=
+	xml.attlist
+
+shared.body-matter.quote.attlist |=
+	xml.attlist	
 	
-date.attlist |=
+shared.body-matter.section.attlist |=
+    xml.attlist
+
+shared.body-matter.table.attlist |=
+	xml.attlist
+
+shared.body-matter.table.row.attlist |=
+	xml.attlist
+
+shared.body-matter.table.cell.attlist |=
+	xml.attlist,
+	attribute colspan { xsd:integer }?,
+	attribute rowspan { xsd:integer }?	
+	
+shared.date.attlist |=
 	xml.attlist,
 	attribute year { xsd:integer },
 	attribute month { xsd:integer }?,
 	attribute day { xsd:integer }?
 
-body-matter.heading.attlist |=
-	xml.attlist
-	
-body-matter.section.attlist |=
-	xml.attlist
-
-event-ref.attlist |=
-	entity-ref.attlist
-
-entity-ref.attlist |=
+shared.entity-ref.attlist |=
 	xml.attlist,
 	attribute ref { xsd:IDREF }
 
-issue.attlist |=
-    xml.attlist
-
-journal-ref.attlist |=
-	entity-ref.attlist
+shared.entity-ref.event.attlist |=
+	shared.entity-ref.attlist
 	
-location-ref.attlist |=
-	entity-ref.attlist
+shared.entity-ref.location.attlist |=
+	shared.entity-ref.attlist
 
-link.attlist |=	
+shared.entity-ref.organisation.attlist |=
+	shared.entity-ref.attlist
+
+shared.entity-ref.person.attlist |=
+	shared.entity-ref.attlist,
+	attribute style { "familiar" | "formal" }?
+	
+shared.entity-ref.source.attlist |=
+	shared.entity-ref.attlist,
+	attribute extract { xsd:string }?
+
+shared.link.attlist |=	
 	xml.attlist,
 	attribute href { xsd:anyURI }
 
-name.attlist |=
+shared.name.attlist |=
 	xml.attlist,
 	attribute rel {
 		"historical" |
@@ -389,89 +339,43 @@ name.attlist |=
 	}?,
 	attribute abbreviation { xsd:boolean }?
 
-note.attlist |=
+shared.note.attlist |=
 	xml.attlist
 
-note-ref.attlist |=
-	entity-ref.attlist
+shared.note-ref.attlist |=
+	shared.entity-ref.attlist
 
-organisation-ref.attlist |=
-	entity-ref.attlist
-	
-pages.attlist |=
-	xml.attlist,
-	attribute start { xsd:integer },
-	attribute end { xsd:integer }
-	
-paragraph.attlist |=
-	xml.attlist
-
-person-ref.attlist |=
-	entity-ref.attlist,
-	attribute style { "familiar" | "formal" }?
-
-person.name.full.attlist |=
+shared.person.name.full.attlist |=
 	attribute xml:base { xsd:anyURI }?,
 	attribute xml:lang { xsd:language }?
 
-person.name.honorific.attlist |=
+shared.person.name.honorific.attlist |=
 	xml.attlist
 
-person.name.location.attlist |=
+shared.person.name.location.attlist |=
 	xml.attlist
 
-person.name.ordinal.attlist |=
+shared.person.name.ordinal.attlist |=
 	xml.attlist
 
-person.name.origin.attlist |=
+shared.person.name.origin.attlist |=
 	xml.attlist
 
-person.name.part.attlist |=
+shared.person.name.part.attlist |=
 	xml.attlist,
 	attribute family {"yes"}?
 
-person.name.particle.attlist |=
+shared.person.name.particle.attlist |=
 	xml.attlist
 
-person.name.prefix.attlist |=
+shared.person.name.prefix.attlist |=
 	xml.attlist
 		
-person.name.title.attlist |=
+shared.person.name.title.attlist |=
 	xml.attlist	
 	
-publisher.attlist |=
-	xml.attlist
-	
-quote.attlist |=
+shared.summary.attlist |=
 	xml.attlist	
-	
-series.attlist |=
-	xml.attlist
-
-source-ref.attlist |=
-	entity-ref.attlist,
-	attribute extract { xsd:string }?
-
-summary.attlist |=
-	xml.attlist	
-	
-table.attlist |=
-	xml.attlist
-
-table.row.attlist |=
-	xml.attlist
-
-table.cell.attlist |=
-	xml.attlist,
-	attribute colspan { xsd:integer }?,
-	attribute rowspan { xsd:integer }?
-
-title.attlist |=
-	xml.attlist
-
-volume.attlist |=
-	xml.attlist,
-	attribute number { xsd:decimal }?
 	
 xml.attlist |= 
 	xml.anyElement.attlist

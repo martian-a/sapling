@@ -2,7 +2,7 @@
 	
 	<xsl:key name="name" match="data/name | related/name | entities/name" use="@id"/>
 	
-	<xsl:template match="/app[view/data/entities/name] | /app[view/data/name]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+	<!-- xsl:template match="/app[view/data/entities/name] | /app[view/data/name]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/ -->
 	
 	<xsl:template match="/app/view[data/entities/name]" mode="html.body">
 		<xsl:apply-templates select="data/entities[name]"/>

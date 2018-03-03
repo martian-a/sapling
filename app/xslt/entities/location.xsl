@@ -1,5 +1,10 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml"
-	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	exclude-result-prefixes="#all" version="2.0">
 	
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
@@ -18,14 +23,17 @@
 			</doc:note>
 		</doc:notes>
 	</doc:doc>
-	<xsl:template match="app/view[data[entities/location or location or person[related/location] or name[related/location]]]" mode="html.body html.footer.scripts" priority="100">
+	<xsl:template match="app/view[data[entities/location or location or person[related/location] or name[related/location] or source[related/location]]]" mode="html.body html.footer.scripts" priority="1000">
 		<xsl:variable name="locations" as="element()*">
 			<xsl:choose>
 				<!-- Locations index -->
 				<xsl:when test="data/entities/location"><xsl:sequence select="data/entities/location" /></xsl:when>
 				<!-- Location profile -->
 				<xsl:when test="data/location"><xsl:sequence select="data/location" /></xsl:when>
-				<!-- Person profile -->
+				<xsl:when test="data/source">
+					<xsl:sequence select="data/source/*[not(self::front-matter)]/descendant::location" />
+				</xsl:when>
+				<!-- Person or Name profile -->
 				<xsl:otherwise>
 					<xsl:variable name="events" select="data/*/related/event" as="element()*" />
 					<xsl:sequence select="(data/*/note, $events)/descendant::location" />
@@ -37,21 +45,6 @@
 			<xsl:with-param name="locations" select="fn:sort-locations($locations/key('location', (@id | @ref)))" as="element()*" tunnel="yes" />
 		</xsl:next-match>
 	</xsl:template>
-	
-	<!-- Entry point for Location related html.footer.scripts -->
-	<xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point]]" mode="html.footer.scripts" priority="50">
-		<xsl:next-match />
-		<xsl:apply-templates select="view" mode="#current" />
-	</xsl:template>
-
-	<xsl:template match="/app[view[data[entities/location or location]]]" mode="html.footer.scripts" priority="10">
-		<xsl:next-match />
-	</xsl:template>
-
-
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
-	
-
 
 
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">

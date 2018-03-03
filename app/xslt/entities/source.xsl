@@ -35,7 +35,7 @@
             </doc:ul>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/source] | /app[view/data/source]" mode="html.header html.header.scripts html.footer.scripts"/>
+    <!-- xsl:template match="/app[view/data/entities/source] | /app[view/data/source]" mode="html.header html.header.scripts html.footer.scripts"/ -->
     
     
     <doc:doc>
@@ -219,12 +219,15 @@
         <div class="bibliographic-data">
             <xsl:apply-templates select="subtitle" mode="source.profile" />
             <xsl:apply-templates select="series" mode="source.profile" />
-            <xsl:apply-templates select="self::*[author]" mode="source.profile.authors" />
-            <xsl:apply-templates select="publisher" mode="source.profile" />
-            <xsl:apply-templates select="journal" mode="source.profile" />    
+            <xsl:apply-templates select="self::*[descendant::author]" mode="source.profile.contributors" />
+            <xsl:apply-templates select="serial" mode="source.profile" />    
+            <xsl:apply-templates select="descendant::publisher" mode="source.profile" />
             <xsl:apply-templates select="descendant::location" mode="source.profile" />
             <xsl:apply-templates select="date[@rel = 'published']" mode="source.profile" />
             <xsl:apply-templates select="date[@rel = 'revised']" mode="source.profile" />
+            <xsl:apply-templates select="descendant::date[@rel = 'survey']" mode="source.profile" />
+            <xsl:apply-templates select="descendant::scale" mode="source.profile" />
+            <xsl:apply-templates select="descendant::sheet" mode="source.profile" />
             <xsl:apply-templates select="descendant::pages" mode="source.profile" />
             <xsl:apply-templates select="descendant::link" mode="source.profile" />
         </div>
@@ -238,19 +241,31 @@
         </div>
     </xsl:template>
     
-    <xsl:template match="source/front-matter/series" mode="source.profile">
+    <xsl:template match="source/front-matter/series/title" mode="source.profile">
         <div class="series">
             <h2>Series</h2>
-            <p><xsl:apply-templates /></p>
+            <p><xsl:value-of select="." /></p>                        
         </div>
     </xsl:template>
     
-    <xsl:template match="source/front-matter" mode="source.profile.authors">
-        <div class="creators">
-            <h2>Author(s)</h2>
+    <xsl:template match="source/front-matter/series/volume" mode="source.profile">
+        <div class="volume">
+            <h2>Volume</h2>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="@number"><xsl:value-of select="@number" /></xsl:when>
+                    <xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
+                </xsl:choose>
+            </p>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="source/front-matter" mode="source.profile.contributors">
+        <div class="contributors">
+            <h2>Contributor(s)</h2>
             <ul>
-                <xsl:for-each select="author">
-                    <li><xsl:apply-templates select="name" /></li>
+                <xsl:for-each select="descendant::*[name() = ('author', 'editor', 'contributor')]">
+                    <li><xsl:apply-templates select="name | organisation/name" mode="#current" /></li>
                 </xsl:for-each>
             </ul>
         </div>
@@ -258,19 +273,14 @@
     
     
     <doc:doc>
-        <doc:desc>Format the name of an author other than the first author.</doc:desc>
+        <doc:desc>Contributor's name.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/front-matter/author/name">
-        <!-- Forename(s) -->
-        <xsl:apply-templates select="name[not(@family = 'yes')]" mode="#current" />
-        <!-- Non-breaking space -->
-        <xsl:value-of select="codepoints-to-string(160)" />
-        <!-- Surname -->
-        <xsl:apply-templates select="name[@family = 'yes']" mode="#current" />        
+    <xsl:template match="*[name() = ('author', 'editor', 'contributor')]/*" mode="source.profile.contributors">
+        <xsl:value-of select="string-join(*, ' ')"/>
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/publisher" mode="source.profile">
+    <xsl:template match="publisher[ancestor::front-matter/parent::source]" mode="source.profile">
         <div class="publisher">
             <h2>Publisher</h2>
             <p><xsl:apply-templates /></p>
@@ -287,38 +297,53 @@
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/journal" mode="source.profile">
-        <div class="{@type}">
+    <xsl:template match="source/front-matter/serial" mode="source.profile">
+        <div class="{if (@type = 'map') then 'map-series' else @type}">
             <xsl:apply-templates select="title" mode="#current" />
-            <xsl:apply-templates select="issue/volume" mode="#current" />
-            <xsl:apply-templates select="issue/issue" mode="#current" />
-            <xsl:apply-templates select="issue/date" mode="#current" />
+            <xsl:apply-templates select="part/volume" mode="#current" />
+            <xsl:apply-templates select="part/issue" mode="#current" />
+            <xsl:apply-templates select="part/date[not(@rel = 'survey')]" mode="#current" />
         </div>
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/journal/title" mode="source.profile">
+    <xsl:template match="source/front-matter/serial/title" mode="source.profile">
         <div class="title">
             <h2><xsl:choose>
-                <xsl:when test="parent::journal/@type = 'newspaper'">Newspaper</xsl:when>
-                <xsl:when test="parent::journal/@type = 'journal'">Journal</xsl:when>
+                <xsl:when test="parent::serial/@type = 'newspaper'">Newspaper</xsl:when>
+                <xsl:when test="parent::serial/@type = 'journal'">Journal</xsl:when>
+                <xsl:when test="parent::serial/@type = 'map'">Map Series</xsl:when>
                 <xsl:otherwise>Serial Publication</xsl:otherwise>
             </xsl:choose></h2>
             <p><xsl:apply-templates select="self::*" /></p>
         </div>
     </xsl:template>
     
-    <xsl:template match="source/front-matter/journal/issue/volume" mode="source.profile">
+    <xsl:template match="source/front-matter/serial/part/volume" mode="source.profile">
         <div class="volume">
             <h2>Volume</h2>
             <p><xsl:apply-templates /></p>
         </div>
     </xsl:template>
 
-    <xsl:template match="source/front-matter/journal/issue/issue" mode="source.profile">
-        <div class="volume">
+    <xsl:template match="source/front-matter/serial/part/issue" mode="source.profile">
+        <div class="issue">
             <h2>Issue</h2>
             <p><xsl:apply-templates /></p>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="scale[ancestor::front-matter/parent::source]" mode="source.profile">
+        <div class="scale">
+            <h2>Scale</h2>
+            <p><xsl:value-of select="if (@ratio) then @ratio else ." /></p>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="sheet[ancestor::front-matter/parent::source]" mode="source.profile">
+        <div class="sheet">
+            <h2>Sheet</h2>
+            <p><xsl:value-of select="." /></p>
         </div>
     </xsl:template>
     
@@ -340,16 +365,20 @@
     </xsl:template>
  
     
-    <xsl:template match="source/front-matter/date[not(@rel) or @rel = 'published']" mode="source.profile">
+    <xsl:template match="date[not(@rel) or @rel = 'published'][ancestor::front-matter/parent::source]" mode="source.profile">
         <xsl:text>Publication Date</xsl:text>
     </xsl:template>
  
-    <xsl:template match="source/front-matter/journal/issue/date" mode="source.profile">
+    <xsl:template match="date[@rel = 'issue'][ancestor::front-matter/parent::source]" mode="source.profile">
         <xsl:text>Issue Date</xsl:text>
     </xsl:template>
  
     <xsl:template match="date[@rel = 'revised'][ancestor::front-matter/parent::source]" mode="source.profile">
         <xsl:text>Revision Date</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="date[@rel = 'survey'][ancestor::front-matter/parent::source]" mode="source.profile">
+        <xsl:text>Survey Date</xsl:text>
     </xsl:template>
     
     
@@ -373,12 +402,13 @@
     
     <xsl:template match="pages[ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" mode="source.profile">
         <div class="pages">
-            <h2>
+            <xsl:element name="{if (ancestor::front-matter) then 'h2' else 'h3'}">
+                <xsl:if test="ancestor::body-matter"><xsl:attribute name="class">heading</xsl:attribute></xsl:if>
                 <xsl:text>Page</xsl:text>
                 <xsl:if test="@end[number(.) != number(parent::pages/@start)]">
                     <xsl:text> Range</xsl:text>
                 </xsl:if>
-            </h2>
+            </xsl:element>
             <p><xsl:apply-templates select="self::*" /></p>
         </div>
     </xsl:template>
@@ -387,7 +417,7 @@
     <xsl:template match="source/front-matter/link" mode="source.profile">
         <div class="link">
             <h2>Link</h2>
-            <p><xsl:apply-templates select="self::link, parent::*/date[@rel = 'retrieved']" /></p>
+            <p><xsl:apply-templates select="self::link, date" /></p>
         </div>
     </xsl:template>
     
@@ -440,16 +470,31 @@
         <xsl:apply-templates select="body" />
     </xsl:template>
     
+    <xsl:template match="source/body-matter[not(body)][summary]">
+        <h2>Summary</h2>
+        <p class="summary"><xsl:apply-templates /></p>    
+    </xsl:template>
+    
     <xsl:template match="source/body-matter[extract]">
-        <h2>Extract(s)</h2>
-        <xsl:apply-templates select="extract" />        
+        <h2 class="heading">Extract(s)</h2>
+        <xsl:apply-templates select="extract">
+            <xsl:sort select="pages/@start" data-type="number" order="ascending" />
+        </xsl:apply-templates>        
     </xsl:template>
     
     <xsl:template match="source/body-matter/extract">
         <div class="extract">
+            <xsl:if test="@id"><xsl:attribute name="id" select="@id" /></xsl:if>
             <xsl:apply-templates select="pages" mode="source.profile" />
-            <xsl:apply-templates select="body" />            
+            <xsl:apply-templates select="if (body) then body else summary" />            
         </div>
+    </xsl:template>
+    
+    <xsl:template match="source/body-matter/extract/summary">
+       <div class="summary">
+           <h3 class="heading">Summary</h3>
+           <p class="summary"><xsl:apply-templates /></p>
+       </div>
     </xsl:template>
 
 

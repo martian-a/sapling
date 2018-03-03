@@ -68,6 +68,9 @@
 		<p:output port="result" sequence="false" />
 		
 		<p:variable name="source-file-path" select="concat($href, 'app.xml')" />
+		<p:variable name="temp-file-path" select="concat(/build/output/data[@role = 'temp']/@href, $role, '.xml')">
+			<p:pipe port="config" step="build-data" />
+		</p:variable>
 		
 		<p:load name="source-data" dtd-validate="false">
 			<p:with-option name="href" select="$source-file-path" />
@@ -77,6 +80,7 @@
 			<p:input port="source">
 				<p:pipe port="result" step="source-data" />
 			</p:input>
+			<p:with-option name="target" select="$temp-file-path" />
 		</tcy:pre-process-data>
 		
 	</p:group>

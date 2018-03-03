@@ -1,0 +1,208 @@
+/**********
+ * Bibliographic Reference 
+ */
+
+.book .title,
+.book .subtitle,
+.book .series,
+.journal .journal-title {
+    font-style: italic;
+}
+
+/* End of Bilbiographic Reference */
+
+
+
+/**********
+ * Source Profile: Bibliographic Data
+ */
+
+
+.bibliographic-data div h2,
+.bibliographic-data div h3 {
+    color: #000000;
+}
+
+.bibliographic-data div h2,
+.bibliographic-data div h3 {
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+    .bibliographic-data {
+        margin: 2em;
+    } 
+
+    .bibliographic-data div h2,
+    .bibliographic-data div h3,
+    .bibliographic-data div p {
+        display: inline-block;
+        margin: 0;
+    }
+    
+    .bibliographic-data h2::after,
+    .bibliographic-data h3::after { 
+        content: ": ";
+    }
+
+}
+
+/* End of Source Profile: Bibliographic Data */
+
+
+
+/**********
+ * Source Profile: Body/Extract
+ */
+
+/* Page Range */
+.body-matter .extract div.pages,
+.body-matter .extract div.summary {
+    margin-left: 1em;
+}
+
+.body-matter .extract .pages .heading,
+.body-matter .extract .summary .heading,
+.body-matter .extract .pages p,
+.body-matter .extract .summary p {
+    display:inline-block;
+    margin: 0;
+    font-size: 1em;
+}
+
+.body-matter .extract .pages .heading::after,
+.body-matter .extract .summary .heading:after { 
+    content: ": ";
+}
+
+/* End of Page Range */
+
+.body-matter .extract .body,
+.body-matter .body {
+    background-color: beige;
+    margin: 1em 0;
+    padding: 1em;
+}
+
+.body-matter .body p,
+.body-matter .body li {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.body-matter .body > p:first-child,
+.body-matter .body > ul:first-child > li:first-child {
+    margin-top: 0;
+}
+
+
+/* Tables */
+
+.body-matter .body table {
+    border: 0;
+}
+
+.body-matter th,
+.body-matter td {
+    text-align: left;
+    vertical-align: top;
+    border-width: 0;
+}
+
+.body-matter .body th {
+    background-color: inherit;
+    font-family: fellBold;
+}
+.body-matter .body td > :first-child {
+    margin-top: 0;
+}
+
+/* End of Tables */
+
+
+/* Headings */
+
+.body-matter h1 {
+    font-size: 1.2em;
+    text-transform: uppercase;
+} 
+
+/* End of Headings */
+
+
+/* Content Notes */
+ 
+.note-ref {
+    font-size: smaller;
+}
+
+/* End of Content Notes */
+
+
+/* Multi-column */
+
+
+.source .entity .multi-column {
+    column-count: 1;
+    column-gap: 5em;
+}
+
+
+@media only screen and (min-width: 600px) {
+	
+	.source .entity .multi-column.long {
+		column-count: 2;	
+	}
+
+    .source .entity .multi-column.micro,
+    .source .entity .multi-column.short {
+        column-count: 1;
+        width: 400px;
+    }
+}
+
+
+@media only screen and (min-width: 750px) {
+	
+	.source .entity .multi-column.medium {
+		column-count: 2;	
+	}
+	
+}
+
+@media only screen and (min-width: 1225px) {
+	
+	.source .entity .multi-column.long,
+	.source .entity .multi-column.medium {
+		column-count: 3;	
+	}
+
+}
+
+@media only screen and (min-width: 1750px) {
+	
+	.source .entity .multi-column.long {
+	    column-count: 4;
+	}
+
+}
+
+/* End of Multi-column */
+
+/* End of Source Profile: Body/Extract */
+
+
+/**********
+ * Source Profile: Notes
+ */
+
+.end-matter .notes .note h3 {
+    margin-top: 1em;
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+/* End of Source Profile: Notes */

@@ -24,8 +24,8 @@
     <doc:doc>
         <doc:desc>Preface a bilbiographic entry with it's authors.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators">
-        <xsl:apply-templates select="author" />
+    <xsl:template match="source/reference/contributors">
+        <xsl:apply-templates select="*" />
         <xsl:text>. </xsl:text>
     </xsl:template>
     
@@ -33,7 +33,7 @@
     <doc:doc>
         <doc:desc>Append et al where required.</doc:desc>
     </doc:doc>   
-    <xsl:template match="source/reference/creators/author[@et-al = 'true']" priority="20">
+    <xsl:template match="source/reference/contributors/*[@et-al = 'true']" priority="20">
         <xsl:next-match />
         <xsl:text> </xsl:text><span class="author et-al">et al</span>
     </xsl:template>  
@@ -43,8 +43,8 @@
         <doc:desc>The first author in a bibliography entry.</doc:desc>
         <doc:note>Surname first, then forenames.</doc:note>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() = 1]">
-        <xsl:apply-templates select="name" mode="#current" />
+    <xsl:template match="source/reference/contributors/*[position() = 1]" priority="10">        
+        <xsl:next-match />
     </xsl:template>    
     
  
@@ -54,34 +54,34 @@
         <doc:desc>Authors (other than the first) in a bibliography entry.</doc:desc>
         <doc:note>Fornames first, then surname.</doc:note>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() &gt; 1]">
+    <xsl:template match="source/reference/contributors/*[position() &gt; 1]" priority="10">
         <xsl:choose>
-            <xsl:when test="following-sibling::author">
+            <xsl:when test="following-sibling::*">
                 <xsl:text>, </xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text> and </xsl:text>
             </xsl:otherwise>
         </xsl:choose>
-        <xsl:apply-templates select="name" mode="#current" />
+        <xsl:next-match />
     </xsl:template>
     
        
        
     <doc:doc>
-        <doc:desc>Wrap the name of each author in a span.</doc:desc>
+        <doc:desc>Wrap the name of each contributor in a span.</doc:desc>
     </doc:doc>   
-    <xsl:template match="source/reference/creators/author/name" priority="10">
-        <span class="author">
-            <xsl:next-match />
+    <xsl:template match="source/reference/contributors/*">
+        <span class="contributor {name()}">
+            <xsl:apply-templates mode="#current" />
         </span>
     </xsl:template>  
        
     
     <doc:doc>
-        <doc:desc>Format the name of the first author.</doc:desc>
+        <doc:desc>Format the name of the first contributor.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author[1]/name">
+    <xsl:template match="source/reference/contributors/*[1]/name">
         <!-- Surname -->
         <xsl:apply-templates select="name[@family = 'yes']" mode="#current" />
         <!-- Comma and non-breaking space -->
@@ -92,30 +92,31 @@
     
     
     <doc:doc>
-        <doc:desc>Format the name of an author other than the first author.</doc:desc>
+        <doc:desc>Format the name of an contributor other than the first contributor.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author[position() &gt; 1]/name">
-        <!-- Forename(s) -->
-        <xsl:apply-templates select="name[not(@family = 'yes')]" mode="#current" />
-        <!-- Non-breaking space -->
-        <xsl:value-of select="codepoints-to-string(160)" />
-        <!-- Surname -->
-        <xsl:apply-templates select="name[@family = 'yes']" mode="#current" />        
+    <xsl:template match="source/reference/contributors/*[position() &gt; 1]/*">
+        <xsl:for-each select="*">
+            <xsl:apply-templates select="self::*" mode="#current"/>
+            <xsl:if test="position() != last()">
+                <!-- Non-breaking space -->
+                <xsl:value-of select="codepoints-to-string(160)"/>
+            </xsl:if>
+        </xsl:for-each>
     </xsl:template>
     
    
     <doc:doc>
-        <doc:desc>Format the surname of an author.</doc:desc>
+        <doc:desc>Format the surname of an contributor.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author/name/name[@family = 'yes'] | source/front-matter/author/name/name[@family = 'yes']">
+    <xsl:template match="source/reference/contributors/*/name/name[@family = 'yes']">
         <span class="family-name"><xsl:value-of select="." /></span>    
    </xsl:template>
    
    
     <doc:doc>
-        <doc:desc>Format the forenames of an author.</doc:desc>
+        <doc:desc>Format the forenames of an contributor.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/creators/author/name/name[not(@family = 'yes')] | source/front-matter/author/name/name[not(@family = 'yes')]">
+    <xsl:template match="source/reference/contributors/*/name/name[not(@family = 'yes')]">
         <xsl:choose>
             <xsl:when test="position() = 1">
                 <span class="forename"><xsl:value-of select="." /></span>                  
@@ -130,7 +131,12 @@
         </xsl:choose>
     </xsl:template>
     
-    
+    <doc:doc>
+        <doc:desc>Format the name of an organisation contributor.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source/reference/contributors/*/organisation/name">
+        <span class="name organisation"><xsl:value-of select="." /></span>    
+    </xsl:template>
     
     
     <doc:doc>
@@ -154,6 +160,17 @@
     
     
     <doc:doc>
+        <doc:desc>Append a space after a source title.</doc:desc>
+        <doc:note>
+            <doc:p>For a serial source, this needs to be after closing quote of the title of a serial source (not the full stop).</doc:p>
+            <doc:p>For a book source, this should be after the full stop at the end of the title sequence (which may include a subtitle).</doc:p>
+        </doc:note>
+    </doc:doc>
+    <xsl:template match="source/reference[@style = 'map']/titles/*[position() = last()]" priority="55">
+        <xsl:next-match /><xsl:text> </xsl:text><span class="map-label">Map. </span>
+    </xsl:template> 
+    
+    <doc:doc>
         <doc:desc>Append a full stop to the end of the title of a source.</doc:desc>
         <doc:note>
             <doc:p>For a serial source, this needs to be inside the closing quote mark.</doc:p>
@@ -161,7 +178,7 @@
     </doc:doc>
     <xsl:template match="source/reference/titles/*[position() = last()]" priority="50">
         <xsl:next-match /><xsl:text>.</xsl:text>
-    </xsl:template>  
+    </xsl:template> 
 
         
     <doc:doc>
@@ -175,8 +192,8 @@
     <doc:doc>
         <doc:desc>Format the title of a journal.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/journal/title | source/front-matter/journal/title" priority="30">
-        <span class="journal-title"><xsl:next-match /></span>
+    <xsl:template match="source/reference[@style = 'journal']/publication/title | source/front-matter/serial[@type = 'journal']/title" priority="30">
+        <span class="journal-title"><xsl:next-match /></span><xsl:text> </xsl:text>
     </xsl:template>  
     
     
@@ -190,7 +207,7 @@
     <doc:doc>
         <doc:desc>Output a source or journal title.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/titles/title | source/reference/journal/title | source/front-matter/journal/title"> 
+    <xsl:template match="source/reference/titles/title | source/front-matter/serial/title"> 
         <xsl:value-of select="node()" />
     </xsl:template> 
     
@@ -208,26 +225,66 @@
         <doc:desc>Format the series of non-serial source or serial article.</doc:desc>
     </doc:doc>
     <xsl:template match="source/reference/series">
-        <span class="series"><xsl:text>(</xsl:text><xsl:copy-of select="node()" /><xsl:text>). </xsl:text></span>
+        <span class="series">
+            <xsl:text>(</xsl:text>
+            <xsl:for-each select="*">
+                <xsl:apply-templates select="self::*" />
+                <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+            </xsl:for-each>
+            <xsl:text>)</xsl:text>
+        </span><xsl:text>. </xsl:text>
     </xsl:template>  
+    
+    <xsl:template match="source/reference/series/*" priority="50">
+        <span class="{name()}"><xsl:next-match /></span>
+    </xsl:template>
+    
+    
+    <xsl:template match="source/reference/scale">
+        <span class="scale"><xsl:value-of select="@ratio" /><xsl:text> scale. </xsl:text></span>
+    </xsl:template>
+    
+    
+    <doc:doc>
+        <doc:desc>Format the publication data.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source/reference/publication" priority="20">
+        <span class="publication"><xsl:next-match /></span>
+    </xsl:template>
+    
+    
+    <doc:doc>
+        <doc:desc>Format the publication data for a newspaper.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source/reference[@style = 'newspaper']/publication">
+        <xsl:for-each select="*">
+            <xsl:apply-templates select="self::*" />
+            <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+        </xsl:for-each>
+    </xsl:template>
     
     
     <doc:doc>
         <doc:desc>Format the serial volume, issue and date of a journal.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/issue | source/front-matter/journal/issue">
-        <xsl:apply-templates select="volume[normalize-space(@number) != '' or normalize-space(.) != '']" mode="#current" />
-        <xsl:if test="volume[normalize-space(@number) != '' or normalize-space(.) != ''] and issue"><xsl:text>, </xsl:text></xsl:if>
-        <xsl:apply-templates select="issue" mode="#current" />
-        <xsl:text> </xsl:text>
-        <xsl:apply-templates select="date[not(@rel = 'retrieved')]" mode="#current" />
+    <xsl:template match="source/reference[@style = 'journal']/publication/part | source/front-matter/serial[@type = 'journal']/part">
+        <xsl:for-each select="volume, issue">
+            <xsl:apply-templates select="self::*" mode="#current" />
+            <xsl:choose>
+                <xsl:when test="position() = last()"><xsl:text> </xsl:text></xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>, </xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>            
+        </xsl:for-each>       
+        <xsl:apply-templates select="date" mode="#current" />
     </xsl:template>
     
     
     <doc:doc>
         <doc:desc>Format the volume of serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/journal/issue/volume | source/front-matter/journal/issue/volume" priority="10">
+    <xsl:template match="volume[ancestor::reference/parent::source]" priority="10">
         <span class="volume"><xsl:next-match /></span>
     </xsl:template>
     
@@ -235,7 +292,7 @@
     <doc:doc>
         <doc:desc>Output a custom volume label.</doc:desc>
     </doc:doc>
-    <xsl:template match="journal[ancestor::source]/issue/volume[normalize-space(.) != '']">
+    <xsl:template match="volume[ancestor::reference/parent::source][normalize-space(.) != '']">
         <xsl:value-of select="." />
     </xsl:template>
     
@@ -243,7 +300,7 @@
     <doc:doc>
         <doc:desc>Output a standard numbered volume label.</doc:desc>
     </doc:doc>
-    <xsl:template match="journal[ancestor::source]/issue/volume[normalize-space(.) = '']">
+    <xsl:template match="volume[ancestor::*[name() = ('reference', 'front-matter')]/parent::source][normalize-space(.) = '']">
         <xsl:value-of select="@number" />
     </xsl:template>
     
@@ -251,7 +308,7 @@
     <doc:doc>
         <doc:desc>Format the issue of serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="journal[ancestor::source]/issue/issue">
+    <xsl:template match="issue[ancestor::*[name() = ('reference', 'front-matter')]/parent::source]">
         <span class="issue"><xsl:value-of select="." /></span>
     </xsl:template>
         
@@ -259,23 +316,26 @@
     <doc:doc>
         <doc:desc>Prepend a colon before journal page numbers.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/pages" priority="10">
+    <xsl:template match="pages[ancestor::reference[@style = 'journal']/parent::source]" priority="10">
         <xsl:text>: </xsl:text><xsl:next-match />
     </xsl:template>
     
     
     <doc:doc>
-        <doc:desc>Prepend a comma before newspaper page numbers.</doc:desc>
+        <doc:desc>Prepend a colon before journal page numbers.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/pages" priority="10">
-        <xsl:text>, </xsl:text><xsl:next-match />
+    <xsl:template match="publication[ancestor::reference[not(@style = ('journal', 'newspaper'))]/parent::source]/date" priority="10">
+        <xsl:if test="preceding-sibling::*">
+            <xsl:text>, </xsl:text>
+        </xsl:if>
+        <xsl:next-match />
     </xsl:template>
     
     
     <doc:doc>
         <doc:desc>Format the page numbers of serial source.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/journal/pages | source/body-matter/extract/pages" priority="5">
+    <xsl:template match="pages[ancestor::*[name() = ('reference', 'body-matter')]/parent::source]" priority="5">
         <span class="pages"><xsl:next-match /></span>
     </xsl:template>
     
@@ -303,35 +363,36 @@
     <xsl:template match="pages[ancestor::source]/@end">
         <xsl:text>-</xsl:text><xsl:value-of select="." />
     </xsl:template>
+ 
     
     
     <doc:doc>
         <doc:desc>Include the location in a bibliography entry.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/location">
+    <xsl:template match="location[ancestor::reference/parent::source]">
         <span class="location"><xsl:value-of select="normalize-space(.)" /></span>
     </xsl:template>
-    
+ 
+ 
+    <doc:doc>
+        <doc:desc>Insert a colon between the location and publisher's name when both are present.</doc:desc>
+    </doc:doc>
+    <xsl:template match="publication[location]/publisher[ancestor::reference/parent::source]" priority="50">
+        <xsl:text>: </xsl:text>
+        <xsl:next-match />
+    </xsl:template>
+ 
     
     <doc:doc>
         <doc:desc>Format the publisher in a bilbiographic entry.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/publisher" priority="10">
+    <xsl:template match="publisher[ancestor::reference/parent::source]" priority="10">
         <span class="publisher"><xsl:next-match /></span>
-        <xsl:choose>
-            <xsl:when test="following-sibling::date[@rel = ('published', 'revised')]"><xsl:text>, </xsl:text></xsl:when>
-            <xsl:otherwise><xsl:text>. </xsl:text></xsl:otherwise>
-        </xsl:choose>
     </xsl:template>
+   
     
     
-    <doc:doc>
-        <doc:desc>Include the publisher in a bilbiographic entry.</doc:desc>
-    </doc:doc>
-    <xsl:template match="source/reference/publisher">
-        <xsl:if test="preceding-sibling::location"><xsl:text>: </xsl:text></xsl:if>
-        <xsl:value-of select="." />
-    </xsl:template>
+ 
     
     
     <doc:doc>
@@ -354,8 +415,7 @@
     <doc:doc>
         <doc:desc>Include the publication or revision date in a newspaper reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/issue/date" priority="50">
-        <xsl:text>, </xsl:text>
+    <xsl:template match="source/reference[@style = 'newspaper']/publication/part/date" priority="50">
         <span class="date published">
             <xsl:next-match />
         </span>
@@ -365,7 +425,7 @@
     <doc:doc>
         <doc:desc>Include the publication or revision date in a journal reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'journal']/journal/issue/date" priority="50">
+    <xsl:template match="date[ancestor::publication/parent::reference[@style = 'journal']/parent::source]" priority="50">
         <span class="date published">
             <xsl:text>(</xsl:text>
             <xsl:next-match />
@@ -376,7 +436,7 @@
     <doc:doc>
         <doc:desc>Format the publication date in a newspaper reference.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[@style = 'newspaper']/journal/issue/date[@day and @month and @year]">
+    <xsl:template match="date[@day and @month and @year][ancestor::publication/parent::reference[@style = 'newspaper']/parent::source]">
         <xsl:value-of select="substring(fn:month-name(@month), 1, 3)" />
         <xsl:text> </xsl:text>
         <xsl:value-of select="@day" />
@@ -388,7 +448,7 @@
     <doc:doc>
         <doc:desc>Format the publication date in a serial reference (other than a newspaper) when day, month and year are all present.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference[not(@style = 'newspaper')]/journal/issue/date[@day and @month and @year]">
+    <xsl:template match="date[@day and @month and @year][ancestor::publication/parent::reference[not(@style = 'newspaper')]/parent::source]">
         <xsl:value-of select="@day" />
         <xsl:text> </xsl:text>
         <xsl:value-of select="substring(fn:month-name(@month), 1, 3)" />
@@ -400,7 +460,7 @@
     <doc:doc>
         <doc:desc>Format the publication date for a serial reference (other than a newspaper) when only month and year are present.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/journal/issue/date[not(@day) and @month and @year]">
+    <xsl:template match="date[not(@day) and @month and @year][ancestor::publication/parent::reference/parent::source]">
         <xsl:value-of select="fn:month-name(@month)" />
         <xsl:text> </xsl:text>
         <xsl:value-of select="@year" />
@@ -410,7 +470,7 @@
     <doc:doc>
         <doc:desc>Format the publication date for a serial reference (other than a newspaper) when only year is present.</doc:desc>
     </doc:doc>
-    <xsl:template match="source/reference/journal/issue/date[not(@day) and not(@month) and @year]">
+    <xsl:template match="date[not(@day) and not(@month) and @year][ancestor::publication/parent::reference/parent::source]">
         <xsl:value-of select="@year" />
     </xsl:template>
 

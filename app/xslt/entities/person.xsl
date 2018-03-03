@@ -12,25 +12,34 @@
 
 	<doc:doc>
 		<doc:desc>
-			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
+			<doc:p>HTML Head: person (entity)-specific style rules that need to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person]" mode="html.header html.header.scripts html.footer.scripts"/>
-	<xsl:template match="/app[view/data/person]" mode="html.header"/>
-	
-
-	<xsl:template match="/app[view/data/person] | /app[view/data/entities/person]" mode="html.header.style">
-		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" /> 
+	<xsl:template match="/app[view/data/person] | /app[view/data/entities/person]" mode="html.header.style" priority="500">
+		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" />
+		<xsl:next-match />
 	</xsl:template>
 
 
-	<xsl:template match="/app[view/data/person]" mode="html.header.scripts">
+	<doc:doc>
+		<doc:desc>
+			<doc:p>HTML Head: person (entity)-specific scripts that need to go in the head of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="/app[view/data/person]" mode="html.header.scripts" priority="500">
 		<script src="{$normalised-path-to-js}family_tree.js"><xsl:comment>origin: person</xsl:comment></script> 
+		<xsl:next-match />
 	</xsl:template>
 	
-	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
-		<xsl:apply-templates select="view[data/person/related/location/geo:point]" mode="#current" />
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>HTML Head: person (entity)-specific scripts that need to go in the foot of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts" priority="500">
 		<script src="{$normalised-path-to-js}init.js"><xsl:comment>origin: person</xsl:comment></script>
+		<xsl:next-match />
 	</xsl:template>
 
 

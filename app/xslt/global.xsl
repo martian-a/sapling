@@ -6,10 +6,9 @@
 	exclude-result-prefixes="#all" 
 	version="2.0">
 
-	<xsl:import href="functions.xsl"/>
+	<xsl:import href="functions.xsl"/>	
 	<xsl:import href="defaults.xsl"/>
-	<xsl:import href="view.xsl"/>
-	
+		
 	<xsl:param name="path-to-js" select="'../../js/'" as="xs:string"/>
 	<xsl:param name="path-to-css" select="'../../css/'" as="xs:string"/>
 	<xsl:param name="path-to-view-xml" select="'../xml'" as="xs:string"/>
@@ -39,6 +38,7 @@
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>
 	<xsl:variable name="index" select="if (xs:boolean($static)) then 'index' else ''" as="xs:string?"/>
 	
+	<xsl:include href="view.xsl"/>
 
 	<doc:doc>
 		<doc:title>HTML page basics.</doc:title>
@@ -58,9 +58,8 @@
 				<meta name="apple-mobile-web-app-title" content="Blue Gum Tree"/>
 				<meta name="application-name" content="Blue Gum Tree"/>
 				<meta name="msapplication-TileColor" content="#000033"/>
-				<meta name="theme-color" content="#000033"/>
+				<meta name="theme-color" content="#000033"/>				
 				<xsl:apply-templates mode="html.header.style"/>
-				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
 				<xsl:apply-templates mode="html.header.scripts"/>
 				<xsl:if test="$static = 'true'">
 					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-342055-1"><xsl:comment> Google Analytics </xsl:comment></script>
@@ -93,6 +92,13 @@
 			</xsl:if>
 		</title>		
 		<xsl:next-match/>
+	</xsl:template>
+	
+	
+	<xsl:template match="/app" mode="html.header.style" priority="2000">		
+		<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
+		<link type="text/css" href="{$normalised-path-to-css}project.css" rel="stylesheet"/>
+		<xsl:next-match />
 	</xsl:template>
 
 

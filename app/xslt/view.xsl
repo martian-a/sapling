@@ -3,6 +3,7 @@
 	<xsl:variable name="ldquo" select="codepoints-to-string(8220)" as="xs:string" />
 	<xsl:variable name="rdquo" select="codepoints-to-string(8221)" as="xs:string" />
 
+
 	<xsl:include href="entities/location.xsl"/>
 	<xsl:include href="entities/person.xsl"/>
 	<xsl:include href="entities/name.xsl"/>
@@ -13,33 +14,6 @@
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>
 	<xsl:include href="custom/map.xsl" />
-
-
-
-	<doc:doc>
-		<doc:title>HTML header: style.</doc:title>
-		<doc:desc>Style rules that apply to more than one view.</doc:desc>
-	</doc:doc>
-	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.style" priority="50">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-			integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-			crossorigin=""/>
-		<xsl:next-match />
-	</xsl:template>
-	
-	
-	<doc:doc>
-		<doc:title>HTML header: scripts.</doc:title>
-		<doc:desc>Javascript rules that apply to more than one view.</doc:desc>
-	</doc:doc>
-	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.scripts" priority="50">
-		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
-		<!-- Make sure you put this AFTER Leaflet's CSS -->
-		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-			integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-			crossorigin=""><xsl:comment>Leaflet (maps)</xsl:comment></script>
-		<xsl:next-match />
-	</xsl:template>
 	
 
 	<xsl:template match="/app/view" mode="html.body.title" priority="100">

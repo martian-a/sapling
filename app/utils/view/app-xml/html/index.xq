@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "/db/apps/sapling/modules/data.xq";
+import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../../../modules/data.xq";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";

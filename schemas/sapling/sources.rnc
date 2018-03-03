@@ -2,57 +2,51 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
 include "shared.rnc" {
 
-	paragraph |= element p {
-		paragraph.attlist,
-		source.inline.content-model
-	}
-
-	entity-ref.content-model |=
-		text
-		
+    shared.body.content-model =
+        (
+             (
+                shared.body-matter.heading,
+                shared.body-matter.subheading?
+             )? &
+             (
+                shared.body-matter.content-model* &
+                shared.body-matter.section* & 
+                shared.body-matter.table* &
+                shared.body-matter.quote-block*
+         	)
+    	)*
+    	
+    shared.entity-ref =
+       	shared.entity-ref.person | 
+       	shared.entity-ref.event | 
+       	shared.entity-ref.location | 
+       	shared.entity-ref.organisation |
+       	shared.entity-ref.source |
+        source.entity-ref.note
+        
+    shared.body.attlist =
+        xml.attlist,
+        attribute length { 
+            "micro" |
+            "short" |
+            "medium" |
+            "long"
+        }
 }
 
-include "serials.rnc"
+start |= (
+    source.collection |
+    source.serial.collection |
+    source.entity 
+)
 
-
-# Root Element #
-start |= sources
 
 
 # Elements #
-
-link =
-    source.date,
-    link-ref
-
-sources = element sources { 
-	sources.attlist, 
-	sources.content-model
-}
 	
-source = element source { 
-	source.attlist, 
-	source.content-model
-}
-
-source.acknowledgements = element acknowledgements {
-	source.acknowledgements.attlist,
-	source.acknowledgements.content-model
-}
-
-source.author = element author {
-	source.author.attlist,
-	source.contributor.content-model
-}
-
-source.bibliography = element bibliography {
-	source.bibliography.attlist,
-	source.bibliography.content-model
-}
-
-source.body = element body {
-	source.body.attlist,
-	source.body.content-model
+source.collection = element sources { 
+	source.collection.attlist, 
+	source.collection.content-model
 }
 
 source.body-matter = element body-matter {
@@ -60,14 +54,19 @@ source.body-matter = element body-matter {
 	source.body-matter.content-model
 }
 
-source.chapter = element chapter {
-	source.chapter.attlist,
-	source.chapter.content-model
+source.body-matter.chapter = element chapter {
+	source.body-matter.chapter.attlist,
+	source.body-matter.chapter.content-model
 }
 
-source.citation = element citation {
-	source.citation.attlist,
-	source.citation.content-model
+source.body-matter.extract = element extract {
+	source.body-matter.extract.attlist,
+	source.body-matter.extract.content-model
+}
+
+source.body-matter.extract.summary = element summary {
+    shared.summary.attlist,
+    shared.summary.content-model
 }
 
 source.end-matter = element end-matter {
@@ -75,9 +74,44 @@ source.end-matter = element end-matter {
 	source.end-matter.content-model
 }
 
-source.extract = element extract {
-	source.extract.attlist,
-	source.extract.content-model
+source.end-matter.bibliography = element bibliography {
+	source.end-matter.bibliography.attlist,
+	source.end-matter.bibliography.content-model
+}
+
+source.end-matter.citation = element citation {
+	source.end-matter.citation.attlist,
+	source.end-matter.citation.content-model
+}
+
+source.end-matter.note = element note {
+	source.end-matter.note.attlist,
+	source.end-matter.note.content-model
+}
+
+source.end-matter.note.label = element label {
+	source.end-matter.note.label.attlist,
+	source.end-matter.note.label.content-model
+}
+
+source.end-matter.notes = element notes {
+	source.end-matter.notes.attlist,
+	source.end-matter.notes.content-model
+}
+
+source.entity = element source { 
+	source.entity.attlist, 
+	source.entity.content-model
+}
+
+source.entity-ref.note = element note { 
+	source.entity-ref.note.attlist,
+	source.entity-ref.note.content-model
+}
+
+source.entity-ref.serial = element serial {
+	source.entity-ref.serial.attlist,
+	source.entity-ref.serial.content-model
 }
 
 source.front-matter = element front-matter {
@@ -85,14 +119,47 @@ source.front-matter = element front-matter {
 	source.front-matter.content-model
 }
 
-source.front-matter.journal = element journal {
-	source.front-matter.journal.attlist,
-	source.front-matter.journal.content-model
+source.front-matter.acknowledgements = element acknowledgements {
+	source.front-matter.acknowledgements.attlist,
+	source.front-matter.acknowledgements.content-model
 }
 
-source.front-matter.map = element map {
-	source.front-matter.map.attlist,
-	source.front-matter.map.content-model
+source.front-matter.contributor =
+    source.front-matter.contributor.author |
+    source.front-matter.contributor.editor
+
+source.front-matter.contributor.author = element author {
+	source.front-matter.contributor.attlist,
+	source.front-matter.contributor.content-model
+}
+
+source.front-matter.contributor.editor = element editor {
+	source.front-matter.contributor.attlist,
+	source.front-matter.contributor.content-model
+}
+
+source.front-matter.contributor.organisation = element organisation {
+    xml.attlist,
+    source.front-matter.contributor.organisation.content-model
+}
+
+source.front-matter.date = element date {
+	source.front-matter.date.attlist,
+	source.front-matter.date.content-model
+}
+
+source.front-matter.isbn = element isbn {
+	text*
+}
+
+source.front-matter.link = element link {
+    source.front-matter.link.attlist,
+    source.front-matter.link.content-model
+}   
+
+source.front-matter.map.scale = element scale {
+	source.front-matter.map.scale.attlist,
+	source.front-matter.map.scale.content-model
 }
 
 source.front-matter.map.sheet = element sheet {
@@ -100,233 +167,500 @@ source.front-matter.map.sheet = element sheet {
 	source.front-matter.map.sheet.content-model
 }
 
-source.date |= element date {
-	source.date.attlist,
-	source.date.content-model
+source.front-matter.serial.issue = element issue {
+    source.front-matter.serial.issue.attlist,
+    source.front-matter.serial.issue.content-model
 }
 
-source.inline.bold = element bold {
-	source.inline.bold.attlist,
-	source.inline.content-model
+source.front-matter.serial.issn = element issn {
+    source.front-matter.serial.issn.attlist, 
+    source.front-matter.serial.issn.content-model
+} 
+
+source.front-matter.non-serial.map = element map {
+	source.front-matter.non-serial.map.attlist,
+	source.front-matter.non-serial.map.content-model
 }
 
-source.inline.italic = element italic {
-	source.inline.italic.attlist,
-	source.inline.content-model
+source.front-matter.pages = element pages {
+	source.front-matter.pages.attlist,
+	source.front-matter.pages.content-model
 }
 
-source.inline.underline = element underline {
-	source.inline.underline.attlist,
-	source.inline.content-model
+source.front-matter.publisher = element publisher {
+	source.front-matter.publisher.attlist,
+	source.front-matter.publisher.content-model
 }
 
-source.isbn = element isbn {
+source.front-matter.publisher.location = element location {
 	text*
 }
 
-source.location = element location {
-	text*
+# Dereferenced serial element #
+source.front-matter.serial = element serial {
+	source.front-matter.serial.attlist,
+	source.front-matter.serial.content-model
 }
 
-source.note = element note {
-	source.note.attlist,
-	source.note.content-model
+source.front-matter.serial.part = element part {
+    source.front-matter.serial.part.attlist,
+    source.front-matter.serial.part.content-model
 }
 
-source.note.label = element label {
-	source.note.label.attlist,
-	source.note.label.content-model
+source.front-matter.series = element series {
+	source.front-matter.series.attlist,
+	source.front-matter.series.content-model
 }
 
-source.notes = element notes {
-	source.notes.attlist,
-	source.notes.content-model
+source.front-matter.series.title = element title {
+	source.front-matter.series.title.attlist,
+	source.front-matter.series.title.content-model
 }
 
-source.summary = summary
+source.front-matter.subtitle = element subtitle {
+    source.front-matter.title.attlist,
+    source.front-matter.title.content-model
+}
 
-source.content-model =
+source.front-matter.title = element title {
+    source.front-matter.title.attlist,
+    source.front-matter.title.content-model
+}
+
+source.front-matter.serial.volume = element volume {
+	source.front-matter.serial.volume.attlist,
+	source.front-matter.serial.volume.content-model
+}
+
+source.reference = element reference {
+    source.reference.attlist,
+    source.reference.content-model
+}
+
+source.reference.contributors = element contributors {
+    source.reference.contributors.attlist,
+    source.reference.contributors.content-model
+}
+
+source.reference.title = element title {
+    source.reference.title.content-model
+}
+
+source.reference.titles = element titles {
+    source.reference.titles.attlist,
+    source.reference.titles.content-model
+}
+
+source.serial.collection = element serials {
+    source.serial.collection.attlist, 
+	source.serial.collection.content-model
+}
+
+source.serial.entity = element serial { 
+	source.serial.entity.attlist, 
+	source.serial.entity.content-model
+}
+
+
+
+# Content Model #
+
+source.front-matter.acknowledgements.content-model =
+	shared.body-matter.paragraph*
+
+source.end-matter.bibliography.content-model =
+	source.end-matter.citation+	
+
+
+source.body-matter.content-model =
+	shared.body |
+	source.body-matter.chapter* |
+	source.body-matter.extract* 
+        
+source.body-matter.section.content-model =
+	shared.body.content-model  
+
+source.body-matter.chapter.content-model =
+	shared.body-matter.heading,
+    shared.body-matter.subheading?,
+	shared.body,
+	source.end-matter.notes?
+	
+source.collection.content-model =
+	source.entity*
+
+source.body-matter.extract.content-model =
+	source.front-matter.pages?,
+	source.front-matter.link?,
+	(
+	   shared.body |
+	   source.body-matter.extract.summary
+	)
+
+source.end-matter.citation.content-model =
+	 mixed { 
+	   (
+	       shared.body-matter.bold |
+	       shared.body-matter.italic
+	   )*
+	}
+
+source.end-matter.content-model =
+	source.end-matter.notes?,
+	source.end-matter.bibliography?
+
+source.end-matter.note.content-model =
+	source.end-matter.note.label,
+	shared.body-matter.paragraph*
+		
+source.end-matter.note.label.content-model =
+	text
+	
+source.end-matter.notes.content-model =
+	source.end-matter.note*
+
+source.entity.content-model =
+    source.reference*,
 	source.front-matter,
 	source.body-matter?,
 	source.end-matter?
 
-source.acknowledgements.content-model =
-	paragraph*
-
-source.body.content-model =
-	body-matter.content-model
-
-source.chapter.content-model =
-	body-matter.heading,
-	body-matter.subheading*,
-	source.body,
-	source.notes?
+source.entity-ref =
+    shared.entity-ref.content-model |
+	source.entity-ref.serial |
+	source.entity-ref.note    
 	
-source.citation.content-model =
-	 mixed { 
-	   (
-	       bold |
-	       italic
-	   )*
-	}
 
-source.bibliography.content-model =
-	source.citation+	
+source.entity-ref.note.content-model =
+    empty
+    
+source.entity-ref.serial.content-model =
+    source.front-matter.serial.part.content-model
 
-source.body-matter.content-model =
-	source.body |
-	source.chapter* |
-	source.extract* 
+source.front-matter.titles.content-model =
+    source.front-matter.title*,
+	source.front-matter.subtitle?
 	
-source.contributor.content-model =
-	person.name.full
-	
-source.date.content-model =
-	text?
-	
-source.end-matter.content-model =
-	source.notes?,
-	source.bibliography?
 
-source.extract.content-model =
-	pages?,
-	link?,
+source.front-matter.content-model =
+    source.front-matter.titles.content-model,
+	source.front-matter.series?,
+	source.front-matter.contributors.content-model,
 	(
-	   source.body |
-	   summary
+	   source.front-matter.non-serial.map |
+	   (
+	       source.front-matter.publication.content-model?,
+            (	
+	           source.front-matter.serial |
+                source.entity-ref.serial
+              
+            )?
+        )?
+    ),
+    source.front-matter.isbn?,
+	source.front-matter.link?,
+	source.front-matter.acknowledgements*
+	
+source.front-matter.contributor.content-model =
+	(
+	   shared.person.name.full |
+	   source.front-matter.contributor.organisation
 	)
 	
-source.front-matter.content-model =
-	title*,
-	subtitle?,
-	series-group.content-model,
-	source.author*,
-	(
-		source.front-matter.generic.content-model |
-		journal-ref
-	),
-	link?,
-	source.acknowledgements*
-	
-source.front-matter.generic.content-model =
-	publisher? &
-	source.location? &
-	source.isbn? &
-	source.date*
-	
-source.front-matter.journal.content-model =
-	source.front-matter.generic.content-model
-	
+source.front-matter.contributors.content-model =
+    source.front-matter.contributor*
 
-source.front-matter.map.content-model =
-	source.front-matter.map.sheet?,
-	source.date?
+source.front-matter.contributor.organisation.content-model =
+    shared.name
+
+source.front-matter.date.content-model =
+	text?
+
+source.front-matter.publication.content-model =
+	source.front-matter.publisher? &
+	source.front-matter.publisher.location? &
+	source.front-matter.date*
+	
+source.front-matter.non-serial.map.content-model =
+    source.front-matter.publication.content-model, 
+    source.front-matter.serial.part.map.content-model
+	
+source.front-matter.map.scale.content-model =
+	text*		
 	
 source.front-matter.map.sheet.content-model =
-	text*
-
-source.inline.content-model =
-	mixed { 
-		entity-ref* &
-		source.inline.italic* &
-		source.inline.bold* &
-		source.inline.underline*
-	}
-	
-source.notes.content-model =
-	source.note*
-	
-source.note.content-model =
-	source.note.label,
-	paragraph*
+	text*	
 		
-source.note.label.content-model =
+source.front-matter.serial.issue.content-model =
+	text
+	
+source.front-matter.link.content-model =
+    source.front-matter.date?
+
+source.front-matter.pages.content-model =
 	text
 
-source.summary.content-model =
-    source.inline.content-model    
+source.front-matter.publisher.content-model =
+	text
 
-sources.content-model =
-	source*
+    
+source.front-matter.serial.issn.content-model =
+    text
+	
+source.front-matter.serial.part.content-model =
+    (
+        source.front-matter.serial.part.journal.content-model |
+        source.front-matter.serial.part.map.content-model |
+        source.front-matter.serial.part.newspaper.content-model
+    )
 
+source.front-matter.serial.part.journal.content-model =
+    source.front-matter.serial.volume? &
+    source.front-matter.serial.issue? &
+    source.front-matter.date* &
+    source.front-matter.pages?
+
+source.front-matter.serial.part.map.content-model =
+    source.front-matter.map.sheet? &
+	source.front-matter.map.scale? &
+	source.front-matter.date*
+	
+source.front-matter.serial.part.newspaper.content-model =
+    source.front-matter.date? &
+    source.front-matter.pages?	 
+
+source.front-matter.series.title.content-model =
+	text
+	
+source.front-matter.series.content-model =
+	source.front-matter.series.title?,
+	source.front-matter.serial.volume?
+
+source.front-matter.title.content-model =
+    text*
+
+source.front-matter.serial.volume.content-model =
+	text
+
+source.reference.content-model =
+    source.reference.contributors?,
+    source.reference.titles,
+    element series {
+        source.reference.title?,
+        source.front-matter.serial.volume?
+    }?,
+     element map {
+        source.front-matter.map.scale?,
+        source.reference.title?,
+        source.front-matter.map.sheet?
+    }?,
+    element publication {
+         (
+            source.reference.title # Journal, Newspaper
+            | (
+                source.front-matter.publisher.location?,
+                source.front-matter.publisher?
+            )
+         )?,
+         (
+             element issue {
+                source.front-matter.serial.volume?,
+                source.front-matter.serial.issue?,
+                source.front-matter.date? # Journal, Newspaper
+             }? |
+             source.front-matter.date? # Map
+         )?,
+         source.front-matter.pages?
+    }?
+    
+
+    
+source.reference.contributors.content-model =
+    source.front-matter.contributor*
+
+source.reference.title.content-model =
+        element small {
+            text
+        }? &
+        source.front-matter.title.content-model 
+
+source.reference.titles.content-model =
+    source.reference.title?,
+    source.front-matter.title?,
+    source.front-matter.subtitle?
+    
+
+source.serial.collection.content-model =
+    source.serial.entity*
+
+# Serial entity definition (part not defined here). #
+source.serial.entity.content-model =
+        source.front-matter.contributor*,
+        source.front-matter.title*,
+        source.front-matter.publisher?,
+        source.front-matter.publisher.location?,
+        source.front-matter.map.scale?,
+        source.front-matter.serial.issn?
+
+# Dereferenced serial element content #
+source.front-matter.serial.content-model =
+    source.serial.entity.content-model,
+    source.front-matter.serial.part
 
 
 # Attributes #
 
-source.attlist =
-	xml.attlist,
-    attribute id { xsd:ID }
+source.collection.attlist = 
+	xml.attlist	
 
-source.acknowledgements.attlist =
-	xml.attlist
-
-source.author.attlist =
-	entity-ref.attlist?
-
-source.bibliography.attlist =
-	xml.attlist
-	
-source.body.attlist =
+source.body-matter.body.attlist =
 	xml.attlist
 
 source.body-matter.attlist =
 	xml.attlist
 
-source.chapter.attlist =
+source.body-matter.chapter.attlist =
 	xml.attlist,
 	attribute sequence { xsd:integer }?,
     attribute publish { xsd:boolean }?
-    
-source.citation.attlist =
-	xml.attlist
 
-source.date.attlist =
-	date.attlist,
-	attribute rel { 
-		"published" | 
-		"revised" | 
-		"retrieved" 
-	}
-	
-	
-source.end-matter.attlist =
-	xml.attlist
-
-source.extract.attlist =
+source.body-matter.extract.attlist =
 	xml.attlist,
 	attribute id { xsd:string }?
 
-source.front-matter.attlist =
-	xml.attlist
-
-source.front-matter.journal.attlist =
-    serial.attlist
-	
-source.front-matter.map.attlist =
+source.body-matter.heading.attlist =
 	xml.attlist
 	
-source.front-matter.map.sheet.attlist =
+source.body-matter.section.attlist =
+	xml.attlist
+
+source.end-matter.attlist =
+	xml.attlist
+
+source.end-matter.bibliography.attlist =
 	xml.attlist
 	
-source.inline.bold.attlist =
+source.end-matter.citation.attlist =
 	xml.attlist
 
-source.inline.italic.attlist =
-	xml.attlist
-
-source.inline.underline.attlist =
-	xml.attlist
-
-source.note.attlist =
+source.end-matter.note.attlist =
 	xml.attlist,
     attribute id { xsd:ID }
 
-source.note.label.attlist =
+source.end-matter.note.label.attlist =
 	xml.attlist
 
-source.notes.attlist =
+source.end-matter.notes.attlist =
 	xml.attlist
+	
+source.entity.attlist =
+	xml.attlist,
+    attribute id { xsd:ID }
+
+source.entity-ref.note.attlist =
+    shared.entity-ref.attlist
+
+source.entity-ref.serial.attlist =
+    shared.entity-ref.attlist
+    
+source.front-matter.attlist =
+	xml.attlist
+
+source.front-matter.acknowledgements.attlist =
+	xml.attlist
+
+source.front-matter.contributor.attlist =
+	shared.entity-ref.attlist?
+
+source.front-matter.date.attlist =
+	shared.date.attlist,
+	attribute rel { 
+		"published" | 
+		"revised" | 
+		"retrieved" |
+		"survey" |
+		"issue"
+	}
+	
+source.front-matter.link.attlist =
+    shared.link.attlist
+
+source.front-matter.non-serial.map.attlist =
+    xml.attlist
+
+source.front-matter.map.scale.attlist =
+    xml.attlist,
+    attribute ratio { xsd:string }
+    
+source.front-matter.map.sheet.attlist =
+	xml.attlist
+
+source.front-matter.pages.attlist =
+	xml.attlist,
+	attribute start { xsd:integer },
+	attribute end { xsd:integer }
 		
-sources.attlist = 
-	xml.attlist	
+source.front-matter.publisher.attlist =
+	xml.attlist
 
+source.front-matter.serial.volume.attlist =
+	xml.attlist,
+	attribute number { xsd:decimal }?
+
+source.front-matter.serial.attlist =
+    xml.attlist,
+    attribute type {
+        "journal" |
+        "magazine" |
+        "newspaper" |
+        "map"
+    }?
+    
+source.front-matter.serial.issue.attlist =
+    xml.attlist
+
+source.front-matter.serial.issn.attlist =
+    xml.attlist
+
+source.front-matter.serial.part.attlist =
+    xml.attlist
+	
+source.front-matter.series.attlist =
+	xml.attlist
+	
+source.front-matter.series.title.attlist =
+	xml.attlist
+	
+source.front-matter.title.attlist =
+	xml.attlist,
+	attribute status { "inferred" }?
+	
+source.reference.attlist =
+    xml.attlist,
+    attribute type {
+        "bibliographic"
+    },
+    attribute style {
+        "book" |
+        "journal" |
+        "newspaper" |
+        "map"
+    }
+    
+source.reference.contributors.attlist =
+    xml.attlist
+	
+source.reference.titles.attlist =
+    xml.attlist
+
+source.reference.publication.attlist =
+    xml.attlist
+
+
+
+source.serial.entity.attlist =
+    source.front-matter.serial.attlist,
+    attribute id { xsd:ID }?
+	
+source.serial.collection.attlist =
+    xml.attlist

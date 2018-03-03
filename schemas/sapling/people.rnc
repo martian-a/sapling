@@ -4,66 +4,65 @@ include "shared.rnc"
 
 
 # Root Element #
-start |= people
+start |= person.collection
 
 # Elements #
 
-people = element people {
-	people.attlist, 
-	people.content-model
+person.collection = element people {
+	person.collection.attlist, 
+	person.collection.content-model
 }
 	
-person = element person { 
-	person.attlist,
-	person.content-model
+person.entity = element person { 
+	person.entity.attlist,
+	person.entity.content-model
 }
 
-persona = element persona {
-	persona.attlist,
-	persona.content-model
+person.gender = element gender {
+	person.gender.attlist,
+	person.gender.content-model
 }
 
-
-gender = element gender {
-	gender.attlist,
-	gender.content-model
+person.persona = element persona {
+	person.persona.attlist,
+	person.persona.content-model
 }
 
 
 
 # Content Models #
 
-people.content-model =
-	person*
+person.collection.content-model =
+	person.entity*
 
-person.content-model =
-	persona*,
-	note?,
-	bibliography?
+person.entity.content-model =
+	person.persona*,
+	shared.note?,
+	shared.bibliography?
 
-persona.content-model =
-	person.name.full?,
-	gender?
+person.persona.content-model =
+	shared.person.name.full?,
+	person.gender?
 	
 
 	
-gender.content-model =
+person.gender.content-model =
 	text
 	
 # Attributes #
 
-people.attlist = 
+person.collection.attlist = 
 	xml.attlist
 	
-person.attlist =
+person.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
     attribute year { xsd:gYear },
     attribute publish { xsd:boolean }?
 
-persona.attlist =
+person.persona.attlist =
 	xml.attlist
 	
-gender.attlist =
+person.gender.attlist =
 	xml.attlist
 

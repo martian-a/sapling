@@ -6,24 +6,351 @@
 
 	<x:scenario label="References">
 		
+		<x:scenario label="Book">
+			
+			<x:scenario label="Single author.">
+				
+				<x:context>
+					<data>
+						<sources>
+							<source id="SOU64">
+								<front-matter>
+									<title>Remnant Population</title>
+									<author>
+										<name>
+											<name>Elizabeth</name>
+											<name family="yes">Moon</name>
+										</name>
+									</author>
+									<publisher>Baen Books</publisher>
+									<location>New York</location>
+									<date rel="published" year="1996" />
+								</front-matter>				
+							</source>
+						</sources>
+					</data>
+				</x:context>			
+				
+				<!-- check the result -->
+				<x:expect label="Map reference (serial)" test="data/sources/source/reference">
+					<reference type="bibliographic" style="book">
+						<contributors>
+							<author>
+								<name>
+									<name family="yes">Moon</name>
+									<name>Elizabeth</name>								
+								</name>
+							</author>
+						</contributors>
+						<titles>
+							<title>Remnant Population</title>
+						</titles>
+						<publication>
+							<location>New York</location>
+							<publisher>Baen Books</publisher>
+							<date rel="published" year="1996" />	
+						</publication>						
+					</reference>
+				</x:expect>
+				
+			</x:scenario>
+
+			<x:scenario label="Two authors, part of a series.">
+				
+				<x:context>
+					<data>
+						<sources>
+							<source id="SOU64">
+								<front-matter>
+									<title>Sassinak</title>
+									<series>
+										<title>Planet Pirates</title>	
+										<volume number="1" />																						
+									</series>									
+									<author>
+										<name>
+											<name>Anne</name>
+											<name family="yes">McCaffrey</name>
+										</name>
+									</author>
+									<author>
+										<name>
+											<name>Elizabeth</name>
+											<name family="yes">Moon</name>
+										</name>
+									</author>
+									<date rel="published" month="3" year="1990" />
+									<publisher>Baen Books</publisher>
+									<location>New York</location>
+								</front-matter>				
+							</source>
+						</sources>
+					</data>
+				</x:context>			
+				
+				<!-- check the result -->
+				<x:expect label="Map reference (serial)" test="data/sources/source/reference">
+					<reference type="bibliographic" style="book">
+						<contributors>
+							<author>
+								<name>
+									<name family="yes">McCaffrey</name>
+									<name>Anne</name>
+								</name>
+							</author>
+							<author>
+								<name>
+									<name>Elizabeth</name>		
+									<name family="yes">Moon</name>						
+								</name>
+							</author>
+						</contributors>
+						<titles>
+							<title>Sassinak</title>
+						</titles>
+						<series>
+							<title>Planet Pirates</title>
+							<volume number="1" />
+						</series>
+						<publication>
+							<location>New York</location>
+							<publisher>Baen Books</publisher>
+							<date rel="published" year="1990" />
+						</publication>												
+					</reference>
+				</x:expect>
+				
+			</x:scenario>
+			
+			<x:scenario label="Three authors, part of a nameless series, small word in title.">
+				
+				<x:context>
+					<data>
+						<sources>
+							<source id="SOU64">
+								<front-matter>
+									<title>The Planet Pirates</title>
+									<series>
+										<volume>1-3</volume>	
+									</series>									
+									<author>
+										<name>
+											<name>Anne</name>
+											<name family="yes">McCaffrey</name>
+										</name>
+									</author>
+									<author>
+										<name>
+											<name>Elizabeth</name>
+											<name family="yes">Moon</name>
+										</name>
+									</author>
+									<author>
+										<name>
+											<name>Jody</name>
+											<name>Lynn</name>
+											<name family="yes">Nye</name>
+										</name>
+									</author>
+									<date rel="published" day="1" month="12" year="2000" />
+								</front-matter>				
+							</source>
+						</sources>
+					</data>
+				</x:context>			
+				
+				<!-- check the result -->
+				<x:expect label="Map reference (serial)" test="data/sources/source/reference">
+					<reference type="bibliographic" style="book">
+						<contributors>
+							<author>
+								<name>
+									<name family="yes">McCaffrey</name>
+									<name>Anne</name>
+								</name>
+							</author>
+							<author>
+								<name>
+									<name>Elizabeth</name>		
+									<name family="yes">Moon</name>						
+								</name>
+							</author>
+							<author>
+								<name>
+									<name>Jody</name>
+									<name>Lynn</name>
+									<name family="yes">Nye</name>
+								</name>
+							</author>
+						</contributors>
+						<titles>
+							<title><small>The</small> Planet Pirates</title>
+						</titles>
+						<series>
+							<volume>1-3</volume>
+						</series>
+						<publication>
+							<publisher>n.p.</publisher>
+							<date rel="published" year="2000" />
+						</publication>												
+					</reference>
+				</x:expect>
+				
+			</x:scenario>
+			
+			<x:scenario label="More than five authors, no publication location.">
+				
+				<x:context>
+					<data>
+						<sources>
+							<source id="SOU64">
+								<front-matter>
+									<title>Dark Beyond the Stars</title>
+									<subtitle>A Space Opera Anthology</subtitle>
+									<editor>
+										<name>
+											<name>David</name>
+											<name family="yes">Gatewood</name>
+										</name>
+									</editor>									
+									<contributor>
+										<name>
+											<name>Julie</name>
+											<name>E.</name>
+											<name family="yes">Czernea</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Blair</name>
+											<name>C.</name>
+											<name family="yes">Babylon</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Annie</name>
+											<name family="yes">Bellet</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Elle</name>
+											<name family="yes">Casey</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Ann</name>
+											<name family="yes">Christy</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Patrice</name>
+											<name family="yes">Fitzgerald</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Autumn</name>
+											<name family="yes">Kalquist</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Theresa</name>
+											<name family="yes">Kay</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Susan</name>
+											<name>Kaye</name>
+											<name family="yes">Quinn</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>Rysa</name>
+											<name family="yes">Walker</name>
+										</name>
+									</contributor>  
+									<contributor>
+										<name>
+											<name>Jennifer</name>
+											<name>Foehner</name>
+											<name family="yes">Wells</name>
+										</name>
+									</contributor>
+									<contributor>
+										<name>
+											<name>S.</name>
+											<name>M.</name>
+											<name family="yes">Reine</name>
+										</name>
+									</contributor>
+									<publisher>Createspace Independent Publishing Platform</publisher>
+									<date rel="published" day="4" month="8" year="2015" />
+									<isbn>1515308383</isbn>
+								</front-matter>				
+							</source>
+						</sources>
+					</data>
+				</x:context>			
+				
+				<!-- check the result -->
+				<x:expect label="Map reference (serial)" test="data/sources/source/reference">
+					<reference type="bibliographic" style="book">
+						<contributors>
+							<editor et-al="true">
+								<name>
+									<name family="yes">Gatewood</name>
+									<name>David</name>
+								</name>
+							</editor>							
+						</contributors>
+						<titles>
+							<title>Dark Beyond the Stars</title>
+							<subtitle>A Space Opera Anthology</subtitle>							
+						</titles>
+						<publication>
+							<publisher>Createspace Independent Publishing Platform</publisher>
+							<date rel="published" year="2015" />
+						</publication>												
+					</reference>
+				</x:expect>
+				
+			</x:scenario>
+						
+		</x:scenario>
+		
+		
 		<x:scenario label="Map (serial)">
 			
 			<x:context>
 				<data>
 					<sources>
-						<source id="SOU11">
+						<source id="SOU1">
 							<front-matter>
-								<title>Morayshire</title>
-								<serial>								
-									<title>Name Books, 1868-1871</title>
-									<author>Ordnance Survey</author>
-									<part>									
-										<volume number="9"/>
-										<date rel="published" year="1871">1871</date>									
+								<title>London</title>
+								<serial type="map">
+									<author>
+										<name>
+											<name>Ordnance Survey</name>
+										</name>
+									</author>									
+									<title>Town Plans, 1893-1896</title>
+									<publisher>Ordnance Survey</publisher>
+									<location>Southampton</location>
+									<scale ratio="1:1056">Five-feet</scale>
+									<part>
+										<sheet>VII.55</sheet>
+										<date rel="published" year="1896">1896</date>
 									</part>
 								</serial>
-								<link href="https://scotlandsplaces.gov.uk/digital-volumes/ordnance-survey-name-books/morayshire-os-name-books-1868-1871/morayshire-volume-09/100" />
-							</front-matter>						
+								<link href="http://maps.nls.uk/view/101201562"/>
+							</front-matter>			
 						</source>
 					</sources>
 				</data>
@@ -31,14 +358,25 @@
 			
 			<!-- check the result -->
 			<x:expect label="Map reference (serial)" test="data/sources/source/reference">
-				<reference type="bibliographic" style="book">
+				<reference type="bibliographic" style="map">
+					<contributors>
+						<author>							
+							<name>
+								<name>Ordnance Survey</name>
+							</name>
+						</author>
+					</contributors>
 					<titles>
-						<title>Morayshire</title>
+						<title>London</title>
 					</titles>
-					<series>Morayshire Ordnance Survey Name Books,
-						1868-1871</series>
-					<publisher>Ordnance Survey</publisher>
-					<date rel="published" year="1871">1871</date>
+					<map>
+						<scale ratio="1:1056">Five-feet</scale>
+						<title>Town Plans, 1893-1896</title>
+						<sheet>VII.55</sheet>
+					</map>
+					<publication>					
+						<date rel="published" year="1871" />	
+					</publication>
 				</reference>
 			</x:expect>
 			

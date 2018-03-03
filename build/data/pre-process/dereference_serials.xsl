@@ -40,9 +40,11 @@
 		
 		<xsl:copy>
 			<xsl:apply-templates select="$definition/@*[name() != 'id'], $definition/node()" />
-			<part>
-				<xsl:apply-templates select="@*[name() != 'ref'], node()" />
-			</part>
+			<xsl:if test="*">
+				<part>
+					<xsl:apply-templates select="@*[name() != 'ref'], node()" />
+				</part>
+			</xsl:if>
 		</xsl:copy>
 	</xsl:template>
 	

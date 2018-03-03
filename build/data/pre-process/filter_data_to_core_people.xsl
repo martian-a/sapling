@@ -20,14 +20,14 @@
     </xsl:template>
     
     
-    <xsl:template match="/app/data/people">
+    <xsl:template match="/app/data[people]">
         
         <!-- Create a graph of nodes and edges from people and event data. -->
         <xsl:variable name="network-graph" as="document-node()">
           <xsl:document>
               <network>
-                  <xsl:apply-templates select="self::people" mode="filter" />
-                  <xsl:apply-templates select="parent::data/events" mode="filter" />
+                  <xsl:apply-templates select="people" mode="filter" />
+                  <xsl:apply-templates select="events" mode="filter" />
               </network>
           </xsl:document>
         </xsl:variable>
@@ -53,9 +53,41 @@
         
         <xsl:copy>
             <xsl:apply-templates select="@*" />
+            <include>
+                <xsl:apply-templates select="people" mode="include">
+                    <xsl:with-param name="largest-cluster" select="$largest-cluster" as="element()*" />
+                </xsl:apply-templates>
+            </include>
+            <exclude>
+                <xsl:apply-templates select="people" mode="to-temp">                
+                    <xsl:with-param name="largest-cluster" select="$largest-cluster" as="element()*" />
+                </xsl:apply-templates>
+                <xsl:apply-templates select="*[name() != 'people']" />
+            </exclude>
+        </xsl:copy>
+               
+   </xsl:template>
+    
+    
+    <xsl:template match="people" mode="include">
+        <xsl:param name="largest-cluster" as="element()*" />
+        
+        <xsl:copy>
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates select="person[@id = $largest-cluster/node/@ref]" />
         </xsl:copy>
         
+    </xsl:template>
+    
+    
+    <xsl:template match="people" mode="to-temp">
+        <xsl:param name="largest-cluster" as="element()*" />
+        
+        <xsl:copy>
+            <xsl:apply-templates select="@*" />
+            <xsl:apply-templates select="person[not(@id = $largest-cluster/node/@ref)]" />
+        </xsl:copy>
+       
     </xsl:template>
 
     

@@ -11,11 +11,9 @@
 		<link type="text/css" href="{$normalised-path-to-css}home.css" rel="stylesheet"/>
 	</xsl:template>
 	
-	<xsl:template match="/app/view/data/content" mode="html.header html.header.scripts html.header.style html.footer.scripts">
+	<!-- xsl:template match="/app/view/data/content" mode="html.header html.header.scripts html.header.style html.footer.scripts" / -->
 		
-	</xsl:template>
-
-	<xsl:template match="/app/view[data/content]" mode="view.title">
+	<xsl:template match="/app/view[data/content]" mode="view.title"> 
 		<xsl:value-of select="xs:string(title)"/>
 	</xsl:template>
 	

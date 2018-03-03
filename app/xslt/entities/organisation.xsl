@@ -3,7 +3,7 @@
 	<xsl:key name="organisation" match="related/organisation | data/organisation | entities/organisation" use="@id" />
 	
 	
-	<xsl:template match="/app[view/data/entities/organisation] | /app[view/data/organisation]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
+	<!-- xsl:template match="/app[view/data/entities/organisation] | /app[view/data/organisation]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/ -->
 	
 	<xsl:template match="/app/view[data/entities/organisation]" mode="html.body">
 		<xsl:apply-templates select="data/entities[organisation]"/>
