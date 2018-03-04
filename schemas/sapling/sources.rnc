@@ -273,9 +273,12 @@ source.end-matter.bibliography.content-model =
 
 
 source.body-matter.content-model =
-	shared.body |
-	source.body-matter.chapter* |
-	source.body-matter.extract* 
+    source.body-matter.extract.summary? |
+	(
+	   shared.body |
+	   source.body-matter.chapter* |
+	   source.body-matter.extract*
+	)
         
 source.body-matter.section.content-model =
 	shared.body.content-model  
@@ -505,7 +508,7 @@ source.serial.entity.content-model =
 # Dereferenced serial element content #
 source.front-matter.serial.content-model =
     source.serial.entity.content-model,
-    source.front-matter.serial.part
+    source.front-matter.serial.part?
 
 
 # Attributes #

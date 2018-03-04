@@ -131,7 +131,10 @@ shared.entity-ref.person |= element person {
 
 shared.entity-ref.source |= element source {
 	shared.entity-ref.source.attlist,
-	shared.summary?
+	(
+	   shared.summary |
+	   text
+	)?
 }
 
 shared.link |= element link {
