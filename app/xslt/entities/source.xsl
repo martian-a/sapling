@@ -96,6 +96,24 @@
     
     
     <doc:doc>
+        <doc:desc>Filter related locations to only those that are either directly referenced from the source or from events related to the source.</doc:desc>
+        <doc:note>
+            <doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
+        </doc:note>
+    </doc:doc>
+    <xsl:template match="data/source/related" mode="locations" priority="100">
+        <xsl:variable name="directly-referenced-locations" select="location[@id = ancestor::source/descendant::body-matter/location/@ref]" as="element()*" />        
+        <xsl:variable name="locations-referenced-from-events" select="location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
+        
+        <xsl:if test="count(($directly-referenced-locations, $locations-referenced-from-events)) &gt; 0">
+            <xsl:next-match>
+                <xsl:with-param name="locations" select="$directly-referenced-locations, $locations-referenced-from-events" as="element()*" tunnel="yes" />
+            </xsl:next-match>
+        </xsl:if>
+    </xsl:template>
+    
+    
+    <doc:doc>
         <doc:desc>Source index by title.</doc:desc>
     </doc:doc>
     <xsl:template match="data/entities[source]">

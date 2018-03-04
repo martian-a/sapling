@@ -435,6 +435,9 @@ declare function data:get-related-events($entity as element()) as element()* {
 		case "organisation" return
 			for $event in data:get-entities("event")[descendant::organisation/@ref = $entity/@id]
 			return $event
+		case "source" return
+			for $event in data:get-entities("event")[descendant::source/@ref = $entity/@id]
+			return $event
 		case "content" return
 			for $ref in $entity/descendant::event/@ref/xs:string(.)
 			return data:get-entity($ref)
@@ -454,9 +457,13 @@ declare function data:get-related-people($entity as element(), $related-events a
 
 	let $entities := ($entity, $related-events)
 	let $references :=
-		let $direct-references := $entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.)
-		let $indirect-references := data:get-entities('person')/self::person[descendant::note/descendant::*/@ref = $entity/@id]/@id/xs:string(.)
-		return distinct-values(($direct-references, $indirect-references))
+		let $references-from-entities-to-people := $entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.)
+		let $references-to-entity-from-people := 
+    		  for $person in data:get-entities('person')/self::person
+    		  let $from-notes := $person[descendant::note/descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+    		  let $from-sources := $person[descendant::source/@ref = $entity/@id]/@id/xs:string(.)
+    		  return ($from-notes, $from-sources)
+		return distinct-values(($references-from-entities-to-people, $references-to-entity-from-people))
 	for $ref in $references
 	let $person := data:get-entity($ref)/self::person[@id != $entity/@id]
 	order by $person/number(substring-after(@id, 'PER')) ascending
@@ -516,9 +523,9 @@ declare function data:get-related-organisations($entity as element(), $related-e
 	   switch ($entity/name())
 	   case "location" return ($entity, $related-events, data:get-locations-within($entity))
 	   default return ($entity, $related-events)
-	let $references-to-organisations := $entities/descendant::organisation/@ref/xs:string(.)
-	let $references-from-organisations := data:get-entities('organisation')/self::organisation[descendant::*/@ref = $entities/@id]/@id/xs:string(.)
-	for $ref in distinct-values(($references-to-organisations, $references-from-organisations))
+	let $references-from-entities-to-organisations := $entities/descendant::organisation/@ref/xs:string(.)
+	let $references-to-entity-from-organisations := data:get-entities('organisation')/self::organisation[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+	for $ref in distinct-values(($references-from-entities-to-organisations, $references-to-entity-from-organisations))
 	let $organisation := data:get-entity($ref)/self::organisation[@id != $entity/@id]
 	order by $organisation/number(substring-after(@id, 'ORG')) ascending
 	return $organisation
