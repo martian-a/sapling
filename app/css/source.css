@@ -58,7 +58,7 @@
  * Source Profile: Body/Extract
  */
 
-/* Page Range */
+/* Page Range and Summary */
 .body-matter .extract div.pages,
 .body-matter .extract div.summary {
     margin-left: 1em;
@@ -78,13 +78,33 @@
     content: ": ";
 }
 
-/* End of Page Range */
+/* End of Page Range and Summary */
 
 .body-matter .extract .body,
-.body-matter .body {
+.body-matter > .body {
     background-color: beige;
     margin: 1em 0;
     padding: 1em;
+}
+
+.body-matter > .body .chapter {
+    margin-top: 2em;
+}
+
+.body-matter > .body .chapter:first-child {
+    margin-top: 0;
+}
+
+.body-matter > .body .chapter > h1 {
+    font-size: 2em;
+}
+.body-matter > .body .chapter > p.subheading {
+    margin-top: 0;
+    font-family: fellBold;
+}
+
+.body-matter .chapter > .body {
+    margin-top: 1em;
 }
 
 .body-matter .body p,
@@ -93,8 +113,8 @@
     margin-bottom: 1em;
 }
 
-.body-matter .body > p:first-child,
-.body-matter .body > ul:first-child > li:first-child {
+.body-matter .body p:first-child,
+.body-matter .body ul:first-child > li:first-child {
     margin-top: 0;
 }
 
@@ -153,7 +173,8 @@
 
 @media only screen and (min-width: 600px) {
 	
-	.source .entity .multi-column.long {
+	.source .entity .multi-column.long,
+	.source .entity .chapter .multi-column {
 		column-count: 2;	
 	}
 
@@ -167,7 +188,8 @@
 
 @media only screen and (min-width: 750px) {
 	
-	.source .entity .multi-column.medium {
+	.source .entity .multi-column.medium,
+	.source .entity .chapter .multi-column {
 		column-count: 2;	
 	}
 	
@@ -176,7 +198,8 @@
 @media only screen and (min-width: 1225px) {
 	
 	.source .entity .multi-column.long,
-	.source .entity .multi-column.medium {
+	.source .entity .multi-column.medium,
+	.source .entity .chapter .multi-column {
 		column-count: 3;	
 	}
 
@@ -184,7 +207,8 @@
 
 @media only screen and (min-width: 1750px) {
 	
-	.source .entity .multi-column.long {
+	.source .entity .multi-column.long,
+	.source .entity .chapter .multi-column {
 	    column-count: 4;
 	}
 

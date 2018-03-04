@@ -7,15 +7,29 @@
 	version="2.0">
 	
 	
-	<xsl:template match="source/body-matter[body or extract]" priority="50">
+	<xsl:template match="source/body-matter[extract or body or chapter]" priority="50">
 		<div class="body-matter">
 			<xsl:next-match />
 		</div>
 	</xsl:template>
 	
-	<xsl:template match="body[ancestor::body-matter/parent::source]">
-		<div class="body {if (*[not(self::table)]) then 'multi-column' else ''} {@length}">
+	<xsl:template match="body[ancestor::body-matter/parent::source] | source/body-matter[chapter]">
+		<div class="body {if (not(*[name() = ('table', 'chapter')])) then 'multi-column' else ''} {@length}">
 			<xsl:apply-templates mode="body" />
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="chapter" mode="body">
+		<div class="chapter">
+			<xsl:apply-templates mode="#current" />
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="chapter/body" mode="body">
+		<div class="body {if (not(*[name() = ('table')])) then 'multi-column' else ''}">
+			<xsl:apply-templates mode="#current" />
 		</div>
 	</xsl:template>
 	
@@ -42,6 +56,14 @@
 			<xsl:apply-templates select="attribute(), node()" mode="#current" />
 		</h1>
 	</xsl:template>
+	
+	
+	<xsl:template match="subheading" mode="body">
+		<p class="subheading">
+			<xsl:apply-templates select="attribute(), node()" mode="#current" />
+		</p>
+	</xsl:template>
+	
 	
 	<xsl:template match="quote" mode="body">
 		<blockquote class="quote"><xsl:apply-templates mode="#current" /></blockquote>

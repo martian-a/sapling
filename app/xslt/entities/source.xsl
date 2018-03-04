@@ -292,7 +292,17 @@
             <h2>Contributor(s)</h2>
             <ul>
                 <xsl:for-each select="descendant::*[name() = ('author', 'editor', 'contributor')]">
-                    <li><xsl:apply-templates select="name | organisation/name" mode="#current" /></li>
+                    <li>
+                        <xsl:apply-templates select="name | organisation/name" mode="#current" />
+                        <xsl:if test="name() != 'contributor'">
+                            <xsl:text> </xsl:text>
+                            <span class="role">
+                                <xsl:text>(</xsl:text>
+                                <xsl:value-of select="name()" />
+                                <xsl:text>)</xsl:text>
+                            </span>
+                        </xsl:if>
+                    </li>
                 </xsl:for-each>
             </ul>
         </div>
