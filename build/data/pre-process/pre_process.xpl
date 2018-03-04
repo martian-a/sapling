@@ -44,23 +44,20 @@
 		</p:input>
 	</p:xslt>
 	
-	
-	<p:validate-with-relax-ng assert-valid="false">
-		<p:input port="schema">
-			<p:data href="../../../../sapling/schemas/sapling/sapling.rnc" content-type="text/plain"/>
-		</p:input>
-	</p:validate-with-relax-ng>
-	
-	
 	<p:store encoding="UTF-8" byte-order-mark="false" indent="true">
 		<p:with-option name="href" select="$target" />
 	</p:store>
-
 	
-	<p:xslt> 
+	<p:validate-with-relax-ng assert-valid="true">
 		<p:input port="source">
 			<p:pipe port="result" step="dereference-serials" />
 		</p:input>
+		<p:input port="schema">
+			<p:data href="../../../../sapling/schemas/sapling/sapling.rnc" />
+		</p:input>
+	</p:validate-with-relax-ng>
+	
+	<p:xslt> 
 		<p:input port="stylesheet">
 			<p:document href="sort_entities.xsl" />
 		</p:input>
