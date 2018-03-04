@@ -22,7 +22,7 @@ include "shared.rnc" {
        	shared.entity-ref.location | 
        	shared.entity-ref.organisation |
        	shared.entity-ref.source |
-        source.entity-ref.note
+        shared.entity-ref.note
         
     shared.body.attlist =
         xml.attlist,
@@ -102,11 +102,6 @@ source.end-matter.notes = element notes {
 source.entity = element source { 
 	source.entity.attlist, 
 	source.entity.content-model
-}
-
-source.entity-ref.note = element note { 
-	source.entity-ref.note.attlist,
-	source.entity-ref.note.content-model
 }
 
 source.entity-ref.serial = element serial {
@@ -331,11 +326,7 @@ source.entity.content-model =
 source.entity-ref =
     shared.entity-ref.content-model |
 	source.entity-ref.serial |
-	source.entity-ref.note    
-	
-
-source.entity-ref.note.content-model =
-    empty
+	shared.entity-ref.note    
     
 source.entity-ref.serial.content-model =
     source.front-matter.serial.part.content-model
@@ -559,9 +550,6 @@ source.end-matter.notes.attlist =
 source.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID }
-
-source.entity-ref.note.attlist =
-    shared.entity-ref.attlist
 
 source.entity-ref.serial.attlist =
     shared.entity-ref.attlist

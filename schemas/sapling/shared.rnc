@@ -119,6 +119,12 @@ shared.entity-ref.location |= element location {
 	shared.entity-ref.content-model
 }
 
+shared.entity-ref.note |= element note { 
+	shared.entity-ref.note.attlist,
+	shared.entity-ref.note.content-model
+}
+
+
 shared.entity-ref.organisation |= element organisation {
 	shared.entity-ref.organisation.attlist,
 	shared.entity-ref.content-model
@@ -238,6 +244,9 @@ shared.body-matter.table.cell.content-model |=
 shared.entity-ref.content-model |=
     text*
 
+shared.entity-ref.note.content-model |=
+    empty
+
 shared.person.name.full.content-model |=	
 	mixed {
 		shared.person.name.title |
@@ -319,6 +328,9 @@ shared.entity-ref.event.attlist |=
 shared.entity-ref.location.attlist |=
 	shared.entity-ref.attlist
 
+shared.entity-ref.note.attlist |=
+    shared.entity-ref.attlist
+    
 shared.entity-ref.organisation.attlist |=
 	shared.entity-ref.attlist
 
