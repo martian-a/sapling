@@ -26,7 +26,7 @@
 	<p:option name="role" select="'core'" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
-	<p:import href="../../../genealogy-data-global/utils/xproc/build.xpl" />
+	<p:import href="../../../genealogy-data-global/build/sources/build.xpl" />
 	<p:import href="pre-process/pre_process.xpl" />
 		
 	<p:import href="generate_name_entities.xpl" />
