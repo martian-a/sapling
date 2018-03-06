@@ -23,6 +23,22 @@
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	<p:import href="filter_by_core_entities.xpl" />
 	
+	
+	<p:documentation>
+		<d:doc>
+			<d:desc>Whether or not all data should be included (private) or just data cleared for publishing publicly (public).</d:desc>
+			<d:note>
+				<d:ul>
+					<d:ingress>Recognises the following values:</d:ingress>
+					<d:li>private</d:li>
+					<d:li>public</d:li>
+				</d:ul>
+				<d:p>The default value is 'public'.</d:p>
+			</d:note>
+		</d:doc>
+	</p:documentation>
+	<p:option name="scope" select="'public'" />
+	
 	<p:option name="target" required="true" />
 			
 	<p:xslt> 
@@ -77,22 +93,27 @@
 	</p:xslt>
 	
 	
-	<p:xslt name="safe"> 
-		<p:input port="stylesheet">
-			<p:document href="exclude_people_not_explicit_publish.xsl" />
-		</p:input>
-		<p:input port="parameters">
-			<p:empty />
-		</p:input>
-	</p:xslt>
+	<p:choose>
+		
+		<p:when test="$scope = 'private'">
+			<p:identity/>
+		</p:when>
+		
+		<p:otherwise>
+			<p:xslt>
+				<p:input port="stylesheet">
+					<p:document href="exclude_people_not_explicit_publish.xsl"/>
+				</p:input>
+				<p:input port="parameters">
+					<p:empty/>
+				</p:input>
+			</p:xslt>
+		</p:otherwise>
+		
+	</p:choose>
 	
 	
-	<tcy:filter-by-core-entities>
-		<p:input port="source">
-			<p:pipe port="result" step="safe" />
-		</p:input>
-	</tcy:filter-by-core-entities>
-	
+	<tcy:filter-by-core-entities />
 	
 	<p:xslt> 
 		<p:input port="stylesheet">

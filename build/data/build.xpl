@@ -22,7 +22,21 @@
 		<p:pipe port="result" step="results" />
 	</p:output>
 	
-	<p:option name="scope" />
+	<p:documentation>
+		<d:doc>
+			<d:desc>Whether or not all data should be included (private) or just data cleared for publishing publicly (public).</d:desc>
+			<d:note>
+				<d:ul>
+					<d:ingress>Recognises the following values:</d:ingress>
+					<d:li>private</d:li>
+					<d:li>public</d:li>
+				</d:ul>
+				<d:p>The default value is 'public'.</d:p>
+			</d:note>
+		</d:doc>
+	</p:documentation>
+	<p:option name="scope" select="'public'" />
+	
 	<p:option name="role" select="'core'" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
@@ -80,7 +94,8 @@
 			<p:input port="source">
 				<p:pipe port="result" step="source-data" />
 			</p:input>
-			<p:with-option name="target" select="$temp-file-path" />
+			<p:with-option name="scope" select="$scope" />
+			<p:with-option name="target" select="$temp-file-path" />			
 		</tcy:pre-process-data>
 		
 	</p:group>
