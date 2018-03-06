@@ -520,5 +520,209 @@
 			<xsl:otherwise />
 		</xsl:choose>
 	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-language-name" as="xs:string?">
+		<xsl:param name="code" as="xs:string?" />
+		
+		<xsl:variable name="iso639-1" as="document-node()">
+			<xsl:document>
+				<languages>				
+					<language code="ab">Abkhazian</language>
+					<language code="aa">Afar</language>
+					<language code="af">Afrikaans</language>
+					<language code="ak">Akan</language>
+					<language code="sq">Albanian</language>
+					<language code="am">Amharic</language>
+					<language code="ar">Arabic</language>
+					<language code="an">Aragonese</language>
+					<language code="hy">Armenian</language>
+					<language code="as">Assamese</language>
+					<language code="av">Avaric</language>
+					<language code="ae">Avestan</language>
+					<language code="ay">Aymara</language>
+					<language code="az">Azerbaijani</language>
+					<language code="bm">Bambara</language>
+					<language code="ba">Bashkir</language>
+					<language code="eu">Basque</language>
+					<language code="be">Belarusian</language>
+					<language code="bn">Bengali</language>
+					<language code="bh">Bihari languages</language>
+					<language code="bi">Bislama</language>
+					<language code="bs">Bosnian</language>
+					<language code="br">Breton</language>
+					<language code="bg">Bulgarian</language>
+					<language code="my">Burmese</language>
+					<language code="ca">Catalan/Valencian</language>
+					<language code="ch">Chamorro</language>
+					<language code="ce">Chechen</language>
+					<language code="ny">Chichewa/Chewa/Nyanja</language>
+					<language code="zh">Chinese</language>
+					<language code="cv">Chuvash</language>
+					<language code="kw">Cornish</language>
+					<language code="co">Corsican</language>
+					<language code="cr">Cree</language>
+					<language code="hr">Croatian</language>
+					<language code="cs">Czech</language>
+					<language code="da">Danish</language>
+					<language code="dv">Divehi/Dhivehi/Maldivian</language>
+					<language code="nl">Dutch/Flemish</language>
+					<language code="dz">Dzongkha</language>
+					<language code="en">English</language>
+					<language code="eo">Esperanto</language>
+					<language code="et">Estonian</language>
+					<language code="ee">Ewe</language>
+					<language code="fo">Faroese</language>
+					<language code="fj">Fijian</language>
+					<language code="fi">Finnish</language>
+					<language code="fr">French</language>
+					<language code="ff">Fulah</language>
+					<language code="gl">Galician</language>
+					<language code="ka">Georgian</language>
+					<language code="de">German</language>
+					<language code="el">Greek (modern)</language>
+					<language code="gn">Guaraní</language>
+					<language code="gu">Gujarati</language>
+					<language code="ht">Haitian/Haitian Creole</language>
+					<language code="ha">Hausa</language>
+					<language code="he">Hebrew (modern)</language>
+					<language code="hz">Herero</language>
+					<language code="hi">Hindi</language>
+					<language code="ho">Hiri Motu</language>
+					<language code="hu">Hungarian</language>
+					<language code="ia">Interlingua</language>
+					<language code="id">Indonesian</language>
+					<language code="ie">Interlingue</language>
+					<language code="ga">Irish</language>
+					<language code="ig">Igbo</language>
+					<language code="ik">Inupiaq</language>
+					<language code="io">Ido</language>
+					<language code="is">Icelandic</language>
+					<language code="it">Italian</language>
+					<language code="iu">Inuktitut</language>
+					<language code="ja">Japanese</language>
+					<language code="jv">Javanese</language>
+					<language code="kl">Kalaallisut/Greenlandic</language>
+					<language code="kn">Kannada</language>
+					<language code="kr">Kanuri</language>
+					<language code="ks">Kashmiri</language>
+					<language code="kk">Kazakh</language>
+					<language code="km">Central Khmer</language>
+					<language code="ki">Kikuyu/Gikuyu</language>
+					<language code="rw">Kinyarwanda</language>
+					<language code="ky">Kirghiz/Kyrgyz</language>
+					<language code="kv">Komi</language>
+					<language code="kg">Kongo</language>
+					<language code="ko">Korean</language>
+					<language code="ku">Kurdish</language>
+					<language code="kj">Kuanyama/Kwanyama</language>
+					<language code="la">Latin</language>
+					<language code="lb">Luxembourgish/Letzeburgesch</language>
+					<language code="lg">Ganda</language>
+					<language code="li">Limburgan/Limburger/Limburgish</language>
+					<language code="ln">Lingala</language>
+					<language code="lo">Lao</language>
+					<language code="lt">Lithuanian</language>
+					<language code="lu">Luba-Katanga</language>
+					<language code="lv">Latvian</language>
+					<language code="gv">Manx</language>
+					<language code="mk">Macedonian</language>
+					<language code="mg">Malagasy</language>
+					<language code="ms">Malay</language>
+					<language code="ml">Malayalam</language>
+					<language code="mt">Maltese</language>
+					<language code="mi">Māori</language>
+					<language code="mr">Marathi</language>
+					<language code="mh">Marshallese</language>
+					<language code="mn">Mongolian</language>
+					<language code="na">Nauru</language>
+					<language code="nv">Navajo/Navaho</language>
+					<language code="nd">North Ndebele</language>
+					<language code="ne">Nepali</language>
+					<language code="ng">Ndonga</language>
+					<language code="nb">Norwegian Bokmål</language>
+					<language code="nn">Norwegian Nynorsk</language>
+					<language code="no">Norwegian</language>
+					<language code="ii">Sichuan Yi/Nuosu</language>
+					<language code="nr">South Ndebele</language>
+					<language code="oc">Occitan</language>
+					<language code="oj">Ojibwa</language>
+					<language code="cu">Church Slavic/Old Bulgarian</language>
+					<language code="om">Oromo</language>
+					<language code="or">Oriya</language>
+					<language code="os">Ossetian/Ossetic</language>
+					<language code="pa">Panjabi/Punjabi</language>
+					<language code="pi">Pali</language>
+					<language code="fa">Persian</language>
+					<language code="pox">Polabian</language>
+					<language code="pl">Polish</language>
+					<language code="ps">Pashto/Pushto</language>
+					<language code="pt">Portuguese</language>
+					<language code="qu">Quechua</language>
+					<language code="rm">Romansh</language>
+					<language code="rn">Rundi</language>
+					<language code="ro">Romanian/Moldavian/Moldovan</language>
+					<language code="ru">Russian</language>
+					<language code="sa">Sanskrit</language>
+					<language code="sc">Sardinian</language>
+					<language code="sd">Sindhi</language>
+					<language code="se">Northern Sami</language>
+					<language code="sm">Samoan</language>
+					<language code="sg">Sango</language>
+					<language code="sr">Serbian</language>
+					<language code="gd">Gaelic/Scottish Gaelic</language>
+					<language code="sn">Shona</language>
+					<language code="si">Sinhala/Sinhalese</language>
+					<language code="sk">Slovak</language>
+					<language code="sl">Slovenian</language>
+					<language code="so">Somali</language>
+					<language code="st">Southern Sotho</language>
+					<language code="es">Spanish/Castilian</language>
+					<language code="su">Sundanese</language>
+					<language code="sw">Swahili</language>
+					<language code="ss">Swati</language>
+					<language code="sv">Swedish</language>
+					<language code="ta">Tamil</language>
+					<language code="te">Telugu</language>
+					<language code="tg">Tajik</language>
+					<language code="th">Thai</language>
+					<language code="ti">Tigrinya</language>
+					<language code="bo">Tibetan</language>
+					<language code="tk">Turkmen</language>
+					<language code="tl">Tagalog</language>
+					<language code="tn">Tswana</language>
+					<language code="to">Tonga (Tonga Islands)</language>
+					<language code="tr">Turkish</language>
+					<language code="ts">Tsonga</language>
+					<language code="tt">Tatar</language>
+					<language code="tw">Twi</language>
+					<language code="ty">Tahitian</language>
+					<language code="ug">Uighur/Uyghur</language>
+					<language code="uk">Ukrainian</language>
+					<language code="ur">Urdu</language>
+					<language code="uz">Uzbek</language>
+					<language code="ve">Venda</language>
+					<language code="vi">Vietnamese</language>
+					<language code="vo">Volapük</language>
+					<language code="wa">Walloon</language>
+					<language code="cy">Welsh</language>
+					<language code="wo">Wolof</language>
+					<language code="fy">Western Frisian</language>
+					<language code="xh">Xhosa</language>
+					<language code="yi">Yiddish</language>
+					<language code="yo">Yoruba</language>
+					<language code="za">Zhuang/Chuang</language>
+					<language code="zu">Zulu</language>				
+				</languages>
+			</xsl:document>
+		</xsl:variable>
+		
+		<xsl:choose>
+			<xsl:when test="$code = $iso639-1/languages/language/@code">
+				<xsl:value-of select="$iso639-1/languages/language[@code = $code]" />
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="$code" /></xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 		
 </xsl:stylesheet>

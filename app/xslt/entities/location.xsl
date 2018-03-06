@@ -58,7 +58,8 @@
 	
 	<xsl:template match="data/location">
 		<xsl:apply-templates select="@type"/>
-		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />
+		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />		
+		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
@@ -66,6 +67,55 @@
 		<xsl:apply-templates select="related[organisation]" mode="organisations" />
 		<xsl:apply-templates select="related[source]" mode="sources" />
 	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:title>Location Profile: Additional Names.</doc:title>
+	</doc:doc>
+	<xsl:template match="data/location" mode="alternative-names">
+		<xsl:variable name="primary-name" select="fn:get-primary-name(self::*)" as="element()*" />
+		<div class="alternative-names">
+			<xsl:if test="count(name) &gt; 1">
+				<h2>Also Known As</h2>
+				<xsl:for-each-group select="name[self::* != $primary-name]" group-by="normalize-space(@rel) = ''">
+					
+					<xsl:choose>
+						<xsl:when test="current-grouping-key() = true()">
+							<ul class="unknown">
+								<xsl:for-each select="current-group()">
+									<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+								</xsl:for-each>
+							</ul>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:for-each-group select="current-group()" group-by="@rel">
+								<div class="{current-grouping-key()}">
+									<h3><xsl:value-of select="fn:title-case(current-grouping-key())" /></h3>
+									<ul>
+										<xsl:for-each select="current-group()">
+											<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+										</xsl:for-each>
+									</ul>
+								</div>
+							</xsl:for-each-group>								
+						</xsl:otherwise>							
+					</xsl:choose>					
+				</xsl:for-each-group>				
+			</xsl:if>
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="name" mode="alternative-names">
+		<span class="name"><xsl:value-of select="." /></span>
+		<xsl:apply-templates select="@xml:lang[. != 'en']" mode="#current" />
+	</xsl:template>
+	
+	<xsl:template match="name/@xml:lang" mode="alternative-names">
+		<xsl:text> </xsl:text>		
+		<span class="language">(<xsl:value-of select="fn:get-language-name(.)" />)</span>
+	</xsl:template>
+	
 	
 	<xsl:template match="data/location/@type">
 		<p class="type"><xsl:value-of select="." /></p>
