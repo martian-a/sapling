@@ -278,6 +278,54 @@
 			<xsl:with-param name="inline-value" select="text()" as="xs:string?" tunnel="yes" />
 		</xsl:next-match>	
 	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:title>Location/Organisation Profile: Additional Names.</doc:title>
+	</doc:doc>
+	<xsl:template match="data/location | data/organisation" mode="alternative-names">
+		<xsl:variable name="primary-name" select="fn:get-primary-name(self::*)" as="element()*" />
+		<div class="alternative-names">
+			<xsl:if test="count(name) &gt; 1">
+				<h2>Also Known As</h2>
+				<xsl:for-each-group select="name[self::* != $primary-name]" group-by="normalize-space(@rel) = ''">
+					
+					<xsl:choose>
+						<xsl:when test="current-grouping-key() = true()">
+							<ul class="unknown">
+								<xsl:for-each select="current-group()">
+									<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+								</xsl:for-each>
+							</ul>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:for-each-group select="current-group()" group-by="@rel">
+								<div class="{current-grouping-key()}">
+									<h3><xsl:value-of select="fn:title-case(current-grouping-key())" /></h3>
+									<ul>
+										<xsl:for-each select="current-group()">
+											<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+										</xsl:for-each>
+									</ul>
+								</div>
+							</xsl:for-each-group>								
+						</xsl:otherwise>							
+					</xsl:choose>					
+				</xsl:for-each-group>				
+			</xsl:if>
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="name" mode="alternative-names">
+		<span class="name"><xsl:value-of select="." /></span>
+		<xsl:apply-templates select="@xml:lang[. != 'en']" mode="#current" />
+	</xsl:template>
+	
+	<xsl:template match="name/@xml:lang" mode="alternative-names">
+		<xsl:text> </xsl:text>		
+		<span class="language">(<xsl:value-of select="fn:get-language-name(.)" />)</span>
+	</xsl:template>
 
 
 </xsl:stylesheet>

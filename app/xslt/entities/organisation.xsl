@@ -15,7 +15,8 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="data/organisation">
+	<xsl:template match="data/organisation">		
+		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="related[person]" mode="people" />
 		<xsl:apply-templates select="related[organisation]" mode="organisations" />
 		<xsl:apply-templates select="related[location]" mode="locations" />
