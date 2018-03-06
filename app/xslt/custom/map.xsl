@@ -162,7 +162,7 @@
                 <xsl:text>, </xsl:text>
                 <xsl:value-of select="@geo:long" />
                 <xsl:text>, '</xsl:text>
-                <a href="{$normalised-path-to-view-html}location/{parent::location/@id}{if ($static = 'true') then $ext-html else '/'}"><xsl:value-of select="replace(concat(xs:string(parent::location/name[1]), ' ', key('location', parent::location/within[not(@rel = 'political')][1]/@ref)/xs:string(name[1])), codepoints-to-string(39), '\\''')" /></a>
+                <a href="{$normalised-path-to-view-html}location/{parent::location/@id}{if ($static = 'true') then $ext-html else '/'}"><xsl:value-of select="replace(concat(xs:string(fn:get-primary-name(parent::location)), ' ', key('location', parent::location/within[not(@rel = 'political')][1]/@ref)/xs:string(fn:get-primary-name(self::*))), codepoints-to-string(39), '\\''')" /></a>
                 <xsl:text>']</xsl:text>
                 <xsl:if test="position() != last()">,</xsl:if>
             </xsl:for-each>

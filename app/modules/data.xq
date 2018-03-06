@@ -201,8 +201,21 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 				for $entity in data:get-events-involving-people()/self::event[@type != 'historical']
 				return data:simplify-entity($entity)
 			case "location" return (: Get only the locations that are related to events that involve people in the db :)
-				for $location in data:get-locations-involving-people()
-				return data:simplify-entity($location)
+				for $entity in data:get-locations-involving-people()
+				return
+				    <location>{
+             			$entity/@*,
+             			$entity/name[not(@xml:lang) or @xml:lang = 'en'],
+             			$entity/geo:point,
+             			$entity/within
+             		}</location>
+			case "organisation" return
+			     for $entity in data:get-entities($path)
+			     return
+			         <organisation>{
+			             $entity/@*,
+			             $entity/name[not(@xml:lang) or @xml:lang = 'en']
+			         }</organisation>
 			default return 
 				for $entity in data:get-entities($path)
 				return data:simplify-entity($entity)
@@ -341,7 +354,7 @@ declare function data:simplify-organisation($param as element()) as element()? {
 	return
 		<organisation>{
 			$entity/@*,
-			$entity/name[1]
+			data:get-primary-name($entity)
 		}</organisation>
 };
 
@@ -351,7 +364,7 @@ declare function data:simplify-location($param as element()) as element()? {
 	return
 		<location>{
 			$entity/@*,
-			$entity/name[1],
+			data:get-primary-name($entity),
 			$entity/geo:point,
 			$entity/within
 		}</location>
@@ -382,8 +395,8 @@ declare function data:simplify-derived-name($param as element()) as element()? {
 	for $entity in $param/self::name[starts-with(@id, 'NAM')]
 	return
 		<name>{
-			$entity/@*,
-			$entity/name[1]
+			$entity/@*,			
+			data:get-primary-name($entity)
 		}</name>
 };
 
@@ -603,5 +616,27 @@ declare function data:get-locations-near($location-in as element()?) as element(
 	group by $id
 	order by $location[1]/number(substring-after(@id, 'LOC')) ascending
 	return $location[1]
+
+};
+
+
+declare function data:get-primary-name($entity-in as element()?) as element()? {
+    data:get-primary-name($entity-in, '')
+};
+
+declare function data:get-primary-name($entity-in as element()?, $language as xs:string?) as element()? {
+
+    let $candidate-names as element()* :=
+        let $names := 
+             if ($entity-in/name() = 'person')
+             then $entity-in/persona/name
+             else $entity-in/name
+        for $name in $names[normalize-space(.) != ''][if ($language != '') then @xml:lang = $language else (normalize-space(@xml:lang) = '' or @xml:lang = 'en')]
+        return $name
+        
+    return
+        if (count($candidate-names[not(@rel)]) > 0)
+        then $candidate-names[not(@rel)][1]
+        else $candidate-names[1]
 
 };

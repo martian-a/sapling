@@ -50,7 +50,7 @@
 		
 		<xsl:for-each select="$locations-in">
 			<xsl:sort select="fn:get-location-sort-name(self::*)" data-type="text" order="ascending" />
-			<xsl:sort select="name[1]" data-type="text" order="ascending"/>
+			<xsl:sort select="fn:get-primary-name(self::*)" data-type="text" order="ascending"/>
 			<xsl:sequence select="self::*" />
 		</xsl:for-each>
 	</xsl:function>
@@ -87,6 +87,41 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each-group>		
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-primary-name" as="element()?">
+		<xsl:param name="entity" as="element()*" />		
+		
+		<xsl:sequence select="fn:get-primary-name($entity, '')" />
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:get-primary-name" as="element()?">
+		<xsl:param name="entity" as="element()*" />		
+		<xsl:param name="language" as="xs:string?" />
+	
+		<xsl:variable name="candidate-names" as="element()*">
+			<xsl:choose>
+				<xsl:when test="$entity/name() = 'person'">
+					<xs:sequence select="$entity/persona/name[normalize-space(.) != ''][if ($language != '') then @xml:lang = $language else (normalize-space(@xml:lang) = '' or @xml:lang = 'en')]" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:sequence select="$entity/name[normalize-space(.) != ''][if ($language != '') then @xml:lang = $language else (normalize-space(@xml:lang) = '' or @xml:lang = 'en')]" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:choose>
+			<xsl:when test="count($candidate-names[not(@rel)]) &gt; 0">
+				<xsl:sequence select="$candidate-names[not(@rel)][1]" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:sequence select="$candidate-names[1]" />
+			</xsl:otherwise>
+		</xsl:choose>
 		
 	</xsl:function>
 	
@@ -335,7 +370,7 @@
 	<xsl:function name="fn:get-location-sort-name" as="xs:string?">
 		<xsl:param name="location-in" as="element()" />
 		
-		<xsl:variable name="name" select="$location-in/name[1]/lower-case(.)" as="xs:string?" />
+		<xsl:variable name="name" select="fn:get-primary-name($location-in)/lower-case(.)" as="xs:string?" />
 		
 		<xsl:variable name="non-alpha-characters" select="translate($name, 'abcdefghijklmnopqrstuvwxyz', '')" as="xs:string?" />
 		<xsl:variable name="first-letter" select="substring(translate($name, $non-alpha-characters, ''), 1, 1)" />

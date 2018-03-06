@@ -25,7 +25,7 @@ organisation.collection.content-model =
 	organisation.entity*
 
 organisation.entity.content-model =
-	shared.name,
+	shared.name*,
 	shared.entity-ref.location*,
 	shared.note*,
 	shared.bibliography?

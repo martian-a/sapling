@@ -102,7 +102,7 @@
 		<xsl:if test="count($locations-within) &gt; 0">
 			<ul>
 				<xsl:for-each select="$locations-within">
-					<xsl:sort select="name[1]" data-type="text" order="ascending" />
+					<xsl:sort select="fn:get-location-sort-name(self::*)" data-type="text" order="ascending" />
 					<li>
 						<p><xsl:apply-templates select="self::*" mode="href-html" /></p>
 						<xsl:apply-templates select="self::location" mode="locations-within" />	
@@ -125,10 +125,10 @@
 	<xsl:template match="/app/view[data/location]" mode="view.title">
 		<xsl:choose>
 			<xsl:when test="data/location/@type = 'building-number'">
-				<xsl:value-of select="concat(xs:string(data/location/name[1]), ' ', key('location', data/location/within[not(@rel = 'political')][1]/@ref)/xs:string(name[1]))"/>
+				<xsl:value-of select="concat(xs:string(data/location/fn:get-primary-name(self::*)), ' ', key('location', data/location/within[not(@rel = 'political')][1]/@ref)/xs:string(fn:get-primary-name(self::*)))"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="xs:string(data/location/name[1])"/>
+				<xsl:value-of select="xs:string(data/location/fn:get-primary-name(self::*))"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -156,9 +156,30 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="$locations[not(@type = 'building-number')]" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
+				<xsl:for-each-group select="$locations[not(@type = 'building-number')]/name" group-by="upper-case(substring(self::*, 1, 1))">
+					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="group" as="element()*">
+							<xsl:for-each select="current-group()">
+								<xsl:sort select="self::*" data-type="text" order="ascending" />
+								<xsl:variable name="current-name" select="self::*" as="element()" />
+								<xsl:for-each select="parent::location">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="*">
+											<xsl:choose>
+												<xsl:when test="name() = name()">
+													<xsl:copy-of select="$current-name" />
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:copy-of select="self::*" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:for-each>
+						</xsl:with-param>
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
@@ -179,10 +200,30 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="$locations[@type = 'country']" group-by="fn:get-location-context(self::location)[@type = 'continent']">
+				<xsl:for-each-group select="$locations[@type = 'country']/name" group-by="fn:get-location-context(parent::location)[@type = 'continent']">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />						
+						<xsl:with-param name="group" as="element()*">
+							<xsl:for-each select="current-group()">
+								<xsl:sort select="self::*" data-type="text" order="ascending" />
+								<xsl:variable name="current-name" select="self::*" as="element()" />
+								<xsl:for-each select="parent::location">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="*">
+											<xsl:choose>
+												<xsl:when test="name() = name()">
+													<xsl:copy-of select="$current-name" />
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:copy-of select="self::*" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:for-each>
+						</xsl:with-param>						
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Continent Unknown'" as="xs:string" />
@@ -261,7 +302,7 @@
 
 	
 	<xsl:template match="data/location" mode="href-html">
-		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>
+		<span class="self-reference"><xsl:apply-templates select="fn:get-primary-name(self::*)" mode="href-html"/></span>
 	</xsl:template>
 	
 	
@@ -276,7 +317,7 @@
 						<xsl:value-of select="$inline-value" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="name[1]" mode="href-html"/>
+						<xsl:apply-templates select="fn:get-primary-name(self::*)" mode="href-html"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>

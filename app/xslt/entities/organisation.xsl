@@ -30,7 +30,7 @@
 	
 	
 	<xsl:template match="/app/view[data/organisation]" mode="view.title">
-		<xsl:value-of select="xs:string(data/organisation/name)"/>
+		<xsl:value-of select="xs:string(data/organisation/fn:get-primary-name(self::*))"/>
 	</xsl:template>
 	
 	
@@ -39,10 +39,31 @@
 			<h2>By Name</h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="organisation" group-by="upper-case(substring(lower-case(name), 1, 1))">
-					<xsl:sort select="name" data-type="text" order="ascending" />
+				<xsl:for-each-group select="organisation/name" group-by="upper-case(substring(self::*, 1, 1))">
+					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
+					
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="group" as="element()*">
+							<xsl:for-each select="current-group()">
+								<xsl:sort select="self::*" />
+								<xsl:variable name="current-name" select="self::*" as="element()" />
+								<xsl:for-each select="parent::organisation">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="*">
+											<xsl:choose>
+												<xsl:when test="name() = name()">
+													<xsl:copy-of select="$current-name" />
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:copy-of select="self::*" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:for-each>
+						</xsl:with-param>
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
@@ -94,7 +115,7 @@
 			<h2>Organisations</h2>
 			<ul>
 				<xsl:for-each select="$organisations">
-					<xsl:sort select="name" data-type="text" order="ascending" />
+					<xsl:sort select="fn:get-primary-name(self::*)" data-type="text" order="ascending" />
 					<li><xsl:apply-templates select="self::*" mode="href-html" /></li>
 				</xsl:for-each>
 			</ul>
@@ -117,7 +138,7 @@
 						<xsl:value-of select="$inline-value" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="name" mode="href-html"/>
+						<xsl:apply-templates select="fn:get-primary-name(self::*)" mode="href-html"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>
