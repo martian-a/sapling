@@ -83,7 +83,7 @@
         <doc:title>HTML header: stylesheets</doc:title>
         <doc:desc>Map style rules that need to go in the head of the HTML document.</doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person or view/data/source]" mode="html.header.style" priority="650">
+    <xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person or view/data/source or view/data/organisation]" mode="html.header.style" priority="650">
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
             integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
             crossorigin=""/>
@@ -95,7 +95,7 @@
         <doc:title>HTML header: scripts.</doc:title>
         <doc:desc>Map scripts that need to go in the head of the HTML document.</doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person or view/data/source]" mode="html.header.scripts" priority="650">
+    <xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person or view/data/source or view/data/organisation]" mode="html.header.scripts" priority="650">
         <script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
         <!-- Make sure you put this AFTER Leaflet's CSS -->
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
@@ -112,7 +112,7 @@
             <doc:p>Needs to be applied to view so that $locations can be collated and tunnelled, for consistency with other map-related modes.</doc:p>
         </doc:note>
     </doc:doc>
-    <xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point]]" mode="html.footer.scripts" priority="650">
+    <xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point or organisation/related/location/geo:point]]" mode="html.footer.scripts" priority="650">
         <xsl:next-match />
         <xsl:apply-templates select="view" mode="#current" />
     </xsl:template>
@@ -133,7 +133,7 @@
             </doc:note>
         </doc:notes>
     </doc:doc>
-    <xsl:template match="data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point] | data/person/related[location] | data/source/related[location]" mode="map locations html.footer.scripts" priority="650">
+    <xsl:template match="data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point or organisation/related/location/geo:point] | data/person/related[location] | data/source/related[location] | data/organisation/related[location]" mode="map locations html.footer.scripts" priority="650">
         <xsl:variable name="id" as="xs:string">
             <xsl:choose>
                 <xsl:when test="entities"><xsl:value-of select="concat(entities/*[1]/name(), '-index')" /></xsl:when> 
@@ -187,7 +187,7 @@
             </doc:note>
         </doc:notes>
     </doc:doc>
-    <xsl:template match="view[data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point]]" mode="html.footer.scripts" priority="600">
+    <xsl:template match="view[data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point or organisation/related/location/geo:point]]" mode="html.footer.scripts" priority="600">
         <script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
         <xsl:next-match />
         <xsl:apply-templates select="data" mode="#current" />
@@ -211,7 +211,7 @@
             </doc:note>
         </doc:notes>
     </doc:doc>
-    <xsl:template match="view/data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point]" mode="html.footer.scripts" priority="600">
+    <xsl:template match="view/data[entities/location/geo:point or location/geo:point or person/related/location/geo:point or source/related/location/geo:point or organisation/related/location/geo:point]" mode="html.footer.scripts" priority="600">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         <xsl:param name="map-id" as="xs:string" tunnel="yes" />
         <xsl:param name="map-markers-var-name" as="xs:string" tunnel="yes" />

@@ -170,14 +170,22 @@
 	<xsl:template name="href-xml">
 		<xsl:param name="path" select="/app/views/*[@default = 'true'][1]/@path" as="xs:string?"/>
 		<xsl:param name="content" as="item()*"/>
-		<xsl:param name="is-index" select="false()" as="xs:boolean"/> 
+		<xsl:param name="is-index" select="false()" as="xs:boolean"/>
 		<xsl:variable name="url" as="xs:anyURI">
 			<xsl:choose>
 				<xsl:when test="xs:boolean($static)">
-					<xsl:value-of select="        concat(         $normalised-path-to-view-xml,          if ($path = '/')          then 'index'         else $path,          $ext-xml        )"/>
+					<xsl:value-of select="
+							concat($normalised-path-to-view-xml, if ($path = '/') then
+								'index'
+							else
+								$path, $ext-xml)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="        fn:add-trailing-slash(         concat(          $normalised-path-to-view-xml,           if ($path = '/')           then ()          else $path         )        )"/>
+					<xsl:value-of select="
+							fn:add-trailing-slash(concat($normalised-path-to-view-xml, if ($path = '/') then
+								()
+							else
+								$path))"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>

@@ -23,21 +23,17 @@
 			</doc:note>
 		</doc:notes>
 	</doc:doc>
-	<xsl:template match="app/view[data[entities/location or location or person[related/location] or name[related/location] or source[related/location]]]" mode="html.body html.footer.scripts" priority="1000">
+	<xsl:template match="app/view[data[entities/location or location]]" mode="html.body html.footer.scripts" priority="1000">
 		<xsl:variable name="locations" as="element()*">
 			<xsl:choose>
 				<!-- Locations index -->
-				<xsl:when test="data/entities/location"><xsl:sequence select="data/entities/location" /></xsl:when>
-				<!-- Location profile -->
-				<xsl:when test="data/location"><xsl:sequence select="data/location" /></xsl:when>
-				<xsl:when test="data/source">
-					<xsl:sequence select="data/source/*[not(self::front-matter)]/descendant::location" />
+				<xsl:when test="data/entities/location">
+					<xsl:sequence select="data/entities/location"/>
 				</xsl:when>
-				<!-- Person or Name profile -->
+				<!-- Location profile -->
 				<xsl:otherwise>
-					<xsl:variable name="events" select="data/*/related/event" as="element()*" />
-					<xsl:sequence select="(data/*/note, $events)/descendant::location" />
-				</xsl:otherwise> 
+					<xsl:sequence select="data/location"/>
+				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		

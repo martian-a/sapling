@@ -101,13 +101,13 @@
             <doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
         </doc:note>
     </doc:doc>
-    <xsl:template match="data/source/related" mode="locations" priority="100">
-        <xsl:variable name="directly-referenced-locations" select="location[@id = ancestor::source/descendant::body-matter/location/@ref]" as="element()*" />        
-        <xsl:variable name="locations-referenced-from-events" select="location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
+    <xsl:template match="app/view[data/source/related/location]" mode="html.body html.footer.scripts" priority="1000">
+        <xsl:variable name="directly-referenced-locations" select="data/source/related/location[@id = ancestor::source/descendant::body-matter/location/@ref]" as="element()*" />        
+        <xsl:variable name="locations-referenced-from-events" select="data/source/related/location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
         
-        <xsl:if test="count(($directly-referenced-locations, $locations-referenced-from-events)) &gt; 0">
+        <xsl:if test="count(($directly-referenced-locations | $locations-referenced-from-events)) &gt; 0">
             <xsl:next-match>
-                <xsl:with-param name="locations" select="$directly-referenced-locations, $locations-referenced-from-events" as="element()*" tunnel="yes" />
+                <xsl:with-param name="locations" select="$directly-referenced-locations | $locations-referenced-from-events" as="element()*" tunnel="yes" />
             </xsl:next-match>
         </xsl:if>
     </xsl:template>

@@ -15,14 +15,35 @@
 	</xsl:template>
 	
 	
+	<doc:doc>
+		<doc:title>Organisation Profile: layout template.</doc:title>
+	</doc:doc>
 	<xsl:template match="data/organisation">		
 		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="self::*[note]" mode="notes" />
+		<xsl:apply-templates select="related[event]" mode="timeline" />
 		<xsl:apply-templates select="related[person]" mode="people" />
 		<xsl:apply-templates select="related[organisation]" mode="organisations" />
 		<xsl:apply-templates select="related[location]" mode="locations" />
-		<xsl:apply-templates select="related[event]" mode="timeline" />
 		<xsl:apply-templates select="related[source]" mode="sources" />
+	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:desc>Filter related locations to only those that are either directly referenced from the organisation or from events related to the organisation.</doc:desc>
+		<doc:note>
+			<doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
+		</doc:note>
+	</doc:doc>
+	<xsl:template match="app/view[data/organisation/related/location]" mode="html.body html.footer.scripts" priority="1000">
+		<xsl:variable name="directly-referenced-locations" select="data/organisation/related/location[@id = (ancestor::organisation/location/@ref, ancestor::organisation/note/descendant::location/@ref)]" as="element()*" />        
+		<xsl:variable name="locations-referenced-from-events" select="data/organisation/related/location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
+		
+		<xsl:if test="count(($directly-referenced-locations | $locations-referenced-from-events)) &gt; 0">
+			<xsl:next-match>
+				<xsl:with-param name="locations" select="$directly-referenced-locations | $locations-referenced-from-events" as="element()*" tunnel="yes" />
+			</xsl:next-match>
+		</xsl:if>
 	</xsl:template>
 	
 	
