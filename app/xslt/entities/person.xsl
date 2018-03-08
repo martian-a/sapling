@@ -270,7 +270,7 @@
 		<doc:title>Gender Glyph: Content</doc:title>
 	</doc:doc>
 	<xsl:template match="gender" mode="glyph glyph.bracketed">
-        <span class="gender {lower-case(.)}">
+        <span class="gender {lower-case(.)} glyph">
 			<xsl:value-of select="
 				if (lower-case(.) = 'male') then '♂'
 				else if (lower-case(.) = 'female') then '♀'

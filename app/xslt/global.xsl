@@ -203,8 +203,8 @@
 			<xsl:for-each select="ancestor-or-self::app/view/data/source/related/location">
 				<xsl:sequence select="self::*[@id = (ancestor::source[1]/body-matter/descendant::location/@ref, ancestor::source[1]/front-matter/acknowledgements/descendant::location/@ref)]" />
 			</xsl:for-each>
-			<xsl:for-each select="ancestor-or-self::app/view/data/organisation/related/location">
-				<xsl:sequence select="self::*[@id = ancestor::data[1]/organisation/location/@ref]" />
+			<xsl:for-each select="ancestor-or-self::app/view/data/*[name() = ('organisation', 'event')]/related/location">
+				<xsl:sequence select="self::*[@id = ancestor::data[1]/*/location/@ref]" />
 			</xsl:for-each>
 			<xsl:for-each select="ancestor-or-self::app/view/data/location">
 				<xsl:sequence select="self::*" />

@@ -83,7 +83,7 @@
         <doc:title>HTML header: stylesheets</doc:title>
         <doc:desc>Map style rules that need to go in the head of the HTML document.</doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/location or view/data/*[name() = ('location', 'person', 'organisation', 'source')]]" mode="html.header.style" priority="650">
+    <xsl:template match="/app[view/data/entities/location or view/data/*[name() != 'name']]" mode="html.header.style" priority="650">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         
         <xsl:if test="count($locations[geo:point]) &gt; 0">        
@@ -99,7 +99,7 @@
         <doc:title>HTML header: scripts.</doc:title>
         <doc:desc>Map scripts that need to go in the head of the HTML document.</doc:desc>
     </doc:doc>
-    <xsl:template match="/app[view/data/entities/location or view/data/*[name() = ('location', 'person', 'organisation', 'source')]]" mode="html.header.scripts" priority="650">
+    <xsl:template match="/app[view/data/entities/location or view/data/*[name() != 'name']]" mode="html.header.scripts" priority="650">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         
         <xsl:if test="$locations[geo:point]">
@@ -120,7 +120,7 @@
             <doc:p>Needs to be applied to view so that $locations can be collated and tunnelled, for consistency with other map-related modes.</doc:p>
         </doc:note>
     </doc:doc>
-    <xsl:template match="/app[view/data[entities/location or location or *[name() = ('person', 'organisation', 'source')]/related/location]/geo:point]" mode="html.footer.scripts" priority="650">
+    <xsl:template match="/app[view/data[entities/location or location or *[not(name() = ('name', 'location'))]/related/location]/geo:point]" mode="html.footer.scripts" priority="650">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         
         <xsl:next-match />
@@ -145,7 +145,7 @@
             </doc:note>
         </doc:notes>
     </doc:doc>
-    <xsl:template match="data[entities/location[geo:point] or location[geo:point]] | data/*[name() = ('person', 'organisation', 'source')]/related[location/geo:point]" mode="map locations html.footer.scripts" priority="650">
+    <xsl:template match="data[entities/location/geo:point or location/geo:point] | data/*[not(name() = ('name', 'location'))]/related[location/geo:point]" mode="map locations html.footer.scripts" priority="650">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         
         <xsl:choose>
@@ -216,7 +216,7 @@
             </doc:note>
         </doc:notes>
     </doc:doc>
-    <xsl:template match="data[entities/location/geo:point or location/geo:point] | data/*[name() = ('person', 'source', 'organisation')]/related[location/geo:point]" mode="html.footer.scripts" priority="600">
+    <xsl:template match="data[entities/location/geo:point or location/geo:point] | data/*[not(name() = ('name', 'location'))]/related[location/geo:point]" mode="html.footer.scripts" priority="600">
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         <xsl:param name="map-id" as="xs:string?" tunnel="yes" />
         <xsl:param name="map-markers-var-name" as="xs:string?" tunnel="yes" />

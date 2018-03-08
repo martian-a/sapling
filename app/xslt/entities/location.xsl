@@ -25,7 +25,7 @@
 		<xsl:param name="locations" as="element()*" tunnel="yes" />
 		
 		<xsl:apply-templates select="@type"/>
-		<xsl:apply-templates select="$locations[geo:point]" mode="map" />		
+		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />		
 		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
