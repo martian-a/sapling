@@ -47,17 +47,43 @@ body {
 }
 
 @font-face {
-    font-family: dejavu;
-    src: url('../fonts/dejavu/ttf/DejaVuSerif.ttf');
-    src: 	url('../fonts/dejavu/ttf/DejaVuSerif.ttf') format('truetype');
+    font-family: 'dejavu';
+    src: url('../fonts/dejavu/serif/italic/dejavu.eot');
+    src: url('../fonts/dejavu/serif/italic/dejavu.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dejavu/serif/italic/dejavu.woff2') format('woff2'),
+         url('../fonts/dejavu/serif/italic/dejavu.woff') format('woff'),
+         url('../fonts/dejavu/serif/italic/dejavu.ttf') format('truetype'),
+         url('../fonts/dejavu/serif/italic/dejavu.svg#dejavu') format('svg');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: dejavuBold;
-    src: url('../fonts/dejavu/ttf/DejaVuSerif-Bold.ttf');
-    src: 	url('../fonts/dejavu/ttf/DejaVuSerif-Bold.ttf') format('truetype');
+    font-family: 'dejavuBold';
+    src: url('../fonts/dejavu/serif/bold/dejavu.eot');
+    src: url('../fonts/dejavu/serif/bold/dejavu.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dejavu/serif/bold/dejavu.woff2') format('woff2'),
+         url('../fonts/dejavu/serif/bold/dejavu.woff') format('woff'),
+         url('../fonts/dejavu/serif/bold/dejavu.ttf') format('truetype'),
+         url('../fonts/dejavu/serif/bold/dejavu.svg#dejavu') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freeSerif';
+    src: url('../fonts/free/serif/regular.woff');
+    src: url('../fonts/free/serif/regular.woff') format('woff')
+         url('../fonts/free/serif/regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freeSerifBold';
+    src: url('../fonts/free/serif/bold.woff');
+    src: url('../fonts/free/serif/bold.woff') format('woff')
+         url('../fonts/free/serif/bold.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
@@ -66,14 +92,21 @@ body {
 
 body,
 div.map div.leaflet-popup-content {
-	font-family: fell, dejavu;
+	font-family: fell, dejavu, freeSerif, serif;
 }
 
 div.nav li,
 h1, h2, h3, h4, h5, h6,
 table tr th,
 table tr td:first-of-type {
- 	font-family: fellBold, dejavuBold;
+ 	font-family: fellBold, dejavuBold, freeSerifBold, serif;
+}
+
+.glyph {
+    font-family: freeSerifBold;
+}
+.event .icon .glyph a {
+    font-family: freeSerif; /* Not all glyphs supported by freeSerifBold */
 }
 
 .italic {
@@ -352,86 +385,71 @@ table tr.title td {
  * See project.css for colours.
  */
 
-.symbols div,
-.timeline .events {
-	list-style: none;
-} 
- 
-.symbols p::before, 
-.timeline .event::before {
-    float: left;
+.event .glyph,
+.event .glyph a {
+    text-decoration: none;
+    line-height: .9em;
+}
+
+.event .glyph a:link,
+.event .glyph a:visited {
+    color: #000000;
+}
+
+.event .glyph a:hover,
+.event .glyph a:active {
+    opacity: 0.5;
+}
+
+.event .heading {
+    min-height: 1em;
+}
+
+.timeline .event {
+    display: grid;
+    grid-template-columns: 2.75em auto;
+    grid-template-rows: auto;
+    margin-bottom: 1em;
+}
+
+.timeline .event .icon,
+.event .index .timeline .even .content {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+}
+
+.timeline .event .content,
+.event .index .timeline .even .icon {
+    grid-column-start:2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+}
+
+.event .icon,
+.event .content {
+    display: block;
+}
+
+.event .icon {
     font-size: 2.2em;
-    margin-left: -1.5em;
-    margin-right: 0.5em;
     text-align: center;
     width: 1em;
-}
-
-.symbols .birth::before,
-.timeline .birth::before {
-    content: "☥";
-}
-
-.symbols .christening::before,
-.timeline .christening::before {
-	content: "≈";
-}
-
-.symbols .adoption::before,
-.timeline .adoption::before {
-	content: "💗\FE0E"; /* Growing Heart, plus variation character to force to black */
-}
-
-.symbols .unmarried-partnership::before,
-.timeline .unmarried-partnership::before {
-	content: "⚯";
-}
-
-.symbols .engagement::before,
-.timeline .engagement::before {
-	content: "⚬";
-}
-
-.symbols .marriage::before,
-.timeline .marriage::before {
-	content: "⚭";
-}
-
-.symbols .separation::before,
-.symbols .divorce::before,
-.timeline .divorce::before {
-	content: "⚮";
-}
-
-.symbols .death::before,
-.timeline .death::before {
-	content: "✝";
-}
-
-.symbols .historical::before,
-.timeline .historical::before {
-	content: "📰";
-}
-
-.timeline .dated .event::before {
-    padding-top: 0.2em;
-}
-
-.symbols p,
-.timeline div.event {
-    margin-bottom: 1em;
-    margin-left: 3em;
-    display: list-item;
-}
-
-.timeline div.event {
-    margin-bottom: 1em;
+    padding-top: 0.3em;
 }
 
 .timeline .event p {
-	margin:0;
+	margin: 0;
+}
+
+.event .heading .unknown {
+    opacity: .25;
 }
  
+div.event .content {
+    margin-left: 1em;
+}
+
 /* End of Timeline */
 
 
