@@ -376,7 +376,7 @@ declare function data:simplify-event($param as element()) as element()? {
 	return
 		<event>{
 			$entity/@*,
-			$entity/*[not(name() = ('preceded-by'))]
+			$entity/*
 		}</event>
 };
 

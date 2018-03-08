@@ -91,6 +91,73 @@
 	</xsl:function>
 	
 	
+	<xsl:function name="fn:sort-events" as="element()*">
+		<xsl:param name="events-in" as="element()*" />
+		
+		<xsl:variable name="sorted-by-date" as="document-node()">
+			<xsl:document>
+				<events>
+					<xsl:for-each select="$events-in">			
+						<xsl:sort select="date/@year" data-type="number" order="ascending" />
+						<xsl:sort select="date/@month" data-type="number" order="ascending" />
+						<xsl:sort select="date/@day" data-type="number" order="ascending" />
+						<xsl:copy-of select="current()" />
+					</xsl:for-each>					
+				</events>
+			</xsl:document>
+		</xsl:variable>
+		
+		<xsl:variable name="preceded-by-resolved" select="fn:resolve-preceded-by($sorted-by-date)" as="document-node()" />
+		
+		<xsl:for-each select="$preceded-by-resolved/*/event">
+			<xsl:sequence select="$events-in[@id = current()/@id]" />
+		</xsl:for-each>
+		
+	</xsl:function>
+	
+	
+	<xsl:function name="fn:resolve-preceded-by" as="document-node()">
+		<xsl:param name="events-in" as="document-node()" />
+		
+		<xsl:variable name="first-out-of-sequence" select="$events-in/*/event[preceded-by[@ref = $events-in/*/event/@id][not(@ref = preceding::event/@id)]][1]" as="element()?" />
+		<xsl:choose>
+			<xsl:when test="count($first-out-of-sequence) &gt; 0">	
+				<!-- Select first out-of-sequence event -->
+				<xsl:variable name="target-event-id" select="$first-out-of-sequence/preceded-by[@ref = $events-in/*/event/@id][not(@ref = preceding::event/@id)][1]/@ref" as="xs:string" />
+				
+				<xsl:variable name="events-in-progress" as="document-node()">
+					<xsl:document>
+						<events>
+							<xsl:for-each select="$events-in/*/event">
+								<xsl:choose>
+									<xsl:when test="self::*[@id = $first-out-of-sequence/@id]" />
+									<xsl:when test="self::*[@id = $target-event-id]">
+										<xsl:copy-of select="current()" />
+										<xsl:copy-of select="$first-out-of-sequence" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:copy-of select="current()" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:for-each>
+						</events>
+					</xsl:document>
+				</xsl:variable>
+				
+				<xsl:sequence select="fn:resolve-preceded-by($events-in-progress)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:sequence select="$events-in" />
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:function>
+	
+	
+	
+	
+	
+	
 	<xsl:function name="fn:get-primary-name" as="element()?">
 		<xsl:param name="entity" as="element()*" />		
 		

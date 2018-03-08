@@ -1,5 +1,6 @@
 <xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
 	xmlns:doc="http://ns.kaikoda.com/documentation/xml" 
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 	exclude-result-prefixes="#all" 
@@ -28,11 +29,7 @@
 					<div class="dated">
 						<h3>Date Known</h3>
 						<div class="events">
-							<xsl:apply-templates select="current-group()" mode="timeline">
-								<xsl:sort select="date/@year" data-type="number" order="ascending" />
-								<xsl:sort select="date/@month" data-type="number" order="ascending" />
-								<xsl:sort select="date/@day" data-type="number" order="ascending" />
-							</xsl:apply-templates>
+							<xsl:apply-templates select="fn:sort-events(current-group())" mode="timeline" />
 						</div>
 					</div>
 				</xsl:otherwise>
