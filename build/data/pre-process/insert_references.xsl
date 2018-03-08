@@ -13,6 +13,7 @@
         <doc:desc>For each source, generate and append references, created from existing components but structured and ordered as per the reference's style requirements.</doc:desc>
     </doc:doc>
     
+    <xsl:output encoding="UTF-8" method="xml" indent="yes" />
     
     <xsl:include href="../../utils/identity.xsl" />
     
@@ -82,7 +83,7 @@
     
     
     <doc:doc>
-        <doc:desc>Select and structure the components required for a bibliographic entry for a serial source.</doc:desc>
+        <doc:desc>Select and structure the components required for a bibliographic entry for a journal source.</doc:desc>
     </doc:doc>
     <xsl:template match="source[front-matter/serial/@type = 'journal']" mode="bibliography.structure">
         <xsl:attribute name="style">journal</xsl:attribute>
@@ -93,6 +94,16 @@
             <xsl:apply-templates select="front-matter/serial/part[volume or issue or date]" mode="bibliography.structure.serial.part" />
             <xsl:apply-templates select="front-matter/descendant::pages" mode="bibliography.structure.serial.pages" />
         </publication>
+    </xsl:template>
+    
+    
+    <doc:doc>
+        <doc:desc>Select and structure the components required for a bibliographic entry for a death certificate.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source[front-matter/serial/@type = 'death-certificate']" mode="bibliography.structure">
+        <xsl:attribute name="style">death-certificate</xsl:attribute>
+        <xsl:apply-templates select="front-matter" mode="bibliography.structure.title" />
+        <xsl:apply-templates select="front-matter/serial[publisher or location or volume or issue or date[@rel = 'issue']]" mode="bibliography.structure.publication" />
     </xsl:template>
     
     
@@ -306,6 +317,19 @@
         
     </xsl:template>
     
+    <doc:doc>
+        <doc:desc>Add the publication details into the structure of a bibliographic reference.</doc:desc>
+    </doc:doc>
+    <xsl:template match="source/front-matter/serial[@type = 'death-certificate']" mode="bibliography.structure.publication">
+        
+        <publication>
+            <xsl:apply-templates select="descendant::location" mode="bibliography.structure.location" />
+            <xsl:apply-templates select="parent::front-matter" mode="bibliography.structure.publisher" />
+            <xsl:apply-templates select="part[volume or issue or date[@rel = 'issue']]" mode="bibliography.structure.serial.part" />
+        </publication>
+        
+    </xsl:template>
+    
     
     <doc:doc>
         <doc:desc>Add the publication location into the structure of a bibliographic reference.</doc:desc>
@@ -441,6 +465,19 @@
     </doc:doc>
     <xsl:template match="front-matter/serial[@type = 'newspaper']/part" mode="bibliography.structure.serial.part">
         <xsl:copy-of select="date" />
+    </xsl:template>
+    
+    
+    <doc:doc>
+        <doc:desc>Add the serial volume and/or issue into the structure of a bibliographic reference for a serial.</doc:desc>
+        <doc:note>
+            <doc:p>See separate template for newspapers.</doc:p>
+        </doc:note>
+    </doc:doc>
+    <xsl:template match="front-matter/serial[@type = 'death-certificate']/part" mode="bibliography.structure.serial.part">
+        <xsl:copy-of select="volume" />
+        <xsl:copy-of select="date[@rel = 'issue']" />        
+        <xsl:copy-of select="issue" />
     </xsl:template>
     
     

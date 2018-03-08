@@ -63,7 +63,7 @@
         </xsl:variable>
         <xsl:value-of select="xs:string($title)" />
     </xsl:template>
-    
+     
     
     <doc:doc>
         <doc:desc>Entry point for generating the HTML body of the source index.</doc:desc>
@@ -85,32 +85,19 @@
         <doc:desc>Defines the structure of the HTML body of a source profile.</doc:desc>
     </doc:doc>
     <xsl:template match="data/source">
+        <xsl:param name="locations" as="element()*" tunnel="yes" />
+        
         <xsl:apply-templates select="front-matter" />
         <xsl:apply-templates select="body-matter" />
         <xsl:apply-templates select="end-matter" />
         <xsl:apply-templates select="related[person]" mode="people" />
         <xsl:apply-templates select="related[organisation]" mode="organisations" />
-        <xsl:apply-templates select="related[location]" mode="locations" />
+        <xsl:apply-templates select="related[count($locations) &gt; 0]" mode="locations" />
         <xsl:apply-templates select="related[event]" mode="timeline" />
     </xsl:template>
     
     
-    <doc:doc>
-        <doc:desc>Filter related locations to only those that are either directly referenced from the source or from events related to the source.</doc:desc>
-        <doc:note>
-            <doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
-        </doc:note>
-    </doc:doc>
-    <xsl:template match="app/view[data/source/related/location]" mode="html.body html.footer.scripts" priority="1000">
-        <xsl:variable name="directly-referenced-locations" select="data/source/related/location[@id = ancestor::source/descendant::body-matter/location/@ref]" as="element()*" />        
-        <xsl:variable name="locations-referenced-from-events" select="data/source/related/location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
-        
-        <xsl:if test="count(($directly-referenced-locations | $locations-referenced-from-events)) &gt; 0">
-            <xsl:next-match>
-                <xsl:with-param name="locations" select="$directly-referenced-locations | $locations-referenced-from-events" as="element()*" tunnel="yes" />
-            </xsl:next-match>
-        </xsl:if>
-    </xsl:template>
+    
     
     
     <doc:doc>
@@ -338,8 +325,16 @@
         <div class="{if (@type = 'map') then 'map-series' else @type}">
             <xsl:apply-templates select="title" mode="#current" />
             <xsl:apply-templates select="part/volume" mode="#current" />
-            <xsl:apply-templates select="part/issue" mode="#current" />
-            <xsl:apply-templates select="part/date[not(@rel = 'survey')]" mode="#current" />
+            <xsl:choose>
+                <xsl:when test="@type = 'death-certificate'">
+                    <xsl:apply-templates select="part/date[@rel = 'issue']" mode="#current" />
+                    <xsl:apply-templates select="part/issue" mode="#current" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="part/issue" mode="#current" />
+                    <xsl:apply-templates select="part/date[not(@rel = 'survey')]" mode="#current" />
+                </xsl:otherwise>
+            </xsl:choose>      
         </div>
     </xsl:template>
     
@@ -356,19 +351,31 @@
         </div>
     </xsl:template>
     
-    <xsl:template match="source/front-matter/serial/part/volume" mode="source.profile">
-        <div class="volume">
-            <h2>Volume</h2>
+    <xsl:template match="source/front-matter/serial/part/volume | source/front-matter/serial/part/issue" mode="source.profile" priority="5">
+        <div class="{name()}">
+            <h2><xsl:next-match /></h2>
             <p><xsl:apply-templates /></p>
         </div>
     </xsl:template>
-
-    <xsl:template match="source/front-matter/serial/part/issue" mode="source.profile">
-        <div class="issue">
-            <h2>Issue</h2>
-            <p><xsl:apply-templates /></p>
-        </div>
+ 
+    <xsl:template match="source/front-matter/serial[not(@type = 'death-certificate')]/part/volume" mode="source.profile">
+        <xsl:text>Volume</xsl:text>
     </xsl:template>
+ 
+    <xsl:template match="source/front-matter/serial[@type = 'death-certificate']/part/volume" mode="source.profile">
+        <xsl:text>Registration District</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="source/front-matter/serial[not(@type = 'death-certificate')]/part/issue" mode="source.profile">
+        <xsl:text>Issue</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="source/front-matter/serial[@type = 'death-certificate']/part/issue" mode="source.profile">
+        <xsl:text>Number</xsl:text>
+    </xsl:template>
+    
+    
+    
     
     <xsl:template match="scale[ancestor::front-matter/parent::source]" mode="source.profile">
         <div class="scale">

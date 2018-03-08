@@ -600,12 +600,7 @@ source.front-matter.serial.volume.attlist =
 
 source.front-matter.serial.attlist =
     xml.attlist,
-    attribute type {
-        "journal" |
-        "magazine" |
-        "newspaper" |
-        "map"
-    }?
+    attribute type {source.reference.type.attlist}?
     
 source.front-matter.serial.issue.attlist =
     xml.attlist
@@ -631,12 +626,15 @@ source.reference.attlist =
     attribute type {
         "bibliographic"
     },
-    attribute style {
-        "book" |
+    attribute style {source.reference.type.attlist}
+    
+source.reference.type.attlist = (
         "journal" |
+        "magazine" |
         "newspaper" |
-        "map"
-    }
+        "map" |
+        "death-certificate"
+)
     
 source.reference.contributors.attlist =
     xml.attlist

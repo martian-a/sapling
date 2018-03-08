@@ -34,6 +34,12 @@
 	</xsl:template>
 	
 	
+	<xsl:template match="table" mode="body" priority="50">
+		<div class="table">
+			<xsl:next-match />
+		</div>
+	</xsl:template>
+	
 	<xsl:template match="*" mode="body">
 		<xsl:copy>
 			<xsl:apply-templates select="attribute(), node()" mode="#current" />

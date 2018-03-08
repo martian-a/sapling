@@ -9,38 +9,7 @@
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
 	
-	<doc:doc>
-		<doc:title>Locations collection</doc:title>
-		<doc:desc>Builds the core collection of locations associated with this view.</doc:desc>
-		<doc:notes>
-			<doc:note>
-				<doc:ul>
-					<doc:ingress>Used by:</doc:ingress>
-					<doc:li>location indexes</doc:li>
-					<doc:li>related location lists</doc:li>
-					<doc:li>maps</doc:li>
-				</doc:ul>
-			</doc:note>
-		</doc:notes>
-	</doc:doc>
-	<xsl:template match="app/view[data[entities/location or location]]" mode="html.body html.footer.scripts" priority="1000">
-		<xsl:variable name="locations" as="element()*">
-			<xsl:choose>
-				<!-- Locations index -->
-				<xsl:when test="data/entities/location">
-					<xsl:sequence select="data/entities/location"/>
-				</xsl:when>
-				<!-- Location profile -->
-				<xsl:otherwise>
-					<xsl:sequence select="data/location"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		
-		<xsl:next-match>
-			<xsl:with-param name="locations" select="fn:sort-locations($locations/key('location', (@id | @ref)))" as="element()*" tunnel="yes" />
-		</xsl:next-match>
-	</xsl:template>
+
 
 
 	<xsl:template match="/app/view[data/entities/location]" mode="html.body">
@@ -53,8 +22,10 @@
 	</xsl:template>
 	
 	<xsl:template match="data/location">
+		<xsl:param name="locations" as="element()*" tunnel="yes" />
+		
 		<xsl:apply-templates select="@type"/>
-		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />		
+		<xsl:apply-templates select="$locations[geo:point]" mode="map" />		
 		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 

@@ -207,24 +207,6 @@
 	
 	
 	<doc:doc>
-		<doc:desc>Filter related locations to only those that are either directly referenced from the person or from events related to the person.</doc:desc>
-		<doc:note>
-			<doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
-		</doc:note>
-	</doc:doc>
-	<xsl:template match="app/view[data/person/related/location]" mode="html.body html.footer.scripts" priority="1000">
-		<xsl:variable name="directly-referenced-locations" select="data/person/related/location[@id = ancestor::person/note/descendant::location/@ref]" as="element()*" />        
-		<xsl:variable name="locations-referenced-from-events" select="data/person/related/location[@id = ancestor::related/event/descendant::location/@ref]" as="element()*" />
-		
-		<xsl:if test="count(($directly-referenced-locations | $locations-referenced-from-events)) &gt; 0">
-			<xsl:next-match>
-				<xsl:with-param name="locations" select="$directly-referenced-locations | $locations-referenced-from-events" as="element()*" tunnel="yes" />
-			</xsl:next-match>
-		</xsl:if>
-	</xsl:template>
-	
-	
-	<doc:doc>
 		<doc:title>Person Profile: Additional Persona.</doc:title>
 	</doc:doc>
 	<xsl:template match="data/person" mode="personas">
