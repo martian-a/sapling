@@ -333,6 +333,7 @@ declare function data:simplify-entity($param as element()) as element() {
 	case "event" return data:simplify-event($param)
 	case "name" return data:simplify-derived-name($param)
 	case "source" return data:simplify-source($param)
+	case "century" return data:simplify-century($param)
 	default return $param
 
 };
@@ -378,6 +379,15 @@ declare function data:simplify-event($param as element()) as element()? {
 			$entity/@*,
 			$entity/*
 		}</event>
+};
+
+declare function data:simplify-century($param as element()) as element()? {
+	
+	for $entity in $param/self::century[starts-with(@id, 'CEN')]
+	return
+		<century>{
+			$entity/@*
+		}</century>
 };
 
 declare function data:simplify-source($param as element()) as element()? {
@@ -435,6 +445,9 @@ declare function data:get-related-events($entity as element()) as element()* {
 
 	let $unsorted :=
 		switch ($entity/name()) 
+		case "century" return
+		    for $ref in distinct-values($entity/event/@ref/xs:string(.))
+		    return data:get-entity($ref)
 		case "event" return
 			for $ref in distinct-values($entity/descendant::preceded-by/@ref/xs:string(.))
 			return data:get-entity($ref)

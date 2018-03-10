@@ -8,6 +8,7 @@
 	<xsl:include href="entities/person.xsl"/>
 	<xsl:include href="entities/name.xsl"/>
 	<xsl:include href="entities/event.xsl"/>
+	<xsl:include href="entities/century.xsl"/>
 	<xsl:include href="entities/organisation.xsl"/>
 	<xsl:include href="entities/source.xsl"/>
 	<xsl:include href="custom/static_content.xsl"/>

@@ -14,7 +14,26 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="related | data/entities[event]" mode="timeline">
+	<xsl:template match="century" mode="timeline" priority="20">
+		<xsl:next-match>
+			<xsl:with-param name="events" select="fn:sort-events(key('event', event/@ref))" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	
+	<xsl:template match="related | data/entities[event]" mode="timeline" priority="10">
+		<xsl:param name="events" select="event" as="element()*" />
+		
+		<xsl:next-match>
+			<xsl:with-param name="events" select="fn:sort-events($events)" as="element()*" />
+		</xsl:next-match>
+	</xsl:template>
+	
+	
+	
+	<xsl:template match="related | data/entities[event]" mode="timeline">	
+		<xsl:param name="events" as="element()*" />
+		
 		<xsl:for-each-group select="event" group-by="not(date/@year)">
 			<xsl:choose>
 				<xsl:when test="current-grouping-key()">
@@ -36,6 +55,21 @@
 			</xsl:choose>
 		</xsl:for-each-group>
 	</xsl:template>
+	
+	
+	<xsl:template match="century" mode="timeline">
+		<xsl:param name="events" as="element()*" />
+		
+		<div class="{if (@start) then 'dated' else 'undated'}">
+			<div class="timeline">
+				<xsl:for-each select="$events">
+					<xsl:apply-templates select="self::event" mode="timeline" />					
+				</xsl:for-each>
+			</div>
+		</div>
+	</xsl:template>
+	
+	
 	
 	<xsl:template match="event" mode="timeline">
 		<div class="event {@type} {if (position() mod 2 = 1) then 'odd' else 'even'}">

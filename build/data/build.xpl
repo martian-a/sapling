@@ -44,6 +44,7 @@
 	<p:import href="pre-process/pre_process.xpl" />
 		
 	<p:import href="generate_name_entities.xpl" />
+	<p:import href="generate_century_entities.xpl" />
 
 	<p:variable name="href" select="/build/source/data[@role = $role]/@href" />
 	<p:variable name="target" select="/build/output/data[@role = $role]/@href" />
@@ -197,6 +198,13 @@
 		
 	</p:group>
 	
+	<tcy:generate-century-entities name="generate-century-entities">
+		<p:input port="config">
+			<p:pipe port="config" step="build-data" />
+		</p:input>
+		<p:with-option name="target" select="concat($target, 'centuries.xml')" />
+		<p:with-option name="role" select="$role"></p:with-option>
+	</tcy:generate-century-entities>
 	
 	<tcy:generate-name-entities name="generate-name-entities">
 		<p:input port="config">

@@ -791,5 +791,20 @@
 			<xsl:otherwise><xsl:value-of select="$code" /></xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
+	
+	
+	<xsl:function name="fn:ordinal-number-en" as="xs:string">
+		<xsl:param name="num" as="xs:integer?"/>
+		
+		<xsl:sequence select="
+			concat(xs:string($num),
+			if (matches(xs:string($num),'[04-9]$|1[1-3]$')) then 'th'
+			else if (ends-with(xs:string($num),'1')) then 'st'
+			else if (ends-with(xs:string($num),'2')) then 'nd'
+			else if (ends-with(xs:string($num),'3')) then 'rd'
+			else '')
+			"/>
+		
+	</xsl:function>
 		
 </xsl:stylesheet>
