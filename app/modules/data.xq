@@ -144,7 +144,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 							else $path
 						},
 						attribute index {
-							if ($id-in = '' and $app-view-entry/self::index) 
+							if ($id-in = '' and $app-view-entry/self::collection[@index = 'true']) 
 							then 'true' 
 							else 'false'
 						},
@@ -163,7 +163,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 						    	if ($for-graph)
 						    	then data:view-graph-xml($entity)
 						    	else data:view-entity-xml($entity)
-						    else if ($app-view-entry/self::index)
+						    else if ($app-view-entry/self::collection[@index = 'true'])
 						    then data:view-index-xml($path)
 						    else ()
 						}
@@ -197,8 +197,8 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	else
 		let $entities := 
 			switch ($path)
-			case "event" return (: Get only the events that involve people in the db :)
-				for $entity in data:get-events-involving-people()/self::event[@type != 'historical']
+			case "event" return (: Get a list of all the century entities in the db :)
+				for $entity in data:get-entities('century')/self::century
 				return data:simplify-entity($entity)
 			case "location" return (: Get only the locations that are related to events that involve people in the db :)
 				for $entity in data:get-locations-involving-people()

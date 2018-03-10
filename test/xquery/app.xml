@@ -11,42 +11,42 @@
 		<xi:include href="sources.xml"/>
 	</data>
 	<views>
-		<index path="/" default="true">
+		<collection path="/" default="true" index="true" entities="false">
 			<title>Sapling</title>
 			<method type="html"/>
 			<sub>
-				<index path="person">
+				<collection path="person" index="true" entities="true">
 					<title>People</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
+				</collection>
 				<!-- index path="event">
 					<title>Events</title>
 					<method type="xml"/>
 					<method type="html"/>
 				</index -->
-				<index path="location">
+				<collection path="location" index="true" entities="true">
 					<title>Locations</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-				<index path="organisation">
+				</collection>
+				<collection path="organisation" index="true" entities="true">
 					<title>Organisations</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-				<index path="name">
+				</collection>
+				<collection path="name" index="true" entities="true">
 					<title>Names</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-				<index path="source">
+				</collection>
+				<collection path="source" index="true" entities="true">
 					<title>Sources</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
+				</collection>
 			</sub>
-		</index>
+		</collection>
 	</views>
 	<assets>
 		<image role="site-logo">

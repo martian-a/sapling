@@ -29,7 +29,7 @@
 	</doc:doc>
 	<xsl:template match="/app/views" mode="nav.site">
 		<ul>
-			<xsl:apply-templates select="index[@default = 'true']/sub/*[method/@type = 'html']" mode="nav.site.html"/>
+			<xsl:apply-templates select="collection[@default = 'true']/sub/*[method/@type = 'html']" mode="nav.site.html"/>
 			<xsl:if test="$static = 'false'">
 				<xsl:apply-templates select="/app/view[method/@type = 'xml']" mode="nav.site.xml"/>
 			</xsl:if>
@@ -38,10 +38,16 @@
 
 
 	<doc:doc>
+		<doc:desc>Filter out collections that don't have an index.</doc:desc>
+	</doc:doc>
+	<xsl:template match="collection[not(@index = 'true')]" mode="nav.site.html nav.site.xml" priority="20" />
+
+
+	<doc:doc>
 		<doc:title>Global contents list entry.</doc:title>
 		<doc:desc>List item container.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page | view" mode="nav.site.html nav.site.xml" priority="10">
+	<xsl:template match="collection | page | view" mode="nav.site.html nav.site.xml" priority="10">
 		<li>
 			<xsl:next-match/>
 		</li>
@@ -52,13 +58,13 @@
 		<doc:title>Global contents list entry for link to HTML page.</doc:title>
 		<doc:desc>Build link and label.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page" mode="nav.site.html">
+	<xsl:template match="collection | page" mode="nav.site.html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="@path" as="xs:string?"/>
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.html"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean?"/>
+			<xsl:with-param name="is-index" select="if (name() = 'collection') then true() else false()" as="xs:boolean?"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -74,7 +80,7 @@
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.xml"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean"/>
+			<xsl:with-param name="is-index" select="if (name() = 'collection') then true() else false()" as="xs:boolean"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -85,7 +91,7 @@
 		<doc:title>Global contents list HTML entry content.</doc:title>
 		<doc:desc>Build entry content.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page" mode="link.html">
+	<xsl:template match="collection | page" mode="link.html">
 		<xsl:choose>
 			<xsl:when test="title">
 				<xsl:value-of select="title"/>

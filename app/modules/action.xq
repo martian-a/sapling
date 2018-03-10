@@ -10,6 +10,7 @@ import module namespace gv = "http://kitwallace.co.uk/ns/graphviz" at "../../gra
 
 declare namespace httpclient="http://exist-db.org/xquery/httpclient";
 
+
 (: Make HTTP request :)
 declare function action:request-http($uri as xs:anyURI) as item() {
   let $credentials := concat($cred:username,":",$cred:password)

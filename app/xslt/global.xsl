@@ -139,7 +139,7 @@
 	<xsl:template match="image[@role = 'site-logo']" mode="nav.site">
 		<h2 class="logo">
 			<xsl:call-template name="href-html">
-				<xsl:with-param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string" />
+				<xsl:with-param name="path" select="/app/views/collection[@default = 'true'][1]/@path" as="xs:string" />
 				<xsl:with-param name="content" as="item()*">
 					<img src="{$normalised-path-to-images}{file[1]/@path}" alt="{title}" />
 				</xsl:with-param>
@@ -199,6 +199,9 @@
 		<xsl:variable name="directly-referenced-locations" as="element()*">
 			<xsl:for-each select="ancestor-or-self::app/view/data/*[name() != 'location']/related/location">
 				<xsl:sequence select="self::*[@id = ancestor::data[1]/*/note/descendant::location/@ref]" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/name/related/location">
+				<xsl:sequence select="self::*[@id = (ancestor::name[1]/derived-from/location/@ref)]" />
 			</xsl:for-each>
 			<xsl:for-each select="ancestor-or-self::app/view/data/source/related/location">
 				<xsl:sequence select="self::*[@id = (ancestor::source[1]/body-matter/descendant::location/@ref, ancestor::source[1]/front-matter/acknowledgements/descendant::location/@ref)]" />

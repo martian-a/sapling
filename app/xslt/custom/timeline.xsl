@@ -6,7 +6,7 @@
 	exclude-result-prefixes="#all" 
 	version="2.0">
 	
-	<xsl:template match="related" mode="timeline" priority="10">
+	<xsl:template match="related" mode="timeline" priority="30">
 		<div class="timeline">
 			<h2>Events</h2>
 			<xsl:next-match />
@@ -62,10 +62,8 @@
 		
 		<div class="{if (@start) then 'dated' else 'undated'}">
 			<div class="timeline">
-				<xsl:for-each select="$events">
-					<xsl:apply-templates select="self::event" mode="timeline" />					
-				</xsl:for-each>
-			</div>
+				<xsl:apply-templates select="$events" mode="timeline"/>					
+				</div>
 		</div>
 	</xsl:template>
 	

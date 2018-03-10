@@ -102,7 +102,9 @@
 		<ul>
 			<xsl:for-each select="century">
 				<xsl:sort select="@start" data-type="number" order="ascending" />
-				<li><xsl:apply-templates select="self::century" mode="href-html" /></li>
+				<li>
+                    <xsl:apply-templates select="self::century" mode="href-html" />
+                </li>
 			</xsl:for-each>
 		</ul>		
 	</xsl:template>
@@ -116,10 +118,8 @@
 	</doc:doc>
 	<xsl:template match="data/century">
 		<div class="body-matter">	
-			<div class="timeline">
-				<xsl:apply-templates select="self::century" mode="timeline" />
-			</div>		
-		</div>
+			<xsl:apply-templates select="self::century" mode="timeline" />
+			</div>
 	</xsl:template>
 	
 
