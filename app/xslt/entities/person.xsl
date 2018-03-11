@@ -209,8 +209,8 @@
 	<doc:doc>
 		<doc:title>Person Profile: Additional Persona.</doc:title>
 	</doc:doc>
-	<xsl:template match="data/person" mode="personas">
-		<div class="personas">
+	<xsl:template match="data/person" mode="personas">			
+			<div class="personas">
 			<xsl:for-each select="persona[1]">
 				<p class="gender">
 					<xsl:value-of select="gender"/>
@@ -563,7 +563,7 @@
 	<doc:doc>
 		<doc:title>Name: Person</doc:title>
 	</doc:doc>
-	<xsl:template match="/app/view/data/person/persona/name">
+	<xsl:template match="person/persona/name">
 		<xsl:value-of select="string-join(name, ' ')"/>
 	</xsl:template>
 	
