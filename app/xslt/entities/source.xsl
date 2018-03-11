@@ -193,15 +193,42 @@
         <div class="sources">
             <h2>Sources</h2>
             <ul>
-                <xsl:for-each select="fn:sort-sources($sources)">
-                    <li>
-                        <xsl:apply-templates select="self::*" mode="href-html"/>
-                    </li>
-                </xsl:for-each>
+                <xsl:apply-templates select="fn:sort-sources($sources)" mode="source.summary" />                 
             </ul>
         </div>
     </xsl:template>
     
+    <xsl:template match="source" mode="source.summary" priority="50">
+        <xsl:next-match>
+            <xsl:with-param name="summary" select="ancestor::data[1]/event/sources/source[@ref = current()/@id]/summary" as="element()?" />
+            <xsl:with-param name="extract-id" select="ancestor::data[1]/event/sources/source[@ref = current()/@id]/@extract" as="xs:string?" tunnel="yes" />
+         </xsl:next-match>
+    </xsl:template>
+    
+    
+    <xsl:template match="source" mode="source.summary">
+        <xsl:param name="summary" as="element()?" />
+        
+        <li>
+            <xsl:if test="count($summary) &gt; 0">
+                <xsl:attribute name="class">with-summary</xsl:attribute>
+            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="count($summary) &gt; 0">
+                    <p class="source"><xsl:apply-templates select="self::*" mode="href-html" /></p>
+                    <xsl:apply-templates select="$summary" mode="source.summary" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="self::*" mode="href-html" />
+                </xsl:otherwise>
+            </xsl:choose>
+        </li>         
+    </xsl:template>
+    
+    <xsl:template match="event/sources/source/summary" mode="source.summary">
+        <p class="summary"><xsl:value-of select="." /></p>
+    </xsl:template>
+
     
     <doc:doc>
         <doc:desc>Matches a reference to a source and generates a link to it's profile page.</doc:desc>
@@ -216,9 +243,11 @@
     </doc:doc>
     <xsl:template match="source" mode="href-html">
         <xsl:param name="inline-value" as="xs:string?" tunnel="yes" />
+        <xsl:param name="extract-id" select="@extract" as="xs:string?" tunnel="yes" />
         
         <xsl:call-template name="href-html">
             <xsl:with-param name="path" select="concat('source/', @id)" as="xs:string"/>
+            <xsl:with-param name="bookmark" select="$extract-id" as="xs:string?" />
             <xsl:with-param name="content" as="item()*">
                 <xsl:apply-templates select="reference"/>
             </xsl:with-param>
