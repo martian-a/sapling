@@ -92,7 +92,8 @@
 			</xsl:choose>
 		</div>
 	</xsl:template>
-	
+
+
 	<xsl:template match="event/@type" mode="glyph">
 		<span class="glyph">
 			<xsl:call-template name="href-html">
