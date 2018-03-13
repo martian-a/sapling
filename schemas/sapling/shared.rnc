@@ -206,7 +206,10 @@ shared.person.name.title |= element title {
 
 shared.summary |= element summary { 
 	shared.summary.attlist,
-	mixed { shared.entity-ref* }
+	mixed { 
+	   shared.entity-ref* &
+	   shared.body-matter.quote-inline*
+	}
 }
 
 
