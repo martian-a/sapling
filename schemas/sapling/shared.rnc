@@ -1,6 +1,7 @@
 # Namespaces #
 
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace temp = "http://ns.thecodeyard.co.uk/temp"
 
 
 
@@ -90,6 +91,10 @@ shared.body-matter.table.cell |= element td {
 shared.body-matter.table.heading-cell |= element th {
 	shared.body-matter.table.cell.attlist,
 	shared.body-matter.table.cell.content-model
+}
+
+shared.body-matter.strikethrough |= element strikethrough {
+    shared.inline.mix.content-model
 }
 
 shared.body-matter.underline |= element underline {
@@ -275,7 +280,8 @@ shared.inline.mix.content-model |=
 	       shared.body-matter.quote-inline |
 	       shared.body-matter.bold |
 	       shared.body-matter.italic |
-	       shared.body-matter.underline
+	       shared.body-matter.underline |
+	       shared.body-matter.strikethrough
 	    )*
 	}
 
@@ -396,4 +402,14 @@ shared.summary.attlist |=
 	xml.attlist	
 	
 xml.attlist |= 
-	xml.anyElement.attlist
+	xml.anyElement.attlist,
+	temp.attlist
+	
+temp.attlist |=
+    attribute temp:sources {
+        "stuck" |
+        "cross-references"
+    }?,
+    attribute temp:status {
+        "tentative"
+    }?

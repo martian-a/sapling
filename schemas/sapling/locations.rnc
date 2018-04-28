@@ -94,4 +94,7 @@ location.within.attlist =
 	attribute rel {
 		"physical" |
 		"political"
-	}?	
+	}?,
+    attribute status {
+        "historical"
+    }?

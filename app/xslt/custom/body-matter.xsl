@@ -95,4 +95,12 @@
 		<em class="italic"><xsl:apply-templates mode="#current" /></em>
 	</xsl:template>
 	
+	<xsl:template match="underline" mode="body">
+		<em class="underline"><xsl:apply-templates mode="#current" /></em>
+	</xsl:template>
+	
+	<xsl:template match="strikethrough" mode="body">
+		<s><xsl:apply-templates mode="#current" /></s>
+	</xsl:template>
+	
 </xsl:stylesheet>

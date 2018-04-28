@@ -85,6 +85,16 @@
 	
 	<p:xslt> 
 		<p:input port="stylesheet">
+			<p:document href="filter_out_tentative_events.xsl" />
+		</p:input>
+		<p:input port="parameters">
+			<p:empty />
+		</p:input>
+	</p:xslt>
+	
+	
+	<p:xslt> 
+		<p:input port="stylesheet">
 			<p:document href="filter_data_to_core_people.xsl" />
 		</p:input>
 		<p:input port="parameters">
@@ -112,8 +122,8 @@
 		
 	</p:choose>
 	
-	
 	<tcy:filter-by-core-entities />
+	
 	
 	<p:xslt> 
 		<p:input port="stylesheet">
