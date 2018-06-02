@@ -17,90 +17,84 @@ include "../../../cenizaro/schemas/app/app.rnc" {
 	
 	app.data.entity.collection = 
 		(
-			people |
-			events |
-			locations |
-			organisations |
-			derived-names |
-			sources |
-			journals |
+			person.collection |
+			event.collection |
+			location.collection |
+			organisation.collection |
+			derived-name.collection |
+			source.collection |
+			source.serial.collection |
 			app.static-content
 		)
 	
 	app.data.entity = 
 		(
-			person |
-			event |
-			location |
-			organisation |
-			derived-name |
-			source |
-			journal | 
+			person.entity |
+			event.entity |
+			location.entity |
+			organisation.entity |
+			derived-name.entity |
+			source.entity |
+			source.serial.entity | 
 			app.content
 		)
 		
 	app.inline.content-model =
 		mixed {
 			app.inline.emphasis*,
-			entity-ref*
+			shared.entity-ref*
 		}
 
 }
 include "people.rnc" {
 
-	person = element person {
-		person.attlist,
-		person.content-model,
+	person.entity = element person {
+		person.entity.attlist,
+		person.entity.content-model,
 		app.view.data.related?
 	}
 }
 include "events.rnc" {
 	
-	event = element event {
-		event.attlist,
-		event.content-model,
+	event.entity = element event {
+		event.entity.attlist,
+		event.entity.content-model,
 		app.view.data.related?
 	}
 	
 }
 include "locations.rnc" {
 
-	location = element location {
-		location.attlist,
-		location.content-model,
+	location.entity = element location {
+		location.entity.attlist,
+		location.entity.content-model,
 		app.view.data.related?
 	}
 
 }
 include "organisations.rnc" {
 	
-	organisation = element organisation {
-		organisation.attlist,
-		organisation.content-model,
+	organisation.entity = element organisation {
+		organisation.entity.attlist,
+		organisation.entity.content-model,
 		app.view.data.related?
 	}
 	
 }
 include "sources.rnc" {
 	
-	source = element source {
-		source.attlist,
-		source.content-model,
-		app.view.data.related?
-	}
-	
-	journal = element journal {
-		journal.attlist,
-		journal.content-model,
+	source.entity = element source {
+		source.entity.attlist,
+		source.entity.content-model,
 		app.view.data.related?
 	}
 	
 }
 include "names.rnc" {
 
-	derived-name = element name {
-		derived-name.attlist,
-		derived-name.content-model,
+	derived-name.entity = element name {
+		derived-name.entity.attlist,
+		derived-name.entity.content-model,
 		app.view.data.related?
 	}
 

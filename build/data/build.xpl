@@ -22,13 +22,29 @@
 		<p:pipe port="result" step="results" />
 	</p:output>
 	
-	<p:option name="scope" />
+	<p:documentation>
+		<d:doc>
+			<d:desc>Whether or not all data should be included (private) or just data cleared for publishing publicly (public).</d:desc>
+			<d:note>
+				<d:ul>
+					<d:ingress>Recognises the following values:</d:ingress>
+					<d:li>private</d:li>
+					<d:li>public</d:li>
+				</d:ul>
+				<d:p>The default value is 'public'.</d:p>
+			</d:note>
+		</d:doc>
+	</p:documentation>
+	<p:option name="scope" select="'public'" />
+	
 	<p:option name="role" select="'core'" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
+	<p:import href="../../../genealogy-data-global/build/sources/build.xpl" />
 	<p:import href="pre-process/pre_process.xpl" />
 		
 	<p:import href="generate_name_entities.xpl" />
+	<p:import href="generate_century_entities.xpl" />
 
 	<p:variable name="href" select="/build/source/data[@role = $role]/@href" />
 	<p:variable name="target" select="/build/output/data[@role = $role]/@href" />
@@ -37,12 +53,39 @@
 		<p:with-option name="href" select="$target" />
 	</cxf:mkdir>
 
+	<p:for-each name="update-sources">
+		
+		<p:iteration-source select="/build/source/data[@role = ('core', 'shared')]">
+			<p:pipe port="config" step="build-data" />
+		</p:iteration-source>
+		
+		<p:group>
 			
+			<tcy:build-sources>
+				<p:input port="source">
+					<p:empty />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+				<p:with-option name="href" select="concat(data/@href, 'sources/')"/>
+			</tcy:build-sources>
+			
+			<p:sink />
+			
+		</p:group>
+		
+	</p:for-each>
+
+
 	<p:group name="pre-process-app-data">
 		
 		<p:output port="result" sequence="false" />
 		
 		<p:variable name="source-file-path" select="concat($href, 'app.xml')" />
+		<p:variable name="temp-file-path" select="concat(/build/output/data[@role = 'temp']/@href, $role, '.xml')">
+			<p:pipe port="config" step="build-data" />
+		</p:variable>
 		
 		<p:load name="source-data" dtd-validate="false">
 			<p:with-option name="href" select="$source-file-path" />
@@ -52,6 +95,8 @@
 			<p:input port="source">
 				<p:pipe port="result" step="source-data" />
 			</p:input>
+			<p:with-option name="scope" select="$scope" />
+			<p:with-option name="target" select="$temp-file-path" />			
 		</tcy:pre-process-data>
 		
 	</p:group>
@@ -153,6 +198,13 @@
 		
 	</p:group>
 	
+	<tcy:generate-century-entities name="generate-century-entities">
+		<p:input port="config">
+			<p:pipe port="config" step="build-data" />
+		</p:input>
+		<p:with-option name="target" select="concat($target, 'centuries.xml')" />
+		<p:with-option name="role" select="$role"></p:with-option>
+	</tcy:generate-century-entities>
 	
 	<tcy:generate-name-entities name="generate-name-entities">
 		<p:input port="config">

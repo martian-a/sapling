@@ -6,58 +6,61 @@ include "shared.rnc"
 
 
 # Root Element #
-start |= locations
+start |= location.collection
 
 # Elements #
 
-locations = element locations { 
-	locations.attlist, 
-	locations.content-model
+location.collection = element locations { 
+	location.collection.attlist, 
+	location.collection.content-model
 }
 
-location = element location { 
-	location.attlist, 
-	location.content-model
+location.entity = element location { 
+	location.entity.attlist, 
+	location.entity.content-model
 }
 
-location-ref.within = element within {
-	within.attlist,
-	entity-ref.content-model
+location.entity-ref.near = element near {
+	location.near.attlist,
+	shared.entity-ref.content-model
 }
 
-location-ref.near = element near {
-	near.attlist,
-	entity-ref.content-model
+location.entity-ref.within = element within {
+	location.within.attlist,
+	shared.entity-ref.content-model
 }
 
 location.geo.point = element geo:point {
     location.geo.point.attlist,
     location.geo.point.content-model
 }
+
+
     
 
 # Content Models #
 
-locations.content-model =
-	location*
+location.collection.content-model =
+	location.entity*
 	
-location.content-model =
-	name*,
+location.entity.content-model =
+	shared.name*,
 	location.geo.point?,
-	location-ref.within*,
-	location-ref.near*,
-	note*,
-	bibliography?
+	location.entity-ref.within*,
+	location.entity-ref.near*,
+	shared.note*,
+	shared.bibliography?
     
 location.geo.point.content-model = 
     empty
 
+
 # Attributes #
 
-locations.attlist = 
+location.collection.attlist = 
 	xml.attlist
 		
-location.attlist =
+location.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID },
     attribute type { 
@@ -76,20 +79,22 @@ location.attlist =
     },
     attribute mobile { xsd:boolean }? # Consider "transient" as an alternative name
     
+location.geo.point.attlist =
+    xml.attlist,
+    attribute geo:lat { xsd:decimal },
+    attribute geo:long { xsd:decimal }
     
-within.attlist = 
-	location-ref.attlist,
+location.near.attlist = 
+	shared.entity-ref.location.attlist    
+    
+location.within.attlist = 
+	shared.entity-ref.location.attlist,
 	
 	[ a:defaultValue = "physical" ]
 	attribute rel {
 		"physical" |
 		"political"
-	}?
-	
-near.attlist = 
-	location-ref.attlist
-	
-location.geo.point.attlist =
-    xml.attlist,
-    attribute geo:lat { xsd:decimal },
-    attribute geo:long { xsd:decimal }
+	}?,
+    attribute status {
+        "historical"
+    }?

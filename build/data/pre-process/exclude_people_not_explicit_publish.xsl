@@ -27,8 +27,8 @@
 	
 	
 	<doc:doc>
-		<doc:desc>Suppress person records that aren't explicitly set to publish.</doc:desc>
+		<doc:desc>Suppress person records that aren't explicitly set to publish, regardless of whether they're in the include or exclude collection.</doc:desc>
 	</doc:doc>
-	<xsl:template match="app/data/people/person[not(@publish = 'true')]" />
+	<xsl:template match="/app/data/*/people/person[not(@publish = 'true')]" />
 		
 </xsl:stylesheet>

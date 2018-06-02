@@ -95,7 +95,7 @@
 			
 			<p:output port="result" sequence="true" />
 			
-			<p:iteration-source select="/build/source/data[@role]">
+			<p:iteration-source select="/build/source/data[@role[. != 'shared']]">
 				<p:pipe port="source" step="build" />
 			</p:iteration-source>
 			

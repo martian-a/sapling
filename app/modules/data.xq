@@ -144,7 +144,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 							else $path
 						},
 						attribute index {
-							if ($id-in = '' and $app-view-entry/self::index) 
+							if ($id-in = '' and $app-view-entry/self::collection[@index = 'true']) 
 							then 'true' 
 							else 'false'
 						},
@@ -163,7 +163,7 @@ declare function data:view-app-xml($path-in as xs:string?, $id-in as xs:string?,
 						    	if ($for-graph)
 						    	then data:view-graph-xml($entity)
 						    	else data:view-entity-xml($entity)
-						    else if ($app-view-entry/self::index)
+						    else if ($app-view-entry/self::collection[@index = 'true'])
 						    then data:view-index-xml($path)
 						    else ()
 						}
@@ -197,12 +197,25 @@ declare function data:view-index-xml($path as xs:string) as element()? {
 	else
 		let $entities := 
 			switch ($path)
-			case "event" return (: Get only the events that involve people in the db :)
-				for $entity in data:get-events-involving-people()/self::event[@type != 'historical']
+			case "event" return (: Get a list of all the century entities in the db :)
+				for $entity in data:get-entities('century')/self::century
 				return data:simplify-entity($entity)
 			case "location" return (: Get only the locations that are related to events that involve people in the db :)
-				for $location in data:get-locations-involving-people()
-				return data:simplify-entity($location)
+				for $entity in data:get-locations-involving-people()
+				return
+				    <location>{
+             			$entity/@*,
+             			$entity/name[not(@xml:lang) or @xml:lang = 'en'],
+             			$entity/geo:point,
+             			$entity/within
+             		}</location>
+			case "organisation" return
+			     for $entity in data:get-entities($path)
+			     return
+			         <organisation>{
+			             $entity/@*,
+			             $entity/name[not(@xml:lang) or @xml:lang = 'en']
+			         }</organisation>
 			default return 
 				for $entity in data:get-entities($path)
 				return data:simplify-entity($entity)
@@ -319,6 +332,8 @@ declare function data:simplify-entity($param as element()) as element() {
 	case "location" return data:simplify-location($param)
 	case "event" return data:simplify-event($param)
 	case "name" return data:simplify-derived-name($param)
+	case "source" return data:simplify-source($param)
+	case "century" return data:simplify-century($param)
 	default return $param
 
 };
@@ -340,7 +355,7 @@ declare function data:simplify-organisation($param as element()) as element()? {
 	return
 		<organisation>{
 			$entity/@*,
-			$entity/name[1]
+			data:get-primary-name($entity)
 		}</organisation>
 };
 
@@ -350,7 +365,7 @@ declare function data:simplify-location($param as element()) as element()? {
 	return
 		<location>{
 			$entity/@*,
-			$entity/name[1],
+			data:get-primary-name($entity),
 			$entity/geo:point,
 			$entity/within
 		}</location>
@@ -362,8 +377,27 @@ declare function data:simplify-event($param as element()) as element()? {
 	return
 		<event>{
 			$entity/@*,
-			$entity/*[not(name() = ('preceded-by'))]
+			$entity/*
 		}</event>
+};
+
+declare function data:simplify-century($param as element()) as element()? {
+	
+	for $entity in $param/self::century[starts-with(@id, 'CEN')]
+	return
+		<century>{
+			$entity/@*
+		}</century>
+};
+
+declare function data:simplify-source($param as element()) as element()? {
+	
+	for $entity in $param/self::source[starts-with(@id, 'SOU')]
+	return
+		<source>{
+			$entity/@*,
+			$entity/reference
+		}</source>
 };
 
 declare function data:simplify-derived-name($param as element()) as element()? {
@@ -371,8 +405,8 @@ declare function data:simplify-derived-name($param as element()) as element()? {
 	for $entity in $param/self::name[starts-with(@id, 'NAM')]
 	return
 		<name>{
-			$entity/@*,
-			$entity/name[1]
+			$entity/@*,			
+			data:get-primary-name($entity)
 		}</name>
 };
 
@@ -385,8 +419,9 @@ declare function data:augment-entity($param as element()) as element()? {
 		let $people := data:get-related-people($entity, $events)
 		let $organisations := data:get-related-organisations($entity, $events)
 		let $locations := data:get-related-locations($entity, $events, ())
+		let $sources := data:get-related-sources($entity, $events)
 		return (  
-			for $related-entity in ($events, $people, $organisations, $locations)
+			for $related-entity in ($events, $people, $organisations, $locations, $sources)
 			return data:simplify-entity($related-entity)
 		)
 		
@@ -410,6 +445,9 @@ declare function data:get-related-events($entity as element()) as element()* {
 
 	let $unsorted :=
 		switch ($entity/name()) 
+		case "century" return
+		    for $ref in distinct-values($entity/event/@ref/xs:string(.))
+		    return data:get-entity($ref)
 		case "event" return
 			for $ref in distinct-values($entity/descendant::preceded-by/@ref/xs:string(.))
 			return data:get-entity($ref)
@@ -422,6 +460,9 @@ declare function data:get-related-events($entity as element()) as element()* {
 			return $event
 		case "organisation" return
 			for $event in data:get-entities("event")[descendant::organisation/@ref = $entity/@id]
+			return $event
+		case "source" return
+			for $event in data:get-entities("event")[descendant::source/@ref = $entity/@id]
 			return $event
 		case "content" return
 			for $ref in $entity/descendant::event/@ref/xs:string(.)
@@ -442,9 +483,13 @@ declare function data:get-related-people($entity as element(), $related-events a
 
 	let $entities := ($entity, $related-events)
 	let $references :=
-		let $direct-references := $entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.)
-		let $indirect-references := data:get-entities('person')/self::person[descendant::note/descendant::*/@ref = $entity/@id]/@id/xs:string(.)
-		return distinct-values(($direct-references, $indirect-references))
+		let $references-from-entities-to-people := $entities/descendant::*[name() = ('person', 'parent')]/@ref/xs:string(.)
+		let $references-to-entity-from-people := 
+    		  for $person in data:get-entities('person')/self::person
+    		  let $from-notes := $person[descendant::note/descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+    		  let $from-sources := $person[descendant::source/@ref = $entity/@id]/@id/xs:string(.)
+    		  return ($from-notes, $from-sources)
+		return distinct-values(($references-from-entities-to-people, $references-to-entity-from-people))
 	for $ref in $references
 	let $person := data:get-entity($ref)/self::person[@id != $entity/@id]
 	order by $person/number(substring-after(@id, 'PER')) ascending
@@ -504,14 +549,34 @@ declare function data:get-related-organisations($entity as element(), $related-e
 	   switch ($entity/name())
 	   case "location" return ($entity, $related-events, data:get-locations-within($entity))
 	   default return ($entity, $related-events)
-	let $references-to-organisations := $entities/descendant::organisation/@ref/xs:string(.)
-	let $references-from-organisations := data:get-entities('organisation')/self::organisation[descendant::*/@ref = $entities/@id]/@id/xs:string(.)
-	for $ref in distinct-values(($references-to-organisations, $references-from-organisations))
+	let $references-from-entities-to-organisations := $entities/descendant::organisation/@ref/xs:string(.)
+	let $references-to-entity-from-organisations := data:get-entities('organisation')/self::organisation[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+	for $ref in distinct-values(($references-from-entities-to-organisations, $references-to-entity-from-organisations))
 	let $organisation := data:get-entity($ref)/self::organisation[@id != $entity/@id]
 	order by $organisation/number(substring-after(@id, 'ORG')) ascending
 	return $organisation
 
 };
+
+
+declare function data:get-related-sources($entity as element()) as element()* {
+	data:get-related-sources($entity, data:get-related-events($entity))
+};
+
+declare function data:get-related-sources($entity as element(), $related-events as element()*) as element()* {
+
+	let $entities := ($entity, $related-events)
+	let $references :=
+		let $references-from-entities-to-sources := $entities/descendant::source/@ref/xs:string(.)
+		let $references-to-entity-from-sources := data:get-entities('source')/self::source[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
+		return distinct-values(($references-from-entities-to-sources, $references-to-entity-from-sources))
+	for $ref in $references
+	let $source := data:get-entity($ref)/self::source[@id != $entity/@id]
+	order by $source/number(substring-after(@id, 'SOU')) ascending
+	return $source
+
+};
+
 
 
 declare function data:get-events-involving-people() as element()* {
@@ -564,5 +629,27 @@ declare function data:get-locations-near($location-in as element()?) as element(
 	group by $id
 	order by $location[1]/number(substring-after(@id, 'LOC')) ascending
 	return $location[1]
+
+};
+
+
+declare function data:get-primary-name($entity-in as element()?) as element()? {
+    data:get-primary-name($entity-in, '')
+};
+
+declare function data:get-primary-name($entity-in as element()?, $language as xs:string?) as element()? {
+
+    let $candidate-names as element()* :=
+        let $names := 
+             if ($entity-in/name() = 'person')
+             then $entity-in/persona/name
+             else $entity-in/name
+        for $name in $names[normalize-space(.) != ''][if ($language != '') then @xml:lang = $language else (normalize-space(@xml:lang) = '' or @xml:lang = 'en')]
+        return $name
+        
+    return
+        if (count($candidate-names[not(@rel)]) > 0)
+        then $candidate-names[not(@rel)][1]
+        else $candidate-names[1]
 
 };

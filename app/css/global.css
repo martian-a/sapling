@@ -1,0 +1,601 @@
+@import 'reset.css';
+@import 'default.css';
+
+
+/**********
+ * Links
+ *  
+ * See project.css for colours. 
+ * */
+
+/* End of Links */
+
+/**********
+ * Body 
+ * 
+ * See project.css for colors. 
+ */
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* End of Body */
+
+
+/**********
+ * Fonts 
+ * 
+ * See project.css for colours.
+ */
+
+@font-face {
+    font-family: fell;
+    src: url('../fonts/fell_dw/IMFePIrm28P.ttf');
+        src: 	url('../fonts/fell_dw/IMFePIrm28P.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: fellBold;
+    src: url('../fonts/fell_sc/IMFeENsc28P.ttf');
+    src: 	url('../fonts/fell_sc/IMFeENsc28P.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'dejavu';
+    src: url('../fonts/dejavu/serif/italic/dejavu.eot');
+    src: url('../fonts/dejavu/serif/italic/dejavu.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dejavu/serif/italic/dejavu.woff2') format('woff2'),
+         url('../fonts/dejavu/serif/italic/dejavu.woff') format('woff'),
+         url('../fonts/dejavu/serif/italic/dejavu.ttf') format('truetype'),
+         url('../fonts/dejavu/serif/italic/dejavu.svg#dejavu') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'dejavuBold';
+    src: url('../fonts/dejavu/serif/bold/dejavu.eot');
+    src: url('../fonts/dejavu/serif/bold/dejavu.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dejavu/serif/bold/dejavu.woff2') format('woff2'),
+         url('../fonts/dejavu/serif/bold/dejavu.woff') format('woff'),
+         url('../fonts/dejavu/serif/bold/dejavu.ttf') format('truetype'),
+         url('../fonts/dejavu/serif/bold/dejavu.svg#dejavu') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freeSerif';
+    src: url('../fonts/free/serif/regular.woff');
+    src: url('../fonts/free/serif/regular.woff') format('woff')
+         url('../fonts/free/serif/regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'freeSerifBold';
+    src: url('../fonts/free/serif/bold.woff');
+    src: url('../fonts/free/serif/bold.woff') format('woff')
+         url('../fonts/free/serif/bold.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+body,
+div.map div.leaflet-popup-content {
+	font-family: fell, dejavu, freeSerif, serif;
+}
+
+div.nav li,
+h1, h2, h3, h4, h5, h6,
+table tr th,
+table tr td:first-of-type {
+ 	font-family: fellBold, dejavuBold, freeSerifBold, serif;
+}
+
+.glyph {
+    font-family: freeSerifBold;
+}
+.event .icon .glyph a {
+    font-family: freeSerif; /* Not all glyphs supported by freeSerifBold */
+}
+
+.italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+sup {
+    vertical-align: super;
+}
+
+
+h2, h5 {
+ 	opacity: .75;
+}
+
+h3, h6 {
+ 	opacity: .65;
+}
+
+h4 {
+ 	opacity: .5;
+}
+
+/* End of Fonts */
+
+
+/**********
+ * Header 
+ * 
+ * See project.css for colours.
+ */
+
+.header {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0.5em 0;
+}
+
+.header h2,
+.header .nav-site {
+	display: block;
+	vertical-align: bottom;
+}
+
+.header h2 {
+	margin: 0.25em 1em;
+	padding: 0;	
+	float: right;
+	opacity: 1;
+}
+.header h2 a {
+	display: inline-block;
+}
+
+.nav-site ul {
+	list-style-type: none;
+	margin: 0 1em;
+	padding: 0;
+}
+
+.nav-site li {
+	display: inline-block;
+	margin: 0 1em;
+	padding: 0;	
+}
+
+.header a:link,
+.header a:visited {
+	text-decoration: none;
+}
+
+.header a:hover {
+	text-decoration: underline;
+}
+
+@media only screen and (max-width: 410px) {
+	
+	.header .logo img {
+		width: 100%;
+	}
+	
+}
+
+@media only screen and (min-width: 410px) {
+	
+	.header img {
+		height: 100px;
+		width: 100px;
+	}
+	
+}
+
+/* End of Header */
+
+
+/**********
+ * Footer
+ */
+
+#footer {
+ margin: 0;
+ padding: 0.5em 1em;
+}
+
+/* End of Footer */
+
+
+/**********
+ * Content 
+ */
+ 
+div.main {
+ 	margin: 0;
+ 	padding: 1.5em;
+ }
+ 
+/* End of Content */
+ 
+ 
+/**********
+ * Page Title 
+ */
+ 
+ body h1 {
+ 	margin: 0;
+ }
+ 
+ body.index h1 {
+ 	margin-bottom: 0.5em;
+ }
+ 
+/* End of Page Title */
+ 
+
+/**********
+ * Quoted Content
+ * 
+ * See project.css for colours.
+ */
+
+blockquote {
+    margin: 0;
+    padding: 1em;
+    quotes: "“" "”";
+}
+
+/* End of Quoted Content */ 
+ 
+
+/**********
+ * Tables: Generic
+ * 
+ * See project.css for colours.
+ */
+
+div.table {
+	display: block;
+	overflow-x: auto;
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table td, 
+table th {
+	padding: 0.25em 1em;
+    border-width: 0 3px 3px 0;
+	border-style: solid;
+	text-align: center;
+}
+
+table tr th:first-of-type,
+table tr td:first-of-type {
+	text-align: left;
+}
+
+table tr th:last-of-type,
+table tr td:last-of-type {
+	border-right-width: 0;
+}
+
+/* Group Title */
+table tr.title td {
+	padding-top: 1em;
+	padding-bottom: .5em;
+	font-style: italic;
+}
+
+/* End of Tables: Generic */
+
+
+/**********
+ * Multi-column
+ */
+
+@media only screen and (min-width: 410px) {
+	
+	.multi-column {
+		column-count: 2;
+		column-gap: 5em;	
+	}
+
+}
+
+@media only screen and (max-width: 599px) {
+	
+	div.tabbed .contents {
+		display: none;
+	}
+	
+}
+
+@media only screen and (min-width: 600px) {
+	
+	.multi-column {
+		column-count: 3;	
+	}
+
+}
+
+@media only screen and (min-width: 1225px) {
+	
+	.multi-column {
+		column-count: 4;	
+	}
+
+}
+
+/* End of Multi-column */
+
+ 
+/**********
+ * Copyright Notice
+ */
+ 
+ .copyright {
+ 	text-align: center;
+ 	font-size: small;
+ }
+ 
+/* End of Copyright Notice */
+ 
+ 
+/**********
+ * Index
+ */
+ 
+ html body.index h3 {
+ 	margin-top: 0;	
+ 	break-after: avoid !important;
+ 	-webkit-column-break-after: avoid !important;
+ }
+ 
+ html body.index .multi-column > div {
+ 	break-inside: avoid;
+ 	-webkit-column-break-inside: avoid;
+ }
+ 
+ html body.index .multi-column ul {
+ 	margin-bottom: 1.5em;
+ }
+ 
+/* End of Index */
+ 
+ 
+/**********
+ * Timeline
+ * 
+ * See project.css for colours.
+ */
+
+.event .glyph,
+.event .glyph a {
+    text-decoration: none;
+    line-height: .9em;
+}
+
+.event .glyph a:link,
+.event .glyph a:visited {
+    color: #000000;
+}
+
+.event .glyph a:hover,
+.event .glyph a:active {
+    opacity: 0.5;
+}
+
+.event .heading {
+    min-height: 1em;
+}
+
+.timeline .event {
+    display: grid;
+    grid-template-columns: 2.75em auto;
+    grid-template-rows: auto;
+    margin-bottom: 1em;
+}
+
+.timeline .event .icon {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+}
+
+.timeline .event .content {
+    grid-column-start:2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+}
+
+.event .icon,
+.event .content {
+    display: block;
+}
+
+.event .icon {
+    font-size: 2.2em;
+    text-align: center;
+    width: 1em;
+    padding-top: 0.3em;
+}
+
+.timeline .event p {
+	margin: 0;
+}
+
+.event .heading .unknown {
+    opacity: .25;
+}
+ 
+div.event .content {
+    margin-left: 1em;
+}
+
+/* End of Timeline */
+
+
+/**********
+ * Key: Gender
+ */
+ 
+.symbols .male::before {
+	content: "♂";
+}
+
+.symbols .female::before {
+	content: "♀";
+	margin-left: -1.575em;	
+}
+
+.symbols .hermaphrodite::before,
+.symbols .transgender::before {
+	font-weight: 600;
+	font-size: 1.8em;
+}
+
+.symbols .hermaphrodite::before {
+	content: "⚥";
+	margin-left: -1.725em;	
+}
+
+.symbols .transgender::before {
+	content: "⚧";
+	margin-left: -1.75em;	
+}
+
+.symbols .androgyne::before {
+	font-weight: bold;
+	content: "⚪";
+}
+
+/* End of Key: Gender */
+
+
+/**********
+ * Index (Navigation)
+ */
+
+div.nav-index {
+	margin-top: 4em;
+}
+
+div.nav-index:first-of-type {
+	margin-top: 0;
+}
+
+
+/* End of Index (Navigation) */
+ 
+ 
+/**********
+ * Alphabetical Index: Jump List
+ */
+
+.alphabetical .nav-list {
+	margin: 0;
+}
+
+.alphabetical .multi-column {
+	margin-top: 2em;
+}
+
+.alphabetical h2 {
+	margin-bottom: 0;
+}
+
+.alphabetical .nav-list h3 {
+	display: inline-block;
+	font-size: smaller;
+	margin-right: .5em;
+}
+
+.alphabetical .nav-list h3::after {
+	content: ": ";
+}
+
+.alphabetical .nav-list ul {
+	margin: 0;
+	padding: 0;	
+	display: inline-block;
+}
+
+.alphabetical .nav-list li {
+	display: inline-block;	
+	font-size: smaller;
+}
+
+.alphabetical .nav-list li::after {
+	content: " | ";
+}
+
+.alphabetical .nav-list li:last-child:after {
+	content: "";
+}
+
+/* End of Alphabetical Index: Jump List */
+
+
+/**********
+ * Chronological Index
+ */
+
+.chronological h2 {
+	margin-bottom: 0;
+}
+
+.chronological p.note {
+	font-style: italic;
+	font-size: smaller;	
+}
+
+.chronological .multi-column {
+	margin-top: 2em;
+}
+
+/* End of Chronological Index */
+
+
+/**********
+ * Map
+ */
+
+div.map {
+    margin-bottom: 1.5em;
+}
+
+
+div.map {
+    height: 300px;
+}
+
+html.location div.map {
+    height: 250px;
+}
+
+html.location body.index div.map {
+    height: 500px;
+}
+
+
+div.map .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+}
+
+/* End of Map */

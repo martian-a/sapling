@@ -4,43 +4,49 @@
 <app xmlns:xi="http://www.w3.org/2001/XInclude">
 	<name>Sapling</name>
 	<data>
-		<xi:include href="people.xml" />
-		<xi:include href="events.xml" />
-		<xi:include href="locations.xml" />
-		<xi:include href="organisations.xml" />
+		<xi:include href="people.xml"/>
+		<xi:include href="events.xml"/>
+		<xi:include href="locations.xml"/>
+		<xi:include href="organisations.xml"/>
+		<xi:include href="sources.xml"/>
 	</data>
 	<views>
-		<index path="/" default="true">
+		<collection path="/" default="true" index="true" entities="false">
 			<title>Sapling</title>
 			<method type="html"/>
-<sub>
-				<index path="person">
+			<sub>
+				<collection path="person" index="true" entities="true">
 					<title>People</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
+				</collection>
 				<!-- index path="event">
 					<title>Events</title>
 					<method type="xml"/>
 					<method type="html"/>
 				</index -->
-				<index path="location">
+				<collection path="location" index="true" entities="true">
 					<title>Locations</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-				<index path="organisation">
+				</collection>
+				<collection path="organisation" index="true" entities="true">
 					<title>Organisations</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-				<index path="name">
+				</collection>
+				<collection path="name" index="true" entities="true">
 					<title>Names</title>
 					<method type="xml"/>
 					<method type="html"/>
-				</index>
-</sub>
-		</index>
+				</collection>
+				<collection path="source" index="true" entities="true">
+					<title>Sources</title>
+					<method type="xml"/>
+					<method type="html"/>
+				</collection>
+			</sub>
+		</collection>
 	</views>
 	<assets>
 		<image role="site-logo">

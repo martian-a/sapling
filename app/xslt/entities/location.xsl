@@ -1,55 +1,13 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml"
-	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions" 
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml"
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	exclude-result-prefixes="#all" version="2.0">
 	
 	<xsl:key name="location" match="data/location | related/location | entities/location" use="@id" />
 	<xsl:key name="location-within" match="data/location | related/location" use="within/@ref" />
-	
-	<doc:doc>
-		<doc:title>Locations collection</doc:title>
-		<doc:desc>Builds the core collection of locations associated with this view.</doc:desc>
-		<doc:notes>
-			<doc:note>
-				<doc:ul>
-					<doc:ingress>Used by:</doc:ingress>
-					<doc:li>location indexes</doc:li>
-					<doc:li>related location lists</doc:li>
-					<doc:li>maps</doc:li>
-				</doc:ul>
-			</doc:note>
-		</doc:notes>
-	</doc:doc>
-	<xsl:template match="app/view[data[entities/location or location or person[related/location] or name[related/location]]]" mode="html.body html.footer.scripts" priority="100">
-		<xsl:variable name="locations" as="element()*">
-			<xsl:choose>
-				<!-- Locations index -->
-				<xsl:when test="data/entities/location"><xsl:sequence select="data/entities/location" /></xsl:when>
-				<!-- Location profile -->
-				<xsl:when test="data/location"><xsl:sequence select="data/location" /></xsl:when>
-				<!-- Person profile -->
-				<xsl:otherwise>
-					<xsl:variable name="events" select="data/*/related/event" as="element()*" />
-					<xsl:sequence select="(data/*/note, $events)/descendant::location" />
-				</xsl:otherwise> 
-			</xsl:choose>
-		</xsl:variable>
-		
-		<xsl:next-match>
-			<xsl:with-param name="locations" select="fn:sort-locations($locations/key('location', (@id | @ref)))" as="element()*" tunnel="yes" />
-		</xsl:next-match>
-	</xsl:template>
-	
-	<!-- Entry point for Location related html.footer.scripts -->
-	<xsl:template match="/app[view/data[entities/location/geo:point or location/geo:point]]" mode="html.footer.scripts" priority="50">
-		<xsl:next-match />
-		<xsl:apply-templates select="view" mode="#current" />
-	</xsl:template>
-
-	<xsl:template match="/app[view[data[entities/location or location]]]" mode="html.footer.scripts" priority="10">
-		<xsl:next-match />
-	</xsl:template>
-
-
-	<xsl:template match="/app[view/data/entities/location] | /app[view/data/location]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
 	
 
 
@@ -64,14 +22,19 @@
 	</xsl:template>
 	
 	<xsl:template match="data/location">
+		<xsl:param name="locations" as="element()*" tunnel="yes" />
+		
 		<xsl:apply-templates select="@type"/>
-		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />
+		<xsl:apply-templates select="parent::data[location/geo:point]" mode="map" />		
+		<xsl:apply-templates select="self::*[count(name) &gt; 1]" mode="alternative-names" />
 		<xsl:apply-templates select="self::*[related/location]" mode="context" />		
 		<xsl:apply-templates select="self::*[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[person]" mode="people" />
 		<xsl:apply-templates select="related[organisation]" mode="organisations" />
+		<xsl:apply-templates select="related[source]" mode="sources" />
 	</xsl:template>
+	
 	
 	<xsl:template match="data/location/@type">
 		<p class="type"><xsl:value-of select="." /></p>
@@ -108,7 +71,7 @@
 		<xsl:if test="count($locations-within) &gt; 0">
 			<ul>
 				<xsl:for-each select="$locations-within">
-					<xsl:sort select="name[1]" data-type="text" order="ascending" />
+					<xsl:sort select="fn:get-location-sort-name(self::*)" data-type="text" order="ascending" />
 					<li>
 						<p><xsl:apply-templates select="self::*" mode="href-html" /></p>
 						<xsl:apply-templates select="self::location" mode="locations-within" />	
@@ -131,10 +94,10 @@
 	<xsl:template match="/app/view[data/location]" mode="view.title">
 		<xsl:choose>
 			<xsl:when test="data/location/@type = 'building-number'">
-				<xsl:value-of select="concat(xs:string(data/location/name[1]), ' ', key('location', data/location/within[not(@rel = 'political')][1]/@ref)/xs:string(name[1]))"/>
+				<xsl:value-of select="concat(xs:string(data/location/fn:get-primary-name(self::*)), ' ', key('location', data/location/within[not(@rel = 'political')][1]/@ref)/xs:string(fn:get-primary-name(self::*)))"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="xs:string(data/location/name[1])"/>
+				<xsl:value-of select="xs:string(data/location/fn:get-primary-name(self::*))"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -162,9 +125,30 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="$locations[not(@type = 'building-number')]" group-by="upper-case(substring(fn:get-location-sort-name(self::location), 1, 1))">
+				<xsl:for-each-group select="$locations[not(@type = 'building-number')]/name" group-by="upper-case(substring(self::*, 1, 1))">
+					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />
+						<xsl:with-param name="group" as="element()*">
+							<xsl:for-each select="current-group()">
+								<xsl:sort select="self::*" data-type="text" order="ascending" />
+								<xsl:variable name="current-name" select="self::*" as="element()" />
+								<xsl:for-each select="parent::location">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="*">
+											<xsl:choose>
+												<xsl:when test="name() = name()">
+													<xsl:copy-of select="$current-name" />
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:copy-of select="self::*" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:for-each>
+						</xsl:with-param>
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Name Unknown'" as="xs:string" />
@@ -185,10 +169,30 @@
 				<a href="#top" class="nav" title="Top of page">▴</a></h2>
 			
 			<xsl:variable name="entries" as="element()*">
-				<xsl:for-each-group select="$locations[@type = 'country']" group-by="fn:get-location-context(self::location)[@type = 'continent']">
+				<xsl:for-each-group select="$locations[@type = 'country']/name" group-by="fn:get-location-context(parent::location)[@type = 'continent']">
 					<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />
 					<xsl:call-template name="generate-jump-navigation-group">
-						<xsl:with-param name="group" select="current-group()" as="element()*" />						
+						<xsl:with-param name="group" as="element()*">
+							<xsl:for-each select="current-group()">
+								<xsl:sort select="self::*" data-type="text" order="ascending" />
+								<xsl:variable name="current-name" select="self::*" as="element()" />
+								<xsl:for-each select="parent::location">
+									<xsl:copy>
+										<xsl:copy-of select="@*" />
+										<xsl:for-each select="*">
+											<xsl:choose>
+												<xsl:when test="name() = name()">
+													<xsl:copy-of select="$current-name" />
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:copy-of select="self::*" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:for-each>
+									</xsl:copy>
+								</xsl:for-each>
+							</xsl:for-each>
+						</xsl:with-param>						
 						<xsl:with-param name="key" select="current-grouping-key()" as="xs:string" />
 						<xsl:with-param name="misc-match-test" select="''" as="xs:string" />
 						<xsl:with-param name="misc-match-label" select="'Continent Unknown'" as="xs:string" />
@@ -267,7 +271,7 @@
 
 	
 	<xsl:template match="data/location" mode="href-html">
-		<span class="self-reference"><xsl:apply-templates select="name[1]" mode="href-html"/></span>
+		<span class="self-reference"><xsl:apply-templates select="fn:get-primary-name(self::*)" mode="href-html"/></span>
 	</xsl:template>
 	
 	
@@ -282,7 +286,7 @@
 						<xsl:value-of select="$inline-value" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="name[1]" mode="href-html"/>
+						<xsl:apply-templates select="fn:get-primary-name(self::*)" mode="href-html"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>

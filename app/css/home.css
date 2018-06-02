@@ -1,0 +1,83 @@
+/* Basics */
+
+html.home .main {
+	color: white;
+	text-shadow: 1px 1px black;
+}
+
+html.home .main a {
+	color: #ffeeaa;
+}
+
+/* End of Basics  */
+
+
+/* Background Image */
+
+html.home .main {
+	background-image: url('../images/splash.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+@media only screen and (max-width: 750px) {
+	html.home .main {
+		background-size: 150%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	html.home .main {
+		background-size: 200%;
+	}
+}
+
+@media only screen and (max-width: 410px) {
+	html.home .main {
+		background-size: initial;
+	}
+}
+
+/*  End of Background Image */
+
+
+/* Page Heading */
+
+html.home .main h1 {
+	margin: 0;
+}
+
+/* End of Page Heading */
+
+
+/* Tagline */
+
+html.home .main .tagline {
+	background-color: rgba(238,232,170, 0.35);
+	border-radius: 1em;
+	padding: 0 .75em;
+	margin: 0 -.5em 2em -.5em;
+	color: black;
+	text-shadow: none;
+	display: inline-block;
+}
+
+/* End of Tagline */
+
+
+/* Origin */
+
+html.home .main .origin {
+	margin: 10%;
+	font-style: italic;
+}
+
+@media only screen and (min-width: 750px) {
+
+	html.home .main .origin {
+		margin: 20% 0 0 20%;
+	}
+}
+
+/* End of Origin */

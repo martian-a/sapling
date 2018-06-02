@@ -4,38 +4,38 @@ include "shared.rnc"
 
 
 # Root Element #
-start |= organisations
+start |= organisation.collection
 
 # Elements #
 
-organisations = element organisations { 
-	organisations.attlist, 
-	organisations.content-model
+organisation.collection = element organisations { 
+	organisation.collection.attlist, 
+	organisation.collection.content-model
 }
 
-organisation = element organisation { 
-	organisation.attlist, 
-	organisation.content-model
+organisation.entity = element organisation { 
+	organisation.entity.attlist, 
+	organisation.entity.content-model
 }
 
 
 # Content Models #
 
-organisations.content-model =
-	organisation*
+organisation.collection.content-model =
+	organisation.entity*
 
-organisation.content-model =
-	name,
-	location-ref*,
-	note*,
-	bibliography?
+organisation.entity.content-model =
+	shared.name*,
+	shared.entity-ref.location*,
+	shared.note*,
+	shared.bibliography?
 
 
 # Attributes #
 
-organisations.attlist = 
+organisation.collection.attlist = 
 	xml.attlist
 		
-organisation.attlist =
+organisation.entity.attlist =
 	xml.attlist,
     attribute id { xsd:ID }

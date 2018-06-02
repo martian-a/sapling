@@ -1,41 +1,20 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fn="http://ns.thecodeyard.co.uk/functions" xmlns:doc="http://ns.kaikoda.com/documentation/xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 
+	<xsl:variable name="ldquo" select="codepoints-to-string(8220)" as="xs:string" />
+	<xsl:variable name="rdquo" select="codepoints-to-string(8221)" as="xs:string" />
+
+
 	<xsl:include href="entities/location.xsl"/>
 	<xsl:include href="entities/person.xsl"/>
 	<xsl:include href="entities/name.xsl"/>
 	<xsl:include href="entities/event.xsl"/>
+	<xsl:include href="entities/century.xsl"/>
 	<xsl:include href="entities/organisation.xsl"/>
+	<xsl:include href="entities/source.xsl"/>
 	<xsl:include href="custom/static_content.xsl"/>
 	<xsl:include href="custom/note.xsl"/>
 	<xsl:include href="custom/timeline.xsl"/>
 	<xsl:include href="custom/map.xsl" />
-
-
-
-	<doc:doc>
-		<doc:title>HTML header: style.</doc:title>
-		<doc:desc>Style rules that apply to more than one view.</doc:desc>
-	</doc:doc>
-	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.style" priority="50">
-		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
-			integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
-			crossorigin=""/>
-		<xsl:next-match />
-	</xsl:template>
-	
-	
-	<doc:doc>
-		<doc:title>HTML header: scripts.</doc:title>
-		<doc:desc>Javascript rules that apply to more than one view.</doc:desc>
-	</doc:doc>
-	<xsl:template match="/app[view/data/entities/location or view/data/location or view/data/person]" mode="html.header.scripts" priority="50">
-		<script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
-		<!-- Make sure you put this AFTER Leaflet's CSS -->
-		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
-			integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-			crossorigin=""><xsl:comment>Leaflet (maps)</xsl:comment></script>
-		<xsl:next-match />
-	</xsl:template>
 	
 
 	<xsl:template match="/app/view" mode="html.body.title" priority="100">
@@ -50,7 +29,7 @@
 	</doc:doc>
 	<xsl:template match="/app/views" mode="nav.site">
 		<ul>
-			<xsl:apply-templates select="index[@default = 'true']/sub/*[method/@type = 'html']" mode="nav.site.html"/>
+			<xsl:apply-templates select="collection[@default = 'true']/sub/*[method/@type = 'html']" mode="nav.site.html"/>
 			<xsl:if test="$static = 'false'">
 				<xsl:apply-templates select="/app/view[method/@type = 'xml']" mode="nav.site.xml"/>
 			</xsl:if>
@@ -59,10 +38,16 @@
 
 
 	<doc:doc>
+		<doc:desc>Filter out collections that don't have an index.</doc:desc>
+	</doc:doc>
+	<xsl:template match="collection[not(@index = 'true')]" mode="nav.site.html nav.site.xml" priority="20" />
+
+
+	<doc:doc>
 		<doc:title>Global contents list entry.</doc:title>
 		<doc:desc>List item container.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page | view" mode="nav.site.html nav.site.xml" priority="10">
+	<xsl:template match="collection | page | view" mode="nav.site.html nav.site.xml" priority="10">
 		<li>
 			<xsl:next-match/>
 		</li>
@@ -73,13 +58,13 @@
 		<doc:title>Global contents list entry for link to HTML page.</doc:title>
 		<doc:desc>Build link and label.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page" mode="nav.site.html">
+	<xsl:template match="collection | page" mode="nav.site.html">
 		<xsl:call-template name="href-html">
 			<xsl:with-param name="path" select="@path" as="xs:string?"/>
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.html"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean?"/>
+			<xsl:with-param name="is-index" select="if (name() = 'collection') then true() else false()" as="xs:boolean?"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -95,7 +80,7 @@
 			<xsl:with-param name="content" as="item()">
 				<xsl:apply-templates select="self::*" mode="link.xml"/>
 			</xsl:with-param>
-			<xsl:with-param name="is-index" select="if (name() = 'index') then true() else false()" as="xs:boolean"/>
+			<xsl:with-param name="is-index" select="if (name() = 'collection') then true() else false()" as="xs:boolean"/>
 		</xsl:call-template>
 	</xsl:template>
 
@@ -106,7 +91,7 @@
 		<doc:title>Global contents list HTML entry content.</doc:title>
 		<doc:desc>Build entry content.</doc:desc>
 	</doc:doc>
-	<xsl:template match="index | page" mode="link.html">
+	<xsl:template match="collection | page" mode="link.html">
 		<xsl:choose>
 			<xsl:when test="title">
 				<xsl:value-of select="title"/>
@@ -192,14 +177,22 @@
 	<xsl:template name="href-xml">
 		<xsl:param name="path" select="/app/views/*[@default = 'true'][1]/@path" as="xs:string?"/>
 		<xsl:param name="content" as="item()*"/>
-		<xsl:param name="is-index" select="false()" as="xs:boolean"/> 
+		<xsl:param name="is-index" select="false()" as="xs:boolean"/>
 		<xsl:variable name="url" as="xs:anyURI">
 			<xsl:choose>
 				<xsl:when test="xs:boolean($static)">
-					<xsl:value-of select="        concat(         $normalised-path-to-view-xml,          if ($path = '/')          then 'index'         else $path,          $ext-xml        )"/>
+					<xsl:value-of select="
+							concat($normalised-path-to-view-xml, if ($path = '/') then
+								'index'
+							else
+								$path, $ext-xml)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="        fn:add-trailing-slash(         concat(          $normalised-path-to-view-xml,           if ($path = '/')           then ()          else $path         )        )"/>
+					<xsl:value-of select="
+							fn:add-trailing-slash(concat($normalised-path-to-view-xml, if ($path = '/') then
+								()
+							else
+								$path))"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -299,6 +292,54 @@
 		<xsl:next-match>
 			<xsl:with-param name="inline-value" select="text()" as="xs:string?" tunnel="yes" />
 		</xsl:next-match>	
+	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:title>Location/Organisation Profile: Additional Names.</doc:title>
+	</doc:doc>
+	<xsl:template match="data/location | data/organisation" mode="alternative-names">
+		<xsl:variable name="primary-name" select="fn:get-primary-name(self::*)" as="element()*" />
+		<div class="alternative-names">
+			<xsl:if test="count(name) &gt; 1">
+				<h2>Also Known As</h2>
+				<xsl:for-each-group select="name[self::* != $primary-name]" group-by="normalize-space(@rel) = ''">
+					
+					<xsl:choose>
+						<xsl:when test="current-grouping-key() = true()">
+							<ul class="unknown">
+								<xsl:for-each select="current-group()">
+									<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+								</xsl:for-each>
+							</ul>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:for-each-group select="current-group()" group-by="@rel">
+								<div class="{current-grouping-key()}">
+									<h3><xsl:value-of select="fn:title-case(current-grouping-key())" /></h3>
+									<ul>
+										<xsl:for-each select="current-group()">
+											<li><xsl:apply-templates select="self::*" mode="#current" /></li>
+										</xsl:for-each>
+									</ul>
+								</div>
+							</xsl:for-each-group>								
+						</xsl:otherwise>							
+					</xsl:choose>					
+				</xsl:for-each-group>				
+			</xsl:if>
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="name" mode="alternative-names">
+		<span class="name"><xsl:value-of select="." /></span>
+		<xsl:apply-templates select="@xml:lang[. != 'en']" mode="#current" />
+	</xsl:template>
+	
+	<xsl:template match="name/@xml:lang" mode="alternative-names">
+		<xsl:text> </xsl:text>		
+		<span class="language">(<xsl:value-of select="fn:get-language-name(.)" />)</span>
 	</xsl:template>
 
 

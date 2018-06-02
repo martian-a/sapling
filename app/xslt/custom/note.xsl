@@ -5,7 +5,7 @@
 	exclude-result-prefixes="#all" 
 	version="2.0">
 	
-	<xsl:strip-space elements="note p"/>
+	<xsl:strip-space elements="note"/>
 	
 	<xsl:template match="*[note]" mode="notes">
 		<div class="notes">

@@ -20,7 +20,7 @@
 	<p:input port="config" primary="true" />
 	
 	<p:output port="result" sequence="true">
-		<p:pipe port="result" step="results" />
+		<!-- p:pipe port="result" step="results" / -->
 	</p:output>
 	
 	
@@ -40,21 +40,23 @@
 	<p:variable name="data-collection-href" select="/build/output/data[@role = 'core']/@href" />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'xml/')" />
 	
-	
+
 	<tcy:generate-xquery-config>
 		<p:input port="config">
 			<p:pipe port="config" step="build-static-xml" />
 		</p:input>
 		<p:with-option name="role" select="'core'"></p:with-option>
 	</tcy:generate-xquery-config>
-		
+	
+
 	<p:sink />
-	
+
 	<tcy:query-get-views name="app-views"/>
-	
+
+
 	<p:for-each name="generate-xml">
 		
-		<p:iteration-source select="/views/descendant::index">
+		<p:iteration-source select="/views/descendant::collection">
 			<p:pipe port="result" step="app-views" />
 		</p:iteration-source>
 		
@@ -65,56 +67,84 @@
 		<p:group name="generate-views">
 			
 			<p:output port="result" sequence="true">
-				<p:pipe port="result" step="index-view" />
+				<!-- p:pipe port="result" step="index-view" / -->
 				<p:pipe port="result" step="entity-views" />
 				<p:pipe port="result" step="page-views" />
 			</p:output>
 						
-			<p:variable name="path" select="/index/@path" />
-			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat(string-join(/index/ancestor-or-self::index/@path, '/'), '/'))" />
+			<p:variable name="path" select="/collection/@path" />
+			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat(string-join(/collection/ancestor-or-self::collection/@path, '/'), '/'))" />
 			
-									
-			<tcy:generate-app-view name="index-view">
+			
+			<p:for-each name="index-view">						
 				
-				<p:with-option name="target" select="concat($href, 'index.xml')" />
-				<p:with-option name="path" select="$path" />
-				<p:with-option name="id" select="''" />
+				<p:iteration-source select="/collection[@index = 'true']">
+					<p:pipe port="result" step="app-views" />
+				</p:iteration-source>
 				
-			</tcy:generate-app-view>	
+				<p:output port="result" sequence="false" />
+					
+				<p:group>
+					<tcy:generate-app-view >
+						
+						<p:with-option name="target" select="concat($href, 'index.xml')" />
+						<p:with-option name="path" select="$path" />
+						<p:with-option name="id" select="''" />
+						
+					</tcy:generate-app-view>
+				</p:group>
+			</p:for-each>
 
 			<p:sink />
 			
-			<tcy:query-get-entity-list>
-				<p:with-option name="path" select="$path" />
-			</tcy:query-get-entity-list>
 			
 			<p:for-each name="entity-views">
 				
-				<p:iteration-source select="/*/*[@id]" />
+				<p:iteration-source test="/collection[@entities = 'true']">
+					<p:pipe port="result" step="app-views" />
+				</p:iteration-source>
 				
 				<p:output port="result" sequence="true" />
-				
-				<p:group>
-				
-					<p:variable name="id" select="*/@id" />
-				
-					<tcy:generate-app-view>
-						
-						<p:with-option name="target" select="concat($href, encode-for-uri($id), '.xml')" />
+					
+				<p:group>	
+					
+					<tcy:query-get-entity-list>
 						<p:with-option name="path" select="$path" />
-						<p:with-option name="id" select="$id" />
+					</tcy:query-get-entity-list>
+					
+					<p:for-each>
 						
-					</tcy:generate-app-view>
+						<p:iteration-source select="/*/*[@id]" />
+						
+						<p:output port="result" sequence="true" />
+						
+						<p:group>
+							
+							<p:variable name="id" select="*/@id" />
+							
+							<tcy:generate-app-view>
+								
+								<p:with-option name="target" select="concat($href, encode-for-uri($id), '.xml')" />
+								<p:with-option name="path" select="$path" />
+								<p:with-option name="id" select="$id" />
+								
+							</tcy:generate-app-view>
+							
+						</p:group>
+						
+					</p:for-each>		
 					
 				</p:group>
-				
+
 			</p:for-each>
+			
 			
 			<p:sink />
 			
+			
 			<p:for-each name="page-views">
 				
-				<p:iteration-source select="/views/descendant::index[@path = $path]/sub/page">
+				<p:iteration-source select="/views/descendant::collection[@path = $path]/sub/page">
 					<p:pipe port="result" step="app-views" />
 				</p:iteration-source>
 				

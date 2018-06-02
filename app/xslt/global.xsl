@@ -6,10 +6,9 @@
 	exclude-result-prefixes="#all" 
 	version="2.0">
 
-	<xsl:import href="functions.xsl"/>
+	<xsl:import href="functions.xsl"/>	
 	<xsl:import href="defaults.xsl"/>
-	<xsl:import href="view.xsl"/>
-	
+		
 	<xsl:param name="path-to-js" select="'../../js/'" as="xs:string"/>
 	<xsl:param name="path-to-css" select="'../../css/'" as="xs:string"/>
 	<xsl:param name="path-to-view-xml" select="'../xml'" as="xs:string"/>
@@ -39,14 +38,19 @@
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>
 	<xsl:variable name="index" select="if (xs:boolean($static)) then 'index' else ''" as="xs:string?"/>
 	
+	<xsl:include href="view.xsl"/>
 
 	<doc:doc>
 		<doc:title>HTML page basics.</doc:title>
 	</doc:doc>
 	<xsl:template match="/">
-		<html class="{/app/view/@class}" lang="en">
+		<xsl:apply-templates select="app" mode="html.structure" />
+	</xsl:template>	
+	
+	<xsl:template match="/app" mode="html.structure">
+		<html class="{view/@class}" lang="en">
 			<head>
-				<xsl:apply-templates mode="html.header"/>
+				<xsl:apply-templates select="self::*" mode="html.header"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 				<!-- link rel="shortcut icon" href="{$normalised-path-to-images}favicon.ico"/ -->
@@ -58,23 +62,22 @@
 				<meta name="apple-mobile-web-app-title" content="Blue Gum Tree"/>
 				<meta name="application-name" content="Blue Gum Tree"/>
 				<meta name="msapplication-TileColor" content="#000033"/>
-				<meta name="theme-color" content="#000033"/>
-				<xsl:apply-templates mode="html.header.style"/>
-				<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
-				<xsl:apply-templates mode="html.header.scripts"/>
+				<meta name="theme-color" content="#000033"/>				
+				<xsl:apply-templates select="self::*" mode="html.header.style"/>
+				<xsl:apply-templates select="self::*" mode="html.header.scripts"/>
 				<xsl:if test="$static = 'true'">
 					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-342055-1"><xsl:comment> Google Analytics </xsl:comment></script>
 					<script src="{$normalised-path-to-js}analytics.js"><xsl:comment> Google Analytics </xsl:comment></script>
 				</xsl:if>
 			</head>
-			<body class="{if (/app/view/data/entities) then 'index' else 'entity'}">
-				<xsl:apply-templates mode="nav.site"/>
-				<xsl:apply-templates select="app/view" mode="html.body"/>
-				<xsl:apply-templates mode="html.footer"/>
-                <xsl:apply-templates mode="html.footer.scripts"/>
+			<body class="{if (view/data/entities) then 'index' else 'entity'}">
+				<xsl:apply-templates select="self::*" mode="nav.site"/>
+				<xsl:apply-templates select="view" mode="html.body"/>
+				<xsl:apply-templates select="self::*" mode="html.footer"/>
+				<xsl:apply-templates select="self::*" mode="html.footer.scripts"/>
 			</body>
 		</html>
-	</xsl:template>	
+	</xsl:template>
 
 
 	<doc:doc>
@@ -93,6 +96,13 @@
 			</xsl:if>
 		</title>		
 		<xsl:next-match/>
+	</xsl:template>
+	
+	
+	<xsl:template match="/app" mode="html.header.style" priority="2000">		
+		<link type="text/css" href="{$normalised-path-to-css}global.css" rel="stylesheet"/>
+		<link type="text/css" href="{$normalised-path-to-css}project.css" rel="stylesheet"/>
+		<xsl:next-match />
 	</xsl:template>
 
 
@@ -129,7 +139,7 @@
 	<xsl:template match="image[@role = 'site-logo']" mode="nav.site">
 		<h2 class="logo">
 			<xsl:call-template name="href-html">
-				<xsl:with-param name="path" select="/app/views/index[@default = 'true'][1]/@path" as="xs:string" />
+				<xsl:with-param name="path" select="/app/views/collection[@default = 'true'][1]/@path" as="xs:string" />
 				<xsl:with-param name="content" as="item()*">
 					<img src="{$normalised-path-to-images}{file[1]/@path}" alt="{title}" />
 				</xsl:with-param>
@@ -148,6 +158,73 @@
 		<footer id="footer">
 			<p class="copyright">Copyright © 2017 Sheila Ellen Thomson</p>
 		</footer>	
+	</xsl:template>
+	
+	
+	<doc:doc>
+		<doc:desc>HTML header and footer scripts: collate and filter locations.</doc:desc>
+	</doc:doc>
+	<xsl:template match="/app[view/data[entities/location or location or */related/location]]" mode="html.structure" priority="1000">
+		<xsl:call-template name="collate-locations" />
+	</xsl:template>
+	
+
+	<doc:doc>
+		<doc:desc>HTML body: collate and filter locations.</doc:desc>
+	</doc:doc>
+	<!-- xsl:template match="/app/view[data[entities/location or location or */related/location]]" mode="html.body" priority="1000">
+		<xsl:call-template name="collate-locations" />
+	</xsl:template -->
+	
+	
+	<doc:doc>
+		<doc:title>Locations collection</doc:title>
+		<doc:desc>Builds the core collection of locations associated with this view.</doc:desc>
+		<doc:notes>
+			<doc:note>
+				<doc:ul>
+					<doc:ingress>Used by:</doc:ingress>
+					<doc:li>location indexes</doc:li>
+					<doc:li>related location lists</doc:li>
+					<doc:li>maps</doc:li>
+				</doc:ul>
+			</doc:note>
+		</doc:notes>
+		<doc:note>
+			<doc:p>Also filters related locations to only those that are either directly referenced from the source or from events related to the source.</doc:p>
+			<doc:p>Otherwise the list includes locations that are in the related list purely to provide context for the truly related locations.</doc:p>
+		</doc:note>
+	</doc:doc>
+	<xsl:template name="collate-locations">
+		<xsl:variable name="directly-referenced-locations" as="element()*">
+			<xsl:for-each select="ancestor-or-self::app/view/data/*[name() != 'location']/related/location">
+				<xsl:sequence select="self::*[@id = ancestor::data[1]/*/note/descendant::location/@ref]" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/name/related/location">
+				<xsl:sequence select="self::*[@id = (ancestor::name[1]/derived-from/location/@ref)]" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/source/related/location">
+				<xsl:sequence select="self::*[@id = (ancestor::source[1]/body-matter/descendant::location/@ref, ancestor::source[1]/front-matter/acknowledgements/descendant::location/@ref)]" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/*[name() = ('organisation', 'event')]/related/location">
+				<xsl:sequence select="self::*[@id = ancestor::data[1]/*/location/@ref]" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/location">
+				<xsl:sequence select="self::*" />
+			</xsl:for-each>
+			<xsl:for-each select="ancestor-or-self::app/view/data/entities/location">
+				<xsl:sequence select="self::*" />
+			</xsl:for-each>
+		</xsl:variable>        
+		<xsl:variable name="locations-referenced-from-events" as="element()*">
+			<xsl:for-each select="ancestor-or-self::app/view/data/*/related/location">
+				<xsl:sequence select="self::*[@id = ancestor::data/*/related/event/descendant::location/@ref]" />
+			</xsl:for-each>  
+		</xsl:variable>
+		
+		<xsl:next-match>
+			<xsl:with-param name="locations" select="fn:sort-locations($directly-referenced-locations | $locations-referenced-from-events)" as="element()*" tunnel="yes" />
+		</xsl:next-match>
 	</xsl:template>
 	
 	

@@ -18,12 +18,11 @@
 	
 	
 	<doc:doc>
-		<doc:desc>
-			<doc:p>HTML Head: event (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
-		</doc:desc>
+		<doc:desc>Import style rules specific to event profiles (in the HTML header).</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/event] | /app[view/data/event]" mode="html.header html.header.scripts html.header.style html.footer.scripts"/>
-	
+	<xsl:template match="/app[view/data/event] | /app[view/data/entities/event]" mode="html.header.style">
+		<link href="{$normalised-path-to-css}event.css" type="text/css" rel="stylesheet" /> 
+	</xsl:template>
 	
 	
 	<doc:doc>
@@ -140,9 +139,15 @@
 		<doc:title>Event Profile: layout template.</doc:title>
 	</doc:doc>
 	<xsl:template match="data/event">
-		<xsl:apply-templates select="self::*" mode="timeline" />
+		<div class="body-matter">	
+			<div class="timeline">
+				<xsl:apply-templates select="self::*" mode="timeline" />
+			</div>		
+		</div>
 		<xsl:apply-templates select="related[person]" mode="people" />
+		<xsl:apply-templates select="related[organisation]" mode="organisations" />
 		<xsl:apply-templates select="related[location]" mode="locations" />
+		<xsl:apply-templates select="related[source]" mode="sources" />
 	</xsl:template>
 	
 	<!--
@@ -423,23 +428,7 @@
 		<doc:title>Event Date: Month</doc:title>
 	</doc:doc>
 	<xsl:template match="event/date/@month">
-		<span class="month">
-			<xsl:choose>
-				<xsl:when test=". = 1">January</xsl:when>
-				<xsl:when test=". = 2">February</xsl:when>
-				<xsl:when test=". = 3">March</xsl:when>
-				<xsl:when test=". = 4">April</xsl:when>
-				<xsl:when test=". = 5">May</xsl:when>
-				<xsl:when test=". = 6">June</xsl:when>
-				<xsl:when test=". = 7">July</xsl:when>
-				<xsl:when test=". = 8">August</xsl:when>
-				<xsl:when test=". = 9">September</xsl:when>
-				<xsl:when test=". = 10">October</xsl:when>
-				<xsl:when test=". = 11">November</xsl:when>
-				<xsl:when test=". = 12">December</xsl:when>
-				<xsl:otherwise />
-			</xsl:choose>
-		</span>
+		<span class="month"><xsl:value-of select="fn:month-name(.)" /></span>
 	</xsl:template>
 	
 	

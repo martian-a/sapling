@@ -61,7 +61,7 @@ declare
 			
 	(: Valid id :)
 	%test:args('EVE3')
-	%test:assertEquals('<event id="EVE3" type="historical"><date year="1506"/><summary><person ref="PER1"/> becomes ruler of <location ref="LOC1"/></summary><related><person id="PER1" year="1500"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></related></event>') 
+	%test:assertEquals('<event id="EVE3" type="historical"><date year="1506"/><summary><person ref="PER1"/> becomes ruler of <location ref="LOC1"/></summary><related><person id="PER1" year="1500" publish="true"><persona><name xml:lang="en"><name>Charles</name><ordinal>V</ordinal>, <title>Holy Roman Emperor</title></name><gender>Male</gender></persona></person><location id="LOC1" type="settlement"><name>Ghent</name><within ref="LOC3"/></location><location id="LOC3" type="country"><name>Belgium</name><within ref="LOC4"/></location><location id="LOC4" type="continent"><name>Europe</name></location></related></event>') 
 
 function unit:augment-entity($param) {
     data:augment-entity(data:get-entity($param))
@@ -79,7 +79,7 @@ function unit:is-valid-id($param1, $param2) {
 };
 
 
-
+(:
 declare
 		
 	(: Valid index :)
@@ -89,15 +89,16 @@ declare
 function unit:get-view($param) {
     data:get-view($param)
 };
+:)
 
-
+(:
 declare
-		
-	(: Valid path, no id :) 
+			
+	(: Valid path, no id :)
 	%test:args('event', '')
 	%test:assertXPath("$result/view[@path = 'event']")
-	%test:assertXPath("count($result/view/data/entities/event) &gt; 1")
-				
+	%test:assertXPath("count($result/view/data/entities/event) = 0")
+	
 	(: Valid path, valid id :)
 	%test:args('event', 'EVE1')
 	%test:assertXPath("$result/view[@path = 'event/EVE1']")
@@ -107,3 +108,4 @@ declare
 function unit:view-app-xml($param1, $param2) {
     data:view-app-xml($param1, $param2)
 };
+:)

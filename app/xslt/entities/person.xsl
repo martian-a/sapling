@@ -12,25 +12,34 @@
 
 	<doc:doc>
 		<doc:desc>
-			<doc:p>HTML Head: person (entity)-specific content that needs to go in the head of the HTML document.</doc:p>
+			<doc:p>HTML Head: person (entity)-specific style rules that need to go in the head of the HTML document.</doc:p>
 		</doc:desc>
 	</doc:doc>
-	<xsl:template match="/app[view/data/entities/person]" mode="html.header html.header.scripts html.footer.scripts"/>
-	<xsl:template match="/app[view/data/person]" mode="html.header"/>
-	
-
-	<xsl:template match="/app[view/data/person] | /app[view/data/entities/person]" mode="html.header.style">
-		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" /> 
+	<xsl:template match="/app[view/data/person] | /app[view/data/entities/person]" mode="html.header.style" priority="500">
+		<link href="{$normalised-path-to-css}person.css" type="text/css" rel="stylesheet" />
+		<xsl:next-match />
 	</xsl:template>
 
 
-	<xsl:template match="/app[view/data/person]" mode="html.header.scripts">
+	<doc:doc>
+		<doc:desc>
+			<doc:p>HTML Head: person (entity)-specific scripts that need to go in the head of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="/app[view/data/person]" mode="html.header.scripts" priority="500">
 		<script src="{$normalised-path-to-js}family_tree.js"><xsl:comment>origin: person</xsl:comment></script> 
+		<xsl:next-match />
 	</xsl:template>
 	
-	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts">
-		<xsl:apply-templates select="view[data/person/related/location/geo:point]" mode="#current" />
+	
+	<doc:doc>
+		<doc:desc>
+			<doc:p>HTML Head: person (entity)-specific scripts that need to go in the foot of the HTML document.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts" priority="500">
 		<script src="{$normalised-path-to-js}init.js"><xsl:comment>origin: person</xsl:comment></script>
+		<xsl:next-match />
 	</xsl:template>
 
 
@@ -193,14 +202,15 @@
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[organisation]" mode="organisations"/>
 		<xsl:apply-templates select="related[location]" mode="locations" />
+	    <xsl:apply-templates select="related[source]" mode="sources"/>
 	</xsl:template>
 	
 	
 	<doc:doc>
 		<doc:title>Person Profile: Additional Persona.</doc:title>
 	</doc:doc>
-	<xsl:template match="data/person" mode="personas">
-		<div class="personas">
+	<xsl:template match="data/person" mode="personas">			
+			<div class="personas">
 			<xsl:for-each select="persona[1]">
 				<p class="gender">
 					<xsl:value-of select="gender"/>
@@ -260,7 +270,7 @@
 		<doc:title>Gender Glyph: Content</doc:title>
 	</doc:doc>
 	<xsl:template match="gender" mode="glyph glyph.bracketed">
-        <span class="gender {lower-case(.)}">
+        <span class="gender {lower-case(.)} glyph">
 			<xsl:value-of select="
 				if (lower-case(.) = 'male') then '♂'
 				else if (lower-case(.) = 'female') then '♀'
@@ -553,7 +563,7 @@
 	<doc:doc>
 		<doc:title>Name: Person</doc:title>
 	</doc:doc>
-	<xsl:template match="/app/view/data/person/persona/name">
+	<xsl:template match="person/persona/name">
 		<xsl:value-of select="string-join(name, ' ')"/>
 	</xsl:template>
 	

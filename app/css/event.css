@@ -1,0 +1,40 @@
+/**********
+ * Event Profile: Body
+ */
+
+
+/* Event summary */
+
+.body-matter {
+    background-color: beige;
+    margin: 1em 1em 1em 0;
+    padding: 1em;
+}
+
+.body-matter div.event {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* End of Event Summary */
+
+
+/* Sources */
+
+.sources .with-summary .source {
+    margin-bottom: 0;
+}
+
+.sources .with-summary .summary {
+    margin-top: 0;
+    margin-left: -.3em;
+    opacity: .5;
+    background-color: beige;
+    border: 1px solid beige;
+    border-radius: .2em;
+    padding: 0 .25em;
+}
+
+/* End of Sources */
+
+/* End of Event Profile: Body */
