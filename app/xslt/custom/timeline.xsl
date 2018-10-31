@@ -102,13 +102,13 @@
 					<xsl:choose>
 						<xsl:when test=". = 'birth'">☥</xsl:when>
 						<xsl:when test=". = 'christening'">≈</xsl:when>
-						<xsl:when test=". = 'adoption'">💗&#xFE0E;</xsl:when><!-- Growing Heart, plus variation character to force to black -->
+						<xsl:when test=". = 'adoption'">💗&#xFE0E;</xsl:when><!-- Growing Heart, plus variation character to force text presentation instead of emoji. -->
 						<xsl:when test=". = 'unmarried-partnership'">⚯</xsl:when>
 						<xsl:when test=". = 'engagement'">⚬</xsl:when>
 						<xsl:when test=". = 'marriage'">⚭</xsl:when>
 						<xsl:when test=". = 'divorce'">⚮</xsl:when>
 						<xsl:when test=". = 'death'">✝</xsl:when>
-						<xsl:when test=". = 'historical'">📰</xsl:when>
+						<xsl:when test=". = 'historical'">📰&#xFE0E;</xsl:when><!-- includes variation character to force text presentation instead of emoji. -->
 						<xsl:otherwise />
 					</xsl:choose>					
 				</xsl:with-param>
