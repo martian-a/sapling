@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:svg="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	stylesheet="../../../../../xslt/visualisations/post_process_svg.xsl">
+		
+	<x:scenario label="Document (PER7)">
+		
+		<x:scenario label="is importing the correct CSS stylesheet">
+			
+			<x:context href="../../../data/input/svg/PER7.svg" select="/" />
+			
+			<x:expect href="../../../data/expected/svg/PER7.svg"
+				label="CSS stylesheet import"
+				select="/processing-instruction()"
+				test="/processing-instruction()" />
+			
+		</x:scenario>
+		
+	</x:scenario>	
+		
+		
+	<x:scenario label="Graph (PER7)">
+		
+		<x:scenario label="has the correct title">
+			
+			<x:context href="../../../data/input/svg/PER7.svg" select="/" />
+			
+			<x:expect href="../../../data/expected/svg/PER7.svg"
+				label="Graph title"
+				select="/svg:svg/svg:g/svg:title"
+				test="/svg:svg/svg:g/svg:title" />
+			
+		</x:scenario>
+				
+	</x:scenario>
+	
+	
+	<x:scenario label="Node (PER7)">
+		
+		<x:scenario label="has the correct title">
+			
+			<x:context href="../../../data/input/svg/PER7.svg" select="/" />
+			
+			<x:expect href="../../../data/expected/svg/PER7.svg"
+				label="Graph title"
+				select="//svg:g[@class = 'node']/svg:title"
+				test="//svg:g[@class = 'node']/svg:title" />
+			
+		</x:scenario>
+		
+		
+		<x:scenario label="has the correct xlink title">
+			
+			<x:context href="../../../data/input/svg/PER7.svg" select="/" />
+			
+			<x:expect href="../../../data/expected/svg/PER7.svg"
+				label="Graph title"
+				select="//svg:a/@xlink:title"
+				test="//svg:a/@xlink:title" />
+			
+		</x:scenario>
+		
+	</x:scenario>
+
+</x:description>
