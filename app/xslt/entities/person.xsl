@@ -372,7 +372,7 @@
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
 		<xsl:variable name="events" select="event[@type = 'birth'][person/@ref = $subject-id][parent]" as="element()*" />
-		<xsl:variable name="public-parents" select="$events/parent[@ref]" as="element()*" />
+		<xsl:variable name="public-parents" select="$events/parent[count(key('person', @ref)) > 0]" as="element()*" />
 		
 		<xsl:if test="count($public-parents) > 0">
 			
