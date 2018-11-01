@@ -11,8 +11,15 @@
 	
 	<p:documentation>
 		<d:doc scope="pipeline">
+			<d:summary>Generates a static snapshot (XML, HTML) of content in the app.</d:summary>
 			<d:desc>
-				<d:p>Generates a static snapshot (XML, HTML) of content in the app.</d:p>
+				<d:ul>
+					<d:li>Collects together all the data that will be needed (filtering out that which is out-of-scope)</d:li>
+					<d:li>Generates an XML file for each required view of the data</d:li>
+					<d:li>Converts all the XML view files into HTML files.</d:li>
+					<d:li>Generates family tree images</d:li>
+					<d:li>Deletes the XML view files.</d:li>
+				</d:ul>
 			</d:desc>
 		</d:doc>
 	</p:documentation>
