@@ -24,9 +24,9 @@
 							import module namespace config = "http://ns.thecodeyard.co.uk/xquery/settings/config" at "config.xq";
 							import module namespace data = "http://ns.thecodeyard.co.uk/xquery/modules/data" at "../../../app/modules/data.xq";
 							 
-							<views>{
-								data:get-views()
-							}</views>
+							
+							data:get-views()
+							
 					]]>
 				</c:query>
 			</p:inline>		

@@ -20,7 +20,7 @@
 	<p:input port="config" primary="true" />
 	
 	<p:output port="result" sequence="true">
-		<!-- p:pipe port="result" step="results" / -->
+		<p:pipe port="result" step="results" />
 	</p:output>
 	
 	
@@ -28,6 +28,7 @@
 	<p:import href="../../utils/xquery/get_views.xpl" />
 	<p:import href="generate_app_view.xpl" />
 	<p:import href="../../utils/xquery/get_entity_list.xpl" />
+	
 	
 	<p:documentation>
 		<d:doc>
@@ -40,7 +41,7 @@
 	<p:variable name="data-collection-href" select="/build/output/data[@role = 'core']/@href" />
 	<p:variable name="target" select="concat(/build/output/site/@href, 'xml/')" />
 	
-
+	
 	<tcy:generate-xquery-config>
 		<p:input port="config">
 			<p:pipe port="config" step="build-static-xml" />
@@ -48,11 +49,18 @@
 		<p:with-option name="role" select="'core'"></p:with-option>
 	</tcy:generate-xquery-config>
 	
-
 	<p:sink />
-
+	
 	<tcy:query-get-views name="app-views"/>
 
+	<p:identity>
+		<p:input port="source">
+			<p:pipe port="result" step="app-views" />
+		</p:input>
+		<p:log port="result" href="app-views.log" />
+	</p:identity>
+	
+	<p:sink />
 
 	<p:for-each name="generate-xml">
 		
@@ -67,7 +75,7 @@
 		<p:group name="generate-views">
 			
 			<p:output port="result" sequence="true">
-				<!-- p:pipe port="result" step="index-view" / -->
+				<p:pipe port="result" step="index-view" />
 				<p:pipe port="result" step="entity-views" />
 				<p:pipe port="result" step="page-views" />
 			</p:output>
@@ -75,16 +83,30 @@
 			<p:variable name="path" select="/collection/@path" />
 			<p:variable name="href" select="concat($target, if ($path = '/') then '' else concat(string-join(/collection/ancestor-or-self::collection/@path, '/'), '/'))" />
 			
+			<p:identity>
+				<p:input port="source">
+					<p:pipe port="current" step="generate-xml" />
+				</p:input>
+				<p:log port="result" href="generate-xml.log" />
+			</p:identity>
 			
 			<p:for-each name="index-view">						
 				
 				<p:iteration-source select="/collection[@index = 'true']">
-					<p:pipe port="result" step="app-views" />
+					<p:pipe port="current" step="generate-xml" />
 				</p:iteration-source>
 				
 				<p:output port="result" sequence="false" />
 					
 				<p:group>
+					
+					<p:identity>
+						<p:input port="source">
+							<p:pipe port="current" step="index-view" />
+						</p:input>
+						<p:log port="result" href="index-view.log" />
+					</p:identity>
+					
 					<tcy:generate-app-view >
 						
 						<p:with-option name="target" select="concat($href, 'index.xml')" />
@@ -92,7 +114,9 @@
 						<p:with-option name="id" select="''" />
 						
 					</tcy:generate-app-view>
+					
 				</p:group>
+				
 			</p:for-each>
 
 			<p:sink />
@@ -100,8 +124,8 @@
 			
 			<p:for-each name="entity-views">
 				
-				<p:iteration-source test="/collection[@entities = 'true']">
-					<p:pipe port="result" step="app-views" />
+				<p:iteration-source select="/collection[@entities = 'true']">
+					<p:pipe port="current" step="generate-xml" />
 				</p:iteration-source>
 				
 				<p:output port="result" sequence="true" />
@@ -144,8 +168,8 @@
 			
 			<p:for-each name="page-views">
 				
-				<p:iteration-source select="/views/descendant::collection[@path = $path]/sub/page">
-					<p:pipe port="result" step="app-views" />
+				<p:iteration-source select="/collection/sub/page">
+					<p:pipe port="current" step="generate-xml" />
 				</p:iteration-source>
 				
 				<p:output port="result" sequence="true" />

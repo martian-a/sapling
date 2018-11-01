@@ -77,13 +77,12 @@ declare function data:get-app() as element() {
 
 (: Get all app index views :)
 declare function data:get-views() as element()* {
-    for $entry in data:get-app()/(views/* | views/descendant::sub/*)[@path]
-	return $entry
+    data:get-app()/views
 };
 
 (: Verify whether an app view exists :)
 declare function data:get-view($path as xs:string?) as element()* {
-	data:get-views()/self::*[@path = $path]
+	data:get-views()/descendant::*[name() = ('collection', 'page')][@path = $path]
 };
 
 
