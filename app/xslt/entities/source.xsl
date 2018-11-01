@@ -193,40 +193,62 @@
         <div class="sources">
             <h2>Sources</h2>
             <ul>
-                <xsl:apply-templates select="fn:sort-sources($sources)" mode="source.summary" />                 
+                <xsl:apply-templates select="fn:sort-sources($sources)" mode="source.citation" />                 
             </ul>
         </div>
     </xsl:template>
     
-    <xsl:template match="source" mode="source.summary" priority="50">
-        <xsl:next-match>
-            <xsl:with-param name="summary" select="ancestor::data[1]/event/sources/source[@ref = current()/@id]/summary" as="element()?" />
-            <xsl:with-param name="extract-id" select="ancestor::data[1]/event/sources/source[@ref = current()/@id]/@extract" as="xs:string?" tunnel="yes" />
-         </xsl:next-match>
-    </xsl:template>
     
-    
-    <xsl:template match="source" mode="source.summary">
-        <xsl:param name="summary" as="element()?" />
+    <xsl:template match="source" mode="source.citation">
+    	<xsl:variable name="source" select="current()" as="element()" />
+    	<xsl:variable name="notable-references" as="element()*">
+    		<xsl:variable name="references" select="ancestor::data[1]/descendant::sources/source[@ref = $source/@id]" />
+    		<xsl:sequence select="$references[ancestor::sources[1]/parent::*/parent::data]" />
+    		<xsl:sequence select="$references[ancestor::sources[1]/parent::event[not(@type = 'historical')][person/@ref = ancestor::data[1]/person/@id]]" />
+    	</xsl:variable>
         
         <li>
-            <xsl:if test="count($summary) &gt; 0">
-                <xsl:attribute name="class">with-summary</xsl:attribute>
-            </xsl:if>
-            <xsl:choose>
-                <xsl:when test="count($summary) &gt; 0">
-                    <p class="source"><xsl:apply-templates select="self::*" mode="href-html" /></p>
-                    <xsl:apply-templates select="$summary" mode="source.summary" />
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="self::*" mode="href-html" />
-                </xsl:otherwise>
-            </xsl:choose>
+            <p class="citation"><xsl:apply-templates select="self::*" mode="href-html" /></p>
+        	
+        	<xsl:if test="count($notable-references) > 0">
+	            <ul class="references">
+	            	<xsl:for-each select="$notable-references">
+		                <xsl:apply-templates select="current()" mode="source.summary">
+		                	<xsl:with-param name="extract-id" select="current()/@extract" tunnel="yes" as="xs:string?" />
+		                </xsl:apply-templates>
+	            	</xsl:for-each>
+	            </ul>
+        	</xsl:if>
         </li>         
     </xsl:template>
     
-    <xsl:template match="event/sources/source/summary" mode="source.summary">
-        <p class="summary"><xsl:value-of select="." /></p>
+    
+    <xsl:template match="sources/source/summary" mode="source.summary">
+        <li>
+        	<span>
+        		<xsl:choose>
+        			<xsl:when test="ancestor::sources[1]/parent::*/parent::data">Notes</xsl:when>
+        			<xsl:when test="ancestor::sources[1]/parent::event">
+        				<xs:text>Event (</xs:text><xsl:value-of select="ancestor::sources[1]/parent::event/@type" /><xsl:text>)</xsl:text>
+        			</xsl:when>
+        			<xsl:otherwise>
+        				<xsl:value-of select="ancestor::sources[1]/parent::*/fn:title-case(name())" />
+        			</xsl:otherwise>
+        		</xsl:choose>
+        		<xsl:text>:</xsl:text>
+        	</span>
+        	<xsl:text> </xsl:text>
+        	<span class="summary"><xsl:value-of select="." /></span>
+			<xsl:for-each select="parent::source[@extract != '']">
+				<span class="extract-shortcut">
+					<xsl:call-template name="href-html">
+						<xsl:with-param name="path" select="concat('source/', @ref)" as="xs:string"/>
+						<xsl:with-param name="bookmark" select="@extract" as="xs:string?" />
+						<xsl:with-param name="content" as="item()*">🔖</xsl:with-param>
+					</xsl:call-template>
+				</span>
+			</xsl:for-each>        	
+        </li>
     </xsl:template>
 
     
