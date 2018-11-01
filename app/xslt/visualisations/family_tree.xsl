@@ -33,11 +33,13 @@
 			<xsl:with-param name="config" as="element()">
 				<config>
 					<settings scope="global">
-						<xsl:text>graph [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
-						<!-- Global node settings -->
-						<xsl:text>node [fontname = "IM FELL DW Pica", shape = none, fillcolor = "#f5f5f5"];&#10;</xsl:text>
-						<!-- Global edge settings -->
-						<xsl:text>edge [fontname = "IM FELL DW Pica"];&#10;</xsl:text>
+						<xsl:text>
+							node [
+								fontsize="12"
+								shape="none"
+								fillcolor="#f5f5f5"
+							];&#10;
+						</xsl:text>
 					</settings>
 					<rank direction="{$graph-direction}" />
 				</config>
@@ -74,7 +76,7 @@
 		<xsl:variable name="partner-events" select="fn:get-partner-events($subject)" as="element()*" />
 		
 		<!-- Subject's parent's -->
-		<xsl:for-each-group select="$subject-birth-events[parent]" group-by="fn:get-inferred-relationship-id(current())">
+		<xsl:for-each-group select="$subject-birth-events[count(parent/key('person', @ref)) > 0]" group-by="fn:get-inferred-relationship-id(current())">
 			<xsl:sort select="date/@year" data-type="number" order="ascending" />
 			<xsl:sort select="date/@month" data-type="number" order="ascending" />
 			<xsl:sort select="date/@day" data-type="number" order="ascending" />
@@ -294,7 +296,7 @@
 							
 							<xsl:for-each-group select="current-group()" group-ending-with="@type[. = 'divorce']">
 								<xsl:for-each select="current-group()">
-									<font face="DejaVu Sans"><xsl:choose>
+									<font face="'DejaVu Sans Mono'"><xsl:choose>
 										<xsl:when test="@type = 'marriage'"><xsl:text>⚭</xsl:text></xsl:when>
 										<xsl:when test="@type = 'divorce'"><xsl:text>⚮</xsl:text></xsl:when>
 									</xsl:choose></font>
@@ -319,7 +321,7 @@
 							
 							<xsl:for-each-group select="current-group()" group-ending-with="@type[. = 'separation']">
 								<xsl:for-each select="current-group()">
-									<font face="DejaVu Sans"><xsl:choose>
+									<font face="'DejaVu Sans Mono'"><xsl:choose>
 										<xsl:when test="@type = 'unmarried-partnership'"><xsl:text>⚯</xsl:text></xsl:when>
 										<xsl:when test="@type = 'separation'"><xsl:text>⚮</xsl:text></xsl:when>
 									</xsl:choose></font>
@@ -344,7 +346,7 @@
 							
 							<xsl:for-each-group select="current-group()" group-ending-with="@type[. = 'separation']">
 								<xsl:for-each select="current-group()">
-									<font face="DejaVu Sans"><xsl:choose>
+									<font face="'DejaVu Sans Mono'"><xsl:choose>
 										<xsl:when test="@type = 'engagement'"><xsl:text>⚬</xsl:text></xsl:when>
 										<xsl:when test="@type = 'separation'"><xsl:text>⚮</xsl:text></xsl:when>
 									</xsl:choose></font>
@@ -361,7 +363,7 @@
 						</xsl:for-each-group>
 					</xsl:when>
 					<xsl:otherwise>
-						<font face="DejaVu Sans">⦿</font>
+						<font face="'DejaVu Sans Mono'">⦿</font>
 					</xsl:otherwise>
 					
 				</xsl:choose>
@@ -386,7 +388,7 @@
 				<xsl:value-of select="normalize-space(fn:get-name(self::*))" />
 				<xsl:variable name="dated-birth-events" select="fn:get-birth-events(self::*)[date/@year]" as="element()*" />
 				<xsl:for-each select="$dated-birth-events[1]">
-					<br /><font face="DejaVu Sans">
+					<br /><font face="'DejaVu Sans Mono'">
 					<xsl:choose>
 						<xsl:when test="@type = 'birth'">☥</xsl:when>
 						<xsl:when test="@type = 'christening'">≈</xsl:when>
@@ -398,7 +400,7 @@
 				<xsl:variable name="end-date" select="ancestor::data/person/related/event[@type = ('death')][person/@ref = current()/@id]" />
 				<xsl:if test="$end-date/date/@year != ''">
 					<xsl:if test="count($dated-birth-events) = 0"><br /></xsl:if>
-					<font face="DejaVu Sans"><xsl:if test="count($dated-birth-events) > 0">–</xsl:if>✝</font><i><xsl:value-of select="$end-date/date/@year" /></i>
+					<font face="'DejaVu Sans Mono'"><xsl:if test="count($dated-birth-events) > 0">–</xsl:if>✝</font><i><xsl:value-of select="$end-date/date/@year" /></i>
 				</xsl:if>
 			</xsl:with-param>
 			<xsl:with-param name="style" select="if (@id = $subject/@id) then 'filled' else ()" as="xs:string?" />

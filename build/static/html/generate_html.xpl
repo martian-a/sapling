@@ -22,7 +22,7 @@
 	</p:directory-list>
 	
 	
-	<p:for-each>
+	<p:for-each name="process-directory">
 		
 		<p:iteration-source select="c:directory" />
 		
@@ -34,20 +34,34 @@
 				<p:pipe port="result" step="process-files" />
 				<p:pipe port="result" step="process-directories" />
 			</p:output>
+			
+			<p:identity>
+				<p:input port="source">
+					<p:pipe port="current" step="process-directory" />
+				</p:input>
+				<p:log port="result" href="process-directory.log" />
+			</p:identity>
 		
-			<p:for-each name="process-files">
+			<p:for-each name="process-files">			
 				
-				<p:iteration-source select="c:directory/c:file" />
+				<p:iteration-source select="c:directory/c:file" />																	
 				
-				<p:output port="result" sequence="true" />
+				<p:output port="result" sequence="true" />													
 				
-				<p:group>
+				<p:group>									
 					
-					<p:variable name="filename" select="c:file/@name" />
-					
+					<p:variable name="filename" select="c:file/@name" />											
+							
+					<p:identity>
+						<p:input port="source">
+							<p:pipe port="current" step="process-files" />
+						</p:input>
+						<p:log port="result" href="process-files.log" />
+					</p:identity>		
+							
 					<p:load name="load-xml">
 						<p:with-option name="href" select="concat($href, $filename)"></p:with-option>
-					</p:load>
+					</p:load>															
 					
 					<p:xslt>
 						<p:input port="source">
@@ -89,10 +103,9 @@
 				
 				<p:output port="result" sequence="true" />
 				
-				<p:group>
+				<p:group>										
 
 					<tcy:generate-static-html>
-						
 						<p:input port="stylesheet">
 							<p:pipe port="stylesheet" step="generate-static-html" />
 						</p:input>

@@ -50,6 +50,12 @@
 	
 	<p:sink />
 	
+	<p:load name="load-post-process-svg-stylesheet">
+		<p:with-option name="href" select="concat($href-app, 'xslt/visualisations/post_process_svg.xsl')" />
+	</p:load>
+	
+	<p:sink />
+	
 	<tcy:query-get-entity-list name="entity-list">
 		<p:with-option name="path" select="'person'" />
 	</tcy:query-get-entity-list>
@@ -63,13 +69,20 @@
 		
 		<p:group>
 			
-			<p:variable name="id" select="*/@id" />
+			<p:variable name="id" select="*/@id" />	
+			
+			<p:identity>
+				<p:input port="source">
+					<p:pipe port="current" step="generate-images-per-person" />
+				</p:input>
+				<p:log port="result" href="generate_family_tree.log" />
+			</p:identity>	
 			
 			<tcy:get-app-view name="generate-xml">
 				<p:with-option name="path" select="'person'" />
 				<p:with-option name="id" select="$id" />
 				<p:with-option name="for-graph" select="true()" />
-			</tcy:get-app-view>
+			</tcy:get-app-view>			
 			
 			<p:choose>
 				
@@ -124,7 +137,11 @@
 								<p:input port="source">
 									<p:pipe port="result" step="generate-dot" />
 								</p:input>
+								<p:input port="stylesheet">
+									<p:pipe port="result" step="load-post-process-svg-stylesheet" />
+								</p:input>
 								<p:with-option name="target" select="concat($target, 'svg/person/', $orientation, '/', $id, '.svg')" />
+								<p:with-option name="path-to-css" select="'../../../../../css/'" />
 							</tcy:generate-static-svg>
 							
 							<p:sink />

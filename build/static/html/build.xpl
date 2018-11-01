@@ -11,8 +11,9 @@
 	
 	<p:documentation>
 		<d:doc scope="pipeline">
+			<d:summary>Generates a static, HTML snapshot of the app.</d:summary>
 			<d:desc>
-				<d:p>Generates a static, HTML snapshot of the app.</d:p>
+				<d:p>Copies across assets that the HTML will rely on (css, javascript) and then converts each of the already generated XML dist files into HTML, directory by directory.</d:p>
 			</d:desc>
 		</d:doc>
 	</p:documentation>

@@ -129,11 +129,16 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 		then ()
 		else 
 			if (not($graph = ('family-tree', 'timeline')))
-			then <graph>{$graph}</graph>
+			then (: <graph>{$graph}</graph> :) $parameter-in
 			else if ($graph = 'family-tree') 
 			then
-				let $dot := transform:transform($xml, $stylesheet, $parameters)
-				(: If this fails, check directory settings in graphviz module config :)
-				return gv:dot-to-svg($dot)
+				(: Generate DOT :)
+				let $dot := transform:transform($xml, $stylesheet, $parameters)				
+				(: Convert DOT to SVG
+				   Note: If this fails, check directory settings in graphviz module config :)
+				let $svg := gv:dot-to-svg($dot)
+				(: Tidy-up SVG :)
+				let $svg-post-processing-stylesheet := doc(concat($config:upload-path-to-xslt, "visualisations/post_process_svg.xsl"))    
+				return transform:transform($svg, $svg-post-processing-stylesheet, ())	
 			else transform:transform($xml, $stylesheet, $parameters)		
 };

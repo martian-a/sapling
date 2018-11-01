@@ -17,13 +17,14 @@
 	</p:documentation>
 	
 	<p:input port="source" primary="true" />
+	<p:input port="stylesheet" />
 	
 	<p:option name="target" required="true" />
+	<p:option name="path-to-css" required="true" />
 	
 	<p:output port="result" sequence="true">
 		<p:pipe port="result" step="results" />
-	</p:output>
-	
+	</p:output>	
 	
 	<p:try>
 		<p:group>
@@ -43,6 +44,13 @@
 				<p:with-option name="wrap-result-lines" select="'false'" />
 			</p:exec> 		
 	
+			<p:xslt>
+				<p:input port="stylesheet">
+					<p:pipe port="stylesheet" step="generate-static-svg" />
+				</p:input>				
+				<p:with-param name="path-to-css" select="$path-to-css" />
+			</p:xslt>
+	
 		</p:group>
 		<p:catch name="catch">
 			
@@ -59,7 +67,7 @@
 		<p:when test="/c:result/*">
 			
 			<p:store name="store-svg" encoding="utf-8">
-				<p:input port="source" select="/c:result/*" sequence="true" />
+				<p:input port="source" select="/c:result/*" />
 				<p:with-option name="href" select="$target" />
 				<p:with-option name="method" select="'xml'" />
 				<p:with-option name="media-type" select="'image/svg+xml'" />
