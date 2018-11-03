@@ -448,7 +448,7 @@ declare function data:get-related-events($entity as element()) as element()* {
 		    for $ref in distinct-values($entity/event/@ref/xs:string(.))
 		    return data:get-entity($ref)
 		case "event" return
-			for $ref in distinct-values($entity/descendant::preceded-by/@ref/xs:string(.))
+			for $ref in distinct-values($entity/descendant::event/@ref/xs:string(.))
 			return data:get-entity($ref)
 		case "person" return
 			for $event in data:get-entities("event")[descendant::*[name() = ('person', 'parent')]/@ref = $entity/@id]
