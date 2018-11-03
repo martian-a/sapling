@@ -465,7 +465,6 @@ div.event .content {
 .total-sources a:visited,
 .total-sources a:hover,
 .total-sources a:active {
-	color: #000000;
 	text-decoration: none;
 }
 
@@ -697,12 +696,68 @@ div.map .leaflet-popup-content-wrapper {
 
 /* End of Map */
 
+
+
 /**********
- * Sources
+ * Custom Bullet List
  */
+
+div.locations > ul,
+div.sources > ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+div.locations > ul > li,
+div.sources > ul > li {
+	text-indent: -1em;
+	padding-left: 1em;
+}
+
+
+div.locations > ul > li::before,
+div.sources > ul > li::before {
+	font-family: dejavu;
+	display: inline-block;
+	width: .5em;
+}
+
+/* End of Custom Bullet List */
+
+
+/**********
+ * Locations List
+ */
+
+
+div.locations > ul > li::before {
+	content: '\01F588\00FE0E'; /* Includes invisible character to force display as text not emoji. */
+	padding-left: .5em;
+}
+
+
+/* End of Locations List */
+
+
+/**********
+ * Sources 
+ */
+
+div.sources > ul > li::before {
+	content: "︎🗊\00FE0E"; /* Includes invisible character after the glyph to force text instead of emoji. */
+	padding-left: .3em;		
+}
+
+div.sources p.citation {
+	display: inline;
+}
 
 div.sources ul.references {
     list-style-type: circle;
+}
+
+div.sources ul.references li {
+	text-indent: 0;
 }
 
 div.sources ul.references .extract-shortcut {
