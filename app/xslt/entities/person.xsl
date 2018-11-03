@@ -219,7 +219,7 @@
 			</xsl:for-each>
 			<xsl:if test="count(persona) &gt; 1">
 				<h2>Also Known As</h2>
-				<ul>
+				<ul class="people">
 					<xsl:for-each select="persona[preceding-sibling::persona]">
 						<li>
 							<xsl:apply-templates select="name"/>
@@ -378,7 +378,7 @@
 			
 			<div class="parents">
 				<h3>Parents</h3>
-				<ul>
+				<ul class="people">
 					<xsl:for-each select="fn:sort-people($public-parents)">
 						<li><xsl:apply-templates select="self::*" /></li>
 					</xsl:for-each>
@@ -403,7 +403,7 @@
 		<xsl:if test="count($public-children) > 0">
 			<div class="children">
 				<h3>Children</h3>
-				<ul>
+				<ul class="people">
 					<xsl:for-each select="$public-children">
 						<xsl:sort select="if ($events[person/@ref = current()/@ref]/date/@year) then $events[person/@ref = current()/@ref]/date/@year else @year" data-type="number" order="ascending" />
 						<xsl:sort select="$events[person/@ref = current()/@ref]/date/@month" data-type="number" order="ascending" />
@@ -440,7 +440,7 @@
 		<xsl:if test="count($public-partners) > 0">
 			<div class="partners">
 				<h3>Partners</h3>
-				<ul>
+				<ul class="people">
 					<xsl:for-each-group select="$public-partners" group-by="@id">
 						<xsl:sort select="$events[*/@ref = current-grouping-key()][1]/date/@year" data-type="number" order="ascending" />
 						<xsl:sort select="$events[*/@ref = current-grouping-key()][1]/date/@month" data-type="number" order="ascending" />

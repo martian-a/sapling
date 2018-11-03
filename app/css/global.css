@@ -100,6 +100,24 @@ body {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'profile';
+    src: local('Profile'),
+    	 url('../fonts/profile/Profile.woff') format('woff'),
+         url('../fonts/profile/Profile.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'map';
+    src: local('Mapkey Icons'),
+    	 url('../fonts/map/MapkeyIcons.woff') format('woff'),
+         url('../fonts/map/MapkeyIcons.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 
 body,
@@ -702,28 +720,49 @@ div.map .leaflet-popup-content-wrapper {
  * Custom Bullet List
  */
 
+ul.people,
+div.people ul,
 div.locations > ul,
 div.sources > ul {
 	list-style-type: none;
 	padding-left: 0;
 }
 
+ul.people li,
+div.people li,
 div.locations > ul > li,
 div.sources > ul > li {
 	text-indent: -1em;
 	padding-left: 1em;
 }
 
-
+ul.people li::before,
+div.people li::before,
 div.locations > ul > li::before,
 div.sources > ul > li::before {
 	font-family: dejavu;
 	display: inline-block;
 	width: .5em;
+	text-align: right;
 }
 
 /* End of Custom Bullet List */
 
+
+/**********
+ * People List
+ */
+
+ul.people li::before,
+div.people li::before {
+	font-family: profile;
+	font-size: 1.25em;
+	vertical-align: top;
+	content: 'Ê\00FE0E'; /* Includes invisible character to force display as text not emoji. */
+	padding-right: .35em;
+}
+
+/* End of People List */
 
 /**********
  * Locations List
@@ -731,8 +770,9 @@ div.sources > ul > li::before {
 
 
 div.locations > ul > li::before {
-	content: '\01F588\00FE0E'; /* Includes invisible character to force display as text not emoji. */
-	padding-left: .5em;
+	font-family: map;
+	content: '\e076\00FE0E'; /* Includes invisible character to force display as text not emoji. */
+	padding-right: .5em;
 }
 
 
@@ -745,7 +785,7 @@ div.locations > ul > li::before {
 
 div.sources > ul > li::before {
 	content: "︎🗊\00FE0E"; /* Includes invisible character after the glyph to force text instead of emoji. */
-	padding-left: .3em;		
+	padding-right: .3em;		
 }
 
 div.sources p.citation {
