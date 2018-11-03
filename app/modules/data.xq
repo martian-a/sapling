@@ -564,7 +564,10 @@ declare function data:get-related-sources($entity as element()) as element()* {
 
 declare function data:get-related-sources($entity as element(), $related-events as element()*) as element()* {
 
-	let $entities := ($entity, $related-events)
+	let $entities := 
+		switch ($entity/name())
+		case "person" return ($entity, $related-events)
+		default return $entity
 	let $references :=
 		let $references-from-entities-to-sources := $entities/descendant::source/@ref/xs:string(.)
 		let $references-to-entity-from-sources := data:get-entities('source')/self::source[descendant::*/@ref = $entity/@id]/@id/xs:string(.)
