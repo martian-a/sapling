@@ -129,7 +129,7 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 		then ()
 		else 
 			if (not($graph = ('family-tree', 'timeline')))
-			then (: <graph>{$graph}</graph> :) $parameter-in
+			then <graph>{$graph}</graph>
 			else if ($graph = 'family-tree') 
 			then
 				(: Generate DOT :)
@@ -139,6 +139,6 @@ declare function action:request-svg($path-in as xs:string?, $id-in as xs:string?
 				let $svg := gv:dot-to-svg($dot)
 				(: Tidy-up SVG :)
 				let $svg-post-processing-stylesheet := doc(concat($config:upload-path-to-xslt, "visualisations/post_process_svg.xsl"))    
-				return transform:transform($svg, $svg-post-processing-stylesheet, ())	
+				return transform:transform($svg, $svg-post-processing-stylesheet, ())				
 			else transform:transform($xml, $stylesheet, $parameters)		
 };
