@@ -68,8 +68,12 @@
 		<xsl:variable name="title">
 			<xsl:apply-templates select="data/event" mode="title" />
 		</xsl:variable>
-		
-		<xsl:value-of select="xs:string($title)"/>
+		<xsl:variable name="regex">
+			<xsl:text> (</xsl:text>
+			<xsl:value-of select="string-join($gender-glyphs, '|')" />
+			<xsl:text>)</xsl:text>
+		</xsl:variable>
+		<xsl:value-of select="replace(xs:string($title), $regex, '')"/>
 	</xsl:template>
 	
 	

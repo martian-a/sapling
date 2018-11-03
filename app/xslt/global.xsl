@@ -38,6 +38,8 @@
 	<xsl:variable name="ext-html" select="if (xs:boolean($static)) then '.html' else ''" as="xs:string?"/>
 	<xsl:variable name="index" select="if (xs:boolean($static)) then 'index' else ''" as="xs:string?"/>
 	
+	<xsl:variable name="gender-glyphs" select="('♂', '♀', '⚥', '⚧', '⚪')" as="xs:string*" />
+	
 	<xsl:include href="view.xsl"/>
 
 	<doc:doc>
