@@ -460,6 +460,34 @@ div.event .content {
     margin-left: 1em;
 }
 
+.total-sources a, 
+.total-sources a:link,
+.total-sources a:visited,
+.total-sources a:hover,
+.total-sources a:active {
+	color: #000000;
+	text-decoration: none;
+}
+
+
+.total-sources {
+	opacity: .65;
+}
+
+.total-sources .label {
+	display: none;
+}
+
+.total-sources .count::before {
+	content: "︎🗊︎"; /* Includes invisible character after the glyph to force text instead of emoji. */	
+}
+
+.total-sources .count {
+	border: 1px solid rgba(0,0,0, 0.1);
+	border-radius: .25em;
+	padding: .1em;
+}
+
 /* End of Timeline */
 
 
@@ -668,3 +696,35 @@ div.map .leaflet-popup-content-wrapper {
 }
 
 /* End of Map */
+
+/**********
+ * Sources
+ */
+
+div.sources ul.references {
+    list-style-type: circle;
+}
+
+div.sources ul.references .extract-shortcut {
+    margin-left: .25em;
+}
+
+div.sources ul.references .extract-shortcut a,
+div.sources ul.references .extract-shortcut a:link,
+div.sources ul.references .extract-shortcut a:visited,
+div.sources ul.references .extract-shortcut a:hover,
+div.sources ul.references .extract-shortcut a:active {
+    text-decoration: none;
+}
+
+.extract-shortcut {
+	opacity: .65;
+	border: 1px solid rgba(0,0,0, 0.1);
+	border-radius: .25em;
+	padding: .1em;
+	font-size: small;
+}
+
+.extract-shortcut .label {
+	padding-right: .2em;
+}

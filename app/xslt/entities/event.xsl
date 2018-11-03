@@ -248,7 +248,7 @@
 		</doc:note>
 	</doc:doc>
 	<xsl:template match="event" mode="summarise" priority="100">
-		<p class="summary"><xsl:next-match /></p>
+		<p class="summary"><xsl:next-match /><xsl:apply-templates select="sources" mode="sources.total" /></p>
 	</xsl:template>
 	
 	

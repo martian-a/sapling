@@ -190,7 +190,7 @@
     <xsl:template match="related" mode="sources">
         <xsl:param name="sources" select="source" as="element()*"/>
         
-        <div class="sources">
+        <div class="sources" id="sources">
             <h2>Sources</h2>
             <ul>
                 <xsl:apply-templates select="fn:sort-sources($sources)" mode="source.citation" />                 
@@ -240,11 +240,13 @@
         	<xsl:text> </xsl:text>
         	<span class="summary"><xsl:value-of select="." /></span>
 			<xsl:for-each select="parent::source[@extract != '']">
-				<span class="extract-shortcut">
+				<span class="extract-shortcut" title="Link to Extract">				    
 					<xsl:call-template name="href-html">
 						<xsl:with-param name="path" select="concat('source/', @ref)" as="xs:string"/>
 						<xsl:with-param name="bookmark" select="@extract" as="xs:string?" />
-						<xsl:with-param name="content" as="item()*">🔖</xsl:with-param>
+					    <xsl:with-param name="content" as="item()*">					        					        
+					        <span class="label">Extract</span>
+					    </xsl:with-param>
 					</xsl:call-template>
 				</span>
 			</xsl:for-each>        	
@@ -644,6 +646,23 @@
         </div>
     </xsl:template>
     
+   
+    <xsl:template match="sources" mode="sources.total">
+        <xsl:variable name="total" select="count(source)" as="xs:integer" />
+        <xsl:if test="$total> 0">
+            <xsl:text>  </xsl:text>
+            <span class="total-sources" title="Total Sources">
+                <xsl:call-template name="href-html">
+                    <xsl:with-param name="path" select="concat('event/', parent::event/@id)" as="xs:string" />
+                    <xsl:with-param name="bookmark">sources</xsl:with-param>
+                    <xsl:with-param name="content" as="item()*">
+                        <span class="label">Sources: </span>
+                        <span class="count"><xsl:value-of select="$total" /></span>    
+                    </xsl:with-param>
+                </xsl:call-template>
+            </span>
+        </xsl:if>
+    </xsl:template>
    
     
 </xsl:stylesheet>
