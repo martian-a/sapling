@@ -11,7 +11,7 @@
         <xsl:apply-templates />
     </xsl:template>
     
-    <xsl:template match="*[*/@id]">
+    <xsl:template match="*[*[not(name() = ('extract'))]/@id]">
         <xsl:copy>
             <xsl:apply-templates select="@*" />
             <xsl:apply-templates select="*">
