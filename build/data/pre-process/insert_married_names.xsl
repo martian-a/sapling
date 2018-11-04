@@ -9,7 +9,7 @@
     
     
     <doc:doc scope="stylesheet">
-        <doc:title>Maiden Names</doc:title>
+        <doc:title>Married Names</doc:title>
         <doc:desc>Generate and append personas for married names.</doc:desc>
     </doc:doc>
     
@@ -30,11 +30,11 @@
     </doc:doc>
     <xsl:template match="data/people/person/persona[not(following-sibling::persona)]" priority="10">
         <xsl:next-match />
-        <xsl:apply-templates select="parent::person[persona/gender/lower-case(.) = 'female']" mode="maiden-names" />
+        <xsl:apply-templates select="parent::person[persona/gender/lower-case(.) = 'female']" mode="married-names" />
     </xsl:template>
     
     
-    <xsl:template match="person[@id]" mode="maiden-names">
+    <xsl:template match="person[@id]" mode="married-names">
         <xsl:variable name="forenames" select="persona[1]/name/name[not(@family = 'yes')]" />
         <xsl:variable name="gender" select="persona[1]/gender" />
         <xsl:variable name="marriages" select="key('marriages', @id)" as="element()*" />

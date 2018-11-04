@@ -49,9 +49,9 @@
             <doc:p>Select an excluded entity (other than an event) that is referenced by an entity that's currently due to be published.</doc:p>
         </doc:desc>
     </doc:doc>
-    <xsl:template match="*[name() != 'event'][@id]" mode="filter">
+    <xsl:template match="*[not(name() = ('event'))][@id]" mode="filter">
         
-        <xsl:variable name="references-from-core-entities" select="/app/data/include/descendant::*[@ref = current()/@id]" />
+        <xsl:variable name="references-from-core-entities" select="/app/data/include/descendant::*[concat(@ref, @extract) = current()/concat(@id, body-matter/extract/@id)]" />
         
         <xsl:if test="count($references-from-core-entities) &gt; 0">
             <xsl:sequence select="self::*" />
@@ -60,7 +60,7 @@
     
     <doc:doc>
         <doc:desc>
-            <doc:p>Select an excluded event that is references a person that's currently due to be published.</doc:p>
+            <doc:p>Select an excluded event that references a person that's currently due to be published.</doc:p>
         </doc:desc>
     </doc:doc>
     <xsl:template match="event[@id]" mode="filter">
@@ -100,16 +100,16 @@
     
     <doc:doc>
         <doc:desc>
-            <doc:p>Remove from the exclude collection all organisations that have been moved into the include collection.</doc:p>
+            <doc:p>Remove from the exclude collection all entities that have been moved into the include collection.</doc:p>
         </doc:desc>
     </doc:doc>
     <xsl:template match="/app/data/exclude/*/*" priority="10">
         <xsl:param name="include" as="element()*" tunnel="yes" />
         
-        <xsl:if test="not(@id = $include/@id)">
-            <xsl:next-match />
-        </xsl:if>
-        
+    	<xsl:if test="not(concat(@id, body-matter/extract/@id) = $include/concat(@id, body-matter/extract/@id))">
+	    	<xsl:next-match />
+    	</xsl:if>
+    	
     </xsl:template>    
     
 </xsl:stylesheet>

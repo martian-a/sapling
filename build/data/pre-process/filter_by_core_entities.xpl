@@ -28,7 +28,7 @@
 			<p:pipe port="source" step="filter-by-core-entities" />
 		</p:xpath-context>
 		
-		<p:when test="count(/app/data/exclude/*/*[@id = /app/data/include/descendant::*/@ref]) &gt; 0">
+		<p:when test="count(/app/data/exclude/*/*[concat(@id, body-matter/extract/@id) = /app/data/include/descendant::*/concat(@ref, @extract)]) &gt; 0">
 	
 			<p:xslt> 
 				<p:input port="source">

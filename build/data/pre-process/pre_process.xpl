@@ -80,28 +80,7 @@
 		<p:input port="parameters">
 			<p:empty />
 		</p:input>
-	</p:xslt>
-	
-	
-	<p:xslt> 
-		<p:input port="stylesheet">
-			<p:document href="filter_out_tentative_events.xsl" />
-		</p:input>
-		<p:input port="parameters">
-			<p:empty />
-		</p:input>
-	</p:xslt>
-	
-	
-	<p:xslt> 
-		<p:input port="stylesheet">
-			<p:document href="filter_data_to_core_people.xsl" />
-		</p:input>
-		<p:input port="parameters">
-			<p:empty />
-		</p:input>
-	</p:xslt>
-	
+	</p:xslt>	
 	
 	<p:choose>
 		
@@ -110,7 +89,35 @@
 		</p:when>
 		
 		<p:otherwise>
-			<p:xslt>
+			
+			<p:xslt> 
+				<p:input port="stylesheet">
+					<p:document href="filter_out_tentative_events.xsl" />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+			</p:xslt>
+			
+			<p:xslt> 
+				<p:input port="stylesheet">
+					<p:document href="split_source_extracts.xsl" />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+			</p:xslt>
+			
+			<p:xslt> 
+				<p:input port="stylesheet">
+					<p:document href="filter_data_to_core_people.xsl" />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+			</p:xslt>
+			
+			<p:xslt name="exclude-people">
 				<p:input port="stylesheet">
 					<p:document href="exclude_people_not_explicit_publish.xsl"/>
 				</p:input>
@@ -118,11 +125,21 @@
 					<p:empty/>
 				</p:input>
 			</p:xslt>
+			
+			<tcy:filter-by-core-entities />				
+			
+			<p:xslt> 
+				<p:input port="stylesheet">
+					<p:document href="join_source_extracts.xsl" />
+				</p:input>
+				<p:input port="parameters">
+					<p:empty />
+				</p:input>
+			</p:xslt>
+			
 		</p:otherwise>
 		
 	</p:choose>
-	
-	<tcy:filter-by-core-entities />
 	
 	
 	<p:xslt> 
@@ -136,7 +153,7 @@
 	
 	<p:xslt> 
 		<p:input port="stylesheet">
-			<p:document href="insert_maiden_names.xsl" />
+			<p:document href="insert_married_names.xsl" />
 		</p:input>
 		<p:input port="parameters">
 			<p:empty />
