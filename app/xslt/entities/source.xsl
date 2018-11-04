@@ -511,33 +511,36 @@
     </xsl:template>
     
     
-    <xsl:template match="source/front-matter/link" mode="source.profile">
-        <div class="link">
-            <h2>Link</h2>
-            <p><xsl:apply-templates select="self::link, date" /></p>
-        </div>
+    <xsl:template match="link[ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" mode="source.profile">
+    	<div class="link">
+    		<xsl:element name="{if (ancestor::front-matter) then 'h2' else 'h3'}">
+    			<xsl:if test="ancestor::body-matter"><xsl:attribute name="class">heading</xsl:attribute></xsl:if>
+    			<xsl:text>Link</xsl:text>    			
+    		</xsl:element>
+    		<p><xsl:apply-templates select="self::link, date" /></p>
+    	</div>
     </xsl:template>
     
 
-    <xsl:template match="date[@rel = 'revised'][ancestor::front-matter/parent::source]" priority="20">
+    <xsl:template match="date[@rel = 'revised'][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" priority="20">
         <xsl:if test="parent::*/date[@rel = 'published']"><xsl:text>, </xsl:text></xsl:if>
         <xsl:next-match />
         <xsl:text> (rev)</xsl:text>
     </xsl:template>
 
-    <xsl:template match="date[@rel = 'retrieved'][ancestor::front-matter/parent::source]" priority="20">
+	<xsl:template match="date[@rel = 'retrieved'][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" priority="20">
         <xsl:text> (retrieved: </xsl:text><xsl:next-match /><xsl:text>)</xsl:text>
     </xsl:template>
 
-    <xsl:template match="date[ancestor::front-matter/parent::source]" priority="10">
+	<xsl:template match="date[ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]" priority="10">
         <span class="date {@rel}"><xsl:next-match /></span>
     </xsl:template>
     
-    <xsl:template match="date[normalize-space(.) != ''][ancestor::front-matter/parent::source]">
+	<xsl:template match="date[normalize-space(.) != ''][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]">
         <xsl:value-of select="." />
     </xsl:template>
     
-    <xsl:template match="date[normalize-space(.) = ''][@day and @month and @year][ancestor::front-matter/parent::source]">
+	<xsl:template match="date[normalize-space(.) = ''][@day and @month and @year][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]">
         <xsl:value-of select="@day" />
         <xsl:text> </xsl:text>
         <xsl:value-of select="substring(fn:month-name(@month), 1, 3)"/>
@@ -545,13 +548,13 @@
         <xsl:value-of select="@year" />
     </xsl:template>
     
-    <xsl:template match="date[normalize-space(.) = ''][not(@day) and @month and @year][ancestor::front-matter/parent::source]">
+	<xsl:template match="date[normalize-space(.) = ''][not(@day) and @month and @year][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]">
         <xsl:value-of select="substring(fn:month-name(@month), 1, 3)"/>
         <xsl:text> </xsl:text>
         <xsl:value-of select="@year" />
     </xsl:template>
     
-    <xsl:template match="date[normalize-space(.) = ''][not(@day) and not(@month) and @year][ancestor::front-matter/parent::source]">
+	<xsl:template match="date[normalize-space(.) = ''][not(@day) and not(@month) and @year][ancestor::*[name() = ('front-matter', 'body-matter')]/parent::source]">
         <xsl:value-of select="@year" />
     </xsl:template>
     
@@ -582,7 +585,12 @@
     <xsl:template match="source/body-matter/extract">
         <div class="extract">
             <xsl:if test="@id"><xsl:attribute name="id" select="@id" /></xsl:if>
-            <xsl:apply-templates select="pages" mode="source.profile" />
+        	<xsl:if test="pages or link[@href]">
+	        	<div class="metadata">
+	            	<xsl:apply-templates select="pages" mode="source.profile" />
+	        		<xsl:apply-templates select="link[@href]" mode="source.profile" />
+	        	</div>
+        	</xsl:if>
             <xsl:apply-templates select="if (body) then body else summary" />            
         </div>
     </xsl:template>
