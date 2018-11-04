@@ -227,7 +227,7 @@
             <xsl:variable name="map-focus" select="fn:get-map-focus($locations[geo:point])" as="element()" />            
             <script>
                 <xsl:text>map('</xsl:text><xsl:value-of select="$map-id" /><xsl:text>', </xsl:text>
-                <xsl:value-of select="$map-focus/@geo:lat" />
+                <xsl:value-of select="if (entities) then 0 else $map-focus/@geo:lat" />
                 <xsl:text>, </xsl:text>
                 <xsl:value-of select="$map-focus/@geo:long" />
                 <xsl:text>, </xsl:text>
