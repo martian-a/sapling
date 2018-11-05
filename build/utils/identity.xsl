@@ -6,7 +6,7 @@
 	version="2.0">
 		
 	<xsl:template match="element()">
-		<xsl:copy><xsl:apply-templates select="attribute(), node()" /></xsl:copy>
+		<xsl:copy copy-namespaces="no"><xsl:apply-templates select="attribute(), node()" /></xsl:copy>
 	</xsl:template>
 	
 	<xsl:template match="processing-instruction() | comment() | attribute() | text()">

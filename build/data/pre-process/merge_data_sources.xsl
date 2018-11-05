@@ -30,7 +30,7 @@
 		<doc:desc>Merge data sources of the same kind.</doc:desc>
 	</doc:doc>
 	<xsl:template match="app/data">
-		<xsl:copy>
+		<xsl:copy copy-namespaces="no">
 			<xsl:apply-templates select="@*" />
 			<xsl:for-each-group select="*" group-by="name()">
 				<xsl:element name="{current-grouping-key()}">
