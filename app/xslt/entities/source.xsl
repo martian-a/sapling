@@ -229,7 +229,7 @@
         		<xsl:choose>
         			<xsl:when test="ancestor::sources[1]/parent::*/parent::data">Notes</xsl:when>
         			<xsl:when test="ancestor::sources[1]/parent::event">
-        				<xs:text>Event (</xs:text><xsl:value-of select="ancestor::sources[1]/parent::event/@type" /><xsl:text>)</xsl:text>
+        				<xsl:text>Event (</xsl:text><xsl:value-of select="ancestor::sources[1]/parent::event/@type" /><xsl:text>)</xsl:text>
         			</xsl:when>
         			<xsl:otherwise>
         				<xsl:value-of select="ancestor::sources[1]/parent::*/fn:title-case(name())" />
