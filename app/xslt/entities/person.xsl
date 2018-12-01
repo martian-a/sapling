@@ -27,7 +27,7 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/app[view/data/person]" mode="html.header.scripts" priority="500">
-		<script src="{$normalised-path-to-js}family_tree.js"><xsl:comment>origin: person</xsl:comment></script> 
+		<script src="{$normalised-path-to-js}family_tree.js">/* origin: person */</script> 
 		<xsl:next-match />
 	</xsl:template>
 	
@@ -38,7 +38,7 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/app[view/data/person]" mode="html.footer.scripts" priority="500">
-		<script src="{$normalised-path-to-js}init.js"><xsl:comment>origin: person</xsl:comment></script>
+		<script src="{$normalised-path-to-js}init.js">/* origin: person */</script>
 		<xsl:next-match />
 	</xsl:template>
 

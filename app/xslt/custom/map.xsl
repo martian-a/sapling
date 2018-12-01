@@ -103,11 +103,11 @@
         <xsl:param name="locations" as="element()*" tunnel="yes" />
         
         <xsl:if test="$locations[geo:point]">
-             <script src="{$normalised-path-to-js}tokens.js"><xsl:comment>global</xsl:comment></script>
+             <script src="{$normalised-path-to-js}tokens.js">/* global */</script>
              <!-- Make sure you put this AFTER Leaflet's CSS -->
              <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
                  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
-                 crossorigin=""><xsl:comment>Leaflet (maps)</xsl:comment></script>
+                 crossorigin="">/* Leaflet (maps) */</script>
         </xsl:if>
         <xsl:next-match />
     </xsl:template>
@@ -222,7 +222,7 @@
         <xsl:param name="map-markers-var-name" as="xs:string?" tunnel="yes" />
         
         <xsl:if test="$locations[geo:point]">
-            <script src="{$normalised-path-to-js}maps.js"><xsl:comment>Leaflet (maps)</xsl:comment></script>
+            <script src="{$normalised-path-to-js}maps.js">/* Leaflet (maps) */</script>
             
             <xsl:variable name="map-focus" select="fn:get-map-focus($locations[geo:point])" as="element()" />            
             <script>

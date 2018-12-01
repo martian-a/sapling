@@ -66,8 +66,8 @@
 				<xsl:apply-templates select="self::*" mode="html.header.style"/>
 				<xsl:apply-templates select="self::*" mode="html.header.scripts"/>
 				<xsl:if test="$static = 'true'">
-					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-342055-1"><xsl:comment> Google Analytics </xsl:comment></script>
-					<script src="{$normalised-path-to-js}analytics.js"><xsl:comment> Google Analytics </xsl:comment></script>
+					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-342055-1">/* Google Analytics */</script>
+					<script src="{$normalised-path-to-js}analytics.js">/* Google Analytics */</script>
 				</xsl:if>
 			</head>
 			<body class="{if (view/data/entities) then 'index' else 'entity'}">
