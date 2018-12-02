@@ -197,7 +197,7 @@
 	</doc:doc>
 	<xsl:template match="data/person">
 		<xsl:apply-templates select="self::person[persona]" mode="personas" />
-		<xsl:apply-templates select="related[event/@type = ('birth', 'christening', 'marriage')]" mode="family" />
+		<xsl:apply-templates select="related[event/@type = ('birth', 'adoption', 'christening', 'marriage')]" mode="family" />
 		<xsl:apply-templates select="self::person[note]" mode="notes" /> 
 		<xsl:apply-templates select="related[event]" mode="timeline" /> 
 		<xsl:apply-templates select="related[organisation]" mode="organisations"/>
@@ -371,7 +371,7 @@
 	<xsl:template match="related" mode="family.parents">
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
-		<xsl:variable name="events" select="event[@type = 'birth'][person/@ref = $subject-id][parent]" as="element()*" />
+		<xsl:variable name="events" select="event[@type = ('birth', 'adoption')][person/@ref = $subject-id][parent]" as="element()*" />
 		<xsl:variable name="public-parents" select="$events/parent[count(key('person', @ref)) > 0]" as="element()*" />
 		
 		<xsl:if test="count($public-parents) > 0">
@@ -397,7 +397,7 @@
 	<xsl:template match="related" mode="family.children">
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
-		<xsl:variable name="events" select="event[@type = 'birth'][parent/@ref = $subject-id][person]" as="element()*" />
+		<xsl:variable name="events" select="event[@type = ('birth', 'adoption')][parent/@ref = $subject-id][person]" as="element()*" />
 		<xsl:variable name="public-children" select="$events/person[@ref != $subject-id]/key('person', @ref)" as="element()*" />
 		
 		<xsl:if test="count($public-children) > 0">
@@ -428,7 +428,7 @@
 		<xsl:param name="subject-id" as="xs:string" tunnel="yes" />
 		
 		<xsl:variable name="events" as="element()*">
-			<xsl:for-each  select="event[@type = 'marriage'][person/@ref = $subject-id and person/@ref != $subject-id] | event[@type = 'birth'][parent/@ref = $subject-id and parent/@ref != $subject-id]">
+			<xsl:for-each  select="event[@type = 'marriage'][person/@ref = $subject-id and person/@ref != $subject-id] | event[@type = ('birth', 'adoption')][parent/@ref = $subject-id and parent/@ref != $subject-id]">
 				<xsl:sort select="date/@year" data-type="number" order="ascending" />
 				<xsl:sort select="date/@month" data-type="number" order="ascending" />
 				<xsl:sort select="date/@day" data-type="number" order="ascending" />

@@ -9,7 +9,7 @@
 	<xsl:variable name="romantic-relationship-start-types" select="('unmarried-partnership' , 'engagement', 'marriage')" as="xs:string*" />
 	<xsl:variable name="romantic-relationship-end-types" select="('separation', 'divorce')" as="xs:string*" />
 	<xsl:variable name="romantic-relationship-types" select="($romantic-relationship-start-types, $romantic-relationship-end-types)" as="xs:string*" />
-	<xsl:variable name="parental-relationship-types" select="('birth' , 'christening', 'adoption')" as="xs:string*" />
+	<xsl:variable name="parental-relationship-types" select="('birth', 'christening', 'adoption')" as="xs:string*" />
 
 	<xsl:function name="fn:add-trailing-slash" as="xs:string">
 		<xsl:param name="string-in" as="xs:string?"/>

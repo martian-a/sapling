@@ -312,15 +312,15 @@
 	
 	
 	<doc:doc>
-		<doc:title>Event Summary (Content): Birth</doc:title>
+		<doc:title>Event Summary (Content): Birth or Adoption</doc:title>
 		<doc:desc>
-			<doc:p>Generates a summary for a birth.</doc:p>
+			<doc:p>Generates a summary for a birth or adoption.</doc:p>
 		</doc:desc>
 		<doc:note date="2017-08-27">
 			<doc:p>As used in timelines.</doc:p>
 		</doc:note>
 	</doc:doc>
-	<xsl:template match="event[@type = 'birth'][not(summary)]" mode="summarise">
+	<xsl:template match="event[@type = ('birth', 'adoption')][not(summary)]" mode="summarise">
 		<xsl:variable name="parents" select="fn:sort-people(key('person', parent/@ref))" as="element()*" />
 		<xsl:variable name="child" select="key('person', person/@ref)" as="element()?" />
 	
@@ -330,8 +330,17 @@
 			</xsl:when>
 			<xsl:otherwise>A child</xsl:otherwise>
 		</xsl:choose>
-		<xsl:text> is born</xsl:text>
-		<xsl:if test="count($parents) > 0"> to </xsl:if>
+		<xsl:text> is </xsl:text>
+		<xsl:choose>
+			<xsl:when test="@type = 'adoption'">adopted</xsl:when>
+			<xsl:otherwise>born</xsl:otherwise>
+		</xsl:choose>
+		<xsl:if test="count($parents) > 0"> 
+			<xsl:choose>
+				<xsl:when test="@type = 'adoption'"> by </xsl:when>
+				<xsl:otherwise> to </xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
 		<xsl:for-each select="$parents">
 			<xsl:apply-templates select="self::*" mode="href-html" />		
 			<xsl:choose>
