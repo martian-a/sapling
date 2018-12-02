@@ -79,7 +79,7 @@
 					</p:xslt>
 					
 					
-					<p:store name="store-html" encoding="utf-8">
+					<p:store name="store-html" encoding="utf-8" doctype-system="about:legacy-compat">
 						<p:with-option name="href" select="concat($target, substring-before($filename, '.xml'), '.html')"></p:with-option>
 					</p:store>
 					
