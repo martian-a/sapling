@@ -50,7 +50,7 @@
 				</xsl:for-each-group>
 			</xsl:with-param>
 			<xsl:with-param name="edge-data" as="element()*">
-				<xsl:for-each-group select="$may-contain-duplicates[@type = 'edge']" group-by="concat(property[@label = 'from'], property[@label = 'to'])">
+				<xsl:for-each-group select="$may-contain-duplicates[@type = 'edge'][property[@label = 'from']/text() = $may-contain-duplicates[@type = 'node']/property[@label = 'id']/text()][property[@label = 'to']/text() = $may-contain-duplicates[@type = 'node']/property[@label = 'id']/text()]" group-by="concat(property[@label = 'from'], property[@label = 'to'])">
 					<xsl:sequence select="current-group()[1]" />
 				</xsl:for-each-group>
 			</xsl:with-param>
