@@ -65,7 +65,7 @@
 		<xsl:for-each select="ancestor::svg:g[1]">
 			<xsl:choose>
 				<xsl:when test="descendant::svg:a/@xlink:href/contains(., '/person/')">
-					<xsl:value-of select="descendant::svg:text[contains(lower-case(@font-family), 'fell')][1]" />
+					<xsl:value-of select="descendant::svg:text[not(contains(lower-case(@font-family), 'dejavu sans mono'))][1]" />
 					<xsl:if test="count(descendant::svg:text) > 1">
 						<xsl:text> (</xsl:text>
 						<xsl:value-of select="string-join(descendant::svg:text[position() > 1], ' ')" />
