@@ -298,6 +298,7 @@
             <xsl:apply-templates select="descendant::pages" mode="source.profile" />
             <xsl:apply-templates select="descendant::link" mode="source.profile" />
         </div>
+        <xsl:apply-templates select="acknowledgements" />
     </xsl:template>
     
     
@@ -670,6 +671,13 @@
                 </xsl:call-template>
             </span>
         </xsl:if>
+    </xsl:template>
+    
+    <xsl:template match="source/front-matter/acknowledgements">
+        <div class="acknowledgements">
+            <h2>Acknowledgements</h2>
+            <xsl:apply-templates mode="body" />
+        </div>
     </xsl:template>
    
     

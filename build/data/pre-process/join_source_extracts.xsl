@@ -37,7 +37,9 @@
 	<xsl:template match="/app/data/sources/source/body-matter/*" mode="join-source-extracts">
 		<xsl:param name="current-group" as="element()*" tunnel="yes" />
 		
-		<xsl:apply-templates select="$current-group/body-matter/*" />
+		<xsl:if test="position() = 1">
+			<xsl:apply-templates select="$current-group/body-matter/*" />
+		</xsl:if>
 	</xsl:template>
 	
 	

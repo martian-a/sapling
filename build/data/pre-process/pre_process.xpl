@@ -50,7 +50,6 @@
 		</p:input>
 	</p:xslt>
 	
-	
 	<p:xslt name="dereference-serials"> 
 		<p:input port="stylesheet">
 			<p:document href="dereference_serials.xsl" />
@@ -98,7 +97,7 @@
 					<p:empty />
 				</p:input>
 			</p:xslt>
-			
+					
 			<p:xslt> 
 				<p:input port="stylesheet">
 					<p:document href="split_source_extracts.xsl" />
@@ -107,7 +106,7 @@
 					<p:empty />
 				</p:input>
 			</p:xslt>
-			
+						
 			<p:xslt> 
 				<p:input port="stylesheet">
 					<p:document href="filter_data_to_core_people.xsl" />
@@ -115,7 +114,7 @@
 				<p:input port="parameters">
 					<p:empty />
 				</p:input>
-			</p:xslt>
+			</p:xslt>			
 			
 			<p:xslt name="exclude-people">
 				<p:input port="stylesheet">
@@ -125,9 +124,9 @@
 					<p:empty/>
 				</p:input>
 			</p:xslt>
-			
+						
 			<tcy:filter-by-core-entities />				
-			
+						
 			<p:xslt> 
 				<p:input port="stylesheet">
 					<p:document href="join_source_extracts.xsl" />
@@ -135,12 +134,11 @@
 				<p:input port="parameters">
 					<p:empty />
 				</p:input>
-			</p:xslt>
+			</p:xslt>			
 			
 		</p:otherwise>
 		
 	</p:choose>
-	
 	
 	<p:xslt> 
 		<p:input port="stylesheet">

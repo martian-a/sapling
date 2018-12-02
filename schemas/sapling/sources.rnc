@@ -11,6 +11,7 @@ include "shared.rnc" {
              (
                 shared.body-matter.content-model* &
                 shared.body-matter.section* & 
+                shared.body-matter.poem* &
                 shared.body-matter.table* &
                 shared.body-matter.quote-block*
          	)
@@ -32,6 +33,7 @@ include "shared.rnc" {
             "medium" |
             "long"
         }
+        
 }
 
 start |= (
@@ -511,7 +513,8 @@ source.body-matter.body.attlist =
 	xml.attlist
 
 source.body-matter.attlist =
-	xml.attlist
+	xml.attlist,
+	shared.publish.attlist
 
 source.body-matter.chapter.attlist =
 	xml.attlist,

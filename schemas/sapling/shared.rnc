@@ -52,6 +52,16 @@ shared.body-matter.paragraph |= element p {
     shared.inline.mix.content-model	
 }
 
+shared.body-matter.poem.stanza |= element stanza {
+    shared.body-matter.poem.stanza.attlist,
+    shared.body-matter.poem.stanza.content-model
+}
+
+shared.body-matter.poem.line |= element line {
+    shared.body-matter.poem.line.attlist,
+    shared.inline.mix.content-model
+}
+
 
 shared.body-matter.quote-inline |= element quote {
 	shared.body-matter.quote.attlist,
@@ -71,6 +81,11 @@ shared.body-matter.section |= element section {
 shared.body-matter.subheading |= element subheading {
 	shared.body-matter.heading.attlist,    
 	shared.inline.mix.content-model	
+}
+
+shared.body-matter.poem |= element poem {
+    shared.body-matter.poem.attlist,
+    shared.body-matter.poem.content-model
 }
 
 shared.body-matter.table |= element table {
@@ -100,6 +115,7 @@ shared.body-matter.strikethrough |= element strikethrough {
 shared.body-matter.underline |= element underline {
     shared.inline.mix.content-model
 }
+
 
 shared.date |= element date {
 	shared.date.attlist,
@@ -228,6 +244,15 @@ shared.body.content-model |=
 shared.body-matter.content-model |=
     shared.body-matter.paragraph*	
 
+shared.body-matter.poem.content-model |=
+    shared.body-matter.poem.stanza*
+    
+shared.body-matter.poem.stanza.content-model |=
+    (
+        shared.body-matter.poem.line |
+        shared.body-matter.poem.stanza
+    )*
+
 shared.body-matter.table.content-model |=
 	shared.body-matter.table.row*
 	
@@ -303,6 +328,15 @@ shared.body-matter.heading.attlist |=
 
 shared.body-matter.paragraph.attlist |=
 	xml.attlist
+
+shared.body-matter.poem.attlist |=
+	xml.attlist	
+	
+shared.body-matter.poem.stanza.attlist |=
+	xml.attlist	
+
+shared.body-matter.poem.line.attlist |=
+	xml.attlist	
 
 shared.body-matter.quote.attlist |=
 	xml.attlist	
@@ -398,6 +432,9 @@ shared.person.name.prefix.attlist |=
 shared.person.name.title.attlist |=
 	xml.attlist	
 	
+shared.publish.attlist |=
+    attribute publish { xsd:boolean }?
+
 shared.summary.attlist |=
 	xml.attlist	
 	

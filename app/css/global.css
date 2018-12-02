@@ -823,3 +823,18 @@ div.sources ul.references .extract-shortcut a:active {
 .extract-shortcut .label {
 	padding-right: .2em;
 }
+
+
+/**********
+ * Poetry 
+ */
+ 
+.poem .stanza {
+    margin: 1em 0;
+}
+
+.body-matter .body .stanza p {
+    margin: 0;
+}
+ 
+/* End of Poetry */

@@ -103,4 +103,22 @@
 		<s><xsl:apply-templates mode="#current" /></s>
 	</xsl:template>
 	
+	<xsl:template match="poem" mode="body">
+		<div class="poem">
+			<xsl:apply-templates mode="poetry" />
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="stanza" mode="poetry">
+		<div class="stanza">
+			<xsl:apply-templates mode="#current" />
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="stanza/line" mode="poetry">
+		<p>
+			<xsl:apply-templates mode="#current" />
+		</p>
+	</xsl:template>
+	
 </xsl:stylesheet>
