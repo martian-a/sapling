@@ -1,0 +1,6709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data href="file:/home/sheila/Code/repositories/genealogy-data-global/import/ancestry/shipping_allan.ged.txt"
+      filename="shipping_allan.ged.txt">
+   <people>
+      <person id="@P1@"
+              year="1780">
+         <persona id="d174145e15">
+            <name>
+               <name>Alexander</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <persona id="d174145e67">
+            <name>
+               <name>Sandy</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P2@"
+              year="1819">
+         <persona id="d174145e77">
+            <name>
+               <name>Margaret</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P3@"
+              year="1816">
+         <persona id="d174145e86">
+            <name>
+               <name>Janet</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P4@"
+              year="1814">
+         <persona id="d174145e95">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P5@"
+              year="1822">
+         <persona id="d174145e113">
+            <name>
+               <name>Andrew</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P6@"
+              year="1810">
+         <persona id="d174145e121">
+            <name>
+               <name>Hugh</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563020@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563026@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563035@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P7@"
+              year="1825">
+         <persona id="d174145e191">
+            <name>
+               <name>Alexander</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P8@"
+              year="1812">
+         <persona id="d174145e195">
+            <name>
+               <name>Brice</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <persona id="d174145e198">
+            <name>
+               <name>Bryce</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P9@"
+              year="1807">
+         <persona id="d174145e219">
+            <name>
+               <name>James</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P10@"
+              year="1782">
+         <persona id="d174145e223">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Crawford</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P11@"
+              year="1812">
+         <persona id="d174145e239">
+            <name>
+               <name>Alexander</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P12@"
+              year="1750">
+         <persona id="d174145e245">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Brown</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P13@">
+         <persona id="d174145e265">
+            <name>
+               <name>James</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P14@"
+              year="1790">
+         <persona id="d174145e286">
+            <name>
+               <name>Fairlie</name>
+               <name>Cunningham</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P15@"
+              year="1786">
+         <persona id="d174145e313">
+            <name>
+               <name>Janet</name>
+               <name>Francis</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <persona id="d174145e317">
+            <name>
+               <name>Janet</name>
+               <name>Frances</name>
+               <name family="yes">Stevenson</name>
+            </name>
+         </persona>
+         <persona id="d174145e320">
+            <name>
+               <name>Janet</name>
+               <name>Frances</name>
+               <name family="yes">Stevenson</name>
+            </name>
+         </persona>
+         <persona id="d174145e323">
+            <name>
+               <name>Janet</name>
+               <name>Frances</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P16@"
+              year="1784">
+         <persona id="d174145e334">
+            <name>
+               <name>Margaret</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P17@"
+              year="1782">
+         <persona id="d174145e343">
+            <name>
+               <name>John</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P18@"
+              year="1776">
+         <persona id="d174145e352">
+            <name>
+               <name>James</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P19@"
+              year="1778">
+         <persona id="d174145e361">
+            <name>
+               <name>Andrew</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P20@"
+              year="1708">
+         <persona id="d174145e365">
+            <name>
+               <name>Gilbert</name>
+               <name family="yes">Brown</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P21@"
+              year="1747">
+         <persona id="d174145e387">
+            <name>
+               <name>Catherine</name>
+               <name family="yes">Mott</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P22@"
+              year="1718">
+         <persona id="d174145e397">
+            <name>
+               <name>Margaret</name>
+               <name family="yes">Blaine</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P23@"
+              year="1708">
+         <persona id="d174145e411">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Rainie</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P24@"
+              year="1732">
+         <persona id="d174145e428">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Brown</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P25@"
+              year="1771">
+         <persona id="d174145e469">
+            <name>
+               <name>Isobel</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <persona id="d174145e480">
+            <name>
+               <name>Isabella</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P26@"
+              year="1769">
+         <persona id="d174145e490">
+            <name>
+               <name>John</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P27@"
+              year="1767">
+         <persona id="d174145e499">
+            <name>
+               <name>William</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P28@"
+              year="1764">
+         <persona id="d174145e510">
+            <name>
+               <name>Annabella</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P29@"
+              year="1762">
+         <persona id="d174145e519">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P30@"
+              year="1760">
+         <persona id="d174145e525">
+            <name>
+               <name>Gilbert</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P31@"
+              year="1721">
+         <persona id="d174145e544">
+            <name>
+               <name>William</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P32@">
+         <persona id="d174145e552">
+            <name>
+               <name>William</name>
+               <name family="yes">Nelson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P33@"
+              year="1759">
+         <persona id="d174145e558">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P34@"
+              year="1796">
+         <persona id="d174145e593">
+            <name>
+               <name>Maxwell</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P35@"
+              year="1789">
+         <persona id="d174145e603">
+            <name>
+               <name>Francis</name>
+               <name>Wallace</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P36@"
+              year="1792">
+         <persona id="d174145e614">
+            <name>
+               <name>Elizabeth</name>
+               <name>Riddell</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P37@"
+              year="1791">
+         <persona id="d174145e619">
+            <name>
+               <name>William</name>
+               <name>Nichol</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562349@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P38@"
+              year="1794">
+         <persona id="d174145e638">
+            <name>
+               <name>James</name>
+               <name>Glencairn</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P39@"
+              year="1788">
+         <persona id="d174145e646">
+            <name>
+               <name>Robert</name>
+               <name>Burns</name>
+               <name family="yes">Clow</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P40@"
+              year="1766">
+         <persona id="d174145e659">
+            <name>
+               <name>Janet</name>
+               <name family="yes">Clow</name>
+            </name>
+         </persona>
+         <persona id="d174145e669">
+            <name>
+               <name>Jenny</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P41@"
+              year="1791">
+         <persona id="d174145e674">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <persona id="d174145e693">
+            <name>
+               <name>Betty</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P42@"
+              year="1769">
+         <persona id="d174145e707">
+            <name>
+               <name>Helen</name>
+               <name>Anne</name>
+               <name family="yes">Park</name>
+            </name>
+         </persona>
+         <persona id="d174145e713">
+            <name>
+               <name>Anna</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P43@"
+              year="1788">
+         <persona id="d174145e727">
+            <name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P44@"
+              year="1788">
+         <persona id="d174145e741">
+            <name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P45@"
+              year="1786">
+         <persona id="d174145e754">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P46@"
+              year="1786">
+         <persona id="d174145e758">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562446@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P47@"
+              year="1760">
+         <persona id="d174145e774">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Paton</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P48@"
+              year="1765">
+         <persona id="d174145e791">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <persona id="d174145e802">
+            <name>
+               <name>Joan</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <persona id="d174145e804">
+            <name>
+               <name>Belle</name>
+               <name>of</name>
+               <name>Mauchline</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P49@"
+              year="1785">
+         <persona id="d174145e814">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <persona id="d174145e819">
+            <name>
+               <name>Bess</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P50@">
+         <persona id="d174145e827">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Rainie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P51@">
+         <persona id="d174145e832">
+            <name>
+               <name>Isabella</name>
+               <name family="yes">Keith</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P52@">
+         <persona id="d174145e837">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P53@">
+         <persona id="d174145e842">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">McClure</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P54@">
+         <persona id="d174145e852">
+            <name>
+               <name>John</name>
+               <name family="yes">Tennant</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P55@"
+              year="1802">
+         <persona id="d174145e867">
+            <name>
+               <name>John</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P56@"
+              year="1807">
+         <persona id="d174145e876">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P57@"
+              year="1798">
+         <persona id="d174145e885">
+            <name>
+               <name>Janet</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P58@"
+              year="1800">
+         <persona id="d174145e894">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P59@"
+              year="1808">
+         <persona id="d174145e903">
+            <name>
+               <name>Isabella</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P60@"
+              year="1811">
+         <persona id="d174145e912">
+            <name>
+               <name>Edward</name>
+               <name>Hamilton</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P61@"
+              year="1808">
+         <persona id="d174145e923">
+            <name>
+               <name>James</name>
+               <name>Hope</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P62@"
+              year="1806">
+         <persona id="d174145e934">
+            <name>
+               <name>Isabella</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P63@"
+              year="1804">
+         <persona id="d174145e943">
+            <name>
+               <name>Jane</name>
+               <name>Breckenridge</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P64@"
+              year="1801">
+         <persona id="d174145e952">
+            <name>
+               <name>Gilbert</name>
+               <name>Burns</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P65@"
+              year="1800">
+         <persona id="d174145e962">
+            <name>
+               <name>Agnes</name>
+               <name>Brown</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P66@"
+              year="1796">
+         <persona id="d174145e976">
+            <name>
+               <name>John</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P67@"
+              year="1798">
+         <persona id="d174145e992">
+            <name>
+               <name>Robert</name>
+               <name>Burns</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P68@"
+              year="1794">
+         <persona id="d174145e1002">
+            <name>
+               <name>William</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P69@">
+         <persona id="d174145e1014">
+            <name>
+               <name>John</name>
+               <name family="yes">Begg</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P70@">
+         <persona id="d174145e1023">
+            <name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P71@">
+         <persona id="d174145e1028">
+            <name>
+               <name>Mary</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P72@"
+              year="1731">
+         <persona id="d174145e1037">
+            <name>
+               <name>James</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P73@">
+         <persona id="d174145e1049">
+            <name>
+               <name>Janet</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P74@">
+         <persona id="d174145e1054">
+            <name>
+               <name>Mary</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P75@">
+         <persona id="d174145e1059">
+            <name>
+               <name>Helen</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P76@">
+         <persona id="d174145e1064">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P77@">
+         <persona id="d174145e1070">
+            <name>
+               <name>James</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P78@">
+         <persona id="d174145e1075">
+            <name>
+               <name>John</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P79@"
+              year="1771">
+         <persona id="d174145e1079">
+            <name>
+               <name>Adam</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P80@">
+         <persona id="d174145e1098">
+            <name>
+               <name>Adam</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P81@">
+         <persona id="d174145e1103">
+            <name>
+               <name>John</name>
+               <name family="yes">Bishop</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P82@">
+         <persona id="d174145e1107">
+            <name>
+               <name>John</name>
+               <name family="yes">Andrew</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P83@"
+              year="1812">
+         <persona id="d174145e1117">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Burns</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P84@"
+              year="1784">
+         <persona id="d174145e1125">
+            <name>
+               <name>Anne</name>
+               <name family="yes">Sherwood</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562446@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P85@"
+              year="1812">
+         <persona id="d174145e1137">
+            <name>
+               <name>William</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P86@"
+              year="1807">
+         <persona id="d174145e1146">
+            <name>
+               <name>John</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P87@"
+              year="1803">
+         <persona id="d174145e1153">
+            <name>
+               <name>Adam</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P88@"
+              year="1801">
+         <persona id="d174145e1161">
+            <name>
+               <name>Fanny</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P89@"
+              year="1799">
+         <persona id="d174145e1170">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P90@"
+              year="1793">
+         <persona id="d174145e1179">
+            <name>
+               <name>James</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P91@"
+              year="1772">
+         <persona id="d174145e1183">
+            <name>
+               <name>Frances</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P92@"
+              year="1805">
+         <persona id="d174145e1201">
+            <name>
+               <name>Mary</name>
+               <name>Smith</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P93@"
+              year="1794">
+         <persona id="d174145e1214">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Armour</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P94@"
+              year="1719">
+         <persona id="d174145e1224">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P95@"
+              year="1769">
+         <persona id="d174145e1238">
+            <name>
+               <name>William</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P96@"
+              year="1767">
+         <persona id="d174145e1250">
+            <name>
+               <name>John</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P97@"
+              year="1778">
+         <persona id="d174145e1265">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Burnes</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P98@">
+         <persona id="d174145e1273">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Craig</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P99@">
+         <persona id="d174145e1281">
+            <name>
+               <name>Ann</name>
+               <name family="yes">Newlands</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P100@">
+         <persona id="d174145e1286">
+            <name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P101@">
+         <persona id="d174145e1291">
+            <name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P102@">
+         <persona id="d174145e1300">
+            <name>
+               <name>Grace</name>
+               <name family="yes">Beveridge</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P103@"
+              year="1745">
+         <persona id="d174145e1304">
+            <name>
+               <name>Ann</name>
+               <name family="yes">Dick</name>
+            </name>
+         </persona>
+         <persona id="d174145e1308">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Dick</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400644650@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P104@"
+              year="1742">
+         <persona id="d174145e1319">
+            <name>
+               <name>Joseph</name>
+               <name family="yes">Park</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P105@"
+              year="1833">
+         <persona id="d174145e1334">
+            <name>
+               <name>Margaret</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P106@"
+              year="1830">
+         <persona id="d174145e1342">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P107@"
+              year="1821">
+         <persona id="d174145e1351">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P108@"
+              year="1817">
+         <persona id="d174145e1361">
+            <name>
+               <name>Robert</name>
+               <name>Burns</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P109@"
+              year="1815">
+         <persona id="d174145e1373">
+            <name>
+               <name>Jean</name>
+               <name>Armour</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P110@"
+              year="1825">
+         <persona id="d174145e1383">
+            <name>
+               <name>Sarah</name>
+               <name>Burns</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P111@"
+              year="1827">
+         <persona id="d174145e1392">
+            <name>
+               <name>James</name>
+               <name>Glencairn</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P112@"
+              year="1809">
+         <persona id="d174145e1401">
+            <name>
+               <name>William</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P113@"
+              year="1788">
+         <persona id="d174145e1415">
+            <name>
+               <name>John</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P114@">
+         <persona id="d174145e1430">
+            <name>
+               <name>Agnes</name>
+               <name family="yes">Adam</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P115@">
+         <persona id="d174145e1435">
+            <name>
+               <name>William</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P116@">
+         <persona id="d174145e1440">
+            <name>
+               <name>John</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P117@">
+         <persona id="d174145e1446">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">McNaught</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P118@">
+         <persona id="d174145e1451">
+            <name>
+               <name family="yes">Watson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P119@">
+         <persona id="d174145e1456">
+            <name>
+               <name>David</name>
+               <name family="yes">Wingate</name>
+            </name>
+         </persona>
+         <persona id="d174145e1458">
+            <name>
+               <name>The</name>
+               <name>Collier</name>
+               <name>Poet</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P120@">
+         <persona id="d174145e1463">
+            <name>
+               <name>Robert</name>
+               <name>Burns</name>
+               <name family="yes">Clow</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P121@">
+         <persona id="d174145e1480">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Lees</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P122@">
+         <persona id="d174145e1485">
+            <name>
+               <name>Mary</name>
+               <name family="yes">Beckett</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P123@">
+         <persona id="d174145e1490">
+            <name>
+               <name>Sarah</name>
+               <name family="yes">Robinson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P124@">
+         <persona id="d174145e1494">
+            <name>
+               <name>Catherine</name>
+               <name>Adelaide</name>
+               <name family="yes">Crone</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562349@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P125@"
+              year="1867">
+         <persona id="d174145e1505">
+            <name>
+               <name>Mabel</name>
+               <name>Gertrude</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P126@"
+              year="1863">
+         <persona id="d174145e1515">
+            <name>
+               <name>Edythe</name>
+               <name>Maud</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P127@"
+              year="1858">
+         <persona id="d174145e1520">
+            <name>
+               <name>Margaret</name>
+               <name>Macfie</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P128@"
+              year="1857">
+         <persona id="d174145e1536">
+            <name>
+               <name>Florence</name>
+               <name>Adelaide</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P129@"
+              year="1852">
+         <persona id="d174145e1542">
+            <name>
+               <name>Phoebe</name>
+               <name>Mary</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P130@"
+              year="1849">
+         <persona id="d174145e1554">
+            <name>
+               <name>Jane</name>
+               <name>Crawford</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P131@"
+              year="1847">
+         <persona id="d174145e1565">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P132@"
+              year="1862">
+         <persona id="d174145e1585">
+            <name>
+               <name>Bryce</name>
+               <name>James</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563035@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P133@"
+              year="1845">
+         <persona id="d174145e1606">
+            <name>
+               <name>Alexander</name>
+               <name>Rae</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563020@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P134@"
+              year="1828">
+         <persona id="d174145e1627">
+            <name>
+               <name>Matilda</name>
+               <name>Caroline</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563035@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P135@"
+              year="1871">
+         <persona id="d174145e1662">
+            <name>
+               <name>Arthur</name>
+               <name>Edward</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P136@"
+              year="1854">
+         <persona id="d174145e1675">
+            <name>
+               <name>Matilda</name>
+               <name>Isabella</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P137@"
+              year="1860">
+         <persona id="d174145e1690">
+            <name>
+               <name>Hugh</name>
+               <name>Andrew</name>
+               <name>Montague</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400580457@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P138@"
+              year="1826">
+         <persona id="d174145e1731">
+            <name>
+               <name>Isabella</name>
+               <name>Ann</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P139@"
+              year="1852">
+         <persona id="d174145e1748">
+            <name>
+               <name>Alexander</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P140@"
+              year="1860">
+         <persona id="d174145e1769">
+            <name>
+               <name>Andrew</name>
+               <name>Alexander</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P141@"
+              year="1868">
+         <persona id="d174145e1789">
+            <name>
+               <name>Isobel</name>
+               <name>Brenda</name>
+               <name family="yes">Meredith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P142@">
+         <persona id="d174145e1801">
+            <name>
+               <name>John</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P143@">
+         <persona id="d174145e1822">
+            <name>
+               <name>Betsy</name>
+               <name family="yes">Rea</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P144@"
+              year="1900">
+         <persona id="d174145e1835">
+            <name>
+               <name>Gwendolyn</name>
+               <name>Evelyn</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P145@"
+              year="1898">
+         <persona id="d174145e1846">
+            <name>
+               <name>Anna</name>
+               <name>Marjory</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P146@"
+              year="1897">
+         <persona id="d174145e1855">
+            <name>
+               <name>Hugh</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P147@"
+              year="1895">
+         <persona id="d174145e1864">
+            <name>
+               <name>Marguerite</name>
+               <name>Martha</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P148@"
+              year="1873">
+         <persona id="d174145e1872">
+            <name>
+               <name>Marguerite</name>
+               <name>Ethel</name>
+               <name family="yes">Mackenzie</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P149@">
+         <persona id="d174145e1880">
+            <name>
+               <name>Anna</name>
+               <name family="yes">Palfrey</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P150@">
+         <persona id="d174145e1886">
+            <name>
+               <name>Hugh</name>
+               <name>Travers</name>
+               <name family="yes">Allan</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P151@">
+         <persona id="d174145e1890">
+            <name>
+               <name>Eva</name>
+               <name>Belford</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563020@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P152@">
+         <persona id="d174145e1899">
+            <name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P153@">
+         <persona id="d174145e1905">
+            <name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P154@">
+         <persona id="d174145e1912">
+            <name>
+               <name>Hartland</name>
+               <name>St.</name>
+               <name>Clair</name>
+               <name family="yes">MacDougall</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P155@">
+         <persona id="d174145e1917">
+            <name>
+               <name>James</name>
+               <name>St.</name>
+               <name>George</name>
+               <name family="yes">Bellhouse</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P156@"
+              year="1825">
+         <persona id="d174145e1931">
+            <name>
+               <name>John</name>
+               <name>N</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563020@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563643@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P157@"
+              year="1792">
+         <persona id="d174145e1940">
+            <name>
+               <name>Harriett</name>
+               <name>Letitia</name>
+               <name family="yes">Belford</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563612@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563643@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P158@"
+              year="1770">
+         <persona id="d174145e1963">
+            <name>
+               <name>Robert</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P159@">
+         <persona id="d174145e1986">
+            <name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P160@"
+              year="1820">
+         <persona id="d174145e1999">
+            <name>
+               <name>James</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P161@">
+         <persona id="d174145e2012">
+            <name>
+               <name>Eaton</name>
+               <name>Joseph</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P162@"
+              year="1777">
+         <persona id="d174145e2023">
+            <name>
+               <name>Eaton</name>
+               <name>Stannard</name>
+               <name family="yes">Travers</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P163@"
+              year="1836">
+         <persona id="d174145e2031">
+            <name>
+               <name>George</name>
+               <name>Carson</name>
+               <name family="yes">Gribbon</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P164@">
+         <persona id="d174145e2042">
+            <name>
+               <name>Thomas</name>
+               <name>Dodd</name>
+               <name family="yes">Milburne</name>
+            </name>
+         </persona>
+         <persona id="d174145e2045">
+            <name>
+               <name>Thomas</name>
+               <name>Dodd</name>
+               <name family="yes">Melburne</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P165@">
+         <persona id="d174145e2051">
+            <name>
+               <name>George</name>
+               <name>Lauderdale</name>
+               <name family="yes">Houstoun-Boswall</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P166@">
+         <persona id="d174145e2059">
+            <name>
+               <name>Dorothy</name>
+               <name family="yes">White</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P167@">
+         <persona id="d174145e2065">
+            <name>
+               <name>Eileen</name>
+               <name family="yes">White</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P168@">
+         <persona id="d174145e2070">
+            <name>
+               <name>Gladys</name>
+               <name family="yes">White</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P169@">
+         <persona id="d174145e2077">
+            <name>
+               <name>J</name>
+               <name>F</name>
+               <name family="yes">Wilson</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P170@">
+         <persona id="d174145e2082">
+            <name>
+               <name>Alfred</name>
+               <name>H</name>
+               <name family="yes">White</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P171@">
+         <persona id="d174145e2087">
+            <name>
+               <name>Alexander</name>
+               <name>Thomas</name>
+               <name family="yes">Ogilvie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P172@">
+         <persona id="d174145e2092">
+            <name>
+               <name>Douglas</name>
+               <name>Watson</name>
+               <name family="yes">Ogilvie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P173@">
+         <persona id="d174145e2099">
+            <name>
+               <name>John</name>
+               <name family="yes">Ogilvie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P174@">
+         <persona id="d174145e2105">
+            <name>
+               <name family="yes">Ogilvie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P175@">
+         <persona id="d174145e2110">
+            <name>
+               <name>William</name>
+               <name>Watson</name>
+               <name family="yes">Ogilvie</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P176@">
+         <persona id="d174145e2117">
+            <name>
+               <name>John</name>
+               <name>Wilson</name>
+               <name family="yes">Cook</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P177@"
+              year="1864">
+         <persona id="d174145e2121">
+            <name>
+               <name>Charles</name>
+               <name family="yes">McEachran</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P178@">
+         <persona id="d174145e2132">
+            <name>
+               <name>Francis</name>
+               <name>Winthrop</name>
+               <name family="yes">Palfrey</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P179@">
+         <persona id="d174145e2139">
+            <name>
+               <name>James</name>
+               <name>Colin</name>
+               <name family="yes">Routledge</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P180@">
+         <persona id="d174145e2146">
+            <name>
+               <name>Allan</name>
+               <name family="yes">Routledge</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P181@">
+         <persona id="d174145e2153">
+            <name>
+               <name>James</name>
+               <name>Turner</name>
+               <name family="yes">Routledge</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P182@">
+         <persona id="d174145e2158">
+            <name>
+               <name>Phoebe</name>
+               <name>Duchesnay</name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P183@">
+         <persona id="d174145e2163">
+            <name>
+               <name>Enid</name>
+               <name>Margaret</name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P184@"
+              year="1860">
+         <persona id="d174145e2173">
+            <name>
+               <name>Colin</name>
+               <name>Augustus</name>
+               <name>Monk</name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P185@">
+         <persona id="d174145e2179">
+            <name>
+               <name>Henriette-Julie</name>
+               <name family="yes">Duchesnay</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P186@">
+         <persona id="d174145e2185">
+            <name>
+               <name>Thomas</name>
+               <name>Edmund</name>
+               <name family="yes">Campbell</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P187@">
+         <persona id="d174145e2191">
+            <name>
+               <name>Michel-Louis</name>
+               <name>Juchereau</name>
+               <name family="yes">Duchesnay</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P188@">
+         <persona id="d174145e2196">
+            <name>
+               <name>Joseph</name>
+               <name>C</name>
+               <name family="yes">Wray</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P189@"
+              year="1817">
+         <persona id="d174145e2200">
+            <name>
+               <name>Alexander</name>
+               <name>Tilloch</name>
+               <name family="yes">Galt</name>
+            </name>
+            <gender>Male</gender>
+         </persona>
+         <persona id="d174145e2243">
+            <name>
+               <name>Alexander</name>
+               <name>Tolloch</name>
+               <name family="yes">Galt</name>
+            </name>
+            <gender>Male</gender>
+         </persona>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604225@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604235@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Gender.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P190@"
+              year="1834">
+         <persona id="d174145e2257">
+            <name>
+               <name>Amy</name>
+               <name>Gordon</name>
+               <name family="yes">Torrance</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400604225@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P191@">
+         <persona id="d174145e2292">
+            <name>
+               <name>Elliott</name>
+               <name>Torrance</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P192@"
+              year="1828">
+         <persona id="d174145e2307">
+            <name>
+               <name>Elliott</name>
+               <name family="yes">Torrance</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P193@">
+         <persona id="d174145e2315">
+            <name>
+               <name>Elizabeth</name>
+               <name family="yes">Tilloch</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562446@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P194@"
+              year="1779">
+         <persona id="d174145e2327">
+            <name>
+               <name>John</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562446@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604255@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563020@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P195@"
+              year="1856">
+         <persona id="d174145e2385">
+            <name>
+               <name>John</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628976@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P196@"
+              year="1875">
+         <persona id="d174145e2438">
+            <name>
+               <name>Annie</name>
+               <name>Prince</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400580457@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628661@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628674@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628868@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628878@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P197@"
+              year="1861">
+         <persona id="d174145e2565">
+            <name>
+               <name>Kate</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P198@"
+              year="1856">
+         <persona id="d174145e2587">
+            <name>
+               <name>Mabel</name>
+               <name>Lilias</name>
+               <name family="yes">Magrath</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P199@"
+              year="1870">
+         <persona id="d174145e2618">
+            <name>
+               <name>Mary</name>
+               <name>Oneida</name>
+               <name family="yes">Durnford</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400580457@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P200@"
+              year="1865">
+         <persona id="d174145e2654">
+            <name>
+               <name>Evelyn</name>
+               <name>Cartier</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P201@"
+              year="1873">
+         <persona id="d174145e2686">
+            <name>
+               <name>Muriel</name>
+               <name>Grace</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P202@"
+              year="1863">
+         <persona id="d174145e2715">
+            <name>
+               <name>Selina</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <persona id="d174145e2726">
+            <name>
+               <name>Lena</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P203@">
+         <persona id="d174145e2739">
+            <name>
+               <name>Jean</name>
+               <name family="yes">Thomson</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P204@"
+              year="1750">
+         <persona id="d174145e2754">
+            <name>
+               <name>John</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P205@"
+              year="1815">
+         <persona id="d174145e2769">
+            <name>
+               <name>Thomas</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563664@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400629509@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P206@">
+         <persona id="d174145e2813">
+            <name>
+               <name>John</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400604768@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P207@"
+              year="1857">
+         <persona id="d174145e2834">
+            <name>
+               <name>Thomas</name>
+               <name>Percival</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400629509@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P208@"
+              year="1881">
+         <persona id="d174145e2859">
+            <name>
+               <name>Annie</name>
+               <name family="yes">Howland</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P209@"
+              year="1865">
+         <persona id="d174145e2880">
+            <name>
+               <name>Annie</name>
+               <name family="yes">Mitchell</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P210@"
+              year="1866">
+         <persona id="d174145e2900">
+            <name>
+               <name>Edith</name>
+               <name>F</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P211@"
+              year="1853">
+         <persona id="d174145e2914">
+            <name>
+               <name>Alexander</name>
+               <name>Casimer</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P212@"
+              year="1825">
+         <persona id="d174145e2920">
+            <name>
+               <name>Frances</name>
+               <name>Louisa</name>
+               <name family="yes">Perkins</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400629509@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P213@">
+         <persona id="d174145e2954">
+            <name>
+               <name>John</name>
+               <name family="yes">Torrance</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P214@"
+              year="1866">
+         <persona id="d174145e2978">
+            <name>
+               <name>Mabel</name>
+               <name>Patton</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P215@"
+              year="1891">
+         <persona id="d174145e3014">
+            <name>
+               <name>John</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P216@"
+              year="1887">
+         <persona id="d174145e3037">
+            <name>
+               <name>Isabelle</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628976@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400629066@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628674@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P217@"
+              year="1895">
+         <persona id="d174145e3061">
+            <name>
+               <name>Evelyn</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P218@"
+              year="1893">
+         <persona id="d174145e3081">
+            <name>
+               <name>Margon</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P219@"
+              year="1859">
+         <persona id="d174145e3088">
+            <name>
+               <name>Isabella</name>
+               <name family="yes">Atkinson</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628937@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628976@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400629099@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628674@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P220@"
+              year="1783">
+         <persona id="d174145e3120">
+            <name>
+               <name>James</name>
+               <name family="yes">Galt</name>
+            </name>
+         </persona>
+         <sources/>
+      </person>
+      <person id="@P221@">
+         <persona id="d174145e3124">
+            <name>
+               <name>Arthur</name>
+               <name>Richard</name>
+               <name family="yes">Springett</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P222@">
+         <persona id="d174145e3131">
+            <name>
+               <name>Augustus</name>
+               <name>Decimus</name>
+               <name family="yes">Durnford</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563795@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P223@"
+              year="1904">
+         <persona id="d174145e3154">
+            <name>
+               <name>Marciel</name>
+               <name>Harvey</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P224@"
+              year="1902">
+         <persona id="d174145e3198">
+            <name>
+               <name>Henry</name>
+               <name>Gordon</name>
+               <name>Harvey</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400628674@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P225@"
+              year="1867">
+         <persona id="d174145e3242">
+            <name>
+               <name>W</name>
+               <name>Harvey</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <persona id="d174145e3268">
+            <name>
+               <name>William</name>
+               <name>Henry</name>
+               <name family="yes">Smith</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400563055@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400580457@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P226@">
+         <persona id="d174145e3274">
+            <name>
+               <name>Clarence</name>
+               <name>Brett</name>
+               <name family="yes">Piper</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400629066@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P227@"
+              year="1783">
+         <persona id="d174145e3286">
+            <name>
+               <name>James</name>
+               <name family="yes">Park</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P228@">
+         <persona id="d174145e3294">
+            <name>
+               <name>John</name>
+               <name family="yes">Dick</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400644650@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P229@"
+              year="1823">
+         <persona id="d174145e3309">
+            <name>
+               <name>Mary</name>
+               <name family="yes">Stevenson</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P230@">
+         <persona id="d174145e3322">
+            <name>
+               <name>James</name>
+               <name family="yes">Stevenson</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400559390@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P231@">
+         <persona id="d174145e3331">
+            <name>
+               <name>James</name>
+               <name family="yes">Finlay</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1400556871@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+   </people>
+   <events>
+      <event type="birth">
+         <date day="26"
+               month="2"
+               year="1780">
+            <!--26 Feb 1780-->
+         </date>
+         <person ref="@P1@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Fairlie Estate, Dundonald, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="6"
+               month="9"
+               year="1819">
+            <!--6 Sep 1819-->
+         </date>
+         <person ref="@P2@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="19"
+               month="8"
+               year="1816">
+            <!--19 Aug 1816-->
+         </date>
+         <person ref="@P3@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="26"
+               month="8"
+               year="1814">
+            <!--26 Aug 1814-->
+         </date>
+         <person ref="@P4@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="1"
+               month="12"
+               year="1822">
+            <!--1 Dec 1822-->
+         </date>
+         <person ref="@P5@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="29"
+               month="9"
+               year="1810">
+            <!--29 Sep 1810-->
+         </date>
+         <person ref="@P6@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Saltcoats, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400563026@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="19"
+               month="6"
+               year="1825">
+            <!--19 Jun 1825-->
+         </date>
+         <person ref="@P7@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Greenock Old or West, Renfrewshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="11"
+               year="1812">
+            <!--21 Nov 1812-->
+         </date>
+         <person ref="@P8@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="9"
+               year="1807">
+            <!--25 Sep 1807-->
+         </date>
+         <person ref="@P9@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1782">
+            <!--1782-->
+         </date>
+         <person ref="@P10@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="11"
+               year="1812">
+            <!--21 Nov 1812-->
+         </date>
+         <person ref="@P11@"/>
+         <parent ref="@P1@"
+                 type="Natural"/>
+         <parent ref="@P10@"
+                 type="Natural"/>
+         <location>Ardrossan, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="10"
+               month="1"
+               year="1750">
+            <!--10 Jan 1750-->
+         </date>
+         <person ref="@P12@"/>
+         <parent ref="@P20@"
+                 type="Natural"/>
+         <location>Kirkoswald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="29"
+               month="6"
+               year="1790">
+            <!--29 Jun 1790-->
+         </date>
+         <person ref="@P14@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="10"
+               month="9"
+               year="1786">
+            <!--10 Sep 1786-->
+         </date>
+         <person ref="@P15@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="4"
+               year="1784">
+            <!--25 Apr 1784-->
+         </date>
+         <person ref="@P16@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="19"
+               month="5"
+               year="1782">
+            <!--19 May 1782-->
+         </date>
+         <person ref="@P17@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="16"
+               month="6"
+               year="1776">
+            <!--16 Jun 1776-->
+         </date>
+         <person ref="@P18@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="12"
+               month="4"
+               year="1778">
+            <!--12 Apr 1778-->
+         </date>
+         <person ref="@P19@"/>
+         <parent ref="@P13@"
+                 type="Natural"/>
+         <parent ref="@P12@"
+                 type="Natural"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1708">
+            <!--1708-->
+         </date>
+         <person ref="@P20@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1747">
+            <!--1747-->
+         </date>
+         <person ref="@P21@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1718">
+            <!--1718-->
+         </date>
+         <person ref="@P22@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1708">
+            <!--1708-->
+         </date>
+         <person ref="@P23@"/>
+         <parent ref="@P50@"
+                 type="Natural"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="17"
+               month="3"
+               year="1732">
+            <!--17 Mar 1732-->
+         </date>
+         <person ref="@P24@"/>
+         <parent ref="@P20@"
+                 type="Natural"/>
+         <parent ref="@P23@"
+                 type="Natural"/>
+         <location>Whitestone Cottage, Culzean, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="27"
+               month="7"
+               year="1771">
+            <!--27 Jul 1771-->
+         </date>
+         <person ref="@P25@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Mount Oliphant, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="10"
+               month="7"
+               year="1769">
+            <!--10 Jul 1769-->
+         </date>
+         <person ref="@P26@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Mount Oliphant, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="30"
+               month="7"
+               year="1767">
+            <!--30 Jul 1767-->
+         </date>
+         <person ref="@P27@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Mount Oliphant, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="14"
+               month="11"
+               year="1764">
+            <!--14 Nov 1764-->
+         </date>
+         <person ref="@P28@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Alloway, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="30"
+               month="9"
+               year="1762">
+            <!--30 Sep 1762-->
+         </date>
+         <person ref="@P29@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Alloway, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="28"
+               month="9"
+               year="1760">
+            <!--28 Sep 1760-->
+         </date>
+         <person ref="@P30@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Alloway, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="11"
+               month="11"
+               year="1721">
+            <!--11 Nov 1721-->
+         </date>
+         <person ref="@P31@"/>
+         <parent ref="@P52@"
+                 type="Natural"/>
+         <parent ref="@P51@"
+                 type="Natural"/>
+         <location>Dunnottar, Kincardineshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="1"
+               year="1759">
+            <!--25 Jan 1759-->
+         </date>
+         <person ref="@P33@"/>
+         <parent ref="@P31@"
+                 type="Natural"/>
+         <parent ref="@P24@"
+                 type="Natural"/>
+         <location>Alloway, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="7"
+               year="1796">
+            <!--25 Jul 1796-->
+         </date>
+         <person ref="@P34@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="18"
+               month="8"
+               year="1789">
+            <!--18 Aug 1789-->
+         </date>
+         <person ref="@P35@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Ellisland, Dunscore, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="11"
+               year="1792">
+            <!--21 Nov 1792-->
+         </date>
+         <person ref="@P36@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="9"
+               month="4"
+               year="1791">
+            <!--9 Apr 1791-->
+         </date>
+         <person ref="@P37@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Ellisland, Dunscore, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="12"
+               month="8"
+               year="1794">
+            <!--12 Aug 1794-->
+         </date>
+         <person ref="@P38@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date month="11"
+               year="1788">
+            <!--Nov 1788-->
+         </date>
+         <person ref="@P39@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P40@"
+                 type="Natural"/>
+         <location>Edinburgh, Midlothian, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1766">
+            <!--1766-->
+         </date>
+         <person ref="@P40@"/>
+         <location>Newburgh, Fife, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="31"
+               month="3"
+               year="1791">
+            <!--31 Mar 1791-->
+         </date>
+         <person ref="@P41@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P42@"
+                 type="Natural"/>
+         <location>Leith, Midlothian, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1769">
+            <!--1769-->
+         </date>
+         <person ref="@P42@"/>
+         <parent ref="@P104@"
+                 type="Natural"/>
+         <parent ref="@P103@"
+                 type="Natural"/>
+         <location>Moffat, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="3"
+               month="3"
+               year="1788">
+            <!--3 Mar 1788-->
+         </date>
+         <person ref="@P43@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="3"
+               month="3"
+               year="1788">
+            <!--3 Mar 1788-->
+         </date>
+         <person ref="@P44@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="3"
+               month="9"
+               year="1786">
+            <!--3 Sep 1786-->
+         </date>
+         <person ref="@P45@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="3"
+               month="9"
+               year="1786">
+            <!--3 Sep 1786-->
+         </date>
+         <person ref="@P46@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P48@"
+                 type="Natural"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1760">
+            <!--1760-->
+         </date>
+         <person ref="@P47@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="2"
+               year="1765">
+            <!--25 Feb 1765-->
+         </date>
+         <person ref="@P48@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="22"
+               month="5"
+               year="1785">
+            <!--22 May 1785-->
+         </date>
+         <person ref="@P49@"/>
+         <parent ref="@P33@"
+                 type="Natural"/>
+         <parent ref="@P47@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1802-->
+         </date>
+         <person ref="@P55@"/>
+         <parent ref="@P30@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1807-->
+         </date>
+         <person ref="@P56@"/>
+         <parent ref="@P30@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1798-->
+         </date>
+         <person ref="@P57@"/>
+         <parent ref="@P30@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1800-->
+         </date>
+         <person ref="@P58@"/>
+         <parent ref="@P30@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1808-->
+         </date>
+         <person ref="@P59@"/>
+         <parent ref="@P30@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1811">
+            <!--1811-->
+         </date>
+         <person ref="@P60@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1808">
+            <!--1808-->
+         </date>
+         <person ref="@P61@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1806">
+            <!--1806-->
+         </date>
+         <person ref="@P62@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1804">
+            <!--1804-->
+         </date>
+         <person ref="@P63@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1801">
+            <!--1801-->
+         </date>
+         <person ref="@P64@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1800">
+            <!--1800-->
+         </date>
+         <person ref="@P65@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1796">
+            <!--1796-->
+         </date>
+         <person ref="@P66@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <location>Mossgiel Farm, Mauchline, Ayr, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1798">
+            <!--1798-->
+         </date>
+         <person ref="@P67@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <location>Mossgiel Farm, Mauchline, Ayr, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1794">
+            <!--1794-->
+         </date>
+         <person ref="@P68@"/>
+         <parent ref="@P69@"
+                 type="Natural"/>
+         <parent ref="@P25@"
+                 type="Natural"/>
+         <location>Mossgiel Farm, Mauchline, Ayr, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="15"
+               month="1"
+               year="1731">
+            <!--15 Jan 1731-->
+         </date>
+         <person ref="@P72@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1771">
+            <!--1771-->
+         </date>
+         <person ref="@P79@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="16"
+               month="5"
+               year="1812">
+            <!--16 May 1812-->
+         </date>
+         <person ref="@P83@"/>
+         <parent ref="@P46@"
+                 type="Natural"/>
+         <parent ref="@P84@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1784-->
+         </date>
+         <person ref="@P84@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="25"
+               month="1"
+               year="1812">
+            <!--25 Jan 1812-->
+         </date>
+         <person ref="@P85@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="24"
+               month="12"
+               year="1807">
+            <!--24 Dec 1807-->
+         </date>
+         <person ref="@P86@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="9"
+               month="3"
+               year="1803">
+            <!--9 Mar 1803-->
+         </date>
+         <person ref="@P87@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="8"
+               month="1"
+               year="1801">
+            <!--8 Jan 1801-->
+         </date>
+         <person ref="@P88@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="15"
+               month="3"
+               year="1799">
+            <!--15 Mar 1799-->
+         </date>
+         <person ref="@P89@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="16"
+               month="3"
+               year="1793">
+            <!--16 Mar 1793-->
+         </date>
+         <person ref="@P90@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1772-->
+         </date>
+         <person ref="@P91@"/>
+         <parent ref="@P94@"
+                 type="Natural"/>
+         <parent ref="@P98@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="15"
+               month="10"
+               year="1805">
+            <!--15 Oct 1805-->
+         </date>
+         <person ref="@P92@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="4"
+               month="12"
+               year="1794">
+            <!--4 Dec 1794-->
+         </date>
+         <person ref="@P93@"/>
+         <parent ref="@P79@"
+                 type="Natural"/>
+         <parent ref="@P91@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1719">
+            <!--1719-->
+         </date>
+         <person ref="@P94@"/>
+         <parent ref="@P52@"
+                 type="Natural"/>
+         <parent ref="@P51@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="23"
+               month="3"
+               year="1769">
+            <!--23 Mar 1769-->
+         </date>
+         <person ref="@P95@"/>
+         <parent ref="@P94@"
+                 type="Natural"/>
+         <parent ref="@P98@"
+                 type="Natural"/>
+         <location>Irvine, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="15"
+               month="9"
+               year="1767">
+            <!--15 Sep 1767-->
+         </date>
+         <person ref="@P96@"/>
+         <parent ref="@P94@"
+                 type="Natural"/>
+         <parent ref="@P98@"
+                 type="Natural"/>
+         <location>Irvine, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="29"
+               month="1"
+               year="1778">
+            <!--29 Jan 1778-->
+         </date>
+         <person ref="@P97@"/>
+         <parent ref="@P94@"
+                 type="Natural"/>
+         <parent ref="@P98@"
+                 type="Natural"/>
+         <location>Caldhame, Stewarton, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt 1745-->
+         </date>
+         <person ref="@P103@"/>
+         <parent ref="@P228@"
+                 type="Natural"/>
+         <location>Edinburgh, Scotland.</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="12"
+               month="12"
+               year="1742">
+            <!--12 Dec 1742-->
+         </date>
+         <person ref="@P104@"/>
+         <location>Donegal, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="3"
+               month="5"
+               year="1833">
+            <!--3 May 1833-->
+         </date>
+         <person ref="@P105@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="26"
+               month="7"
+               year="1830">
+            <!--26 Jul 1830-->
+         </date>
+         <person ref="@P106@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1821-->
+         </date>
+         <person ref="@P107@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="16"
+               month="12"
+               year="1817">
+            <!--16 Dec 1817-->
+         </date>
+         <person ref="@P108@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="27"
+               month="7"
+               year="1815">
+            <!--27 Jul 1815-->
+         </date>
+         <person ref="@P109@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1825-->
+         </date>
+         <person ref="@P110@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="19"
+               month="10"
+               year="1827">
+            <!--19 Oct 1827-->
+         </date>
+         <person ref="@P111@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="23"
+               month="3"
+               year="1809">
+            <!--23 Mar 1809-->
+         </date>
+         <person ref="@P112@"/>
+         <parent ref="@P113@"
+                 type="Natural"/>
+         <parent ref="@P41@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1788">
+            <!--1788-->
+         </date>
+         <person ref="@P113@"/>
+         <parent ref="@P115@"
+                 type="Natural"/>
+         <parent ref="@P114@"
+                 type="Natural"/>
+         <location>Glasgow, Lanarkshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1867">
+            <!--1867-->
+         </date>
+         <person ref="@P125@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1863">
+            <!--1863-->
+         </date>
+         <person ref="@P126@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1858">
+            <!--1858-->
+         </date>
+         <person ref="@P127@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1857">
+            <!--1857-->
+         </date>
+         <person ref="@P128@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1852">
+            <!--1852-->
+         </date>
+         <person ref="@P129@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="9"
+               month="7"
+               year="1849">
+            <!--9 Jul 1849-->
+         </date>
+         <person ref="@P130@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="9"
+               month="10"
+               year="1847">
+            <!--9 Oct 1847-->
+         </date>
+         <person ref="@P131@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1862">
+            <!--1862-->
+         </date>
+         <person ref="@P132@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400563035@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="2"
+               month="8"
+               year="1845">
+            <!--2 August 1845-->
+         </date>
+         <person ref="@P133@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date year="1828">
+            <!--1828-->
+         </date>
+         <person ref="@P134@"/>
+         <parent ref="@P142@"
+                 type="Natural"/>
+         <parent ref="@P143@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date year="1871">
+            <!--1871-->
+         </date>
+         <person ref="@P135@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date year="1854">
+            <!--1854-->
+         </date>
+         <person ref="@P136@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="13"
+               month="10"
+               year="1860">
+            <!--13 October 1860-->
+         </date>
+         <person ref="@P137@"/>
+         <parent ref="@P6@"
+                 type="Natural"/>
+         <parent ref="@P134@"
+                 type="Natural"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="11"
+               year="1826">
+            <!--21 Nov 1826-->
+         </date>
+         <person ref="@P138@"/>
+         <parent ref="@P142@"
+                 type="Natural"/>
+         <parent ref="@P143@"
+                 type="Natural"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="24"
+               month="9"
+               year="1852">
+            <!--24 September 1852-->
+         </date>
+         <person ref="@P139@"/>
+         <parent ref="@P5@"
+                 type="Natural"/>
+         <parent ref="@P138@"
+                 type="Natural"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="16"
+               month="6"
+               year="1860">
+            <!--16 June 1860-->
+         </date>
+         <person ref="@P140@"/>
+         <parent ref="@P5@"
+                 type="Natural"/>
+         <parent ref="@P138@"
+                 type="Natural"/>
+         <location>Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="23"
+               month="5"
+               year="1868">
+            <!--23 May 1868-->
+         </date>
+         <person ref="@P141@"/>
+         <parent ref="@P5@"
+                 type="Natural"/>
+         <parent ref="@P138@"
+                 type="Natural"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <person ref="@P142@"/>
+         <location>Athelstaneford, East Lothian, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="20"
+               month="4"
+               year="1900">
+            <!--20 Apr 1900-->
+         </date>
+         <person ref="@P144@"/>
+         <parent ref="@P137@"
+                 type="Natural"/>
+         <parent ref="@P148@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="18"
+               month="11"
+               year="1898">
+            <!--18 Nov 1898-->
+         </date>
+         <person ref="@P145@"/>
+         <parent ref="@P137@"
+                 type="Natural"/>
+         <parent ref="@P148@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1897">
+            <!--1897-->
+         </date>
+         <person ref="@P146@"/>
+         <parent ref="@P137@"
+                 type="Natural"/>
+         <parent ref="@P148@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1895">
+            <!--1895-->
+         </date>
+         <person ref="@P147@"/>
+         <parent ref="@P137@"
+                 type="Natural"/>
+         <parent ref="@P148@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1873">
+            <!--1873-->
+         </date>
+         <person ref="@P148@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="7"
+               month="11"
+               year="1825">
+            <!--7 Nov 1825-->
+         </date>
+         <person ref="@P156@"/>
+         <parent ref="@P158@"
+                 type="Natural"/>
+         <parent ref="@P157@"
+                 type="Natural"/>
+         <location>Cork, County Cork, Ireland</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1792-->
+         </date>
+         <person ref="@P157@"/>
+         <location>Grange, Cork, Ireland</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="13"
+               month="10"
+               year="1770">
+            <!--13 Oct 1770-->
+         </date>
+         <person ref="@P158@"/>
+         <parent ref="@P159@"
+                 type="Natural"/>
+         <location>Cork, County Cork, Ireland</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="6"
+               month="10"
+               year="1820">
+            <!--6 Oct 1820-->
+         </date>
+         <person ref="@P160@"/>
+         <parent ref="@P158@"
+                 type="Natural"/>
+         <parent ref="@P157@"
+                 type="Natural"/>
+         <location>Cork, Cork, Ireland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1777">
+            <!--1777-->
+         </date>
+         <person ref="@P162@"/>
+         <parent ref="@P159@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1836">
+            <!--1836-->
+         </date>
+         <person ref="@P163@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1864">
+            <!--1864-->
+         </date>
+         <person ref="@P177@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date year="1860">
+            <!--1860-->
+         </date>
+         <person ref="@P184@"/>
+         <parent ref="@P186@"
+                 type="Natural"/>
+         <parent ref="@P185@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="6"
+               month="9"
+               year="1817">
+            <!--6 Sep 1817-->
+         </date>
+         <person ref="@P189@"/>
+         <parent ref="@P194@"
+                 type="Natural"/>
+         <parent ref="@P193@"
+                 type="Natural"/>
+         <location>Chelsea, London, England</location>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--abt 1834-->
+         </date>
+         <person ref="@P190@"/>
+         <parent ref="@P213@"
+                 type="Natural"/>
+         <location>Montreal, Canada</location>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="5"
+               month="11"
+               year="1828">
+            <!--5 Nov 1828-->
+         </date>
+         <person ref="@P192@"/>
+         <parent ref="@P213@"
+                 type="Natural"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="2"
+               month="5"
+               year="1779">
+            <!--2 May 1779-->
+         </date>
+         <person ref="@P194@"/>
+         <parent ref="@P204@"
+                 type="Natural"/>
+         <parent ref="@P203@"
+                 type="Natural"/>
+         <location>Irvine, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="29"
+               month="9"
+               year="1856">
+            <!--29 Sep 1856-->
+         </date>
+         <person ref="@P195@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P190@"
+                 type="Natural"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628937@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="15"
+               month="6"
+               year="1875">
+            <!--15 Jun 1875-->
+         </date>
+         <person ref="@P196@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P190@"
+                 type="Natural"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628661@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628868@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--abt 1861-->
+         </date>
+         <person ref="@P197@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <location>Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="17"
+               month="8"
+               year="1856">
+            <!--17 August 1856-->
+         </date>
+         <person ref="@P198@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+         <location>Sherbrooke, Estrie Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="12"
+               month="2"
+               year="1870">
+            <!--12 Feb 1870-->
+         </date>
+         <person ref="@P199@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+         <location>Montreal, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="5"
+               month="4"
+               year="1865">
+            <!--5 Apr 1865-->
+         </date>
+         <person ref="@P200@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+         <location>Sherbourne, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="18"
+               month="6"
+               year="1873">
+            <!--18 Jun 1873-->
+         </date>
+         <person ref="@P201@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+         <location>Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400604145@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="13"
+               month="6"
+               year="1863">
+            <!--13 June 1863-->
+         </date>
+         <person ref="@P202@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+         <location>Québec</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1750-->
+         </date>
+         <person ref="@P204@"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="12"
+               month="8"
+               year="1815">
+            <!--12 Aug 1815-->
+         </date>
+         <person ref="@P205@"/>
+         <parent ref="@P194@"
+                 type="Natural"/>
+         <parent ref="@P193@"
+                 type="Natural"/>
+         <location>England</location>
+         <sources>
+            <source ref="@S1400563664@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="19"
+               month="2"
+               year="1857">
+            <!--19 Feb 1857-->
+         </date>
+         <person ref="@P207@"/>
+         <parent ref="@P205@"
+                 type="Natural"/>
+         <parent ref="@P212@"
+                 type="Natural"/>
+         <location>Toronto Ontario</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400629509@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="7"
+               year="1881">
+            <!--21 Jul 1881-->
+         </date>
+         <person ref="@P208@"/>
+         <parent ref="@P205@"
+                 type="Natural"/>
+         <parent ref="@P212@"
+                 type="Natural"/>
+         <location>Ontario</location>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="11"
+               month="7"
+               year="1865">
+            <!--11 Jul 1865-->
+         </date>
+         <person ref="@P209@"/>
+         <parent ref="@P205@"
+                 type="Natural"/>
+         <parent ref="@P212@"
+                 type="Natural"/>
+         <location>Ireland</location>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="21"
+               month="9"
+               year="1866">
+            <!--21 Sep 1866-->
+         </date>
+         <person ref="@P210@"/>
+         <parent ref="@P205@"
+                 type="Natural"/>
+         <parent ref="@P212@"
+                 type="Natural"/>
+         <location>Ontario</location>
+         <sources>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--abt 1853-->
+         </date>
+         <person ref="@P211@"/>
+         <parent ref="@P205@"
+                 type="Natural"/>
+         <parent ref="@P212@"
+                 type="Natural"/>
+         <location>Toronto, Ontario</location>
+         <sources>
+            <source ref="@S1400628937@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="17"
+               month="2"
+               year="1825">
+            <!--17 Feb 1825-->
+         </date>
+         <person ref="@P212@"/>
+         <location>Ontario</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+            <source ref="@S1400628781@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date month="9"
+               year="1866">
+            <!--Sep 1866-->
+         </date>
+         <person ref="@P214@"/>
+         <location>Ontario</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date month="5"
+               year="1891">
+            <!--May 1891-->
+         </date>
+         <person ref="@P215@"/>
+         <parent ref="@P195@"
+                 type="Natural"/>
+         <parent ref="@P214@"
+                 type="Natural"/>
+         <location>Manitoba</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="2"
+               month="5"
+               year="1887">
+            <!--2 May 1887-->
+         </date>
+         <person ref="@P216@"/>
+         <parent ref="@P195@"
+                 type="Natural"/>
+         <parent ref="@P219@"
+                 type="Natural"/>
+         <location>Winnipeg Man, Canada</location>
+         <sources>
+            <source ref="@S1400628976@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628674@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date month="2"
+               year="1895">
+            <!--Feb 1895-->
+         </date>
+         <person ref="@P217@"/>
+         <parent ref="@P195@"
+                 type="Natural"/>
+         <parent ref="@P214@"
+                 type="Natural"/>
+         <location>Manitoba</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date month="10"
+               year="1893">
+            <!--Oct 1893-->
+         </date>
+         <person ref="@P218@"/>
+         <parent ref="@P195@"
+                 type="Natural"/>
+         <parent ref="@P214@"
+                 type="Natural"/>
+         <location>Manitoba</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--abt 1859-->
+         </date>
+         <person ref="@P219@"/>
+         <location>Ireland</location>
+         <sources>
+            <source ref="@S1400628937@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+            <source ref="@S1400629099@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date>
+            <!--Abt. 1783-->
+         </date>
+         <person ref="@P220@"/>
+         <parent ref="@P204@"
+                 type="Natural"/>
+         <parent ref="@P203@"
+                 type="Natural"/>
+         <location>Ivrine, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date month="7"
+               year="1904">
+            <!--Jul 1904-->
+         </date>
+         <person ref="@P223@"/>
+         <parent ref="@P225@"
+                 type="Natural"/>
+         <parent ref="@P196@"
+                 type="Natural"/>
+         <location>Manitoba</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date day="11"
+               month="10"
+               year="1902">
+            <!--11 Oct 1902-->
+         </date>
+         <person ref="@P224@"/>
+         <parent ref="@P225@"
+                 type="Natural"/>
+         <parent ref="@P196@"
+                 type="Natural"/>
+         <location>Winnipeg, Manitoba, Canada</location>
+         <sources>
+            <source ref="@S1400628674@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date month="7"
+               year="1867">
+            <!--Jul 1867-->
+         </date>
+         <person ref="@P225@"/>
+         <location>Ontario</location>
+         <sources>
+            <source ref="@S1400628692@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+            <source ref="@S1400628740@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+            <source ref="@S1400628758@">
+               <summary>Date. Location. Child.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <date year="1783">
+            <!--1783-->
+         </date>
+         <person ref="@P227@"/>
+         <parent ref="@P104@"
+                 type="Natural"/>
+         <parent ref="@P103@"
+                 type="Natural"/>
+         <sources/>
+      </event>
+      <event type="birth">
+         <date day="28"
+               month="9"
+               year="1823">
+            <!--28 Sep 1823-->
+         </date>
+         <person ref="@P229@"/>
+         <parent ref="@P230@"
+                 type="Natural"/>
+         <parent ref="@P15@"
+                 type="Natural"/>
+         <sources>
+            <source ref="@S1400559390@">
+               <summary>Date. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="birth">
+         <person ref="@P69@"/>
+         <parent ref="@P70@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P70@"/>
+         <parent ref="@P100@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P71@"/>
+         <parent ref="@P80@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P73@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P74@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P75@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P76@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P77@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P78@"/>
+         <parent ref="@P72@"
+                 type="Natural"/>
+         <parent ref="@P71@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P101@"/>
+         <parent ref="@P100@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P120@"/>
+         <parent ref="@P39@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P149@"/>
+         <parent ref="@P178@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P150@"/>
+         <parent ref="@P133@"
+                 type="Natural"/>
+         <parent ref="@P151@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P151@"/>
+         <parent ref="@P156@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P152@"/>
+         <parent ref="@P142@"
+                 type="Natural"/>
+         <parent ref="@P143@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P153@"/>
+         <parent ref="@P142@"
+                 type="Natural"/>
+         <parent ref="@P143@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P161@"/>
+         <parent ref="@P158@"
+                 type="Natural"/>
+         <parent ref="@P157@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P166@"/>
+         <parent ref="@P170@"
+                 type="Natural"/>
+         <parent ref="@P128@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P167@"/>
+         <parent ref="@P170@"
+                 type="Natural"/>
+         <parent ref="@P128@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P168@"/>
+         <parent ref="@P170@"
+                 type="Natural"/>
+         <parent ref="@P128@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P171@"/>
+         <parent ref="@P173@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P172@"/>
+         <parent ref="@P173@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P173@"/>
+         <parent ref="@P174@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P175@"/>
+         <parent ref="@P174@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P179@"/>
+         <parent ref="@P181@"
+                 type="Natural"/>
+         <parent ref="@P126@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P180@"/>
+         <parent ref="@P181@"
+                 type="Natural"/>
+         <parent ref="@P126@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P182@"/>
+         <parent ref="@P184@"
+                 type="Natural"/>
+         <parent ref="@P125@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P183@"/>
+         <parent ref="@P184@"
+                 type="Natural"/>
+         <parent ref="@P125@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P185@"/>
+         <parent ref="@P187@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P191@"/>
+         <parent ref="@P189@"
+                 type="Natural"/>
+         <parent ref="@P192@"
+                 type="Natural"/>
+      </event>
+      <event type="birth">
+         <person ref="@P206@"/>
+         <parent ref="@P194@"
+                 type="Natural"/>
+         <parent ref="@P193@"
+                 type="Natural"/>
+      </event>
+      <event type="death">
+         <date day="18"
+               month="3"
+               year="1854">
+            <!--18 Mar 1854-->
+         </date>
+         <person ref="@P1@"/>
+         <location>Glasgow, Lanarkshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="1"
+               month="6"
+               year="1901">
+            <!--1 Jun 1901-->
+         </date>
+         <person ref="@P5@"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="9"
+               month="12"
+               year="1882">
+            <!--9 December 1882-->
+         </date>
+         <person ref="@P6@"/>
+         <location>Midlothian, Scotland</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400563026@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date year="1892">
+            <!--1892-->
+         </date>
+         <person ref="@P7@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="18"
+               month="3"
+               year="1874">
+            <!--18 Mar 1874-->
+         </date>
+         <person ref="@P8@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1880">
+            <!--1880-->
+         </date>
+         <person ref="@P9@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1856">
+            <!--1856-->
+         </date>
+         <person ref="@P10@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="1"
+               month="3"
+               year="1821">
+            <!--01 Mar 1821-->
+         </date>
+         <person ref="@P12@"/>
+         <location>Dundonald, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date>
+            <!--Abt. 1792-->
+         </date>
+         <person ref="@P13@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1840">
+            <!--1840-->
+         </date>
+         <person ref="@P14@"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="9"
+               month="12"
+               year="1840">
+            <!--9 Dec 1840-->
+         </date>
+         <person ref="@P15@"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date year="1774">
+            <!--1774-->
+         </date>
+         <person ref="@P20@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1820">
+            <!--1820-->
+         </date>
+         <person ref="@P21@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1751">
+            <!--1751-->
+         </date>
+         <person ref="@P22@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date month="5"
+               year="1742">
+            <!--May 1742-->
+         </date>
+         <person ref="@P23@"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="14"
+               month="1"
+               year="1820">
+            <!--14 Jan 1820-->
+         </date>
+         <person ref="@P24@"/>
+         <location>Bolton, East Lothian, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="4"
+               month="12"
+               year="1858">
+            <!--4 Dec 1858-->
+         </date>
+         <person ref="@P25@"/>
+         <location>Bridgehouse Cottage, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date>
+            <!--2 Mar -->
+         </date>
+         <person ref="@P28@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="8"
+               month="4"
+               year="1827">
+            <!--8 Apr 1827-->
+         </date>
+         <person ref="@P30@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="13"
+               month="2"
+               year="1784">
+            <!--13 Feb 1784-->
+         </date>
+         <person ref="@P31@"/>
+         <location>Lochlea, South Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="21"
+               month="7"
+               year="1796">
+            <!--21 Jul 1796-->
+         </date>
+         <person ref="@P33@"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="25"
+               month="4"
+               year="1799">
+            <!--25 Apr 1799-->
+         </date>
+         <person ref="@P34@"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="9"
+               month="8"
+               year="1803">
+            <!--9 Aug 1803-->
+         </date>
+         <person ref="@P35@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date month="9"
+               year="1795">
+            <!--Sep 1795-->
+         </date>
+         <person ref="@P36@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="21"
+               month="2"
+               year="1872">
+            <!--21 Feb 1872-->
+         </date>
+         <person ref="@P37@"/>
+         <location>Cheltenham, Gloucestershire, England</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1792">
+            <!--1792-->
+         </date>
+         <person ref="@P40@"/>
+         <location>Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="13"
+               month="6"
+               year="1873">
+            <!--13 Jun 1873-->
+         </date>
+         <person ref="@P41@"/>
+         <location>Crossmyloof, Renfrewshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1791">
+            <!--1791-->
+         </date>
+         <person ref="@P42@"/>
+         <location>Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="22"
+               month="3"
+               year="1788">
+            <!--22 Mar 1788-->
+         </date>
+         <person ref="@P43@"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="10"
+               month="3"
+               year="1788">
+            <!--10 Mar 1788-->
+         </date>
+         <person ref="@P44@"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="20"
+               month="10"
+               year="1787">
+            <!--20 Oct 1787-->
+         </date>
+         <person ref="@P45@"/>
+         <location>Mauchline, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="14"
+               month="5"
+               year="1857">
+            <!--14 May 1857-->
+         </date>
+         <person ref="@P46@"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date>
+            <!--Bef. 1799-->
+         </date>
+         <person ref="@P47@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="26"
+               month="3"
+               year="1834">
+            <!--26 Mar 1834-->
+         </date>
+         <person ref="@P48@"/>
+         <location>Dumfries, Dumfries-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1817">
+            <!--1817-->
+         </date>
+         <person ref="@P49@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="26"
+               month="2"
+               year="1827">
+            <!--26 Feb 1827-->
+         </date>
+         <person ref="@P55@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="4"
+               month="1"
+               year="1827">
+            <!--4 Jan 1827-->
+         </date>
+         <person ref="@P56@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="30"
+               month="10"
+               year="1816">
+            <!--30 Oct 1816-->
+         </date>
+         <person ref="@P57@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="14"
+               month="9"
+               year="1815">
+            <!--14 Sep 1815-->
+         </date>
+         <person ref="@P58@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="3"
+               month="7"
+               year="1815">
+            <!--3 Jul 1815-->
+         </date>
+         <person ref="@P59@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1824">
+            <!--1824-->
+         </date>
+         <person ref="@P60@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="2"
+               month="11"
+               year="1840">
+            <!--2 Nov 1840-->
+         </date>
+         <person ref="@P61@"/>
+         <location>China</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1886">
+            <!--1886-->
+         </date>
+         <person ref="@P62@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1822">
+            <!--1822-->
+         </date>
+         <person ref="@P63@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1885">
+            <!--1885-->
+         </date>
+         <person ref="@P64@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1883">
+            <!--1883-->
+         </date>
+         <person ref="@P65@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="11"
+               month="4"
+               year="1867">
+            <!--11 Apr 1867-->
+         </date>
+         <person ref="@P66@"/>
+         <location>Kilmarnock, Ayrshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1876">
+            <!--1876-->
+         </date>
+         <person ref="@P67@"/>
+         <location>Kinross, Kinross-shire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1864">
+            <!--1864-->
+         </date>
+         <person ref="@P68@"/>
+         <location>Canada</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="30"
+               month="7"
+               year="1805">
+            <!--30 Jul 1805-->
+         </date>
+         <person ref="@P71@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="25"
+               month="9"
+               year="1798">
+            <!--25 Sep 1798-->
+         </date>
+         <person ref="@P72@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="8"
+               month="1"
+               year="1823">
+            <!--8 Jan 1823-->
+         </date>
+         <person ref="@P79@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1835">
+            <!--1835-->
+         </date>
+         <person ref="@P84@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date>
+            <!--Abt. 1859-->
+         </date>
+         <person ref="@P85@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="14"
+               month="6"
+               year="1809">
+            <!--14 Jun 1809-->
+         </date>
+         <person ref="@P86@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="6"
+               month="3"
+               year="1849">
+            <!--6 Mar 1849-->
+         </date>
+         <person ref="@P89@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="29"
+               month="1"
+               year="1816">
+            <!--29 Jan 1816-->
+         </date>
+         <person ref="@P90@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="23"
+               month="4"
+               year="1839">
+            <!--23 Apr 1839-->
+         </date>
+         <person ref="@P91@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="22"
+               month="10"
+               year="1796">
+            <!--22 Oct 1796-->
+         </date>
+         <person ref="@P93@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="3"
+               month="1"
+               year="1789">
+            <!--3 Jan 1789-->
+         </date>
+         <person ref="@P94@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1850">
+            <!--1850-->
+         </date>
+         <person ref="@P95@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="17"
+               month="2"
+               year="1846">
+            <!--17 Feb 1846-->
+         </date>
+         <person ref="@P96@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date>
+            <!--Bef. 1781-->
+         </date>
+         <person ref="@P97@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1786">
+            <!--1786-->
+         </date>
+         <person ref="@P98@"/>
+         <location>Caldhame, Ayr, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="23"
+               month="11"
+               year="1896">
+            <!--23 Nov 1896-->
+         </date>
+         <person ref="@P105@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="6"
+               month="5"
+               year="1865">
+            <!--6 May 1865-->
+         </date>
+         <person ref="@P107@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="14"
+               month="4"
+               year="1887">
+            <!--14 Apr 1887-->
+         </date>
+         <person ref="@P108@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="22"
+               month="1"
+               year="1891">
+            <!--22 Jan 1891-->
+         </date>
+         <person ref="@P109@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="15"
+               month="12"
+               year="1885">
+            <!--15 Dec 1885-->
+         </date>
+         <person ref="@P110@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="9"
+               month="7"
+               year="1911">
+            <!--9 Jul 1911-->
+         </date>
+         <person ref="@P111@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="22"
+               month="5"
+               year="1855">
+            <!--22 May 1855-->
+         </date>
+         <person ref="@P112@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="22"
+               month="2"
+               year="1869">
+            <!--22 Feb 1869-->
+         </date>
+         <person ref="@P113@"/>
+         <location>Pollockshaws, Glasgow, Lanarkshire, Scotland</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <person ref="@P120@"/>
+         <location>Borneo, Indonesia</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1955">
+            <!--1955-->
+         </date>
+         <person ref="@P125@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1946">
+            <!--1946-->
+         </date>
+         <person ref="@P126@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1939">
+            <!--1939-->
+         </date>
+         <person ref="@P127@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1942">
+            <!--1942-->
+         </date>
+         <person ref="@P128@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1904">
+            <!--1904-->
+         </date>
+         <person ref="@P129@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="6"
+               month="5"
+               year="1931">
+            <!--6 May 1931-->
+         </date>
+         <person ref="@P130@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="12"
+               month="6"
+               year="1921">
+            <!--12 Jun 1921-->
+         </date>
+         <person ref="@P131@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="29"
+               month="8"
+               year="1924">
+            <!--29 August 1924-->
+         </date>
+         <person ref="@P132@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="29"
+               month="6"
+               year="1901">
+            <!--29 June 1901-->
+         </date>
+         <person ref="@P133@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date month="6"
+               year="1881">
+            <!--Jun 1881-->
+         </date>
+         <person ref="@P134@"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date year="1893">
+            <!--1893-->
+         </date>
+         <person ref="@P135@"/>
+         <location>Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="23"
+               month="3"
+               year="1932">
+            <!--23 Mar 1932-->
+         </date>
+         <person ref="@P136@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="26"
+               month="9"
+               year="1951">
+            <!--26 September 1951-->
+         </date>
+         <person ref="@P137@"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="16"
+               month="10"
+               year="1881">
+            <!--16 Oct 1881-->
+         </date>
+         <person ref="@P138@"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="30"
+               month="3"
+               year="1853">
+            <!--30 March 1853-->
+         </date>
+         <person ref="@P139@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="11"
+               month="2"
+               year="1919">
+            <!--11 February 1919-->
+         </date>
+         <person ref="@P140@"/>
+         <location>Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="12"
+               month="4"
+               year="1959">
+            <!--12 April 1959-->
+         </date>
+         <person ref="@P141@"/>
+         <location>Montreal, Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="2"
+               month="3"
+               year="1872">
+            <!--2 Mar 1872-->
+         </date>
+         <person ref="@P142@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="18"
+               month="5"
+               year="1878">
+            <!--18 May 1878-->
+         </date>
+         <person ref="@P143@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="7"
+               month="5"
+               year="1915">
+            <!--7 May 1915-->
+         </date>
+         <person ref="@P144@"/>
+         <location>RMS Luisitania</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="7"
+               month="5"
+               year="1915">
+            <!--7 May 1915-->
+         </date>
+         <person ref="@P145@"/>
+         <location>RMS Lusitania</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="6"
+               month="7"
+               year="1917">
+            <!--6 Jul 1917-->
+         </date>
+         <person ref="@P146@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1942">
+            <!--1942-->
+         </date>
+         <person ref="@P147@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1957">
+            <!--1957-->
+         </date>
+         <person ref="@P148@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="20"
+               month="5"
+               year="1894">
+            <!--20 May 1894-->
+         </date>
+         <person ref="@P156@"/>
+         <location>Paris,  Île-de-France, France</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="24"
+               month="5"
+               year="1847">
+            <!--24 May 1847-->
+         </date>
+         <person ref="@P157@"/>
+         <location>Dublin Pike, County Cork, Ireland</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="24"
+               month="12"
+               year="1834">
+            <!--24 Dec 1834-->
+         </date>
+         <person ref="@P158@"/>
+         <location>Cork, County Cork, Ireland</location>
+         <sources>
+            <source ref="@S1400563643@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="1"
+               month="4"
+               year="1884">
+            <!--1 Apr 1884-->
+         </date>
+         <person ref="@P160@"/>
+         <location>Pallanza, Verbano-Cusio-Ossola, Piemonte, Italy</location>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1858">
+            <!--1858-->
+         </date>
+         <person ref="@P162@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1894">
+            <!--1894-->
+         </date>
+         <person ref="@P163@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1919">
+            <!--1919-->
+         </date>
+         <person ref="@P177@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1977">
+            <!--1977-->
+         </date>
+         <person ref="@P179@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1916">
+            <!--1916-->
+         </date>
+         <person ref="@P180@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1899">
+            <!--1899-->
+         </date>
+         <person ref="@P181@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date year="1926">
+            <!--1926-->
+         </date>
+         <person ref="@P184@"/>
+         <sources/>
+      </event>
+      <event type="death">
+         <date day="19"
+               month="9"
+               year="1893">
+            <!--19 Sep 1893-->
+         </date>
+         <person ref="@P189@"/>
+         <location>Montreal, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400604145@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="25"
+               month="5"
+               year="1850">
+            <!--25 May 1850-->
+         </date>
+         <person ref="@P192@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="11"
+               month="4"
+               year="1839">
+            <!--11 Apr 1839-->
+         </date>
+         <person ref="@P194@"/>
+         <location>Greenock, Renfrewshire, Scotland</location>
+         <sources>
+            <source ref="@S1400563020@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="9"
+               month="4"
+               year="1933">
+            <!--9 April 1933-->
+         </date>
+         <person ref="@P195@"/>
+         <location>Victoria, Capital Regional District, British Columbia, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="27"
+               month="11"
+               year="1954">
+            <!--27 Nov 1954-->
+         </date>
+         <person ref="@P196@"/>
+         <location>Winnipeg, Greater Winnipeg, Manitoba, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400628793@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400628868@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400628878@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="5"
+               month="8"
+               year="1948">
+            <!--5 August 1948-->
+         </date>
+         <person ref="@P198@"/>
+         <location>Victoria, Capital Regional District, British Columbia, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="7"
+               month="5"
+               year="1956">
+            <!--7 May 1956-->
+         </date>
+         <person ref="@P199@"/>
+         <location>Montreal Region, Quebec, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="30"
+               month="9"
+               year="1950">
+            <!--30 Sep 1950-->
+         </date>
+         <person ref="@P200@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="31"
+               month="5"
+               year="1959">
+            <!--31 May 1959-->
+         </date>
+         <person ref="@P201@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="30"
+               month="3"
+               year="1959">
+            <!--30 March 1959-->
+         </date>
+         <person ref="@P202@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="18"
+               month="7"
+               year="1826">
+            <!--18 Jul 1826-->
+         </date>
+         <person ref="@P203@"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="6"
+               month="8"
+               year="1817">
+            <!--6 Aug 1817-->
+         </date>
+         <person ref="@P204@"/>
+         <location>Greenock, Renfrewshire, Scotland</location>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="29"
+               month="6"
+               year="1901">
+            <!--29 Jun 1901-->
+         </date>
+         <person ref="@P205@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="29"
+               month="6"
+               year="1943">
+            <!--29 Jun 1943-->
+         </date>
+         <person ref="@P207@"/>
+         <location>Toronto, York, Ontario, Canada</location>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date. Location.</summary>
+            </source>
+            <source ref="@S1400629509@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="27"
+               month="1"
+               year="1909">
+            <!--27 Jan 1909-->
+         </date>
+         <person ref="@P212@"/>
+         <sources>
+            <source ref="@S1400562994@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date day="23"
+               month="6"
+               year="1845">
+            <!--23 June 1845-->
+         </date>
+         <person ref="@P230@"/>
+         <sources>
+            <source ref="@S1400556876@">
+               <summary>Date.</summary>
+            </source>
+         </sources>
+      </event>
+   </events>
+</data>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary scheme="Ancestry.com Family Trees" version="2010.3">
+    <entry abbreviation="_DEG" expanded="degree" />
+    <entry abbreviation="_ELEC" expanded="elected" />
+    <entry abbreviation="_EMPLOY" expanded="employment" />
+    <entry abbreviation="_FREL" expanded="f-relationship" />
+    <entry abbreviation="_FUN" expanded="funeral" />                      
+    <entry abbreviation="_INIT" expanded="initiation" />
+    <entry abbreviation="_MREL" expanded="m-relationship" />
+    <entry abbreviation="_MILT" expanded="military" />
+    <entry abbreviation="_MILTID" expanded="military-serial-number" />
+    <entry abbreviation="_MISN" expanded="miscellaneous" />
+    <entry abbreviation="_NAMS" expanded="namesake" />
+    <entry abbreviation="_SEPR" expanded="separation" /> 
+</dictionary>

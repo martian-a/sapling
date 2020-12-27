@@ -18,6 +18,7 @@
             <people><xsl:apply-templates select="file/individual" mode="people" /></people>
             <events>
                 <xsl:apply-templates select="file/individual/birth" mode="events" />
+                <xsl:apply-templates select="file/individual[not(birth)]/family-child" mode="events" />
                 <xsl:apply-templates select="file/individual/death" mode="events" />
             </events>            
         </data>

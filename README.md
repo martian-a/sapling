@@ -15,3 +15,10 @@ An application for offline editing and review of a family history website, plus 
 + static - generic static assets that are used by the app.
 + test - test cases and data
 
+## Functionality
+
+### Import data from Ancestry
+
++ Place exported Ancestry data file in geneaology-data-global/import/ancestry/
++ Name the Ancestry data file "*.ged.txt"
++ Run build/data/gedcom/text2rdf.xpl (see build/data/gedcom/readme.md) 

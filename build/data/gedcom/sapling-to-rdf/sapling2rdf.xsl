@@ -43,7 +43,9 @@
         <xsl:apply-templates select="name[normalize-space() != '']" />
         <xsl:apply-templates select="gender[normalize-space() != '']" />
         <xsl:apply-templates select="/data/events/event[@type = 'birth'][date[@month and @day]][person/@ref = current()/ancestor::person[1]/@id]" mode="person" />
-        <xsl:apply-templates select="ancestor::person[1]/persona[1]" mode="sameAs" />        
+        <xsl:if test="preceding-sibling::persona">
+            <xsl:apply-templates select="ancestor::person[1]/persona[1]" mode="sameAs" />
+        </xsl:if>        
     </xsl:template>
     
     <xsl:template match="persona" mode="sameAs">

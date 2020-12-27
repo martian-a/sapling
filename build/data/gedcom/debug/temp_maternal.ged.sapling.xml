@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data href="file:/home/sheila/Code/repositories/genealogy-data-global/import/ancestry/temp_maternal.ged.txt"
+      filename="temp_maternal.ged.txt">
+   <people>
+      <person id="@P1@">
+         <persona id="d169558e15">
+            <name>
+               <name>Caroline</name>
+               <name family="yes">Potter</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1300074054@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P2@"
+              year="1880">
+         <persona id="d169558e26">
+            <name>
+               <name>Henry</name>
+               <name family="yes">Schier</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1300074054@">
+               <summary>Name.</summary>
+            </source>
+            <source ref="@S1300074073@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+      <person id="@P3@">
+         <persona id="d169558e38">
+            <name>
+               <name>Henry</name>
+               <name family="yes">Schier</name>
+            </name>
+         </persona>
+         <sources>
+            <source ref="@S1300074054@">
+               <summary>Name.</summary>
+            </source>
+         </sources>
+      </person>
+   </people>
+   <events>
+      <event type="birth">
+         <date day="28"
+               month="6"
+               year="1880">
+            <!--28 Jun 1880-->
+         </date>
+         <person ref="@P2@"/>
+         <parent ref="@P1@"
+                 type=""/>
+         <parent ref="@P3@"
+                 type=""/>
+         <location>Queensland, Australia</location>
+         <sources>
+            <source ref="@S1300074054@">
+               <summary>Date. Location. Child. Parents.</summary>
+            </source>
+         </sources>
+      </event>
+      <event type="death">
+         <date year="1942">
+            <!--1942-->
+         </date>
+         <person ref="@P2@"/>
+         <location>Perth, Western Australia</location>
+         <sources>
+            <source ref="@S1300074073@">
+               <summary>Date. Location.</summary>
+            </source>
+         </sources>
+      </event>
+   </events>
+</data>

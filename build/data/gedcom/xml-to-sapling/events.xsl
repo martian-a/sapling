@@ -6,21 +6,36 @@
     exclude-result-prefixes="#all"
     version="3.0">
     
-    <xsl:template match="birth" mode="events">              
+    <xsl:template match="birth | family-child" mode="events" priority="1">
         <event type="birth">
             <xsl:if test="preceding-sibling::birth">
                 <xsl:attribute name="temp:status">alternative</xsl:attribute>
             </xsl:if>
-            <xsl:apply-templates select="date" mode="#current" />
-            <xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />
-            <xsl:apply-templates select="ancestor::file/family[@id = current()/ancestor::individual[1]/family-child/text()]/*[local-name() = ('husband', 'wife')]" mode="parent-ref">
-                <xsl:with-param name="child-id" select="ancestor::individual[1]/@id" as="xs:string" tunnel="yes" />
-            </xsl:apply-templates>
-            <xsl:apply-templates select="place/place-name" mode="#current" />
-            <sources>
-                <xsl:apply-templates select="source-citation" mode="reference" />
-            </sources>
+            <xsl:next-match />
         </event>
+    </xsl:template>
+    
+    <xsl:template match="birth" mode="events">              
+        <xsl:apply-templates select="date" mode="#current" />
+        <xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />
+        <xsl:apply-templates select="ancestor::file/family[@id = current()/ancestor::individual[1]/family-child/text()]" mode="#current">
+            <xsl:with-param name="child-id" select="ancestor::individual[1]/@id" as="xs:string" tunnel="yes" />
+        </xsl:apply-templates>
+        <xsl:apply-templates select="place/place-name" mode="#current" />
+        <sources>
+            <xsl:apply-templates select="source-citation" mode="reference" />
+        </sources>
+    </xsl:template>
+    
+    <xsl:template match="family-child" mode="events">
+        <xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />
+        <xsl:apply-templates select="ancestor::file/family[@id = current()/text()]" mode="#current">
+            <xsl:with-param name="child-id" select="ancestor::individual[1]/@id" as="xs:string" tunnel="true" />
+        </xsl:apply-templates>
+    </xsl:template>
+    
+    <xsl:template match="family" mode="events">        
+       <xsl:apply-templates select="*[local-name() = ('husband', 'wife')]" mode="parent-ref" />
     </xsl:template>
     
     <xsl:template match="death" mode="events">              
