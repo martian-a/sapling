@@ -118,6 +118,15 @@ body {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'symbola';
+    src: local('Symbola'),
+            url('../fonts/symbola/Symbola.woff') format('woff'),
+        url('../fonts/symbola/Symbola.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 
 
 body,
@@ -580,7 +589,11 @@ div.event .content {
 	content: "⚭";
 }
 
-.symbols .separation::before,
+.symbols .separation::before {   
+    font-family: symbola;
+    content: "\2BFB︎";
+}
+
 .symbols .divorce::before {
 	content: "⚮";
 }
