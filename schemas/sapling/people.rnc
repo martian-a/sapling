@@ -58,10 +58,11 @@ person.entity.attlist =
 	xml.attlist,
 	shared.publish.attlist,
     attribute id { xsd:ID },
-    attribute year { xsd:gYear }
+    attribute year { xsd:gYear }?
 
 person.persona.attlist =
-	xml.attlist
+	xml.attlist,
+	attribute id { xsd:ID }
 	
 person.gender.attlist =
 	xml.attlist
