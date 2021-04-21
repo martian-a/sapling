@@ -357,7 +357,7 @@ shared.body-matter.table.cell.attlist |=
 	
 shared.date.attlist |=
 	xml.attlist,
-	attribute year { xsd:integer },
+	attribute year { xsd:integer }?,
 	attribute month { xsd:integer }?,
 	attribute day { xsd:integer }?
 
@@ -448,5 +448,6 @@ temp.attlist |=
         "cross-references"
     }?,
     attribute temp:status {
-        "tentative"
+        "tentative" | 
+        "alternative"
     }?
