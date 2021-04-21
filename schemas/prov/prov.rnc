@@ -1,0 +1,53 @@
+default namespace = ""
+namespace prov = "http://www.w3.org/ns/prov#"
+namespace temp = "http://ns.thecodeyard.co.uk/temp"
+
+start |= prov.document
+
+prov.document = element prov:document {    
+    prov.document.content-model
+}
+
+prov.document.content-model = 
+	(
+	    prov.wasGeneratedBy |
+	    prov.activity |
+	    prov.entity |
+	    prov.plan |
+	    prov.wasDerivedFrom
+	)+
+	    
+prov.wasGeneratedBy = element prov:wasGeneratedBy { 
+		prov.entity, 
+		prov.activity 
+	}
+prov.entity = element prov:entity {
+		prov.id.attlist,
+	    prov.document.content-model?
+	}
+prov.activity = element prov:activity {
+		prov.id.attlist,		
+        element prov:startTime { xsd:dateTime }?,
+        element prov:endTime { xsd:dateTime }?,
+        prov.wasAssociatedWith?        
+    }
+prov.wasAssociatedWith = element prov:wasAssociatedWith {
+        prov.plan,
+        prov.agent?
+    }
+    
+prov.agent = element prov:agent {
+        prov.id.attlist
+    }
+        
+prov.plan = element prov:plan {
+        prov.id.attlist,
+        element prov:location { xsd:anyURI }?
+    }
+prov.wasDerivedFrom = element prov:wasDerivedFrom { prov.entity }
+
+prov.id.attlist = 
+	(
+		attribute prov:id { xsd:anyURI } |
+		attribute prov:ref { xsd:anyURI }
+	)

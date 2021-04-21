@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://ns.thecodeyard.co.uk/schema/sapling.sch?v=3.0.0" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <sch:schema 
-	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:doc="http://ns.kaikoda.com/documentation/xml"	
 	xmlns:sch="http://purl.oclc.org/dsdl/schematron" 
 	xmlns:sqf="http://www.schematron-quickfix.com/validator/process"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
 	queryBinding="xslt2">
+	
+	<doc:doc scope="schema">
+		<doc:title>Sapling XML</doc:title>
+		<doc:desc>
+			<doc:p></doc:p>
+		</doc:desc>
+		<doc:param name="today">Runtime date.</doc:param>
+		<doc:param name="current-year">Runtime year.</doc:param>
+	</doc:doc>
 	
 	<sch:let name="today" value="current-date()" />
 	<sch:let name="current-year" value="year-from-date($today)" />
+	
 	
 	<sch:pattern>
 		
@@ -47,31 +59,25 @@
 			/>
 			
 			<sch:let name="max-days" value="
-				if ($month-name = 'February') 
-				then 29
-				else if ($month-name = ('April', 'June', 'September', 'November'))
-				then 30
+				if ($month-name = 'February') then 29
+				else if ($month-name = ('April', 'June', 'September', 'November')) then 30
 				else 31" />
 				
 					
-			<!-- Month number -->
 			<sch:report test="self::*/@month[$month-name != ''][. &lt; 1 or . &gt; 12]">Invalid date.  Month must be between 1 and 12.</sch:report>	
 						
-			<!-- Day number -->
 			<sch:report test="self::*[@day = '']">Invalid date. Day value must be a number.</sch:report>
 						
-			<!-- Days in month -->
 			<sch:report test="self::*[@month]/@day[. != ''][. &gt; $max-days]">Invalid date.  Too many days in the month.  No more than <sch:value-of select="$max-days"/> expected<sch:value-of select="if ($month-name != '') then concat(' in ', $month-name) else ()" />.</sch:report>
 			
-			<!-- Date part dependencies -->
 			<sch:report test="self::*[@day]/not(@month)">Invalid date. A date with a day value must also have a month value.</sch:report>			
 			
 		</sch:rule>
 		
 	</sch:pattern>
 	
-	
-	<sch:pattern>
+	<!-- Disabled
+	<sch:pattern >
 		
 		<sch:title>ID Prefix</sch:title>
 		
@@ -98,16 +104,20 @@
 		</sch:rule>
 		
 	</sch:pattern>
+	-->
 	
 	
+	<doc:doc scope="component">
+		<doc:desc>
+			<doc:ul>
+				<li>https://isbn-information.com/check-digit-for-the-13-digit-isbn.html</li>
+				<li>https://isbn-information.com/the-10-digit-isbn.html</li>
+			</doc:ul>
+		</doc:desc>
+	</doc:doc>
 	<sch:pattern>
 		
 		<sch:title>ISBN</sch:title>
-		
-		<!--
-			https://isbn-information.com/check-digit-for-the-13-digit-isbn.html
-			https://isbn-information.com/the-10-digit-isbn.html
-		-->
 		
 		<sch:rule context="isbn">
 						
@@ -181,15 +191,15 @@
 			<sch:assert test="self::*[($version = '10' and $check-value = '0') or ($check-value = $check-digit)]">Invalid ISBN.  The check digit does not match the value of the check sum.</sch:assert>
 			
 		</sch:rule>
-		
+	
 	</sch:pattern>
 	
-
+	
 	<sch:pattern>
 		
 		<sch:title>Event</sch:title>
 		
-		<sch:rule context="event">
+		<sch:rule context="event[not(@*:status = 'alternative')]">
 			
 			<sch:let name="type" value="@type" />
 			<sch:let name="subjects" value="person" />
@@ -213,7 +223,7 @@
 		
 		<sch:rule context="person">
 			
-			<sch:let name="birth-event" value="if (ancestor::data/events/event[@type = 'birth'][person/@ref = current()/@id]) then ancestor::data/events/event[@type = 'birth'][person/@ref = current()/@id] else ancestor::data/events/event[@type = 'christening'][person/@ref = current()/@id]" />
+			<sch:let name="birth-event" value="if (ancestor::data/events/event[@type = 'birth'][not(@*:status = 'alternative')][person/@ref = current()/@id]) then ancestor::data/events/event[@type = 'birth'][not(@*:status = 'alternative')][person/@ref = current()/@id] else ancestor::data/events/event[@type = 'christening'][not(@*:status = 'alternative')][person/@ref = current()/@id]" />
 			
 			<sch:report test="self::*[count($birth-event/date/@year) = 1]/@year[. != $birth-event/date/@year]">Invalid year.  Birth event year recorded as <sch:value-of select="$birth-event/date/@year"/>.</sch:report>
 			<sch:report test="self::*[@publish = 'false'][number(@year) &lt; $century-ago]">Unpublished Centenarian.  Publish is set to false but this person is at least 100 years old.</sch:report>
@@ -221,6 +231,7 @@
 		</sch:rule>
 		
 	</sch:pattern>
+	
 	
 	<sch:pattern>
 		
@@ -291,6 +302,6 @@
 		</sch:rule>
 		
 	</sch:pattern>
-
+	
 	
 </sch:schema>
