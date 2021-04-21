@@ -76,7 +76,7 @@ location.entity.attlist =
     	"country" |
     	"continent" |
     	"ocean"
-    },
+    }?,
     attribute mobile { xsd:boolean }? # Consider "transient" as an alternative name
     
 location.geo.point.attlist =
