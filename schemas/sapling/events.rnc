@@ -28,6 +28,13 @@ event.entity-ref.preceded-by = element preceded-by {
 	empty
 }
 
+event.date = element date {	
+	(
+		shared.date.attlist |
+		event.date.attlist
+	),
+	text*
+}
 
 
 # Content Models #
@@ -36,12 +43,13 @@ event.collection.content-model =
 	event.entity*
 	
 event.entity.content-model =
-	shared.date?,
+	event.date?,
 	event.entity-ref.preceded-by*,
 	shared.entity-ref.person*,
 	event.entity-ref.parent*,
 	shared.entity-ref.location*,
 	shared.summary?,
+	shared.note?,
 	shared.bibliography?
 
 
@@ -75,3 +83,9 @@ event.entity-ref.parent.attlist =
 		"adoptive" |
 		"surrogate"
 	}?
+		
+
+event.date.attlist =	
+	xml.attlist,
+	attribute year { xsd:integer }?,			
+	attribute quarter { "1" | "2" | "3" | "4" }?		
