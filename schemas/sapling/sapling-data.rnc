@@ -1,0 +1,25 @@
+# Namespaces #
+
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace xi = "http://www.w3.org/2001/XInclude"
+
+
+
+# Data Types #
+
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+
+
+# Includes #
+
+include "sapling.rnc" {
+
+	app.data.attlist |=
+		attribute href { xsd:anyURI }?,
+		attribute name { xsd:anyURI }?
+
+}
+
+# Root Element #
+start |= app.data
