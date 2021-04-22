@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:c="http://www.w3.org/ns/xproc-step"
     xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+    xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="#all"
     version="2.0">
@@ -45,9 +46,16 @@
     <xsl:template match="* | comment() | processing-instruction()" mode="#all">
         <xsl:param name="expanded" as="xs:string?" />
         <xsl:element name="{if ($expanded) then $expanded else local-name()}">
-            <xsl:copy-of select="@*" />
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="#current"/>
         </xsl:element>
     </xsl:template> 
+	
+	<xsl:template match="attribute()" mode="#all">			
+		<xsl:attribute name="{name()}"><xsl:choose>
+			<xsl:when test="starts-with(., '@') and ends-with(., '@')"><xsl:value-of select="substring(., 2, string-length(.) - 2)" /></xsl:when>
+			<xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
+		</xsl:choose></xsl:attribute>
+	</xsl:template>
     
 </xsl:stylesheet>

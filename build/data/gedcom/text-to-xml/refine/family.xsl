@@ -8,7 +8,7 @@
        
     <xsl:template match="FAM">
         <family>
-            <xsl:copy-of select="@*" />
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="family" />
         </family>
     </xsl:template>
@@ -16,7 +16,7 @@
     
     <xsl:template match="CHIL" mode="family">
         <child ref="{value/text()}">
-            <xsl:copy-of select="@*" />
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="#current" />
         </child>
     </xsl:template>

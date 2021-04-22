@@ -8,7 +8,7 @@
        
     <xsl:template match="INDI">
         <individual>
-            <xsl:copy-of select="@*" />
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="individual" />
         </individual>
     </xsl:template>

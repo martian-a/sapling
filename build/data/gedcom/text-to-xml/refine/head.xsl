@@ -8,7 +8,7 @@
        
     <xsl:template match="HEAD">
         <head>
-            <xsl:copy-of select="@*" />
+            <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="head" />
         </head>
     </xsl:template>
