@@ -12,8 +12,10 @@
 /data
 /archive
 /resources
+/json-in-xproc
 
 # Files
 
 **/*.bak
 *.catalog.xml
+
