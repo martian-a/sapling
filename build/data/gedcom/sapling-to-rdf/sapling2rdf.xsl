@@ -10,6 +10,7 @@
     xmlns:greg="http://www.w3.org/ns/time/gregorian#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:rel="http://purl.org/vocab/relationship/"
     xmlns:sap="http://ns.thecodeyard.co.uk/data/sapling/resource/#"
     xmlns:time="http://www.w3.org/2006/time#"    
@@ -19,18 +20,29 @@
     
     <xsl:param name="resource-base-uri" select="'http://ns.thecodeyard.co.uk/data/sapling/'" />
     
+	<xsl:import href="../../provenance/prov-xml.xsl" />
+	<xsl:import href="../../provenance/prov-xml2rdf.xsl"/>
+    
     <xsl:output indent="yes" />
     
     <xsl:template match="/">
-        <rdf:RDF>                     
+        <rdf:RDF>              
+        	
+        	<!-- metadata about dataset -->
+        	<rdf:Description rdf:about="{$resource-base-uri}resource/dataset/{current-dateTime()}" /> 
+        	
+        	<!-- provenance of dataset -->
+        	<xsl:variable name="provenance-xml">
+        		<xsl:apply-templates select="self::document-node()" mode="provenance-xml" />
+        	</xsl:variable>        	        
+			<xsl:apply-templates select="$provenance-xml" mode="provenance-rdf" />
+			
+			<!-- dataset -->
             <xsl:apply-templates />
-            <!-- xsl:for-each-group select="//location" group-by="fn:generate-location-id(self::location)">
-                <gn:Feature rdf:about="http://ns.thecodeyard.co.uk/data/sapling/resource/location/{current-grouping-key()}">
-                    <gn:name><xsl:value-of select="normalize-space(.)" /></gn:name>
-                </gn:Feature>
-            </xsl:for-each-group -->
         </rdf:RDF>        
     </xsl:template>       
+    
+    <xsl:template match="prov:*" />
     
     <xsl:template match="people/person/persona" priority="10">
         <xsl:variable name="id" select="if (preceding-sibling::persona) then @id else translate(ancestor::person[1]/@id, '@', '')" as="xs:string" />
@@ -75,17 +87,25 @@
         </xsl:where-populated>        
     </xsl:template>
     
-    <xsl:template match="event[not(@type = 'birth')]" />
+    <xsl:template match="event[not(@type = ('birth', 'death'))]" />
     
     <xsl:template match="event[@type = 'birth']">
-        <bio:Birth rdf:about="{$resource-base-uri}resource/event/{generate-id()}">
+        <bio:Birth rdf:about="{$resource-base-uri}resource/event/{@id}">
             <xsl:apply-templates select="date" />
             <xsl:apply-templates select="person" />
             <xsl:apply-templates select="parent" />
-            <!-- xsl:apply-templates select="location" /-->            
+            <xsl:apply-templates select="location" />            
         </bio:Birth>
         <xsl:apply-templates select="person[parent::event/parent]" mode="relationship" />
     </xsl:template>
+	
+	<xsl:template match="event[@type = 'death']">
+		<bio:Death rdf:about="{$resource-base-uri}resource/event/{@id}">
+			<xsl:apply-templates select="date" />
+			<xsl:apply-templates select="person" />
+			<xsl:apply-templates select="location" />            
+		</bio:Death>
+	</xsl:template>	
     
     <xsl:template match="date">
         <xsl:if test="@year and @month and @day">
@@ -115,7 +135,7 @@
     </xsl:template>
     
     <xsl:template match="event/location">
-        <!-- bio:place rdf:resource="{$resource-base-uri}resource/location/{fn:generate-location-id(self::location)}"/ -->
+        <bio:place rdf:resource="{$resource-base-uri}resource/location/{@ref}" />
     </xsl:template>    
     
     
@@ -128,6 +148,16 @@
         </foaf:Person>        
     </xsl:template>
     
+    <xsl:template match="locations/location">    
+        <gn:Feature rdf:about="http://ns.thecodeyard.co.uk/data/sapling/resource/location/{@id}">
+            <gn:name><xsl:value-of select="name" /></gn:name>
+        	<xsl:apply-templates select="within" />
+        </gn:Feature>
+    </xsl:template>
+	
+	<xsl:template match="location/within">
+		<gn:parentFeature rdf:resource="http://ns.thecodeyard.co.uk/data/sapling/resource/location/{@ref}" />
+	</xsl:template>
     
     <xsl:template match="source" />
     
@@ -157,11 +187,5 @@
             "/>
         
     </xsl:function>
-    
-    <!-- xsl:function name="fn:generate-location-id" as="xs:string">
-        <xsl:param name="location" as="element()" />
-
-        <xsl:value-of select="digest:md5($location/normalize-space(.))" />
-    </xsl:function -->
-    
+        
 </xsl:stylesheet>
