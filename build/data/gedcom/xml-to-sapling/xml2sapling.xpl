@@ -4,29 +4,43 @@
     xmlns:c="http://www.w3.org/ns/xproc-step" 
     xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     name="gedcom-xml-to-sapling"
     type="tcy:gedcom-xml-to-sapling"
     version="3.0">
     
+	<p:import href="../../provenance/insert-prov-metadata.xpl" />
 	<p:import href="../debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
+	<p:import href="../../../utils/uuid/replace-id-with-uuid.xpl" />
     
     <p:input port="source" primary="true" />
     <p:output port="result" sequence="true" />
     
-	<p:option name="pipeline-username" required="false" />
+	<p:option name="generated-by-user" required="false" /> 
     <p:option name="debug" select="'true'" />
  
-	<p:xslt name="wrapper">
-		<p:with-input port="stylesheet">
-			<p:document href="create/wrapper.xsl" />
-		</p:with-input>
-		<p:with-option name="parameters" select="map{
-			'generated-by-user': $pipeline-username,
-			'generated-by-pipeline': resolve-uri(''),
-			'transformation-start-time' : current-dateTime()
-			}" />
-	</p:xslt>
+	<p:variable name="pipeline-start-time" select="current-dateTime()" />
+ 
+	<p:group name="create-wrapper">
+		
+		<p:output port="result" sequence="false" />
+		
+		<p:xslt>
+			<p:with-input port="stylesheet">
+				<p:document href="create/wrapper.xsl" />
+			</p:with-input>
+		</p:xslt>	
+			
+		<!-- Add a UUID to the root element, if one doesn't already exist. -->
+		<p:choose>
+			<p:when test="normalize-space(/*/@uuid) = ''">
+				<p:add-attribute match="/*" attribute-name="uuid" attribute-value="''" />     
+				<p:uuid match="/*/@uuid" version="4" />
+			</p:when>
+		</p:choose>
+	
+	</p:group>
 	
 	<p:sink />
  
@@ -65,7 +79,7 @@
     
 	<p:insert match="/*" position="last-child">
 		<p:with-input port="source">
-			<p:pipe port="result" step="wrapper" />
+			<p:pipe port="result" step="create-wrapper" />
 		</p:with-input>
 		<p:with-input port="insertion">
 			<p:pipe port="result" step="people" />
@@ -83,6 +97,17 @@
 			<p:pipe port="result" step="locations" />
 		</p:with-input>
 	</p:insert>
+	
+	<tcy:uuid>
+		<p:with-input port="source" />
+		<p:with-option name="replace-values" select="descendant::*/@*:id[starts-with(., 'REPLACE-')]" as="xs:string*" />
+	</tcy:uuid>
+		
+	<p:xslt name="refine-ids">
+		<p:with-input port="stylesheet">
+			<p:document href="refine/ids.xsl" />
+		</p:with-input>
+	</p:xslt>	
 
 	<p:xslt name="refine-locations">
 		<p:with-input port="stylesheet">
@@ -94,10 +119,27 @@
 		<p:with-input port="stylesheet">
 			<p:document href="refine/people.xsl" />
 		</p:with-input>
-	</p:xslt>	
+	</p:xslt>    
 	    
-	<tcy:debug file-extension="sapling.xml"  />         		
+	<tcy:debug file-extension="sapling.xml"  />   
+	
+	
+	<p:group name="result-provenance-metadata">
+	
+		<tcy:insert-prov-metadata name="prov-metadata">
+			<p:with-option name="generated-by-user" select="$generated-by-user" />
+			<p:with-option name="generated-by-pipeline" select="p:urify(resolve-uri(''))" />
+			<p:with-option name="pipeline-start-time" select="$pipeline-start-time" />
+			<p:with-option name="pipeline-end-time" select="current-dateTime()" />
+			<p:with-option name="source-uri" select="p:urify(document-uri(/))">
+				<p:pipe port="source" step="gedcom-xml-to-sapling" />
+			</p:with-option>
+		</tcy:insert-prov-metadata>  
 		
+		<tcy:debug file-extension="sapling.xml"  />   
+			
+	</p:group>
+
 	<p:group name="validate-sapling-xml">
 		
 		<p:validate-with-relax-ng name="validate-sapling-rnc" assert-valid="true">

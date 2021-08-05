@@ -3,7 +3,9 @@
     xmlns:c="http://www.w3.org/ns/xproc-step"
     xmlns:fn="http://ns.thecodeyard.co.uk/functions"
     xmlns:prov="http://www.w3.org/ns/prov#"
+    xmlns:void="http://rdfs.org/ns/void#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     exclude-result-prefixes="#all"
     version="2.0">
     
@@ -19,7 +21,6 @@
     </xsl:variable>    
     
     <xsl:variable name="dictionary-entries" as="element()+" select="$dictionaries/*/*/entry" />
-
 
     <xsl:include href="head.xsl" />
     <xsl:include href="individual.xsl" />  
@@ -45,7 +46,7 @@
         
     <xsl:template match="* | comment() | processing-instruction()" mode="#all">
         <xsl:param name="expanded" as="xs:string?" />
-        <xsl:element name="{if ($expanded) then $expanded else local-name()}">
+        <xsl:element name="{if ($expanded) then $expanded else name()}">
             <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="#current"/>
         </xsl:element>

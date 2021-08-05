@@ -13,13 +13,14 @@ datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 # Includes #
 
+include "../void/void.rnc"
 include "../prov/prov.rnc"
-
 include "../../../cenizaro/schemas/app/app.rnc" {
 
-	app.data.content-model =
-		prov.document?,
-		app.data.entity.collection*
+	app.data = element data {
+		app.data.content-model
+	}
+
 	
 	app.data.entity.collection = 
 		(
@@ -109,3 +110,11 @@ include "names.rnc" {
 
 # Root Element #
 start |= app.root
+
+app.data.content-model =
+	app.data.attlist,
+	(
+		void.dataset? &
+		prov.document? &
+		app.data.entity.collection*
+	)

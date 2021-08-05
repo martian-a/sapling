@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:c="http://www.w3.org/ns/xproc-step"
+    xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="#all"
     version="2.0">                   
@@ -8,6 +9,7 @@
     <xsl:template match="/*">
         <xsl:copy>
             <xsl:copy-of select="@*" />
+        	<xsl:copy-of select="*[namespace-uri() != '']" />
             <xsl:for-each select="record">
                 <xsl:variable name="type" select="line[1]/tokenize(normalize-space(.), ' ')[last()]" as="xs:string" />
                 <xsl:variable name="id" select="line[1]/tokenize(normalize-space(.), ' ')[starts-with(., '@') and ends-with(., '@')]" as="xs:string?" />

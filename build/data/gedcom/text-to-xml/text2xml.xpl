@@ -2,37 +2,70 @@
 <?xml-model href="file:///home/sheila/Tools/xproc-schemas/xproc30.rnc" type="application/relax-ng-compact-syntax"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:c="http://www.w3.org/ns/xproc-step" 
+    xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
     name="gedcom-txt-to-xml"
     type="tcy:gedcom-txt-to-xml"
     version="3.0">
     
-    <p:import href="../debug.xpl" />
+	<p:import href="../../provenance/insert-prov-metadata.xpl" />
+	<p:import href="../debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
     
     <p:input port="source" primary="true" />
     <p:output port="result" sequence="true"/>
-    
-    <p:option name="pipeline-username" required="false" />
-    
+	
+	<p:option name="generated-by-user" required="false" />    
     <p:option name="debug" select="'true'" />
+	
+	<p:variable name="pipeline-start-time" select="current-dateTime()" />
+	
+	<p:sink />
  
     <p:group name="gedcom-xml">       
-        
+                
         <p:output port="result" />
         
-        <p:xslt>
-            <p:with-input port="stylesheet">
-                <p:document href="create/file.xsl" />
-            </p:with-input>
-        	<p:with-option name="parameters" select="map{
-        		'generated-by-user': $pipeline-username,
-        		'generated-by-pipeline': resolve-uri(''),
-        		'transformation-start-time' : current-dateTime()
-        	}" />
-        </p:xslt>     
+        <p:group name="create-wrapper">
         
-        <tcy:debug  />
+	        <p:xslt>
+	        	<p:with-input port="source">
+	        		<p:pipe port="source" step="gedcom-txt-to-xml" />
+	        	</p:with-input>
+	            <p:with-input port="stylesheet">
+	                <p:document href="create/file.xsl" />
+	            </p:with-input>
+	        </p:xslt>     
+	    	
+	    	<!-- Add a UUID to the root element, if one doesn't already exist. -->
+	    	<p:choose>
+	    		<p:when test="normalize-space(/*/@uuid) = ''">
+	    			<p:add-attribute match="/*" attribute-name="uuid" attribute-value="''" />     
+	    			<p:uuid match="/*/@uuid" version="4" />
+	    		</p:when>
+	    	</p:choose>
+        	
+        </p:group>
+    	
+    	<tcy:debug file-extension="txt.xml" />
+    	
+    	<p:group name="insert-original-source-provenance">
+    	
+	    	<!-- Add a UUID to the entity representing the original source (txt) document in the provenance metadata. -->
+	    	<p:add-attribute match="/file/prov:document" attribute-name="uuid" attribute-value="''" />     
+	    	<p:uuid match="/file/prov:document/@uuid" version="4" />
+	    		
+	    	<!-- Add a hash of the original source (txt) document to the provenance metadata. -->
+	    	<p:add-attribute match="/file/prov:document" attribute-name="hash" attribute-value="''" />         	
+	    	<p:hash algorithm="md" match="/file/prov:document/@hash">
+	    		<p:with-option name="value" select="serialize(/)">
+	    			<p:pipe port="source" step="gedcom-txt-to-xml" />
+	    		</p:with-option>
+	    	</p:hash>
+	    	      	     	    
+    	</p:group>
+    	
+    	<tcy:debug file-extension="txt.xml" />
         
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -40,7 +73,7 @@
             </p:with-input>
         </p:xslt>
                 
-        <tcy:debug  />                
+    	<tcy:debug file-extension="txt.xml" />               
         
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -48,7 +81,7 @@
             </p:with-input>
         </p:xslt>    
         
-        <tcy:debug  />      
+    	<tcy:debug file-extension="txt.xml" />
         
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -56,7 +89,7 @@
             </p:with-input>
         </p:xslt>    
         
-        <tcy:debug  />    
+    	<tcy:debug file-extension="txt.xml" />
              
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -64,7 +97,7 @@
             </p:with-input>
         </p:xslt>    
         
-        <tcy:debug  />        
+    	<tcy:debug file-extension="txt.xml" />
                 
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -72,7 +105,7 @@
             </p:with-input>
         </p:xslt>   
         
-        <tcy:debug  />
+    	<tcy:debug file-extension="txt.xml" />
                 
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -80,17 +113,26 @@
             </p:with-input>
         </p:xslt>
         
-        <tcy:debug  />
-    	
-    	<p:add-attribute match="/*:file" attribute-name="transformation-end-time">
-    		<p:with-option name="attribute-value" select="current-dateTime()"/>
-    	</p:add-attribute>
-        
     	<tcy:debug file-extension="txt.xml" />
+        
+        <p:group name="result-provenance-metadata">
+        	
+        	<tcy:insert-prov-metadata name="prov-metadata">
+        		<p:with-option name="generated-by-user" select="$generated-by-user" />
+        		<p:with-option name="generated-by-pipeline" select="p:urify(resolve-uri(''))" />
+        		<p:with-option name="pipeline-start-time" select="$pipeline-start-time" />
+        		<p:with-option name="pipeline-end-time" select="current-dateTime()" />
+        		<p:with-option name="source-uri" select="p:urify(document-uri(/))">
+        			<p:pipe port="source" step="gedcom-txt-to-xml" />
+        		</p:with-option>
+        	</tcy:insert-prov-metadata>    	    	
+        
+        	<tcy:debug file-extension="txt.xml" />        	      
+	        
+        </p:group>
     	
     </p:group>
-    
-    
+        
     <p:group name="validate-gedcom-xml">       
         
         <tcy:validate-with-schematron name="validate-xml">

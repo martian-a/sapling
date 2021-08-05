@@ -18,9 +18,8 @@
     exclude-result-prefixes="xs fn functx digest"
     version="3.0">    
     
-    <xsl:param name="resource-base-uri" select="'http://ns.thecodeyard.co.uk/data/sapling/'" />
+	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
     
-	<xsl:import href="../../provenance/prov-xml.xsl" />
 	<xsl:import href="../../provenance/prov-xml2rdf.xsl"/>
     
     <xsl:output indent="yes" />
@@ -29,20 +28,17 @@
         <rdf:RDF>              
         	
         	<!-- metadata about dataset -->
-        	<rdf:Description rdf:about="{$resource-base-uri}resource/dataset/{current-dateTime()}" /> 
+        	<rdf:Description rdf:about="{xs:anyURI($resource-base-uri)}" /> 
         	
-        	<!-- provenance of dataset -->
-        	<xsl:variable name="provenance-xml">
-        		<xsl:apply-templates select="self::document-node()" mode="provenance-xml" />
-        	</xsl:variable>        	        
-			<xsl:apply-templates select="$provenance-xml" mode="provenance-rdf" />
-			
-			<!-- dataset -->
             <xsl:apply-templates />
         </rdf:RDF>        
     </xsl:template>       
     
-    <xsl:template match="prov:*" />
+    <xsl:template match="prov:document">
+    	<xsl:apply-templates select="self::*" mode="provenance-rdf">
+    		<xsl:with-param name="dataset-uri" select="xs:anyURI($resource-base-uri)" as="xs:anyURI" tunnel="true" />
+    	</xsl:apply-templates>
+    </xsl:template>
     
     <xsl:template match="people/person/persona" priority="10">
         <xsl:variable name="id" select="if (preceding-sibling::persona) then @id else translate(ancestor::person[1]/@id, '@', '')" as="xs:string" />
@@ -149,14 +145,14 @@
     </xsl:template>
     
     <xsl:template match="locations/location">    
-        <gn:Feature rdf:about="http://ns.thecodeyard.co.uk/data/sapling/resource/location/{@id}">
+    	<gn:Feature rdf:about="{$resource-base-uri}resource/location/{@id}">
             <gn:name><xsl:value-of select="name" /></gn:name>
         	<xsl:apply-templates select="within" />
         </gn:Feature>
     </xsl:template>
 	
 	<xsl:template match="location/within">
-		<gn:parentFeature rdf:resource="http://ns.thecodeyard.co.uk/data/sapling/resource/location/{@ref}" />
+		<gn:parentFeature rdf:resource="{$resource-base-uri}resource/location/{@ref}" />
 	</xsl:template>
     
     <xsl:template match="source" />

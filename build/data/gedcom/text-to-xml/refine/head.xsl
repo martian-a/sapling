@@ -9,7 +9,7 @@
     <xsl:template match="HEAD">
         <head>
             <xsl:apply-templates select="@*" />
-            <xsl:apply-templates mode="head" />
+            <xsl:apply-templates mode="head" />	
         </head>
     </xsl:template>
      

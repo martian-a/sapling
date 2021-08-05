@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:bgt="http://ns.bluegumtree.com/saxon/functions"
     xmlns:functx="http://www.functx.com"
     xmlns:temp="http://ns.thecodeyard.co.uk/temp"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -21,16 +22,16 @@
     
 
 	<xsl:template match="birth | family-child" mode="events" priority="1">
-        <event type="birth" id="EVE{generate-id()}">
+        <event type="birth" id="EVE-{generate-id()}">
             <xsl:if test="preceding-sibling::birth">
                 <xsl:attribute name="temp:status">alternative</xsl:attribute>
             </xsl:if>
             <xsl:next-match />
         </event>
-    </xsl:template>
-    
-    <xsl:template match="birth" mode="events">              
-        <xsl:apply-templates select="date" mode="#current" />
+	</xsl:template>
+	
+	<xsl:template match="birth" mode="events">              
+		<xsl:apply-templates select="date" mode="#current" />
         <xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />
         <xsl:apply-templates select="ancestor::file/family[@id = current()/ancestor::individual[1]/family-child/text()]" mode="#current">
             <xsl:with-param name="child-id" select="ancestor::individual[1]/@id" as="xs:string" tunnel="yes" />
@@ -54,7 +55,7 @@
     </xsl:template>
     
     <xsl:template match="death" mode="events">              
-    	<event type="death" id="EVE{generate-id()}">
+    	<event type="death" id="EVE-{generate-id()}">
             <xsl:if test="preceding-sibling::death">
                 <xsl:attribute name="temp:status">alternative</xsl:attribute>
             </xsl:if>

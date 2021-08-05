@@ -11,7 +11,7 @@
     <xsl:template match="/">        
         <locations xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">
         	<xsl:for-each-group select="descendant::place" group-by="normalize-space(place-name)">
-        		<xsl:variable name="group-id" select="generate-id()" as="xs:string" />
+        		<xsl:variable name="group-id" select="concat('LOC-', generate-id())" as="xs:string" />
         		<xsl:for-each select="tokenize(current-grouping-key(), ',')">
         			<location id="{$group-id}_{position()}" context="{current-grouping-key()}">
         				<name><xsl:value-of select="normalize-space(.)" /></name>

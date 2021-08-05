@@ -9,10 +9,11 @@
     version="3.0">
   
     <xsl:template match="prov:document" mode="provenance-rdf" priority="10">
-    	<xsl:variable name="uri" select="document-uri(/)" as="xs:anyURI?" />
+    	<xsl:param name="dataset-uri" as="xs:anyURI" tunnel="true" />
+    	
 		<xsl:next-match>
 			<xsl:with-param name="local-name" select="'Entity'" as="xs:string" />
-			<xsl:with-param name="uri" select="if ($uri) then $uri else generate-id() " />
+			<xsl:with-param name="uri" select="$dataset-uri" as="xs:anyURI" />
 		</xsl:next-match>
     	<xsl:apply-templates select="descendant::*[@prov:id]" mode="provenance-rdf.classes" />
     	<xsl:for-each-group select="descendant::prov:location" group-by="text()">

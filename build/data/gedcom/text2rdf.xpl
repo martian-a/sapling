@@ -14,14 +14,24 @@
     <p:input port="source" primary="true" />    
     <p:output port="result" sequence="true" />
     
+	<p:option name="generated-by-user" required="false" />    
     <p:option name="debug" select="'true'" />
  
+	<p:variable name="pipeline-start-time" select="current-dateTime()" />
  
-    <tcy:gedcom-txt-to-xml name="gedcom-xml" />  
+    <tcy:gedcom-txt-to-xml name="gedcom-xml">
+    	<p:with-option name="generated-by-user" select="$generated-by-user" />
+    	<p:with-option name="debug" select="$debug" />
+    </tcy:gedcom-txt-to-xml>  
       
-    <tcy:gedcom-xml-to-sapling name="sapling-xml" />  
+    <tcy:gedcom-xml-to-sapling name="sapling-xml">
+    	<p:with-option name="generated-by-user" select="$generated-by-user" />
+    	<p:with-option name="debug" select="$debug" />
+    </tcy:gedcom-xml-to-sapling>  
     
-	<tcy:sapling-xml-to-rdf name="sapling-rdf" />  
-
+	<tcy:sapling-xml-to-rdf name="sapling-rdf">
+		<p:with-option name="generated-by-user" select="$generated-by-user" />
+		<p:with-option name="debug" select="$debug" />
+	</tcy:sapling-xml-to-rdf>  
        
 </p:declare-step>

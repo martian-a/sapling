@@ -2,9 +2,17 @@ default namespace = ""
 namespace prov = "http://www.w3.org/ns/prov#"
 namespace temp = "http://ns.thecodeyard.co.uk/temp"
 
+
+# Includes #
+
+include "../../../cenizaro/schemas/xml.rnc"
+
+# Schema
+
 start |= prov.document
 
 prov.document = element prov:document {    
+	xml.anyElement.attlist,
     prov.document.content-model
 }
 
@@ -14,37 +22,53 @@ prov.document.content-model =
 	    prov.activity |
 	    prov.entity |
 	    prov.plan |
-	    prov.wasDerivedFrom
+	    prov.wasDerivedFrom |
+	    prov.location
 	)+
 	    
 prov.wasGeneratedBy = element prov:wasGeneratedBy { 
+		xml.anyElement.attlist,
 		prov.entity, 
 		prov.activity 
 	}
 prov.entity = element prov:entity {
+		xml.anyElement.attlist,
 		prov.id.attlist,
+		attribute hash {xsd:string}?,
 	    prov.document.content-model?
 	}
 prov.activity = element prov:activity {
+		xml.anyElement.attlist,
 		prov.id.attlist,		
         element prov:startTime { xsd:dateTime }?,
         element prov:endTime { xsd:dateTime }?,
         prov.wasAssociatedWith?        
     }
 prov.wasAssociatedWith = element prov:wasAssociatedWith {
+		xml.anyElement.attlist,
         prov.plan,
         prov.agent?
     }
     
 prov.agent = element prov:agent {
+		xml.anyElement.attlist,
         prov.id.attlist
     }
         
 prov.plan = element prov:plan {
+		xml.anyElement.attlist,
         prov.id.attlist,
         element prov:location { xsd:anyURI }?
     }
-prov.wasDerivedFrom = element prov:wasDerivedFrom { prov.entity }
+prov.wasDerivedFrom = element prov:wasDerivedFrom { 
+	xml.anyElement.attlist,
+	prov.entity
+}
+
+prov.location = element prov:location {
+		xml.anyElement.attlist,
+		text
+    }
 
 prov.id.attlist = 
 	(

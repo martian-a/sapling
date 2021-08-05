@@ -1,0 +1,37 @@
+default namespace = ""
+namespace void = "http://rdfs.org/ns/void#"
+namespace temp = "http://ns.thecodeyard.co.uk/temp"
+
+
+# Includes #
+
+include "../../../cenizaro/schemas/xml.rnc"
+
+# Schema
+
+start |= notAllowed
+
+void.document = (
+	void.dataset | void.linkset
+)
+
+void.dataset = element void:dataset {    
+    void.dataset.content-model
+}
+
+void.dataset.content-model = 
+	(
+	 	xml.anyElement.attlist,
+	 	attribute void:name { xsd:NCName },
+	 	empty
+	)
+		
+void.linkset = element void:linkset {    
+    void.linkset.content-model
+}
+
+void.linkset.content-model = 
+	(
+	 	xml.anyElement.attlist,
+	 	empty
+	)	
