@@ -17,7 +17,8 @@ include "sapling.rnc" {
 
 	app.data.attlist |=
 		attribute href { xsd:anyURI }?,
-		attribute name { xsd:anyURI }?
+		attribute name { xsd:anyURI }?,
+		attribute uuid { xsd:anyURI }?
 
 }
 
