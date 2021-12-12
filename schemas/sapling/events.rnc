@@ -72,6 +72,7 @@ event.entity.attlist =
 			"separation" |
 			"divorce" |
 			"death" |
+			"burial" |
 			"historical"
 		)
     }
