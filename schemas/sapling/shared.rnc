@@ -357,6 +357,11 @@ shared.body-matter.table.cell.attlist |=
 	
 shared.date.attlist |=
 	xml.attlist,
+	attribute modifier {
+		"Before" |
+		"About" |
+		"After"
+	}?,
 	attribute year { xsd:integer }?,
 	attribute month { xsd:integer }?,
 	attribute day { xsd:integer }?
