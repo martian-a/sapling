@@ -343,19 +343,22 @@ source.front-matter.content-model =
 	source.front-matter.series?,
 	source.front-matter.contributors.content-model,
 	(
-	   source.front-matter.non-serial.map |
-	   (
-	       source.front-matter.publication.content-model?,
-            (	
-	           source.front-matter.serial |
-                source.entity-ref.serial
-              
-            )?
-        )?
-    ),
-    source.front-matter.isbn?,
-	source.front-matter.link?,
-	source.front-matter.acknowledgements*
+		(
+		   source.front-matter.non-serial.map |
+		   (
+		       source.front-matter.publication.content-model?,
+	            (	
+		           source.front-matter.serial |
+	                source.entity-ref.serial
+	              
+	            )?
+	        )?
+	    ) &
+	    shared.note? &
+	    source.front-matter.isbn? &
+		source.front-matter.link? &
+		source.front-matter.acknowledgements*
+	)
 	
 source.front-matter.contributor.content-model =
 	(
@@ -493,6 +496,7 @@ source.serial.collection.content-model =
 source.serial.entity.content-model =
         source.front-matter.contributor*,
         source.front-matter.title*,
+        source.front-matter.contributors.content-model?,
         source.front-matter.publisher?,
         source.front-matter.publisher.location?,
         source.front-matter.map.scale?,
