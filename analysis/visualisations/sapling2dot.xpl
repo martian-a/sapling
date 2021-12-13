@@ -8,8 +8,8 @@
     type="tcy:sapling-xml-to-dot"
     version="3.0">
     
-	<p:import href="../../provenance/insert-prov-metadata.xpl" />
-	<p:import href="../debug.xpl" />
+	<p:import href="../../build/data/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../build/data/gedcom/debug.xpl" />
     
     <p:input port="source" primary="true" />    
     <p:output port="result" sequence="true" />
@@ -58,7 +58,7 @@
     	<p:with-option name="parameters" select="map{'resource-base-uri' : concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id, '/')}" />
     </p:xslt>    
 	
-	<p:store href="../output/{($dataset-name, $dataset-id)[1]}_geography.dot"
+	<p:store href="output/{($dataset-name, $dataset-id)[1]}_geography.dot"
 		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-geography">
 	</p:store>
 	

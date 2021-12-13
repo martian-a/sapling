@@ -23,7 +23,7 @@
     
 	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
     
-	<xsl:import href="../../provenance/prov-xml2rdf.xsl"/>
+	<xsl:import href="../../../sapling/build/data/provenance/prov-xml2rdf.xsl"/>
     
     <xsl:output indent="yes" encoding="UTF-8" method="text" />
       
