@@ -30,7 +30,7 @@
     </p:xslt>
             
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('output/', $dataset-name, '/people_by_location.html')" />
+		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_location.html')" />
 	</p:store>        
                 
 	<p:sink />
@@ -45,7 +45,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('output/', $dataset-name, '/people_by_name.html')" />
+		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_name.html')" />
 	</p:store>
 	
 	<p:sink />
@@ -60,7 +60,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('output/', $dataset-name, '/people_by_time.html')" />
+		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_time.html')" />
 	</p:store>
 	
 	<p:sink />
@@ -75,7 +75,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('output/', $dataset-name, '/locations_by_event.html')" />
+		<p:with-option name="href" select="concat('../output/', $dataset-name, '/locations_by_event.html')" />
 	</p:store>
 	
 	<p:sink />	

@@ -10,6 +10,7 @@
 	<p:import href="xml-to-sapling/xml2sapling.xpl" />	
 	<p:import href="../../../analysis/who-what-when-where/who_what_when_where.xpl" />
 	<p:import href="../../../analysis/visualisations/sapling2dot.xpl" />
+	<p:import href="../../../analysis/consistency-checks/consistency_checks.xpl" />
     <p:import href="../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
     
     <p:input port="source" primary="true" />    
@@ -44,5 +45,15 @@
 		<p:with-option name="generated-by-user" select="$generated-by-user" />
 		<p:with-option name="debug" select="$debug" />
 	</tcy:sapling-xml-to-dot>  	
+	
+	<p:sink />
+	
+	<tcy:sapling-consistency-checks name="consistency-checks">
+		<p:with-input port="source">
+			<p:pipe port="result" step="sapling-xml" />
+		</p:with-input>
+		<p:with-option name="generated-by-user" select="$generated-by-user" />
+		<p:with-option name="debug" select="$debug" />
+	</tcy:sapling-consistency-checks>  		
        
 </p:declare-step>

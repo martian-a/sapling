@@ -4,8 +4,8 @@
     xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
     xmlns:void="http://rdfs.org/ns/void#"
-    name="sapling-xml-to-dot"
-    type="tcy:sapling-xml-to-dot"
+    name="sapling-consistency-checks"
+    type="tcy:sapling-consistency-checks"
     version="3.0">
     
 	<p:import href="../../build/data/provenance/insert-prov-metadata.xpl" />
@@ -41,7 +41,7 @@
 			<p:with-option name="pipeline-start-time" select="$pipeline-start-time" />
 			<p:with-option name="pipeline-end-time" select="current-dateTime()" />
 			<p:with-option name="source-uri" select="p:urify(document-uri(/))">
-				<p:pipe port="source" step="sapling-xml-to-dot" />
+				<p:pipe port="source" step="sapling-consistency-checks" />
 			</p:with-option>
 		</tcy:insert-prov-metadata>  
 		
@@ -51,31 +51,15 @@
 		<p:with-option name="file-name" select="$dataset-id" />
 	</tcy:debug> 
         
-    <p:xslt name="people-connecting-places">
+    <p:xslt name="location-names">
         <p:with-input port="stylesheet">
-            <p:document href="people_connecting_places.xsl" />
+            <p:document href="sapling/location_names.xsl" />
         </p:with-input>
     	<p:with-option name="parameters" select="map{'resource-base-uri' : concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id, '/')}" />
     </p:xslt>    
 	
-	<p:store href="../output/{($dataset-name, $dataset-id)[1]}/geography.dot"
-		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-geography">
+	<p:store href="../output/{($dataset-name, $dataset-id)[1]}/consistency_checks/location_names.html"
+		serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-location-names">
 	</p:store>
-	
-	<p:sink />
-    
-    <p:xslt name="family-networks">
-        <p:with-input port="stylesheet">
-            <p:document href="family_networks.xsl" />
-        </p:with-input>
-    	<p:with-input port="source">
-    		<p:pipe port="result" step="pre-transformation" />
-    	</p:with-input>
-    </p:xslt>   
-	
-	<p:store href="../output/{($dataset-name, $dataset-id)[1]}/families.dot"
-		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-families">
-	</p:store>
-	
        
 </p:declare-step>
