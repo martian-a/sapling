@@ -21,6 +21,7 @@
 			<sources>
 				<xsl:apply-templates select="name/source-citation" mode="reference" />
 				<xsl:apply-templates select="sex/source-citation" mode="reference" />
+				<xsl:call-template name="web-links-source-citation" />
 			</sources>
 		</person>
 	</xsl:template>
@@ -40,27 +41,28 @@
 					</xsl:element>
 				</xsl:for-each>
 			</name>
-			<xsl:apply-templates select="ancestor::individual[1]/sex/value" />
+			<xsl:apply-templates select="ancestor::individual[1]/sex" />
 		</persona>
 	</xsl:template>       
 	
-	<xsl:template match="individual/sex/value">
+	<xsl:template match="individual/sex">
+		<xsl:variable name="sex" select="if (value) then value/text() else text()" as="xs:string?" />
 		<gender><xsl:choose>
-			<xsl:when test=". = 'F'">Female</xsl:when>
-			<xsl:when test=". = 'M'">Male</xsl:when>
-			<xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
+			<xsl:when test="$sex = 'F'">Female</xsl:when>
+			<xsl:when test="$sex = 'M'">Male</xsl:when>
+			<xsl:otherwise><xsl:value-of select="$sex" /></xsl:otherwise>
 		</xsl:choose></gender>
 	</xsl:template>
 	
 	<xsl:template match="individual/name/source-citation" mode="reference">
-		<xsl:text>Name.</xsl:text>
+		<xsl:text>Name (</xsl:text><xsl:value-of select="normalize-space(string-join(parent::*/*[not(name() = ('source-citation', 'personal-name'))]/text(), ' '))" /><xsl:text>).</xsl:text>
 	</xsl:template>
 	
 	<xsl:template match="individual/sex/source-citation" mode="reference">
-		<xsl:text>Gender.</xsl:text>
+		<xsl:text>Gender (</xsl:text><xsl:value-of select="normalize-space(string-join(parent::*/*[name() != 'source-citation']/text(), ' '))" /><xsl:text>).</xsl:text>
 	</xsl:template>
 	
-	
+	<xsl:template match="web-link" />
 	
 	<xsl:include href="shared.xsl" />
     

@@ -44,14 +44,36 @@
 	
 	<p:sink />
  
-	<p:xslt name="locations">
-		<p:with-input port="source">
-			<p:pipe port="source" step="gedcom-xml-to-sapling" />
-		</p:with-input>		
-		<p:with-input port="stylesheet">
-			<p:document href="create/locations.xsl" />
-		</p:with-input>
-	</p:xslt>   
+    <p:group name="locations">
+    	
+    	<p:output port="result" />
+    	
+    	<p:xslt>
+    		<p:with-input port="source">
+    			<p:pipe port="source" step="gedcom-xml-to-sapling" />
+    		</p:with-input>		
+    		<p:with-input port="stylesheet">
+    			<p:document href="create/locations.xsl" />
+    		</p:with-input>
+    	</p:xslt>   
+
+    	<p:for-each>
+    		
+    		<p:with-input select="//location[@id]" />
+    		
+    		<p:group>
+    			
+    			<p:hash algorithm="md" version="5" match="@id">
+    				<p:with-option name="value" select="location/@id" />
+    			</p:hash>
+    			
+    		</p:group>
+    		
+    	</p:for-each>
+    	
+    	<p:wrap-sequence wrapper="locations" />
+    	
+    </p:group>
 	
 	<p:sink />
 	
@@ -72,6 +94,17 @@
 		</p:with-input>
 		<p:with-input port="stylesheet">
 			<p:document href="create/events.xsl" />
+		</p:with-input>
+	</p:xslt> 
+	
+	<p:sink />
+	
+	<p:xslt name="sources">
+		<p:with-input port="source">
+			<p:pipe port="source" step="gedcom-xml-to-sapling" />
+		</p:with-input>
+		<p:with-input port="stylesheet">
+			<p:document href="create/sources.xsl" />
 		</p:with-input>
 	</p:xslt>
 	
@@ -98,11 +131,17 @@
 		</p:with-input>
 	</p:insert>
 	
+	<p:insert match="/*" position="last-child">
+		<p:with-input port="insertion">
+			<p:pipe port="result" step="sources" />
+		</p:with-input>
+	</p:insert>	
+	
 	<tcy:uuid>
 		<p:with-input port="source" />
 		<p:with-option name="replace-values" select="descendant::*/@*:id[starts-with(., 'REPLACE-')]" as="xs:string*" />
 	</tcy:uuid>
-		
+			
 	<p:xslt name="refine-ids">
 		<p:with-input port="stylesheet">
 			<p:document href="refine/ids.xsl" />
@@ -120,7 +159,20 @@
 			<p:document href="refine/people.xsl" />
 		</p:with-input>
 	</p:xslt>    
-	    
+	
+	<p:xslt name="relocate-sources">
+		<p:with-input port="stylesheet">
+			<p:document href="refine/relocate-sources.xsl" />
+		</p:with-input>
+	</p:xslt>  
+	
+	<p:xslt name="dedupe-sources">
+		<p:with-input port="stylesheet">
+			<p:document href="refine/dedupe-sources.xsl" />
+		</p:with-input>
+	</p:xslt>   	
+	   
+	   
 	<tcy:debug file-extension="sapling.xml"  />   
 	
 	
@@ -140,6 +192,7 @@
 			
 	</p:group>
 
+	<!--
 	<p:group name="validate-sapling-xml">
 		
 		<p:validate-with-relax-ng name="validate-sapling-rnc" assert-valid="true">
@@ -154,7 +207,6 @@
 				<p:document href="../../../../schemas/sapling/sapling.sch" />
 			</p:with-input>
 		</tcy:validate-with-schematron>
-		
 		
 		<p:choose>   
 			<p:with-input>
@@ -187,8 +239,8 @@
 				</p:identity>
 			</p:otherwise>            
 		</p:choose>    		
-				
+		
 	</p:group>
-
+	-->
        
 </p:declare-step>

@@ -20,7 +20,7 @@
 			<xsl:for-each select="$candidates">
 				<xsl:sort select="@id" order="ascending" />
 				<xsl:if test="position() = 1">
-					<xsl:attribute name="ref" select="@id" />
+					<xsl:attribute name="ref" select="concat('LOC', @id)" />
 				</xsl:if>
 			</xsl:for-each>
 			<xsl:comment><xsl:value-of select="@context" /></xsl:comment>
@@ -38,7 +38,19 @@
 		</xsl:copy>
 	</xsl:template>
 	
+	<xsl:template match="locations/location/@id">
+		<xsl:attribute name="id" select="concat('LOC', .)" />
+	</xsl:template>
+	
+	
+	<xsl:template match="locations/location/within/@ref">
+		<xsl:variable name="context" select="." as="xs:string" />
+		<xsl:attribute name="ref" select="concat('LOC', ancestor::locations/location[@context = $context]/@id)" />
+	</xsl:template>
+	
 	<xsl:template match="locations/location/@context" />
+    
+    
     
     <xsl:include href="../../../../utils/identity.xsl" />
     
