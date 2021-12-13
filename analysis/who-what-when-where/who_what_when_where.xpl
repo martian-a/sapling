@@ -80,6 +80,45 @@
 	
 	<p:sink />	
 	
+	
+	<p:for-each>
+		
+		<p:with-input select="/timeline/year/text()">
+			<p:inline>
+				<timeline>
+					<year>1841</year>
+					<year>1851</year>
+				</timeline>
+			</p:inline>
+		</p:with-input>
+		
+		<p:group>
+			
+			<p:variable name="census-year" select=".">
+				<p:pipe port="current" />				
+			</p:variable>
+			
+			<p:xslt>
+				<p:with-input port="stylesheet">
+					<p:document href="people_by_census_year.xsl" />
+				</p:with-input>
+				<p:with-input port="source">
+					<p:pipe port="source" step="who-what-when-where" />
+				</p:with-input>
+				<p:with-option name="parameters" select="map{'census-year' : $census-year }" /> 
+			</p:xslt>
+			
+			<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
+				<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_census_year_', $census-year, '.html')" />
+			</p:store>
+		
+		</p:group>
+		
+	</p:for-each>
+	
+	<p:sink />	
+	
+	
 	<p:identity message="Analysis HTML updated.">
 		<p:with-input port="source">
 			<p:empty />
