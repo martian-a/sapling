@@ -14,8 +14,8 @@
     <xsl:variable name="dictionaries" as="document-node()">
         <xsl:document>
             <dictionaries>
-                <xsl:copy-of select="document('../../dictionaries/gedcom_5-5.xml')" />
-                <xsl:copy-of select="document('../../dictionaries/ancestry_2010-3.xml')" />
+                <xsl:copy-of select="document('../../dictionaries/gedcom_5-5-1.xml')" />
+                <xsl:copy-of select="document('../../dictionaries/ancestry_2021-7.xml')" />
             </dictionaries>
         </xsl:document>
     </xsl:variable>    

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary scheme="gedcom" version="5.5">
+	<!-- entry abbreviation="ABBR" expanded="abbreviation" /-->
+	<entry abbreviation="ADDR" expanded="address" />
+    <entry abbreviation="ADOP" expanded="adoption" />
+    <entry abbreviation="AFN" expanded="ancestral-file-number" />
+	<!-- entry abbreviation="AGE" expanded="age" /-->
+	<!-- entry abbreviation="AGNC" expanded="agency" /-->
+    <entry abbreviation="ALIA" expanded="alias" />
+	<!-- entry abbreviation="ANCE" expanded="ancestors" /-->
+	<!-- entry abbreviation="ANCI" expanded="ancestor-of-interest" /-->
+    <entry abbreviation="AUTH" expanded="author" />
+	<!-- entry abbreviation="ANUL" expanded="annulment" /-->
+	<!-- entry abbreviation="ASSO" expanded="associates" /-->
+	<!-- entry abbreviation="AUTH" expanded="author" /-->
+    <entry abbreviation="BAPM" expanded="baptism" />
+    <entry abbreviation="BIRT" expanded="birth" />
+    <entry abbreviation="BURI" expanded="burial" />
+	<entry abbreviation="CALN" expanded="call-number" />
+	<entry abbreviation="CHAR" expanded="character-set" />
+    <entry abbreviation="CHIL" expanded="child" />
+	<entry abbreviation="CHR" expanded="christening" />
+    <entry abbreviation="CORP" expanded="name-of-business" />
+    <entry abbreviation="COPR" expanded="copyright" />       
+    <entry abbreviation="CREM" expanded="cremation" />
+    <entry abbreviation="DATA" expanded="name-of-source-data" />
+    <entry abbreviation="DATE" expanded="date" />
+    <entry abbreviation="DEAT" expanded="death" />
+    <entry abbreviation="DEST" expanded="receiving-system-name" />
+    <entry abbreviation="DIV" expanded="divorce" />
+	<entry abbreviation="DSCR" expanded="physical-description" />
+    <entry abbreviation="EDUC" expanded="education" />
+    <entry abbreviation="EMIG" expanded="emigration" />
+    <entry abbreviation="ENGA" expanded="engagement" />
+    <entry abbreviation="EVEN" expanded="event" />
+    <entry abbreviation="FAM" expanded="family" />
+	<entry abbreviation="FACT" expanded="fact" /> 
+    <entry abbreviation="FAMC" expanded="family-child" /> 
+    <entry abbreviation="FAMS" expanded="family-spouse" />                
+    <entry abbreviation="FILE" expanded="file-name" />
+    <entry abbreviation="FORM" expanded="form" />
+    <entry abbreviation="GEDC" expanded="gedcom" />
+    <entry abbreviation="GIVN" expanded="given" />
+    <entry abbreviation="GRAD" expanded="graduation" />
+    <entry abbreviation="HUSB" expanded="husband" />
+    <entry abbreviation="IMMI" expanded="immigration" />
+    <entry abbreviation="LANG" expanded="language-of-text" />
+	<entry abbreviation="MARB" expanded="banns-of-marriage" />
+	<entry abbreviation="MARR" expanded="marriage" />
+    <entry abbreviation="NAME" expanded="name" />
+    <entry abbreviation="NPFX" expanded="prefix" />
+    <entry abbreviation="NICK" expanded="nickname" />
+    <entry abbreviation="NOTE" expanded="note" />
+    <entry abbreviation="NSFX" expanded="suffix" />
+    <entry abbreviation="OBJE" expanded="object" />
+    <entry abbreviation="OCCU" expanded="occupation" />
+    <entry abbreviation="ORDN" expanded="ordination" />
+    <entry abbreviation="PAGE" expanded="page" />
+    <entry abbreviation="PHON" expanded="phone-number" />
+    <entry abbreviation="PLAC" expanded="place" />
+    <entry abbreviation="PROB" expanded="probate" />      
+    <entry abbreviation="PROP" expanded="property" />
+    <entry abbreviation="PUBL" expanded="publication" />
+    <entry abbreviation="RELI" expanded="religion" />
+    <entry abbreviation="RESI" expanded="residence" />
+    <entry abbreviation="RESN" expanded="restriction-notice" />
+    <entry abbreviation="REFN" expanded="user-reference-number" />
+    <entry abbreviation="REPO" expanded="repository" />
+    <entry abbreviation="RFN" expanded="permanent-record-file-number" />
+    <entry abbreviation="RIN" expanded="automated-record-id" />
+    <entry abbreviation="ROLE" expanded="role" />
+    <entry abbreviation="SEX" expanded="sex" />
+    <entry abbreviation="SPFX" expanded="surname-prefix" />
+    <entry abbreviation="STAT" expanded="status" />
+	<entry abbreviation="SUBM" expanded="submitter" />
+	<!-- entry abbreviation="SUBN" expanded="submission" /-->
+    <entry abbreviation="SURN" expanded="surname" />
+    <entry abbreviation="TEXT" expanded="text" />
+    <entry abbreviation="TIME" expanded="time-value" />
+    <entry abbreviation="TITL" expanded="title" />
+    <entry abbreviation="TYPE" expanded="type" />
+    <entry abbreviation="VERS" expanded="version-number" />
+    <entry abbreviation="WIFE" expanded="wife" />
+    <entry abbreviation="WILL" expanded="will" />
+	<entry abbreviation="WWW" expanded="web-link" />
+</dictionary>

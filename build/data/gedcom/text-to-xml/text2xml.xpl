@@ -12,7 +12,7 @@
 	<p:import href="../debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
     
-    <p:input port="source" primary="true" />
+    <p:input port="source" primary="true" content-types="text" />
     <p:output port="result" sequence="true"/>
 	
 	<p:option name="generated-by-user" required="false" />    
@@ -69,11 +69,20 @@
         
         <p:xslt>
             <p:with-input port="stylesheet">
-                <p:document href="create/record.xsl" />
+                <p:document href="create/line.xsl" />
             </p:with-input>
         </p:xslt>
                 
+    	<tcy:debug file-extension="txt.xml" />
+    	    	
+    	<p:xslt>
+    		<p:with-input port="stylesheet">
+    			<p:document href="create/record.xsl" />
+    		</p:with-input>
+    	</p:xslt>                
+                                             
     	<tcy:debug file-extension="txt.xml" />               
+        
         
         <p:xslt>
             <p:with-input port="stylesheet">
@@ -114,6 +123,30 @@
         </p:xslt>
         
     	<tcy:debug file-extension="txt.xml" />
+    	
+    	<p:xslt>
+    		<p:with-input port="stylesheet">
+    			<p:document href="refine/cross-references.xsl" />
+    		</p:with-input>
+    	</p:xslt>
+    	
+    	<tcy:debug file-extension="txt.xml" />    
+    	
+    	<p:xslt>
+    		<p:with-input port="stylesheet">
+    			<p:document href="refine/embedded-markup/line.xsl" />
+    		</p:with-input>
+    	</p:xslt>
+    	
+    	<tcy:debug file-extension="txt.xml" />     
+    	
+    	<p:xslt>
+    		<p:with-input port="stylesheet">
+    			<p:document href="refine/provenance.xsl" />
+    		</p:with-input>
+    	</p:xslt>
+    	
+    	<tcy:debug file-extension="txt.xml" />      	
         
         <p:group name="result-provenance-metadata">
         	
@@ -130,9 +163,11 @@
         	<tcy:debug file-extension="txt.xml" />        	      
 	        
         </p:group>
+        
     	
     </p:group>
         
+
     <p:group name="validate-gedcom-xml">       
         
         <tcy:validate-with-schematron name="validate-xml">
@@ -175,5 +210,6 @@
         </p:choose>    
 
     </p:group>
-       
+    
+	
 </p:declare-step>

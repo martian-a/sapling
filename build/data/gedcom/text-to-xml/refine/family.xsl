@@ -13,12 +13,13 @@
         </family>
     </xsl:template>
     
-    
+    <!--
     <xsl:template match="CHIL" mode="family">
-        <child ref="{value/text()}">
+        <child ref="{if (value) then value/text() else text()}">
             <xsl:apply-templates select="@*" />
             <xsl:apply-templates mode="#current" />
         </child>
     </xsl:template>
-    
+    -->
+	
 </xsl:stylesheet>
