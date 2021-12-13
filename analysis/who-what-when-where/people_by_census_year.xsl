@@ -59,21 +59,16 @@
 	
 	<xsl:template match="people">
 		<ul class="people">
-			<li>
-				<h2>No Estimated Birth Year</h2>
-				<ul>
-					<xsl:apply-templates select="person[normalize-space(@year) = '']/persona">
-						<xsl:sort select="string-join(reverse(name/name), ' ')" data-type="text" order="ascending" />						
-					</xsl:apply-templates>
-				</ul>
-			</li>	
 			<xsl:variable name="min-year" select="xs:integer($census-year) - 100" as="xs:integer" />
 			<xsl:variable name="max-year" select="xs:integer($census-year) + 5" as="xs:integer" />
-			<xsl:variable name="candidates" select="person[normalize-space(@year) != ''][xs:integer(@year) &gt;= $min-year][xs:integer(@year) &lt;= $max-year]" as="element()*" />
+			<xsl:variable name="candidates" select="person[normalize-space(@year) != ''][xs:integer(@year) &gt;= $min-year][xs:integer(@year) &lt;= $max-year], person[normalize-space(@year) = '']" as="element()*" />
 			<xsl:for-each-group select="$candidates/persona" group-by="name/name[@family = 'yes']">
 				<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />	
 				<li>
-					<h2><xsl:value-of select="current-grouping-key()" /></h2>
+					<h2><xsl:choose>
+						<xsl:when test="normalize-space(current-grouping-key()) = ''">No Family Name</xsl:when>
+						<xsl:otherwise><xsl:value-of select="current-grouping-key()" /></xsl:otherwise>
+					</xsl:choose></h2>
 					<ul>
 						<xsl:apply-templates select="current-group()">
 							<xsl:sort select="string-join(reverse(name/name), ' ')" data-type="text" order="ascending" />	

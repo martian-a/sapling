@@ -88,6 +88,14 @@
 				<timeline>
 					<year>1841</year>
 					<year>1851</year>
+					<year>1861</year>
+					<year>1871</year>
+					<year>1881</year>
+					<year>1891</year>
+					<year>1901</year>
+					<year>1911</year>
+					<year>1921</year>
+					<year>1939</year>
 				</timeline>
 			</p:inline>
 		</p:with-input>
@@ -109,7 +117,7 @@
 			</p:xslt>
 			
 			<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-				<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_census_year_', $census-year, '.html')" />
+				<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_census_year/', $census-year, '.html')" />
 			</p:store>
 		
 		</p:group>
