@@ -1,4 +1,5 @@
 namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace guide = "http://ns.thecodeyard.co.uk/data/sapling/annotations/guide"
 
 include "shared.rnc"
 
@@ -58,7 +59,10 @@ person.entity.attlist =
 	xml.attlist,
 	shared.publish.attlist,
     attribute id { xsd:ID },
-    attribute year { xsd:gYear }?
+    attribute year { xsd:gYear }?,
+    attribute guide:birth-year { xsd:gYear }?,
+    attribute guide:death-year { xsd:gYear }?,
+    attribute guide:birth-location-id { xsd:ID }?
 
 person.persona.attlist =
 	xml.attlist,
