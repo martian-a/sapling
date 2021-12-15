@@ -22,6 +22,7 @@
 			<doc:p>For quickly building a list of all locations within a specified location.</doc:p>
 		</doc:desc>
 	</doc:doc>
+	<xsl:key name="location" match="/data/locations/location[@id]" use="@id" />
 	<xsl:key name="child-locations" match="//location[@id]" use="within/@ref" />
 	<xsl:key name="parent-location" match="//location[@id]" use="@id" />
 	<xsl:key name="birth" match="//event[@type = 'birth']" use="person/@ref" /> 
@@ -47,6 +48,15 @@
 		<xsl:param name="title" as="xs:string?" />
 		<head>
 			<title><xsl:value-of select="$title" /> (<xsl:value-of select="data/void:dataset/@void:name" />)</title>
+			<style><xsl:comment>
+				tr.subject > * { background-color: #F5F5F5; font-weight: bold; }
+				tr.partner > * { border-top: solid 1px silver; }				
+				th, td { padding: .5em; }
+				table .gender { text-align: center; }
+				table .age { text-align: right; }
+				table .birth-year { text-align: center; }
+				table .death-year { text-align: center; }
+			</xsl:comment></style>
 		</head>
 	</xsl:template>
 	

@@ -9,6 +9,7 @@
     xmlns:functx="http://www.functx.com"
     xmlns:gn="http://www.geonames.org/ontology#" 
     xmlns:greg="http://www.w3.org/ns/time/gregorian#"
+    xmlns:guide="http://ns.thecodeyard.co.uk/data/sapling/annotations/guide"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:prov="http://www.w3.org/ns/prov#"
@@ -23,15 +24,22 @@
     
 	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
     <xsl:param name="census-year" select="'1841'" />
+	<xsl:param name="name-variants" select="('War', 'Warr', 'Warre', 'Ware', 'Wear')" as="xs:string*" />
+    
+    <xsl:variable name="numeric-census-year" as="xs:integer?">
+    	<xsl:try>
+    		<xsl:value-of select="xs:integer($census-year)" />
+    		<xsl:catch />
+    	</xsl:try>
+    </xsl:variable>
     
     <xsl:import href="shared.xsl" />
     
 	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
+	<xsl:variable name="min-year" select="$numeric-census-year - 100" as="xs:integer" />
+	<xsl:variable name="max-year" select="$numeric-census-year + 5" as="xs:integer" />
      
     <xsl:output indent="yes" encoding="UTF-8" method="html" version="5" />
-      
-    <xsl:key name="child-locations" match="//location[@id]" use="within/@ref" />
-	<xsl:key name="parent-location" match="//location[@id]" use="@id" /> 
 	
 	<doc:doc>
 		<doc:title>Key: Person</doc:title>
@@ -59,9 +67,46 @@
 	
 	<xsl:template match="people">
 		<ul class="people">
-			<xsl:variable name="min-year" select="xs:integer($census-year) - 100" as="xs:integer" />
-			<xsl:variable name="max-year" select="xs:integer($census-year) + 5" as="xs:integer" />
-			<xsl:variable name="candidates" select="person[normalize-space(@year) != ''][xs:integer(@year) &gt;= $min-year][xs:integer(@year) &lt;= $max-year], person[normalize-space(@year) = '']" as="element()*" />
+			<xsl:variable name="candidates" as="element()*">
+				<xsl:variable name="within-date-range" as="element()*">
+					<xsl:for-each select="person">
+						<xsl:sort select="@guide:birth-year" data-type="number" order="ascending" />
+						<xsl:variable name="birth-year" select="if (normalize-space(@guide:birth-year)) then xs:integer(@guide:birth-year) else ()" as="xs:integer?" />
+						<xsl:variable name="death-year" select="if (normalize-space(@guide:death-year)) then xs:integer(@guide:death-year) else ()" as="xs:integer?" />
+						<xsl:choose>
+							<xsl:when test="$death-year != ()">
+								<xsl:sequence select="self::*[$death-year &gt;= $numeric-census-year][$birth-year &gt;= $min-year][$birth-year &lt;= $max-year], self::*[normalize-space(@guide:birth-year) = '']" />
+							</xsl:when>
+							<xsl:when test="$birth-year != ()">
+								<xsl:sequence select="self::*[$birth-year &gt;= $min-year][$birth-year &lt;= $max-year]" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:sequence select="self::*[normalize-space(@guide:birth-year) = ''][normalize-space(@guide:death-year) = '']" />
+							</xsl:otherwise>
+						</xsl:choose>					
+					</xsl:for-each>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="count($name-variants) &gt; 0">
+						<xsl:for-each select="$within-date-range">
+							<xsl:choose>
+								<xsl:when test="persona[1][name/name[@family = 'yes']/text() = $name-variants]">
+									<xsl:sequence select="self::*" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:variable name="parent-ids" select="/data/events/event[person/@ref = current()/@id]/parent/@ref" as="xs:string*" />
+									<xsl:if test="/data/people/person[@id = $parent-ids]/persona[1]/name/name[@family = 'yes']/text() = $name-variants">
+										<xsl:sequence select="self::*" />
+									</xsl:if>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:sequence select="$within-date-range" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 			<xsl:for-each-group select="$candidates/persona" group-by="name/name[@family = 'yes']">
 				<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />	
 				<li>
@@ -81,7 +126,92 @@
 	</xsl:template>
 	
 	<xsl:template match="persona">
-		<li><span class="name"><xsl:apply-templates select="self::*" mode="href-html" /></span> (~<xsl:value-of select="if (parent::person/@year) then (xs:integer($census-year) - xs:integer(parent::person/@year)) else '?'" />, <xsl:value-of select="(/data/locations/location[@id = key('birth', current()/parent::person/@id)/location/@ref]/name, '?')[1]" />)</li>
+		<xsl:variable name="person-id" select="parent::person/@id" as="xs:string" />
+		<xsl:variable name="parent-ids" select="/data/events/event[@type = 'birth'][person/@ref = $person-id]/parent/@ref" as="xs:string*" />
+		<xsl:variable name="spouse-ids" select="/data/events/event[@type = 'marriage'][person/@ref = $person-id][not(@year) or xs:integer(@year) &lt;= $numeric-census-year]/person[@ref != $person-id]/@ref" as="xs:string*" />
+		<xsl:variable name="co-parent-ids" select="/data/events/event[@type = 'birth'][parent/@ref = $person-id][not(@year) or xs:integer(@year) &lt;= $numeric-census-year]/parent[@ref != $person-id]/@ref" as="xs:string*" />
+		<xsl:variable name="partner-ids" select="distinct-values(($spouse-ids, $co-parent-ids))" as="xs:string*" />
+		<xsl:variable name="child-events" select="/data/events/event[@type = 'birth'][parent/@ref = $person-id][not(@year) or xs:integer(@year) &lt;= $numeric-census-year]" as="element()*" />
+		
+		<div style="margin: 1em;">
+			<table>
+				<tr>
+					<th class="relationship">Relationship</th>
+					<th class="name">Name</th>
+					<th class="gender">Gender</th>
+					<th class="age">~Age</th>
+					<th class="birth-place">~Place of Birth</th>
+					<th class="birth-year">~Birth</th>
+					<th class="death-year">~Death</th>
+				</tr>
+				<xsl:for-each select="/data/people/person[@id = $parent-ids][not(@guide:birth-year/xs:integer(.) &lt; $min-year)]">
+					<xsl:apply-templates select="persona[1]" mode="table-entry">
+						<xsl:sort select="@guide:birth-year" data-type="number" order="ascending" />
+						<xsl:with-param name="relationship" select="'Parent'" as="xs:string" />
+					</xsl:apply-templates>
+				</xsl:for-each>
+				<xsl:apply-templates select="self::*" mode="table-entry">
+					<xsl:with-param name="relationship" select="'Subject'" as="xs:string" />
+				</xsl:apply-templates>
+				<xsl:if test="parent::person/@guide:birth-year/xs:integer(.) &lt;= ($numeric-census-year - 12)">
+					<xsl:for-each select="/data/people/person[@id = $partner-ids][not(@guide:birth-year) or (@guide:birth-year/xs:integer(.) + 14) &lt;= $max-year]">
+						<xsl:variable name="partner-id" select="@id" as="xs:string" />
+						<xsl:apply-templates select="persona[1]" mode="table-entry">
+							<xsl:with-param name="relationship" select="'Partner'" as="xs:string" />
+						</xsl:apply-templates>
+						<xsl:variable name="shared-child-ids" select="$child-events[parent/@ref = $partner-id]/person/@ref" as="xs:string*" />
+						<xsl:for-each select="/data/people/person[@id = $shared-child-ids][not(@guide:birth-year) or xs:integer(@guide:birth-year) &lt;= $numeric-census-year]">
+							<xsl:sort select="@guide:birth-year" data-type="number" order="ascending" />
+							<xsl:apply-templates select="persona[1]" mode="table-entry">						
+								<xsl:with-param name="relationship" select="'Child'" as="xs:string" />
+							</xsl:apply-templates>						
+						</xsl:for-each>
+					</xsl:for-each>	
+					<xsl:variable name="unshared-child-ids" select="$child-events[count(parent) = 1]/person/@ref" as="xs:string*" />
+					<xsl:for-each select="/data/people/person[@id = $unshared-child-ids][not(@guide:birth-year) or (@guide:birth-year/xs:integer(.) + 14) &lt;= $max-year]">
+						<xsl:sort select="@guide:birth-year" data-type="number" order="ascending" />
+						<xsl:apply-templates select="persona[1]" mode="table-entry">						
+							<xsl:with-param name="relationship" select="'Child'" as="xs:string" />
+						</xsl:apply-templates>	
+					</xsl:for-each>			
+				</xsl:if>
+			</table>
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="persona" mode="table-entry">
+		<xsl:param name="relationship" as="xs:string?" />
+		<xsl:variable name="person-id" select="parent::person/@id" as="xs:string?" />
+		<xsl:variable name="status" as="xs:string">
+			<xsl:choose>
+				<xsl:when test="parent::person/@guide:death-year">
+					<xsl:choose>
+						<xsl:when test="parent::person/@guide:death-year/xs:integer(.) &gt;= $numeric-census-year">probably-alive</xsl:when>
+						<xsl:otherwise>probably-dead</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:when test="parent::person/@guide:birth-year">
+					<xsl:choose>
+						<xsl:when test="parent::person/@guide:birth-year/xs:integer(.) &lt; $min-year">probably-dead</xsl:when>
+						<xsl:otherwise>probably-alive</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>unknown</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<tr class="status-{$status} {lower-case($relationship)}">
+			<td class="relationship"><xsl:value-of select="$relationship" /></td>
+			<td class="name"><xsl:choose>
+				<xsl:when test="$status = 'probably-dead'"><s><xsl:apply-templates select="self::*" mode="href-html" /></s></xsl:when>
+				<xsl:otherwise><xsl:apply-templates select="self::*" mode="href-html" /></xsl:otherwise>
+			</xsl:choose></td>
+			<td class="gender"><xsl:value-of select="substring(gender, 1, 1)" /></td>
+			<td class="age"><xsl:value-of select="if (parent::person/@guide:birth-year) then ($numeric-census-year - xs:integer(parent::person/@guide:birth-year)) else '?'" /></td>
+			<td class="birth-place"><xsl:value-of select="if (parent::person/@guide:birth-location-id) then parent::person/key('location', @guide:birth-location-id)/name else '?'" /></td>
+			<td class="birth-year"><xsl:value-of select="parent::person/@guide:birth-year" /></td>
+			<td class="death-year"><xsl:value-of select="parent::person/@guide:death-year" /></td>
+		</tr>
 	</xsl:template>
 
 </xsl:stylesheet>
