@@ -204,7 +204,7 @@
 			<sch:let name="type" value="@type" />
 			<sch:let name="subjects" value="person" />
 			
-			<sch:report test="preceding-sibling::event[@type = $type and $type != 'marriage'][person/@ref = $subjects/@ref]">Duplicate <sch:value-of select="$type"/>.</sch:report>
+			<sch:report test="preceding-sibling::event[@type = $type and not($type = ('marriage', 'residence'))][person/@ref = $subjects/@ref]">Duplicate <sch:value-of select="$type"/>.</sch:report>
 			
 			<sch:report test="self::event[not($type = ('birth', 'adoption'))]/parent">Unexpected parent.  The parent element may only be used in birth or adoption events.</sch:report>
 			<sch:report test="self::event[$type = 'historical']/*[name() = ('person', 'parent')]">Unexpected <sch:name />.  References to people may only be used in the summary of a historical event.</sch:report>

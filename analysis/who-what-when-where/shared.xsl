@@ -188,7 +188,7 @@
 		<xsl:apply-templates select="key('person', person/@ref)" mode="href-html" />
 		<xsl:if test="$person-id">
 			<xsl:variable name="parents" select="key('birth', person/@ref)/parent/key('person', @ref)" as="element()*" />
-			<xsl:if test="$parents"><xsl:text>, child of</xsl:text><xsl:for-each select="$parents">
+			<xsl:if test="$parents"><xsl:text>, child of </xsl:text><xsl:for-each select="$parents">
 					<xsl:apply-templates select="current()" mode="href-html" />
 					<xsl:if test="position() != last()"> and </xsl:if>
 				</xsl:for-each></xsl:if>
@@ -196,10 +196,24 @@
 		
 	</xsl:template>
 	
-	
-	<xsl:template match="*[@id]" mode="href-html" priority="100">
-		<a href="#{@id}"><xsl:next-match /></a>
+	<doc:doc>
+		<doc:title>Event Summary (Content): Residence</doc:title>
+		<doc:desc>
+			<doc:p>Generates a summary for a residence.</doc:p>
+		</doc:desc>
+	</doc:doc>
+	<xsl:template match="event[@type = 'residence'][not(summary)]" mode="summarise">
+		
+		<xsl:apply-templates select="key('person', person/@ref)" mode="href-html" />
+		<xsl:text> lived in </xsl:text>
+		<xsl:value-of select="key('location', location/@ref)/name" />
+		
 	</xsl:template>
+
+	
+	<!-- xsl:template match="*[@id]" mode="href-html" priority="100">
+		<a href="#{@id}"><xsl:next-match /></a>
+	</xsl:template -->
 	
 	<xsl:template match="person" mode="href-html">
 		<xsl:apply-templates select="persona[1]" mode="#current" />

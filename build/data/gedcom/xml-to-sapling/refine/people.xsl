@@ -17,19 +17,19 @@
 	<xsl:template match="people/person">
 		<xsl:variable name="person-id" select="@id" as="xs:string" />
 		<xsl:variable name="partner-events" as="element()*">
-			<xsl:for-each select="/data/events/event[(@type = ('marriage', 'divorce') and person/@ref = $person-id) or (@type = 'birth' and parent/@ref = $person-id)]">
+			<xsl:for-each select="/data/events/event[(@type = ('marriage', 'divorce') and person/@ref = $person-id) or (@type = 'birth' and parent/@ref = $person-id)][not(@*:status = 'alternative')]">
 				<xsl:sort select="date/@year/xs:integer(.)" data-type="number" order="ascending" />
 				<xsl:sequence select="self::*" />
 			</xsl:for-each>
 		</xsl:variable>
 		<xsl:variable name="origin-events" as="element()*">
-			<xsl:for-each select="/data/events/event[@type = ('birth', 'christening')][person/@ref = $person-id]">
+			<xsl:for-each select="/data/events/event[@type = ('birth', 'christening')][not(@*:status = 'alternative')][person/@ref = $person-id]">
 				<xsl:sort select="date/@year/xs:integer(.)" data-type="number" order="ascending" />
 				<xsl:sequence select="self::*" />
 			</xsl:for-each>
 		</xsl:variable>
 		<xsl:variable name="cessation-events" as="element()*">
-			<xsl:for-each select="/data/events/event[@type = ('death', 'burial')][person/@ref = $person-id]">
+			<xsl:for-each select="/data/events/event[@type = ('death', 'burial')][not(@*:status = 'alternative')][person/@ref = $person-id]">
 				<xsl:sort select="date/@year/xs:integer(.)" data-type="number" order="ascending" />
 				<xsl:sequence select="self::*" />
 			</xsl:for-each>

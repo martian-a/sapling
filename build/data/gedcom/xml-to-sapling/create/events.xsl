@@ -20,6 +20,7 @@
     		<xsl:apply-templates select="file/family/marriage" mode="events" />
     		<xsl:apply-templates select="file/individual/death" mode="events" />
     		<xsl:apply-templates select="file/individual/burial" mode="events" />
+    		<xsl:apply-templates select="file/individual/residence" mode="events" />
     	</events>  		        	
     </xsl:template>       
     
@@ -89,6 +90,13 @@
 		</event>
 	</xsl:template>
 	    
+	<xsl:template match="residence" mode="events" priority="10"> 
+		<xsl:variable name="event-type" select="local-name()" as="xs:string" />
+		<event type="{$event-type}" id="EVE-{generate-id()}">
+			<xsl:next-match />
+		</event>
+	</xsl:template>	    
+	    
     <xsl:template match="death | burial" mode="events" priority="10"> 
     	<xsl:variable name="event-type" select="local-name()" as="xs:string" />
     	<event type="{$event-type}" id="EVE-{generate-id()}">
@@ -99,7 +107,7 @@
         </event>
     </xsl:template>
 	
-    <xsl:template match="death | baptism | burial" mode="events">
+    <xsl:template match="death | baptism | burial | residence" mode="events">
     	<xsl:apply-templates select="date" mode="#current" />
     	<xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />                           
     	<xsl:apply-templates select="place/place-name" mode="#current" />
@@ -173,10 +181,10 @@
         <xsl:value-of select="string-join($data-points, ' ')"/>
     </xsl:template>
     
-    <xsl:template match="death/source-citation" mode="reference">
+    <xsl:template match="source-citation[not(parent::birth)]" mode="reference">
         <xsl:variable name="data-points" as="xs:string*">
-            <xsl:if test="normalize-space(ancestor::death[1]/date) != ''"><xsl:text>Date.</xsl:text></xsl:if>
-            <xsl:if test="normalize-space(ancestor::death[1]/place/place-name) != ''"><xsl:text>Location.</xsl:text></xsl:if>
+            <xsl:if test="normalize-space(ancestor::*[parent::individual][1]/date) != ''"><xsl:text>Date.</xsl:text></xsl:if>
+        	<xsl:if test="normalize-space(ancestor::*[parent::individual][1]/place/place-name) != ''"><xsl:text>Location.</xsl:text></xsl:if>
         </xsl:variable>
         <xsl:value-of select="string-join($data-points, ' ')"/>
     </xsl:template>

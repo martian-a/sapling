@@ -70,9 +70,9 @@
 			<xsl:variable name="candidates" as="element()*">
 				<xsl:variable name="within-date-range" as="element()*">
 					<xsl:for-each select="person">
-						<xsl:sort select="@guide:birth-year" data-type="number" order="ascending" />
-						<xsl:variable name="birth-year" select="if (normalize-space(@guide:birth-year)) then xs:integer(@guide:birth-year) else ()" as="xs:integer?" />
-						<xsl:variable name="death-year" select="if (normalize-space(@guide:death-year)) then xs:integer(@guide:death-year) else ()" as="xs:integer?" />
+						<!-- xsl:sort select="@guide:birth-year" order="ascending" /-->
+						<xsl:variable name="birth-year" select="if (normalize-space(@guide:birth-year) != '') then xs:integer(@guide:birth-year) else ()" as="xs:integer?" />
+						<xsl:variable name="death-year" select="if (normalize-space(@guide:death-year) != '') then xs:integer(@guide:death-year) else ()" as="xs:integer?" />
 						<xsl:choose>
 							<xsl:when test="$death-year != ()">
 								<xsl:sequence select="self::*[$death-year &gt;= $numeric-census-year][$birth-year &gt;= $min-year][$birth-year &lt;= $max-year], self::*[normalize-space(@guide:birth-year) = '']" />
@@ -94,7 +94,7 @@
 									<xsl:sequence select="self::*" />
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:variable name="parent-ids" select="/data/events/event[person/@ref = current()/@id]/parent/@ref" as="xs:string*" />
+									<xsl:variable name="parent-ids" select="/data/events/event[not(@temp:status = 'alternative')][person/@ref = current()/@id]/parent/@ref" as="xs:string*" />
 									<xsl:if test="/data/people/person[@id = $parent-ids]/persona[1]/name/name[@family = 'yes']/text() = $name-variants">
 										<xsl:sequence select="self::*" />
 									</xsl:if>
@@ -143,6 +143,7 @@
 					<th class="birth-place">~Place of Birth</th>
 					<th class="birth-year">~Birth</th>
 					<th class="death-year">~Death</th>
+					<th class="homes">Homes</th>
 				</tr>
 				<xsl:for-each select="/data/people/person[@id = $parent-ids][not(@guide:birth-year/xs:integer(.) &lt; $min-year)]">
 					<xsl:apply-templates select="persona[1]" mode="table-entry">
@@ -211,6 +212,14 @@
 			<td class="birth-place"><xsl:value-of select="if (parent::person/@guide:birth-location-id) then parent::person/key('location', @guide:birth-location-id)/name else '?'" /></td>
 			<td class="birth-year"><xsl:value-of select="parent::person/@guide:birth-year" /></td>
 			<td class="death-year"><xsl:value-of select="parent::person/@guide:death-year" /></td>
+			<td class="homes">
+				<xsl:variable name="homes" as="element()*">
+					<xsl:for-each select="distinct-values(/data/events/event[@type = 'residence'][@person/@ref = $person-id]/location/@ref)">
+						<xsl:sequence select="/data/locations/location[@id = current()]/name" />				
+					</xsl:for-each>
+				</xsl:variable>
+				<xsl:value-of select="string-join($homes, '; ')" />
+			</td>
 		</tr>
 	</xsl:template>
 
