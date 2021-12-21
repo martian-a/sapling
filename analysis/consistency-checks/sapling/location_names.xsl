@@ -22,6 +22,22 @@
 	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
     
 	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
+	
+	<xsl:variable name="tree-id" as="xs:string">
+		<xsl:apply-templates select="/data/prov:document/prov:wasDerivedFrom" mode="tree-id" />
+	</xsl:variable>
+	
+	<xsl:template match="prov:wasDerivedFrom" mode="tree-id">
+		<xsl:variable name="entity-id" select="prov:entity/@prov:ref" as="xs:string" />
+		<xsl:choose>
+			<xsl:when test="parent::*/prov:entity[prov:wasDerivedFrom]/@prov:id = $entity-id">
+				<xsl:apply-templates select="parent::*/prov:entity[@prov:id = $entity-id]/prov:wasDerivedFrom" mode="tree-id" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$entity-id" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
     
    <xsl:output indent="yes" encoding="UTF-8" method="html" html-version="5" />
     
@@ -39,7 +55,7 @@
         				<xsl:if test="count($associated-people-ids) > 0">
         					<ul class="associated-people">
         						<xsl:for-each select="/data/people/person[@id = $associated-people-ids]">
-        							<li><a href="https://www.ancestry.co.uk/family-tree/person/tree/178309253/person/{@id/substring-after(., 'I')}/facts"><xsl:value-of select="persona[1]/name/string-join(*, ' ')" /></a></li>
+        							<li><xsl:apply-templates select="self::person" mode="href-html" /></li>
         						</xsl:for-each>
         					</ul>
         				</xsl:if>
@@ -49,4 +65,12 @@
         </html>           	     
     </xsl:template>       
 
+	<xsl:template match="person" mode="href-html">
+		<xsl:apply-templates select="persona[1]" mode="#current" />
+	</xsl:template>
+	
+	<xsl:template match="persona" mode="href-html">
+		<a href="https://www.ancestry.co.uk/family-tree/person/tree/{$tree-id}/person/{substring-after(ancestor::person[1]/@id, 'I')}/facts"><xsl:value-of select="string-join(name/*, ' ')" /></a>		
+	</xsl:template>
+	
 </xsl:stylesheet>
