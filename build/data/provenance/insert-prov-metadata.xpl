@@ -22,8 +22,8 @@
 	<p:add-attribute attribute-name="generated-by-pipeline" attribute-value="{$generated-by-pipeline}"/>
 	<p:add-attribute attribute-name="source-uri" attribute-value="{$source-uri}"/>	
 	
-	<p:add-attribute attribute-name="pipeline-start-time" attribute-value="{$pipeline-start-time}"/>
-	<p:add-attribute attribute-name="pipeline-end-time" attribute-value="{$pipeline-end-time}"/>
+	<p:add-attribute attribute-name="pipeline-start-time" attribute-value="{xs:dateTime($pipeline-start-time)}"/>
+	<p:add-attribute attribute-name="pipeline-end-time" attribute-value="{xs:dateTime($pipeline-end-time)}"/>
 	<p:add-attribute attribute-name="pipeline-episode" attribute-value="{p:system-property('p:episode')}"/>
 	<p:add-attribute attribute-name="pipeline-locale" attribute-value="{p:system-property('p:locale')}" />
 	<p:add-attribute attribute-name="pipeline-product-name" attribute-value="{p:system-property('p:product-name')}" />
