@@ -12,6 +12,8 @@
     <p:input port="source" primary="true" content-types="xml" />
     <p:output port="result" sequence="true"/>
 	
+	<p:option name="path-to-output-folder" select="'../output/'" />
+	<p:option name="name-variants" select="()" />
 	<p:option name="generated-by-user" required="false" />    
     <p:option name="debug" select="'true'" />
 	
@@ -30,7 +32,7 @@
     </p:xslt>
             
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_location.html')" />
+		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_location.html')" />
 	</p:store>        
                 
 	<p:sink />
@@ -45,7 +47,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_name.html')" />
+		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_name.html')" />
 	</p:store>
 	
 	<p:sink />
@@ -60,7 +62,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_time.html')" />
+		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_time.html')" />
 	</p:store>
 	
 	<p:sink />
@@ -75,7 +77,7 @@
 	</p:xslt>
 	
 	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat('../output/', $dataset-name, '/locations_by_event.html')" />
+		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/locations_by_event.html')" />
 	</p:store>
 	
 	<p:sink />	
@@ -113,11 +115,11 @@
 				<p:with-input port="source">
 					<p:pipe port="source" step="who-what-when-where" />
 				</p:with-input>
-				<p:with-option name="parameters" select="map{'census-year' : $census-year }" /> 
+				<p:with-option name="parameters" select="map{'census-year' : $census-year, 'name-variants' : $name-variants }" /> 
 			</p:xslt>
 			
 			<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-				<p:with-option name="href" select="concat('../output/', $dataset-name, '/people_by_census_year/', $census-year, '.html')" />
+				<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_census_year/', $census-year, '.html')" />
 			</p:store>
 		
 		</p:group>
