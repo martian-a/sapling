@@ -7,7 +7,7 @@
     type="tcy:insert-prov-metadata"
     version="3.0"> 
      
-	<p:import href="../../utils/uuid/replace-id-with-uuid.xpl" />     
+	<p:import href="../uuid/replace-id-with-uuid.xpl" />     
      
 	<p:input port="source" primary="true" />
 	<p:output port="result" sequence="false" />
