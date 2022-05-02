@@ -19,7 +19,7 @@
     <entry abbreviation="DEST" expanded="receiving-system-name" />
     <entry abbreviation="DIV" expanded="divorce" />
     <entry abbreviation="EDUC" expanded="education" />
-    <entry abbreviation="EMIG" expanded="emigration" />
+	<entry abbreviation="EMIG" expanded="emigration" />
     <entry abbreviation="ENGA" expanded="engagement" />
     <entry abbreviation="EVEN" expanded="event" />
     <entry abbreviation="FAM" expanded="family" /> 

@@ -30,6 +30,7 @@
     <entry abbreviation="DIV" expanded="divorce" />
 	<entry abbreviation="DSCR" expanded="physical-description" />
     <entry abbreviation="EDUC" expanded="education" />
+	<entry abbreviation="EMAIL" expanded="email" />
     <entry abbreviation="EMIG" expanded="emigration" />
     <entry abbreviation="ENGA" expanded="engagement" />
     <entry abbreviation="EVEN" expanded="event" />
