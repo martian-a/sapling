@@ -53,7 +53,7 @@
 	</xsl:template>
 	
 	<xsl:template match="file/repository[@id]/note">
-		<link href="{.}" />
+		<note><p><xsl:value-of select="." /></p></note> 
 	</xsl:template>   
     
 </xsl:stylesheet>

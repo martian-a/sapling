@@ -500,7 +500,9 @@ source.serial.entity.content-model =
         source.front-matter.publisher?,
         source.front-matter.publisher.location?,
         source.front-matter.map.scale?,
-        source.front-matter.serial.issn?
+        source.front-matter.serial.issn?,
+        shared.note?
+
 
 # Dereferenced serial element content #
 source.front-matter.serial.content-model =
