@@ -2,13 +2,15 @@
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:c="http://www.w3.org/ns/xproc-step" 
     xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
-    name="gedcom-txt-to-rdf"
-    type="tcy:gedcom-txt-to-rdf"
+    name="gedcom-txt-to-sapling"
+    type="tcy:gedcom-txt-to-sapling"
     version="3.0">
     
     <p:import href="text-to-xml/text2xml.xpl" />
-	<p:import href="xml-to-sapling/xml2sapling.xpl" />
-	<p:import href="sapling-to-rdf/sapling2rdf.xpl" />
+	<p:import href="xml-to-sapling/xml2sapling.xpl" />	
+	<p:import href="../../../analysis/who-what-when-where/who_what_when_where.xpl" />
+	<p:import href="../../../analysis/visualisations/sapling2dot.xpl" />
+	<p:import href="../../../analysis/consistency-checks/consistency_checks.xpl" />
     <p:import href="../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
     
     <p:input port="source" primary="true" />    
@@ -29,9 +31,17 @@
     	<p:with-option name="debug" select="$debug" />
     </tcy:gedcom-xml-to-sapling>  
     
-	<tcy:sapling-xml-to-rdf name="sapling-rdf">
+	<tcy:sapling-consistency-checks name="consistency-checks">
 		<p:with-option name="generated-by-user" select="$generated-by-user" />
 		<p:with-option name="debug" select="$debug" />
-	</tcy:sapling-xml-to-rdf>  
+	</tcy:sapling-consistency-checks>  
        
+    <p:sink />
+	
+	<p:identity>
+		<p:with-input port="source">
+			<p:pipe port="result" step="sapling-xml" />
+		</p:with-input>
+	</p:identity>
+	
 </p:declare-step>
