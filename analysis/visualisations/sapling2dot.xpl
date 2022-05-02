@@ -8,12 +8,13 @@
     type="tcy:sapling-xml-to-dot"
     version="3.0">
     
-	<p:import href="../../build/data/provenance/insert-prov-metadata.xpl" />
-	<p:import href="../../build/data/gedcom/debug.xpl" />
+	<p:import href="../../build/utils/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../build/utils/debug.xpl" />
     
-    <p:input port="source" primary="true" />    
+	<p:input port="source" primary="true" />    
     <p:output port="result" sequence="true" />
     
+	<p:option name="path-to-output-folder" select="'../output/'" />
 	<p:option name="generated-by-user" required="false" />    
 	<p:option name="debug" select="'true'" />
 	
@@ -58,8 +59,9 @@
     	<p:with-option name="parameters" select="map{'resource-base-uri' : concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id, '/')}" />
     </p:xslt>    
 	
-	<p:store href="../output/{($dataset-name, $dataset-id)[1]}/geography.dot"
-		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-geography">
+	<p:store name="store-geography"
+		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}">
+		<p:with-option name="href" select="concat($path-to-output-folder, ($dataset-name, $dataset-id)[1], '/geography.dot')" />
 	</p:store>
 	
 	<p:sink />
@@ -73,7 +75,7 @@
     	</p:with-input>
     </p:xslt>   
 	
-	<p:store href="../output/{($dataset-name, $dataset-id)[1]}/families.dot"
+	<p:store href="{$path-to-output-folder}{($dataset-name, $dataset-id)[1]}/families.dot"
 		serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store-families">
 	</p:store>
 	

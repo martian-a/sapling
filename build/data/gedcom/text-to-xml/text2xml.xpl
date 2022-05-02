@@ -8,8 +8,8 @@
     type="tcy:gedcom-txt-to-xml"
     version="3.0">
     
-	<p:import href="../../provenance/insert-prov-metadata.xpl" />
-	<p:import href="../debug.xpl" />
+	<p:import href="../../../utils/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../../utils/debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
     
     <p:input port="source" primary="true" content-types="text" />

@@ -8,8 +8,8 @@
     type="tcy:sapling-consistency-checks"
     version="3.0">
     
-	<p:import href="../../build/data/provenance/insert-prov-metadata.xpl" />
-	<p:import href="../../build/data/gedcom/debug.xpl" />
+	<p:import href="../../build/utils/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../build/utils/debug.xpl" />
     
     <p:input port="source" primary="true" />    
     <p:output port="result" sequence="true" />
