@@ -6,7 +6,7 @@
     
     
     <xsl:template match="PLAC/value/text() | PLAC/text()" mode="#all">
-        <place-name><xsl:value-of select="." /></place-name>        
+        <place-name><xsl:value-of select="normalize-space(string-join((tokenize(., ',') ! normalize-space(.))[. != ''], ', '))" /></place-name>        
     </xsl:template>
     
     <xsl:template match="PLAC/FORM" mode="#all">
