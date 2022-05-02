@@ -173,7 +173,13 @@
 		</p:with-input>
 	</p:xslt>   		   
 	
-	<tcy:add-id-to-extracts />  
+	<tcy:add-id-to-extracts /> 
+	
+	<p:xslt name="add-census-events">
+		<p:with-input port="stylesheet">
+			<p:document href="refine/events/census.xsl" />
+		</p:with-input>
+	</p:xslt>
 	
 	<p:group name="result-provenance-metadata">
 	
