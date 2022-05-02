@@ -8,11 +8,7 @@
     
     <xsl:import href="../default.xsl" />
     
-    <xsl:output indent="yes" />
-    
-    <xsl:template match="/">        
-    	<xsl:apply-templates />          		        	
-    </xsl:template>       
+    <xsl:output indent="yes" />  
 	
 	<xsl:template match="people/person">
 		<xsl:variable name="person-id" select="@id" as="xs:string" />

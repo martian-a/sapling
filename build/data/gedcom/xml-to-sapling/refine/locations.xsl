@@ -7,10 +7,7 @@
     <xsl:import href="../default.xsl" />
     
     <xsl:output indent="yes" />
-    
-    <xsl:template match="/">        
-    	<xsl:apply-templates />          		        	
-    </xsl:template>       
+	
 	
 	<xsl:template match="event/location[@context]">
 		<xsl:variable name="candidates" as="element()*">
