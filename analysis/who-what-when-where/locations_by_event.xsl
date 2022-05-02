@@ -38,7 +38,7 @@
         	<body>
         		<h1><xsl:value-of select="$html-document-title" /></h1>
         		<ul>
-	        		<xsl:apply-templates select="data/locations/descendant::location[@id]">
+	        		<xsl:apply-templates select="data/locations/location[@id]">
 	        			<xsl:sort select="count(/data/events/event[location/@ref = current()/@id])" data-type="number" order="descending" />
 	        		</xsl:apply-templates>
         		</ul>

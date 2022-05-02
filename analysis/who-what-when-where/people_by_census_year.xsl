@@ -32,6 +32,7 @@
     		<xsl:catch />
     	</xsl:try>
     </xsl:variable>
+	<xsl:variable name="name-variants-sequence" select="if (count($name-variants) = 1) then tokenize(translate($name-variants, concat('()',codepoints-to-string(39)), ''), ',') ! normalize-space(.) else $name-variants" as="xs:string*" />
     
     <xsl:import href="shared.xsl" />
     
@@ -74,10 +75,17 @@
 						<xsl:variable name="birth-year" select="if (normalize-space(@guide:birth-year) != '') then xs:integer(@guide:birth-year) else ()" as="xs:integer?" />
 						<xsl:variable name="death-year" select="if (normalize-space(@guide:death-year) != '') then xs:integer(@guide:death-year) else ()" as="xs:integer?" />
 						<xsl:choose>
-							<xsl:when test="$death-year != ()">
-								<xsl:sequence select="self::*[$death-year &gt;= $numeric-census-year][$birth-year &gt;= $min-year][$birth-year &lt;= $max-year], self::*[normalize-space(@guide:birth-year) = '']" />
+							<xsl:when test="not($death-year = ())">	
+								<xsl:choose>
+									<xsl:when test="normalize-space(@guide:birth-year) = ''">
+										<xsl:sequence select="self::*" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:sequence select="self::*[$death-year &gt;= $numeric-census-year][$birth-year &gt;= $min-year][$birth-year &lt;= $max-year]" />		
+									</xsl:otherwise>
+								</xsl:choose>																
 							</xsl:when>
-							<xsl:when test="$birth-year != ()">
+							<xsl:when test="not($birth-year = ())">
 								<xsl:sequence select="self::*[$birth-year &gt;= $min-year][$birth-year &lt;= $max-year]" />
 							</xsl:when>
 							<xsl:otherwise>
@@ -87,15 +95,15 @@
 					</xsl:for-each>
 				</xsl:variable>
 				<xsl:choose>
-					<xsl:when test="count($name-variants) &gt; 0">
+					<xsl:when test="count($name-variants-sequence) &gt; 0">
 						<xsl:for-each select="$within-date-range">
 							<xsl:choose>
-								<xsl:when test="persona[1][name/name[@family = 'yes']/text() = $name-variants]">
+								<xsl:when test="persona[1][name/name[@family = 'yes']/text() = $name-variants-sequence]">
 									<xsl:sequence select="self::*" />
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:variable name="parent-ids" select="/data/events/event[not(@temp:status = 'alternative')][person/@ref = current()/@id]/parent/@ref" as="xs:string*" />
-									<xsl:if test="/data/people/person[@id = $parent-ids]/persona[1]/name/name[@family = 'yes']/text() = $name-variants">
+									<xsl:if test="/data/people/person[@id = $parent-ids]/persona[1]/name/name[@family = 'yes']/text() = $name-variants-sequence">
 										<xsl:sequence select="self::*" />
 									</xsl:if>
 								</xsl:otherwise>
