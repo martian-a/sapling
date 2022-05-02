@@ -9,10 +9,11 @@
     type="tcy:gedcom-xml-to-sapling"
     version="3.0">
     
-	<p:import href="../../provenance/insert-prov-metadata.xpl" />
-	<p:import href="../debug.xpl" />
+	<p:import href="../../../utils/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../../utils/debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
 	<p:import href="../../../utils/uuid/replace-id-with-uuid.xpl" />
+	<p:import href="refine/add-id-to-extracts.xpl" />
     
     <p:input port="source" primary="true" />
     <p:output port="result" sequence="true" />
@@ -170,11 +171,9 @@
 		<p:with-input port="stylesheet">
 			<p:document href="refine/dedupe-sources.xsl" />
 		</p:with-input>
-	</p:xslt>   	
-	   
-	   
-	<tcy:debug file-extension="sapling.xml"  />   
+	</p:xslt>   		   
 	
+	<tcy:add-id-to-extracts />  
 	
 	<p:group name="result-provenance-metadata">
 	

@@ -10,7 +10,7 @@
 	
 	<xsl:variable name="source-groups" as="element()">
 		<source-groups>
-			<xsl:for-each-group select="/data/sources/source" group-by="string-join((descendant::*/@*/text(), descendant-or-self::text()))">
+			<xsl:for-each-group select="/data/sources/source" group-by="string-join((descendant::*/@*, normalize-space(self::*)))">
 				<source-group id="{generate-id()}">
 					<xsl:copy-of select="current-group()" />
 				</source-group>			
@@ -28,7 +28,7 @@
 	<xsl:template match="source[@id]" />
 	
 	<xsl:template match="serial/author[normalize-space(.) = current()/parent::serial/publisher/normalize-space(.)]" />
-	
+		
 	<xsl:template match="source-group">
 		<source id="{@id}">
 			<xsl:apply-templates select="source[1]/@*[name() != 'id']" />
@@ -37,9 +37,13 @@
 	</xsl:template>
 	
 	<xsl:template match="source/@ref">
-		<xsl:attribute name="ref">
-			<xsl:value-of select="$source-groups/source-group/source[@id = current()]/parent::source-group/@id" />
-		</xsl:attribute>
+		<xsl:variable name="new-id" select="distinct-values($source-groups/source-group/source[@id = current()]/parent::source-group/@id)" as="xs:string*" />
+		
+		<xsl:if test="count($new-id) > 1">
+			<xsl:message terminate="yes">ERROR: A single source has been given multiple names (id: <xsl:value-of select="current()"/>)</xsl:message>
+		</xsl:if>
+		
+		<xsl:attribute name="ref" select="$new-id" />
 	</xsl:template>
 	
     <xsl:include href="../../../../utils/identity.xsl" />
