@@ -21,7 +21,7 @@
 	<p:output port="result" />
 	
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
-	<p:import href="filter_by_core_entities.xpl" />
+	<p:import href="re-include-referenced-entities/re_include_referenced_entities.xpl" />
 	
 	
 	<p:documentation>
@@ -109,7 +109,7 @@
 						
 			<p:xslt> 
 				<p:input port="stylesheet">
-					<p:document href="filter_data_to_core_people.xsl" />
+					<p:document href="filter-to-larget-network/filter_data_to_core_people.xsl" />
 				</p:input>
 				<p:input port="parameters">
 					<p:empty />
@@ -125,7 +125,7 @@
 				</p:input>
 			</p:xslt>
 						
-			<tcy:filter-by-core-entities />				
+			<tcy:re-include-referenced-entities />				
 						
 			<p:xslt> 
 				<p:input port="stylesheet">

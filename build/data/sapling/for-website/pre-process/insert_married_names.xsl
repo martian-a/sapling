@@ -15,7 +15,7 @@
     
     <xsl:output encoding="UTF-8" method="xml" indent="yes" />
     
-    <xsl:include href="../../utils/identity.xsl" />
+    <xsl:include href="../../../../utils/identity.xsl" />
     
     <xsl:key name="marriages" match="/app/data/events/event[@type = 'marriage']" use="person/@ref" />
     <xsl:key name="person" match="/app/data/people/person" use="@id" />

@@ -10,7 +10,7 @@
 		<doc:desc>Dereference serial publications.</doc:desc>
 	</doc:doc>
 	
-	<xsl:include href="../../utils/identity.xsl" />
+	<xsl:include href="../../../../utils/identity.xsl" />
 	
 	
 	<doc:doc>

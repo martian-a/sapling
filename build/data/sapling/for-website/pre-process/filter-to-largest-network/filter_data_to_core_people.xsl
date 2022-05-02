@@ -5,7 +5,7 @@
     exclude-result-prefixes="#all"
     version="2.0">
     
-    <xsl:include href="../../utils/identity.xsl" />
+    <xsl:import href="../../../../../utils/identity.xsl" />
     
     <xsl:output encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
@@ -20,7 +20,7 @@
     </xsl:template>
     
     
-    <xsl:template match="/app/data[people]">
+    <xsl:template match="/data[people]">
         
         <!-- Create a graph of nodes and edges from people and event data. -->
         <xsl:variable name="network-graph" as="document-node()">
@@ -53,6 +53,7 @@
         
         <xsl:copy>
             <xsl:apply-templates select="@*" />
+        	<xsl:apply-templates select="*[not(local-name() = ('people', 'events', 'locations', 'sources', 'serials'))]" />
             <include>
                 <xsl:apply-templates select="people" mode="include">
                     <xsl:with-param name="largest-cluster" select="$largest-cluster" as="element()*" />
@@ -62,7 +63,7 @@
                 <xsl:apply-templates select="people" mode="to-temp">                
                     <xsl:with-param name="largest-cluster" select="$largest-cluster" as="element()*" />
                 </xsl:apply-templates>
-                <xsl:apply-templates select="*[name() != 'people']" />
+            	<xsl:apply-templates select="*[local-name() = ('events', 'locations', 'sources', 'serials')]" />
             </exclude>
         </xsl:copy>
                
@@ -105,7 +106,7 @@
     
     <xsl:template match="events" mode="filter">
         <edges>
-            <xsl:apply-templates select="event[count(descendant::*/@ref[starts-with(., 'PER')]) &gt; 1]" mode="#current" />
+            <xsl:apply-templates select="event[count(descendant::*[local-name() = ('person', 'parent')]/@ref) &gt; 1]" mode="#current" />
         </edges>
     </xsl:template>
     
@@ -118,7 +119,7 @@
         <xsl:variable name="people" as="document-node()">
             <xsl:document>
                 <temp>
-                    <xsl:for-each-group select="descendant::*[name() = ('parent', 'person')][@ref]" group-by="@ref">
+                    <xsl:for-each-group select="descendant::*[local-name() = ('parent', 'person')][@ref]" group-by="@ref">
                         <xsl:copy-of select="current-group()[1]" />
                     </xsl:for-each-group>
                 </temp>

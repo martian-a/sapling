@@ -12,7 +12,7 @@
 	</doc:doc>
 	
 	
-	<xsl:include href="../../utils/identity.xsl" />
+	<xsl:include href="../../../../utils/identity.xsl" />
 	
 	<doc:doc>
 		<doc:title>Initial template</doc:title>
