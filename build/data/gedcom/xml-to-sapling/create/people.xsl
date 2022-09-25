@@ -40,7 +40,7 @@
 					</xsl:element>
 				</xsl:for-each>
 			</name>
-			<xsl:apply-templates select="ancestor::individual[1]/sex" />
+			<xsl:apply-templates select="ancestor::individual[1]/sex" />			
 		</persona>
 	</xsl:template>       
 	
