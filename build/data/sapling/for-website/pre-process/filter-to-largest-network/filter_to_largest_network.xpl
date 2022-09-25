@@ -22,25 +22,27 @@
 		</d:desc>
 	</p:documentation>
 	
-	<p:import href="../re-include-referenced-entities/re_include_referenced_entities.xpl" />
+	<p:import href="../../../../network/sapling-to-network/sapling2network.xpl" />
+	<p:import href="../../../../network/filter-to-largest-sub-network/filter_network_to_largest_sub_network.xpl" />
+	<p:import href="../../../../network/filter-sapling-by-network/filter_sapling_by_network.xpl" />
 	
 	
-	<p:input port="source" primary="true" />
+	<p:input port="source" sequence="false" primary="true" />
 	
 	<p:output port="result" sequence="false" />
 	
+	<!-- Create a network serialisation of the tree data -->
+	<tcy:sapling-to-network with-node-for-parent-group="false" />
 	
-	<!-- Find the largest network of people, put them into an "include" collection 
-		 and put all other entities (people, places, locations, sources, etc.) into 
-		 an "exclude" collection. --> 
-	<p:xslt> 
-		<p:with-input port="stylesheet">
-			<p:document href="filter_data_to_core_people.xsl" />
+	<!-- Find the largest sub-network in the graph and 
+		filter out all nodes that aren't in it. -->
+	<tcy:filter-network-to-largest-sub-network />
+	
+	<tcy:filter-sapling-by-network>
+		<p:with-input port="network" />
+		<p:with-input port="source">
+			<p:pipe step="filter-to-largest-network" port="source" />
 		</p:with-input>
-	</p:xslt>				
-	
-	<!-- Find all entities in the "exclude" collection that are related to those in 
-		 the "include" collection and move those into the "include" collection. -->
-	<tcy:re-include-referenced-entities />
+	</tcy:filter-sapling-by-network>			
 	
 </p:declare-step>
