@@ -14,28 +14,29 @@
 	
 	<xsl:template match="/*">
 		<xsl:copy>
-			<xsl:apply-templates select="ancestor::document-node()" mode="provenance-xml" />
-			<xsl:apply-templates />
+			<xsl:apply-templates select="@*" />
+			<xsl:apply-templates select="prov:document/preceding-sibling::node()" />			
+			<xsl:apply-templates select="prov:temp" mode="provenance-xml" />
+			<xsl:apply-templates select="if (prov:document) then prov:document/following-sibling::node() else node()" />
 		</xsl:copy>
 	</xsl:template>
 	
-	<xsl:template match="prov:document" />
-	<xsl:template match="prov:document/@*" />
+	<xsl:template match="prov:temp" />
 	
  	
-	<xsl:template match="document-node()" mode="provenance-xml">
-		<xsl:param name="generating-agent" select="/*/@pipeline-product-vendor-uri" as="xs:anyURI" />
+	<xsl:template match="prov:temp" mode="provenance-xml">
+		<xsl:param name="generating-agent" select="@pipeline-product-vendor-uri" as="xs:anyURI" />
 		<xsl:param name="transformation-id" select="concat('REPLACE-', generate-id())" as="xs:string" />
-		<xsl:param name="transformation-start-time" select="xs:dateTime((/*/@pipeline-start-time, current-dateTime())[1])" as="xs:dateTime" />
-		<xsl:param name="transformation-end-time" select="xs:dateTime((/*/@pipeline-end-time, current-dateTime())[1])" as="xs:dateTime" />
-		<xsl:param name="generated-by-user" select="/*/@generated-by-user" as="xs:string?" />
-		<xsl:param name="generated-by-pipeline" select="/*/@generated-by-pipeline" as="xs:string?" />
+		<xsl:param name="transformation-start-time" select="xs:dateTime((@pipeline-start-time, current-dateTime())[1])" as="xs:dateTime" />
+		<xsl:param name="transformation-end-time" select="xs:dateTime((@pipeline-end-time, current-dateTime())[1])" as="xs:dateTime" />
+		<xsl:param name="generated-by-user" select="@generated-by-user" as="xs:string?" />
+		<xsl:param name="generated-by-pipeline" select="@generated-by-pipeline" as="xs:string?" />
 				
 		<prov:document>
 			<xsl:attribute name="xml:id">
 				<xsl:choose>
-					<xsl:when test="/*/@xml:id"><xsl:value-of select="/*/@xml:id" /></xsl:when>
-					<xsl:when test="/*/@uuid">SAP-<xsl:value-of select="/*/@uuid" /></xsl:when>				
+					<xsl:when test="@xml:id"><xsl:value-of select="@xml:id" /></xsl:when>
+					<xsl:when test="@uuid">SAP-<xsl:value-of select="@uuid" /></xsl:when>				
 				</xsl:choose>
 			</xsl:attribute>
 			
@@ -67,7 +68,7 @@
 			</xsl:if>
 			
 			<!-- source document -->
-			<xsl:apply-templates select="*/prov:document" mode="provenance-xml" />  
+			<xsl:apply-templates select="/*/prov:document" mode="provenance-xml" />  
 			
 		</prov:document>    		
 	</xsl:template>
