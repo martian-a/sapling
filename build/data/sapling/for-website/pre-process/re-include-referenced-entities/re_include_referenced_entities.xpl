@@ -9,6 +9,8 @@
 	type="tcy:re-include-referenced-entities"
 	version="3.0">
 	
+	<p:import href="../../../../../utils/provenance/insert-prov-metadata.xpl" />
+	<p:import href="../../../../../utils/debug.xpl" />
 	
 	<p:documentation>
 		<d:desc>
@@ -16,59 +18,24 @@
 		</d:desc>
 	</p:documentation>
 	
-	<p:input port="source" primary="true" />
+	<p:input port="source" primary="true" sequence="false" />
 	
-	<p:output port="result" sequence="true" />		
+	<p:output port="result" sequence="true" />	
 	
-	<p:xslt name="referenced-entities">
+	<p:xslt>
 		<p:with-input port="stylesheet">
-			<p:document href="list_cross_references.xsl" />
+			<p:document href="re_include_referenced_entities.xsl" />
 		</p:with-input>
-	</p:xslt>
-
+	</p:xslt>	
 	
-	<p:choose>
-		
-		<p:when test="/cross-references/*">
-			
-			<p:identity message="Cross-references found" />
-			
-			<p:sink />
-			
-			<p:insert 
-				match="/data/include"
-				position="last-child">
-				<p:with-input port="source">
-					<p:pipe port="source" step="re-include-referenced-entities"/>
-				</p:with-input>
-				<p:with-input port="insertion" select="/cross-references/*">
-					<p:pipe port="result" step="referenced-entities" />
-				</p:with-input>
-			</p:insert>			
-						
-			<p:delete match="/data/exclude/*/*[@id = /data/include/*/*/@id]" />	
-			
-			<tcy:re-include-referenced-entities />
-			
-		</p:when>
-		
-		<p:otherwise>
-			
-			<p:identity message="Cross-references not found" />
-			
-			<p:sink />
-			
-			<p:xslt>
-				<p:with-input port="source">
-					<p:pipe port="source" step="re-include-referenced-entities" />
-				</p:with-input>
-				<p:with-input port="stylesheet">
-					<p:document href="clean_up.xsl" />
-				</p:with-input>
-			</p:xslt>	
-			
-		</p:otherwise>
-	</p:choose>	
+	<tcy:debug file-extension="pre-clean-up.xml"  />   
 	
+	<p:xslt>
+		<p:with-input port="stylesheet">
+			<p:document href="clean_up.xsl" />
+		</p:with-input>
+	</p:xslt>	
+	
+	<tcy:debug file-extension="post-clean-up.xml"  />   
 	
 </p:declare-step>
