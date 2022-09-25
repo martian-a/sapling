@@ -19,35 +19,16 @@
     exclude-result-prefixes="xs fn functx digest"
     version="3.0">    
     
-	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
-    
-	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
-	
-	<xsl:variable name="tree-id" as="xs:string">
-		<xsl:apply-templates select="/data/prov:document/prov:wasDerivedFrom" mode="tree-id" />
-	</xsl:variable>
-	
-	<xsl:template match="prov:wasDerivedFrom" mode="tree-id">
-		<xsl:variable name="entity-id" select="prov:entity/@prov:ref" as="xs:string" />
-		<xsl:choose>
-			<xsl:when test="parent::*/prov:entity[prov:wasDerivedFrom]/@prov:id = $entity-id">
-				<xsl:apply-templates select="parent::*/prov:entity[@prov:id = $entity-id]/prov:wasDerivedFrom" mode="tree-id" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$entity-id" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-    
-   <xsl:output indent="yes" encoding="UTF-8" method="html" html-version="5" />
+    <xsl:import href="../shared.xsl" />
     
     <xsl:template match="/">
+    	<xsl:variable name="html-document-title" as="xs:string">Consistency Check: Location Names</xsl:variable>
         <html>
-        	<head>
-        		
-        	</head>
+        	<xsl:apply-templates select="/" mode="html-head">
+        		<xsl:with-param name="title" select="$html-document-title" as="xs:string" />
+        	</xsl:apply-templates>
         	<body>
-        		<h1>Consistency Check: Location Names</h1>
+        		<h1><xsl:value-of select="$html-document-title" /></h1>
         		<xsl:for-each-group select="data/locations/location" group-by="name">
         			<div class="location" id="{@id}">
         				<h2><xsl:value-of select="name" /></h2>        					
