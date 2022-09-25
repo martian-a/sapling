@@ -19,9 +19,7 @@
     
     <p:choose name="debug-output">
         <p:when test="$debug = 'true'">
-        	<p:store href="../data/debug/{($file-name, $inferred-file-name)[1]}.{$file-extension}"
-                serialization="map{'method' : 'xml', 'encoding' : 'utf-8', 'indent' : 'true'}" name="store">
-            </p:store>
+        	<p:store href="../data/debug/{($file-name, $inferred-file-name)[1]}.{$file-extension}" serialization="map{'method' : 'xml', 'encoding' : 'utf-8', 'indent' : 'true'}" />
         </p:when>
         <p:otherwise>
             <p:identity />
