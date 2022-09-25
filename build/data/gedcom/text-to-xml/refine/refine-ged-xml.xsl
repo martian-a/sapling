@@ -15,7 +15,7 @@
         <xsl:document>
             <dictionaries>
                 <xsl:copy-of select="document('../../dictionaries/gedcom_5-5-1.xml')" />
-                <xsl:copy-of select="document('../../dictionaries/ancestry_2022-1.xml')" />
+                <xsl:copy-of select="document('../../dictionaries/ancestry_2022-08.xml')" />
             </dictionaries>
         </xsl:document>
     </xsl:variable>    
