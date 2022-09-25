@@ -58,10 +58,10 @@
     
     <xsl:template match="family" mode="birth">  
     	<xsl:param name="child-id" as="xs:string" tunnel="yes" />
-        <xsl:if test="child[@ref = $child-id][not(f-relationship = 'adopted')]">
+    	<xsl:if test="child[@ref = $child-id][not(*[ends-with(local-name(), '-relationship')][. != 'biological'])]">
         	<xsl:apply-templates select="husband" mode="parent-ref" />
         </xsl:if>    
-    	<xsl:if test="child[@ref = $child-id][not(m-relationship = 'adopted')]">
+    	<xsl:if test="child[@ref = $child-id][not(*[ends-with(local-name(), '-relationship')][. != 'biological'])]">
     		<xsl:apply-templates select="wife" mode="parent-ref" />
     	</xsl:if>    	
     </xsl:template>
