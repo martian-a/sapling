@@ -29,11 +29,7 @@
 		
 		<p:when test="$current-value">
 			
-			<p:uuid match="descendant-or-self::*/@*[. = '{$current-value}']" version="4">
-				<p:with-input port="source">
-					<p:pipe port="source" step="uuid" />
-				</p:with-input>
-			</p:uuid>	
+			<p:uuid match="descendant-or-self::*/@*[. = '{$current-value}']" version="4" />
 			
 			<tcy:uuid>
 				<p:with-option name="replace-values" select="$replace-values[position() > 1]" />
