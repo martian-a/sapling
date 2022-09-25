@@ -4,6 +4,8 @@
     xmlns:c="http://www.w3.org/ns/xproc-step" 
     xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:tcy="http://ns.thecodeyard.co.uk/xproc/step"
+    xmlns:void="http://rdfs.org/ns/void#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     name="gedcom-txt-to-xml"
     type="tcy:gedcom-txt-to-xml"
     version="3.0">
@@ -11,10 +13,12 @@
 	<p:import href="../../../utils/provenance/insert-prov-metadata.xpl" />
 	<p:import href="../../../utils/debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
+	<p:import href="../../../utils/store.xpl" />
     
-    <p:input port="source" primary="true" content-types="text" />
+    <p:input port="source" primary="true" content-types="text/plain" />
     <p:output port="result" sequence="true"/>
 	
+	<p:option name="path-to-error-log-folder" select="'../data/debug/'" required="false" />  
 	<p:option name="generated-by-user" required="false" />    
     <p:option name="debug" select="'true'" />
 	
@@ -166,8 +170,11 @@
         
     	
     </p:group>
+	
+	
+	<p:variable name="dataset-name" select="/file/void:dataset/@void:name" as="xs:string?" />
+	<p:variable name="dataset-date" select="translate(substring(/*/*:document/*:activity/*:startTime, 1, 10), '-', '')" as="xs:string?" />		
         
-
     <p:group name="validate-gedcom-xml">       
         
         <tcy:validate-with-schematron name="validate-xml">
@@ -176,38 +183,80 @@
             </p:with-input>
             <p:with-input port="schema" href="../../../../schemas/gedcom/unexpected.sch" />
         </tcy:validate-with-schematron>
-                
-        <p:choose>   
+        
+		<p:sink />
+    	
+    	<p:choose>
+    		
+    		<p:with-input>
+    			<p:pipe port="outcome" step="validate-xml" />        		
+    		</p:with-input>  
+    		
+    		<p:when test=". = 'invalid'">
+    			
+    			<tcy:store filename="gedcom_unexpected" name="store-validation-report-html">
+    				<p:with-input port="source">
+    					<p:pipe step="validate-xml" port="report-html" />
+    				</p:with-input>
+    				<p:with-option name="path-to-output-folder" select="$path-to-error-log-folder" />
+    				<p:with-option name="dataset-name" select="$dataset-name" />
+    				<p:with-option name="dataset-date" select="$dataset-date" />
+    				<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+    			</tcy:store>
+    			
+    			<p:sink />
+    			
+    			<p:identity>
+    				<p:with-input port="source">
+    					<p:pipe step="store-validation-report-html" port="result-uri" />
+    				</p:with-input>
+    			</p:identity>
+    			
+    			<p:error code="GED1">
+    				<p:with-input port="source">
+    					<p:inline>
+    						<message>The GEDCOM file contains unexpected content.  For a more detailed error report, see: {/c:result/text()}</message>
+    					</p:inline>
+    				</p:with-input>
+    			</p:error>
+    			
+    		</p:when>
+    		<p:otherwise>
+    			
+    			<p:identity>
+    				<p:with-input port="source">
+    					<p:pipe step="validate-xml" port="result" />
+    				</p:with-input>
+    			</p:identity>
+    			
+    		</p:otherwise>
+    	</p:choose>
+    	
+
+
+		<!--                
+        <p:if test=". = 'invalid'">   
+
         	<p:with-input>
         		<p:pipe port="outcome" step="validate-xml" />        		
         	</p:with-input>  
-            <p:when test=". = 'invalid'">       
+        	
+        	<tcy:store filename="gedcom_unexpected">
+        		<p:with-input port="source">
+        			<p:pipe step="validate-xml" port="report-html" />
+        		</p:with-input>
+        		<p:with-option name="path-to-output-folder" select="$path-to-error-log-folder" />
+        		<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+        	</tcy:store>
             	
-            	<p:store href="validation-errors.html">
-            		<p:with-input port="source">
-            			<p:pipe port="report-html" step="validate-xml" />
-            		</p:with-input>
-            	</p:store>            	
-            	
-            	<p:identity message="See validation-errors.html for report." />
-            	
-            	<p:sink />
-            	
-                <p:error code="invalid-document">
-                	<p:with-input port="source">
-                		<p:pipe port="report-xml" step="validate-xml" />
-                	</p:with-input>
-                </p:error>              	
-            	
-            </p:when>
-            <p:otherwise>                
-            	<p:identity>
-            		<p:with-input port="source">
-            			<p:pipe port="result" step="validate-xml" />
-            		</p:with-input>
-            	</p:identity>
-            </p:otherwise>            
-        </p:choose>    
+            <p:error code="invalid-document">
+                <p:with-input port="source">
+                	<p:pipe port="report-xml" step="validate-xml" />
+                </p:with-input>
+            </p:error>              	
+
+        </p:if>  
+        -->
 
     </p:group>
     
