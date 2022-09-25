@@ -60,6 +60,21 @@
 			<xsl:apply-templates />			
 		</xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="people/person/persona[1]">
+		<xsl:for-each-group select="parent::person/persona" group-by="string-join((string-join(name/*, ' '), distinct-values(gender)), '#')">
+			<xsl:for-each select="current-group()[1]">
+				<xsl:copy>
+					<xsl:apply-templates select="@*" />
+					<xsl:for-each-group select="node()" group-by="name()">
+						<xsl:apply-templates select="current-group()[1]" />
+					</xsl:for-each-group>
+				</xsl:copy>
+			</xsl:for-each>
+		</xsl:for-each-group>
+	</xsl:template>
+    
+    <xsl:template match="people/person/persona[position() != 1]" />
     
     <xsl:include href="../../../../utils/identity.xsl" />
     
