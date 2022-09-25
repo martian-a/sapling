@@ -49,6 +49,7 @@
 	<entry abbreviation="MARB" expanded="banns-of-marriage" />
 	<entry abbreviation="MARR" expanded="marriage" />
     <entry abbreviation="NAME" expanded="name" />
+	<entry abbreviation="NATU" expanded="naturalization" />
     <entry abbreviation="NPFX" expanded="prefix" />
     <entry abbreviation="NICK" expanded="nickname" />
     <entry abbreviation="NOTE" expanded="note" />
@@ -67,6 +68,7 @@
     <entry abbreviation="RESN" expanded="restriction-notice" />
     <entry abbreviation="REFN" expanded="user-reference-number" />
     <entry abbreviation="REPO" expanded="repository" />
+	<entry abbreviation="RETI" expanded="retirement" />
     <entry abbreviation="RFN" expanded="permanent-record-file-number" />
     <entry abbreviation="RIN" expanded="automated-record-id" />
     <entry abbreviation="ROLE" expanded="role" />
