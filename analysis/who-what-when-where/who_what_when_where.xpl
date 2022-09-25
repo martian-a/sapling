@@ -8,7 +8,11 @@
     name="who-what-when-where"
     type="tcy:who-what-when-where"
     version="3.0">
-        
+
+	<p:import href="../../build/utils/collate-output-file-locations/collate-output-file-locations.xpl" />
+	<p:import href="../../build/utils/store.xpl" />
+	<p:import href="../../build/utils/debug.xpl" />
+
     <p:input port="source" primary="true" content-types="xml" />
     <p:output port="result" sequence="true"/>
 	
@@ -18,7 +22,6 @@
     <p:option name="debug" select="'true'" />
 	
 	<p:variable name="pipeline-start-time" select="current-dateTime()" />
-	<p:variable name="dataset-name" select="/data/void:dataset/@void:name" />
 	
 	<p:sink />
 
@@ -30,12 +33,13 @@
     		<p:pipe port="source" step="who-what-when-where" />
     	</p:with-input>
     </p:xslt>
-            
-	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_location.html')" />
-	</p:store>        
-                
+	
+	<tcy:store path-to-output-folder="{$path-to-output-folder}" filename="people_by_location" name="store-people-by-location">
+		<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+	</tcy:store>
+            	
 	<p:sink />
+	
 	
 	<p:xslt>
 		<p:with-input port="stylesheet">
@@ -46,11 +50,12 @@
 		</p:with-input>
 	</p:xslt>
 	
-	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_name.html')" />
-	</p:store>
+	<tcy:store path-to-output-folder="{$path-to-output-folder}" filename="people_by_name" name="store-people-by-name">
+		<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+	</tcy:store>
 	
 	<p:sink />
+	
 	
 	<p:xslt>
 		<p:with-input port="stylesheet">
@@ -61,11 +66,12 @@
 		</p:with-input>
 	</p:xslt>
 	
-	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_time.html')" />
-	</p:store>
+	<tcy:store path-to-output-folder="{$path-to-output-folder}" filename="people_by_time" name="store-people-by-time">
+		<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+	</tcy:store>
 	
 	<p:sink />
+	
 	
 	<p:xslt>
 		<p:with-input port="stylesheet">
@@ -76,14 +82,14 @@
 		</p:with-input>
 	</p:xslt>
 	
-	<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-		<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/locations_by_event.html')" />
-	</p:store>
+	<tcy:store path-to-output-folder="{$path-to-output-folder}" filename="locations_by_event" name="store-locations-by-event">
+		<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+	</tcy:store>
 	
 	<p:sink />	
 	
 	
-	<p:for-each>
+	<p:for-each name="timelines">
 		
 		<p:with-input select="/timeline/year/text()">
 			<p:inline>
@@ -102,6 +108,8 @@
 			</p:inline>
 		</p:with-input>
 		
+		<p:output port="result" sequence="true" />
+		
 		<p:group>
 			
 			<p:variable name="census-year" select=".">
@@ -115,24 +123,36 @@
 				<p:with-input port="source">
 					<p:pipe port="source" step="who-what-when-where" />
 				</p:with-input>
-				<p:with-option name="parameters" select="map{'census-year' : $census-year, 'name-variants' : $name-variants }" /> 
+				<p:with-option name="parameters" select="map{'census-year' : $census-year, 'name-variants' : $name-variants}" /> 
 			</p:xslt>
 			
-			<p:store serialization="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}">
-				<p:with-option name="href" select="concat($path-to-output-folder, $dataset-name, '/people_by_census_year/', $census-year, '.html')" />
-			</p:store>
+			<tcy:store path-to-output-folder="{$path-to-output-folder}" filename="people_by_census_year/{$census-year}" name="store-timeline">
+				<p:with-option name="serialization" select="map{'method' : 'html', 'version' : '5', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'text/html'}" />
+			</tcy:store>
+			
+			<p:sink />
+
+
+			<p:identity>
+				<p:with-input port="source">
+					<p:pipe step="store-timeline" port="result-uri" />
+				</p:with-input>
+			</p:identity>
 		
 		</p:group>
 		
 	</p:for-each>
 	
 	<p:sink />	
-	
-	
-	<p:identity message="Analysis HTML updated.">
+		
+	<tcy:collate-output-file-locations>
 		<p:with-input port="source">
-			<p:empty />
+			<p:pipe port="result" step="timelines" />
+			<p:pipe port="result-uri" step="store-locations-by-event" />
+			<p:pipe port="result-uri" step="store-people-by-time" />
+			<p:pipe port="result-uri" step="store-people-by-name" />
+			<p:pipe port="result-uri" step="store-people-by-location" />
 		</p:with-input>
-	</p:identity>
+	</tcy:collate-output-file-locations>
 	
 </p:declare-step>
