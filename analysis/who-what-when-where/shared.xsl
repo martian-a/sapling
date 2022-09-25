@@ -5,7 +5,7 @@
 	xmlns:prov="http://www.w3.org/ns/prov#"
 	xmlns:void="http://rdfs.org/ns/void#"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	exclude-result-prefixes="xs"
+	exclude-result-prefixes="#all"
 	version="2.0">
 	
 	<doc:doc>
@@ -28,6 +28,8 @@
 	<xsl:key name="birth" match="//event[@type = 'birth']" use="person/@ref" /> 
 	
 	
+	<xsl:output indent="yes" encoding="UTF-8" method="xml" version="1.0" />
+	
 	<xsl:variable name="tree-id" as="xs:string">
 		<xsl:apply-templates select="/data/prov:document/prov:wasDerivedFrom" mode="tree-id" />
 	</xsl:variable>
@@ -48,6 +50,9 @@
 		<xsl:param name="title" as="xs:string?" />
 		<head>
 			<title><xsl:value-of select="$title" /> (<xsl:value-of select="data/void:dataset/@void:name" />)</title>
+			<xsl:apply-templates select="(/*/void:dataset/@void:name, /*/@void:name)[1]" mode="html-head" />
+			<xsl:apply-templates select="/*/*:document/*:activity/*:startTime" mode="html-head" />
+			<xsl:apply-templates select="(/*/void:dataset/@subset-name, /*/@subset-name)[1]" mode="html-head" />
 			<style><xsl:comment>
 				tr.subject > * { background-color: #F5F5F5; font-weight: bold; }
 				tr.partner > * { border-top: solid 1px silver; }				
@@ -58,6 +63,16 @@
 				table .death-year { text-align: center; }
 			</xsl:comment></style>
 		</head>
+	</xsl:template>
+	
+	<xsl:template match="@void:name" mode="html-head">
+		<meta name="dataset-name" content="{.}" />
+	</xsl:template>
+	<xsl:template match="@subset-name" mode="html-head">
+		<meta name="subset-name" content="{.}" />
+	</xsl:template>
+	<xsl:template match="*:startTime" mode="html-head">
+		<meta name="dataset-creation-date" content="{.}" />
 	</xsl:template>
 	
 	<xsl:template match="event" mode="timeline">

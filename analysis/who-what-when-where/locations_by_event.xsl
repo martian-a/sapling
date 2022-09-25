@@ -18,7 +18,7 @@
     xmlns:time="http://www.w3.org/2006/time#"    
     xmlns:void="http://rdfs.org/ns/void#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs fn functx digest"
+    exclude-result-prefixes="#all"
     version="3.0">    
     
 	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
@@ -26,8 +26,6 @@
 	<xsl:import href="shared.xsl" />
     
 	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
-     
-    <xsl:output indent="yes" encoding="UTF-8" method="html" version="5" />
 	
     <xsl:template match="/">
     	<xsl:variable name="html-document-title" as="xs:string">Locations by Event</xsl:variable>

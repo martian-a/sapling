@@ -19,18 +19,15 @@
     xmlns:time="http://www.w3.org/2006/time#"    
     xmlns:void="http://rdfs.org/ns/void#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs fn functx digest"
+    exclude-result-prefixes="#all"
     version="3.0">    
     
 	<xsl:param name="resource-base-uri" select="concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id)" />
     <xsl:param name="census-year" select="'1841'" />
 	<xsl:param name="name-variants" select="('War', 'Warr', 'Warre', 'Ware', 'Wear')" as="xs:string*" />
     
-    <xsl:variable name="numeric-census-year" as="xs:integer?">
-    	<xsl:try>
-    		<xsl:value-of select="xs:integer($census-year)" />
-    		<xsl:catch />
-    	</xsl:try>
+    <xsl:variable name="numeric-census-year" as="xs:integer">
+		<xsl:value-of select="xs:integer($census-year)" />
     </xsl:variable>
 	<xsl:variable name="name-variants-sequence" select="if (count($name-variants) = 1) then tokenize(translate($name-variants, concat('()',codepoints-to-string(39)), ''), ',') ! normalize-space(.) else $name-variants" as="xs:string*" />
     
@@ -39,8 +36,6 @@
 	<xsl:variable name="statement-delimiter" select="codepoints-to-string((59, 10))"/>
 	<xsl:variable name="min-year" select="$numeric-census-year - 100" as="xs:integer" />
 	<xsl:variable name="max-year" select="$numeric-census-year + 5" as="xs:integer" />
-     
-    <xsl:output indent="yes" encoding="UTF-8" method="html" version="5" />
 	
 	<doc:doc>
 		<doc:title>Key: Person</doc:title>
@@ -115,7 +110,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:for-each-group select="$candidates/persona" group-by="name/name[@family = 'yes']">
+			<xsl:for-each-group select="$candidates/persona[1]" group-by="name/name[@family = 'yes']">
 				<xsl:sort select="current-grouping-key()" data-type="text" order="ascending" />	
 				<li>
 					<h2><xsl:choose>
@@ -152,6 +147,7 @@
 					<th class="birth-year">~Birth</th>
 					<th class="death-year">~Death</th>
 					<th class="homes">Homes</th>
+					<th class="homes">Entry</th>
 				</tr>
 				<xsl:for-each select="/data/people/person[@id = $parent-ids][not(@guide:birth-year/xs:integer(.) &lt; $min-year)]">
 					<xsl:apply-templates select="persona[1]" mode="table-entry">
@@ -222,12 +218,12 @@
 			<td class="death-year"><xsl:value-of select="parent::person/@guide:death-year" /></td>
 			<td class="homes">
 				<xsl:variable name="homes" as="element()*">
-					<xsl:for-each select="distinct-values(/data/events/event[@type = 'residence'][@person/@ref = $person-id]/location/@ref)">
-						<xsl:sequence select="/data/locations/location[@id = current()]/name" />				
-					</xsl:for-each>
+					<xsl:variable name="distinct-home-ids" select="distinct-values(/data/events/event[@type = 'residence'][person/@ref = $person-id]/location/@ref)" as="xs:string*" />
+					<xsl:sequence select="/data/locations/location[@id = $distinct-home-ids]/name" />
 				</xsl:variable>
 				<xsl:value-of select="string-join($homes, '; ')" />
 			</td>
+			<td class="entry"><xsl:value-of select="/data/events/event[@type = 'census'][person/@ref = $person-id][date/@year = $census-year]/sources/source/summary"/></td>
 		</tr>
 	</xsl:template>
 
