@@ -29,11 +29,11 @@
             <xsl:if test="preceding-sibling::birth">
                 <xsl:attribute name="temp:status">alternative</xsl:attribute>
             </xsl:if>
-            <xsl:next-match />
+            <xsl:next-match  />
         </event>
 	</xsl:template>
 	
-	<xsl:template match="birth" mode="events">       
+	<xsl:template match="birth | family-child" mode="events">       
 		<xsl:variable name="subject" select="ancestor::individual[1]/@id" as="xs:string" />
 		<xsl:apply-templates select="date" mode="#current" />
         <xsl:apply-templates select="ancestor::individual[1]/@id" mode="#current" />
