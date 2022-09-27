@@ -19,7 +19,7 @@
     exclude-result-prefixes="xs fn functx digest"
     version="3.0">    
     
-    <xsl:import href="../shared.xsl" />
+    <xsl:import href="shared.xsl" />
     
     <xsl:template match="/">
     	<xsl:variable name="html-document-title" as="xs:string">Consistency Check: Location Names</xsl:variable>
