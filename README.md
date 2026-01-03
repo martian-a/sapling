@@ -1,24 +1,25 @@
-sapling
-=======
+# Plum
 
-An application for offline editing and review of a family history website, plus a pipeline that generates a static version of the website for publishing online.
+Status: Placeholder repo created (2025-07-13)
 
-## Core components
+## Table of contents
+1. [Summary](#summary)
+1. [Set-up](#set-up)
+1. [Dependencies](#dependencies)
+1. [Etymology](#etymology)
 
-+ app - application code and assets.
-+ build - pipeline for generating data sets and views from the project data.
-+ dist - where the results of a build pipeline will appear.
-+ documentation - if you're lucky...
-+ lib - information about dependencies
-+ resources - random useful things that are used by the project, such as ontologies and raw image files.
-+ schemas - to help with maintaining data quality.
-+ static - generic static assets that are used by the app.
-+ test - test cases and data
+## Summary <a id="summary"></a>
 
-## Functionality
+Utilities to support analysing genealogical data.
 
-### Import data from Ancestry
+## Set-up <a id="set-up"></a>
 
-+ Place exported Ancestry data file in geneaology-data-global/import/ancestry/
-+ Name the Ancestry data file "*.ged.txt"
-+ Run build/data/gedcom/text2rdf.xpl (see build/data/gedcom/readme.md) 
+TODO
+
+## Dependencies <a id="dependencies"></a>
+
+TODO
+
+## Etymology <a id="etymology"></a>
+
+This project's "barn name" is Plum (_pluhm_), after the fruit tree that is used to make prunes ([https://en.wikipedia.org/wiki/Prunus_domestica](https://en.wikipedia.org/wiki/Prunus_domestica)) because analysis often involves 'pruning' a dataset to focus on a sub-set.  It belongs to a collection of repositories that have tree-themed names (they're not all public) and, more specifically, a sub-collection of repositories related to managing and publishing genealogical data.
