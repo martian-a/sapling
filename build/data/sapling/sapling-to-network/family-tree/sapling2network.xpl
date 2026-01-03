@@ -14,17 +14,21 @@
     <p:input port="source" primary="true" />    
     <p:output port="result" sequence="true" />
     
-    <p:option name="with-node-for-parent-group" select="'true'" />
 	<p:option name="path-to-output-folder" select="'../../output/'" />
 	<p:option name="generated-by-user" required="false" />    
     <p:option name="debug" select="'true'" />
 
 	<p:variable name="pipeline-start-time" select="current-dateTime()" />
-	<p:variable name="stylesheet" select="concat(if (xs:boolean($with-node-for-parent-group) = true()) then 'with' else 'without', '_node_for_parent_group.xsl')" />
 
 	<p:xslt>
 		<p:with-input port="stylesheet">
-			<p:document href="{$stylesheet}" />
+			<p:document href="with_node_for_some_parent_groups.xsl" />
+		</p:with-input>		
+	</p:xslt>   
+
+	<p:xslt>
+		<p:with-input port="stylesheet">
+			<p:document href="dedupe.xsl" />
 		</p:with-input>		
 	</p:xslt>   	
 	

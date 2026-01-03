@@ -12,7 +12,7 @@
 	<xsl:param name="filename" select="tokenize(translate(document-uri(/), '\', '/'), '/')[last()]" as="xs:string" />
 	
 	<xsl:template match="/">
-		<network with-node-for-parent-group="{$with-node-for-parent-group}">
+		<network>
 			<xsl:copy-of select="data/void:dataset/@void:name, data/prov:document" />
 			<xsl:apply-templates select="data" />
 		</network>
