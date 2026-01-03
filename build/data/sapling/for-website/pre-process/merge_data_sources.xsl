@@ -20,9 +20,7 @@
 		</doc:desc>
 	</doc:doc>
 	<xsl:template match="/">
-		<xsl:result-document>
-			<xsl:apply-templates />
-		</xsl:result-document>
+		<xsl:apply-templates />		
 	</xsl:template>	
 	
 	
