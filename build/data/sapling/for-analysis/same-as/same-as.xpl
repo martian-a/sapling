@@ -14,7 +14,7 @@
   
     <p:xslt>       
         <p:with-input href="match.xsl" port="stylesheet" />
-        <p:with-option name="parameters" select="map{'other-graph-href' : $other-graph-hrefs[1]}" />
+        <p:with-option name="parameters" select="map{'other-graph-href' : '{$other-graph-hrefs[1]}'}" />
     </p:xslt>   
     
     <p:choose>

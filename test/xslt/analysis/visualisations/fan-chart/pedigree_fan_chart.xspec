@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description 
+	xmlns:fn="http://ns.thecodeyard.co.uk/functions"
+	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	stylesheet="../../../../../analysis/visualisations/fan-chart/pedigree_fan_chart.xsl">
+
+	<x:param name="chart-width" select="'400'" />
+	<x:param name="chart-height" select="'400'" />
+
+	<x:scenario label="SVG wrapper">
+		
+		<x:context>
+			<data />
+		</x:context>
+		
+		<x:expect label="Root element is SVG">
+			<svg xmlns="http://www.w3.org/2000/svg"
+				xmlns:xlink="http://www.w3.org/1999/xlink" 
+				width="400" height="400" style="border: 1px solid black;" />
+		</x:expect>
+		
+	</x:scenario>
+	
+	
+	<x:scenario label="calculate point on circle">
+		
+		<x:scenario label="0 degrees">
+			
+			<x:call function="fn:calculate-point-on-circle">
+				<x:param name="cx">200</x:param>
+				<x:param name="cy">200</x:param>
+				<x:param name="angle-in-degrees">0</x:param>
+				<x:param name="radius">75</x:param>
+			</x:call>
+			
+			<x:expect label="x" test="map:get(., 'x')" select="xs:decimal(.)">200.0</x:expect>
+			<x:expect label="y" test="map:get(., 'y')" select="xs:decimal(.)">125.0</x:expect>
+			
+		</x:scenario>
+		
+		<x:scenario label="180 degrees">
+			
+			<x:call function="fn:calculate-point-on-circle">
+				<x:param name="cx">200</x:param>
+				<x:param name="cy">200</x:param>
+				<x:param name="angle-in-degrees">180</x:param>
+				<x:param name="radius">75</x:param>
+			</x:call>
+			
+			<x:expect label="x" test="map:get(., 'x')" select="xs:decimal(.)">200.0</x:expect>
+			<x:expect label="y" test="map:get(., 'y')" select="xs:decimal(.)">275.0</x:expect>
+			
+		</x:scenario>
+		
+		
+	</x:scenario>
+	
+</x:description>

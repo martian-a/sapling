@@ -10,6 +10,7 @@
     type="tcy:gedcom-txt-to-xml"
     version="3.0">
     
+    <p:import href="../../../utils/text-to-xml/text2xml.xpl" />
 	<p:import href="../../../utils/provenance/insert-prov-metadata.xpl" />
 	<p:import href="../../../utils/debug.xpl" />
     <p:import href="../../../../../cenizaro/tools/schematron/validate-with-schematron.xpl" />
@@ -26,48 +27,17 @@
 	
 	<p:sink />
  
+
+ 
     <p:group name="gedcom-xml">       
                 
         <p:output port="result" />
         
-        <p:group name="create-wrapper">
-        
-	        <p:xslt>
-	        	<p:with-input port="source">
-	        		<p:pipe port="source" step="gedcom-txt-to-xml" />
-	        	</p:with-input>
-	            <p:with-input port="stylesheet">
-	                <p:document href="create/file.xsl" />
-	            </p:with-input>
-	        </p:xslt>     
-	    	
-	    	<!-- Add a UUID to the root element, if one doesn't already exist. -->
-	    	<p:choose>
-	    		<p:when test="normalize-space(/*/@uuid) = ''">
-	    			<p:add-attribute match="/*" attribute-name="uuid" attribute-value="''" />     
-	    			<p:uuid match="/*/@uuid" version="4" />
-	    		</p:when>
-	    	</p:choose>
-        	
-        </p:group>
-    	
-    	<tcy:debug file-extension="txt.xml" />
-    	
-    	<p:group name="insert-original-source-provenance">
-    	
-	    	<!-- Add a UUID to the entity representing the original source (txt) document in the provenance metadata. -->
-	    	<p:add-attribute match="/file/prov:document" attribute-name="uuid" attribute-value="''" />     
-	    	<p:uuid match="/file/prov:document/@uuid" version="4" />
-	    		
-	    	<!-- Add a hash of the original source (txt) document to the provenance metadata. -->
-	    	<p:add-attribute match="/file/prov:document" attribute-name="hash" attribute-value="''" />         	
-	    	<p:hash algorithm="md" match="/file/prov:document/@hash">
-	    		<p:with-option name="value" select="serialize(/)">
-	    			<p:pipe port="source" step="gedcom-txt-to-xml" />
-	    		</p:with-option>
-	    	</p:hash>
-	    	      	     	    
-    	</p:group>
+    	<tcy:text-to-xml>    		
+    		<p:with-input port="source">
+    			<p:pipe port="source" step="gedcom-txt-to-xml" />
+    		</p:with-input>    		
+    	</tcy:text-to-xml>
     	
     	<tcy:debug file-extension="txt.xml" />
         

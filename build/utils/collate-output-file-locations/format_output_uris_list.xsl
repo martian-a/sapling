@@ -24,7 +24,7 @@
 		<xsl:variable name="filename-parts" select="tokenize(tokenize(text(), '/')[last()], '\.')" as="xs:string*" />		
 		<xsl:variable name="schema" select="$filename-parts[count($filename-parts)-1]" as="xs:string" />
 		<xsl:variable name="sub-dataset" as="xs:string?">
-			<xsl:if test="not($filename-parts[3] = $filename-parts[count($filename-parts)-2])">
+			<xsl:if test="not($filename-parts[3] = $filename-parts[count($filename-parts)-1])">
 				<xsl:value-of select="$filename-parts[3]" />
 			</xsl:if>
 		</xsl:variable>

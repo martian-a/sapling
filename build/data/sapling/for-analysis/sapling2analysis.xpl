@@ -12,9 +12,8 @@
 	<p:import href="../../../utils/collate-output-file-locations/collate-output-file-locations.xpl" />
 	<p:import href="../../../../analysis/consistency-checks/consistency_checks.xpl" />
     
-    <p:input port="source" primary="true">
-    	<p:document href="temp.xml" />
-    </p:input>    
+    <p:input port="source" primary="true" />
+	
     <p:output port="result" sequence="true" />
     
 	<p:option name="path-to-output-folder" select="'../output/'" />
@@ -23,6 +22,46 @@
     <p:option name="debug" select="'true'" />
  
 	<p:variable name="pipeline-start-time" select="current-dateTime()" />    
+	
+	<p:for-each name="fan-charts">
+		
+		<p:with-input select="//c:result[@schema = 'pedigree']" />
+		
+		<p:output port="result" sequence="true" />
+		
+		<p:group>
+			
+			<p:variable name="uri" select="." as="xs:string" />
+			
+			<p:load name="load-simplified-pedigree">
+				<p:with-option name="href" select="$uri" />
+			</p:load>
+			
+			<p:variable name="dataset-date" select="translate(substring((/*/*:document/*:activity/*:startTime)[1], 1, 10), '-', '')" as="xs:string" />
+			
+			<p:xslt>
+				<p:with-input port="stylesheet">
+					<p:document href="../../../../analysis/visualisations/fan-chart/pedigree_fan_chart.xsl" />
+				</p:with-input>
+			</p:xslt>
+			
+			<p:store serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'application/svg'}" name="store-chart">
+				<p:with-option name="href" select="string-join(($path-to-output-folder, $dataset-date, /c:result/@sub-dataset, concat(/c:result/@network-name, '.svg'))[normalize-space(.) != ''], '/')">
+					<p:pipe port="current" step="fan-charts" />
+				</p:with-option>
+			</p:store>  
+			
+			<p:sink />
+			
+			<p:identity>
+				<p:with-input port="source">
+					<p:pipe step="store-chart" port="result-uri" />
+				</p:with-input>
+			</p:identity>
+			
+		</p:group>
+		
+	</p:for-each>
 	
 	<p:for-each name="network-visualisations">
 		
@@ -46,7 +85,7 @@
 			</tcy:network-to-d3>
 			
 			<p:store serialization="map{'method' : 'text', 'encoding' : 'utf-8', 'indent' : 'true', 'media-type' : 'application/json'}" name="store-visualisation">
-				<p:with-option name="href" select="string-join(($path-to-output-folder, $dataset-date, /c:result/@sub-dataset, concat(/c:result/@network-name, '.json')), '/')">
+				<p:with-option name="href" select="string-join(($path-to-output-folder, $dataset-date, /c:result/@sub-dataset, concat(/c:result/@network-name, '.json'))[normalize-space(.) != ''], '/')">
 					<p:pipe port="current" step="network-visualisations" />
 				</p:with-option>
 			</p:store>  
@@ -114,8 +153,9 @@
 	
 	<tcy:collate-output-file-locations>
 		<p:with-input port="source">
+			<p:pipe port="source" step="sapling-to-analysis" />
 			<p:pipe port="result" step="network-visualisations" />
-			<p:pipe port="result" step="sapling-specific" />		
+			<p:pipe port="result" step="sapling-specific" />
 		</p:with-input>
 	</tcy:collate-output-file-locations>
 	

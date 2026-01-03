@@ -15,15 +15,15 @@
 	<p:import href="../../../build/utils/debug.xpl" />
     
 	<p:input port="source" primary="true">
-		<p:document href="../../../../fortunes-olive-data/import/leeds-matches/data/matches_2.xml" />
+		<p:document href="../../../../fortunes-olive-data/output/20221002/I432064074593.20221002.dna-analysis.xml" />
 	</p:input>
     
 	<p:input port="full-network">
-		<p:document href="../../../../fortunes-olive-data/output/20220926/warr.20220926.family_tree_without_node_for_parent_groups.network.xml" />
+		<p:document href="../../../../fortunes-olive-data/output/20221002/warr.20221002.network.xml" />
 	</p:input>    
 
 	<p:input port="pedigree-network">
-		<p:document href="../../../../fortunes-olive-data/output/20220926/pedigree/warr.20220926.pedigree.family_tree_without_node_for_parent_groups.network.xml" />
+		<p:document href="../../../../fortunes-olive-data/output/20221002/pedigree/warr.20221002.pedigree.network.xml" />
 	</p:input>
 	
     <p:output port="result" sequence="true" />
@@ -32,21 +32,19 @@
 	<p:option name="generated-by-user" required="false" />    
 	<p:option name="debug" select="'true'" />
 	
-	<p:variable name="dna-subject-id" select="/dna-analysis/dna-test/dna-subject/personId" as="xs:string" />
-	<p:variable name="dna-match-id-elements" select="/dna-analysis/dna-test/dna-match/personId[normalize-space(.) != '']" as="element()*" />
+	<p:variable name="dna-subject-id" select="/dna-analysis/dna-testers/dna-subject/dna-service/tree/match-in-tree/@person-id[normalize-space(.) != ''] ! concat('I', .)" as="xs:string" />
+	<p:variable name="dna-match-ids" select="distinct-values(/dna-analysis/dna-testers/dna-match/dna-service/tree/match-in-tree/@person-id[normalize-space(.) != '']) ! concat('I', .)" as="xs:string*" />
 	<p:variable name="pipeline-start-time" select="current-dateTime()" />
 	
 	<p:for-each>
 		
-		<p:with-input select="$dna-match-id-elements/text()" />
+		<p:with-input select="$dna-match-ids" />
 		
 		<p:output port="result" sequence="true" />
 		
 		<p:group>
 			
-			<p:variable name="dna-match-id" select="." as="xs:string" />
-			
-			<p:sink />
+			<p:variable name="dna-match-id" select="string(.)" as="xs:string" />
 			
 			<p:if test="/network/nodes/node[@id = $dna-match-id]">
 				
@@ -61,7 +59,7 @@
 				</tcy:filter-network-by-direction>	
 								
 			</p:if>
-								
+
 		</p:group>
 		
 	</p:for-each>
@@ -86,7 +84,7 @@
 		<p:with-input port="stylesheet">
 			<p:document href="style.xsl" />
 		</p:with-input>
-		<p:with-option name="parameters" select="map{'anchor-person-id' : $dna-subject-id, 'dna-match-ids' : distinct-values($dna-match-id-elements/text())}" />
+		<p:with-option name="parameters" select="map{'anchor-person-id' : $dna-subject-id, 'dna-match-ids' : $dna-match-ids}" />
 	</p:xslt>
        
 </p:declare-step>

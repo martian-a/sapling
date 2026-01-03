@@ -13,7 +13,7 @@
 	<xsl:param name="source-uri" select="document-uri(/)" />
 	<xsl:param name="dataset-name" select="tokenize(tokenize(translate($source-uri, '\', '/'), '/')[last()], '\.')[1]" />
 
-    <xsl:output indent="yes" />
+    <xsl:output indent="yes" method="xml" media-type="text/xml" />
     
     
     <xsl:template match="text()">

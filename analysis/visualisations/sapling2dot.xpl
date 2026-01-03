@@ -56,7 +56,7 @@
         <p:with-input port="stylesheet">
             <p:document href="people_connecting_places.xsl" />
         </p:with-input>
-    	<p:with-option name="parameters" select="map{'resource-base-uri' : concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id, '/')}" />
+    	<p:with-option name="parameters" select="map{'resource-base-uri' : '{concat('http://ns.thecodeyard.co.uk/data/sapling/', /*/prov:document/@xml:id, '/')}'}" />
     </p:xslt>    
 	
 	<p:store name="store-geography"

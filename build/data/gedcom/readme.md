@@ -1,8 +1,8 @@
 # Running from the command-line
 
-## To convert GEDCOM text file to RDF
+## To convert GEDCOM text file to Sapling XML
 
-./calabash -d [path to exported gedcom text file] [path to build/data/gedcom/text2rdf.xpl]
+./calabash -d [path to exported gedcom text file] [path to build/data/gedcom/text2sapling.xpl]
 
 ### Subpipelines
 
@@ -10,10 +10,10 @@
 
 Parse a GEDCOM text file and serialise it as XML.
 
-#### xml-to-sapling
+#### gedcom-xml-to-sapling
 
 Parse the output of the text-to-xml pipeline and generate a valid Sapling XML file from it.
 
-#### sapling-to-rdf
+#### sapling-consistency-checks
 
-Parse a valid Sapling XML file and serialise it as RDF triples.
+Parse the output of the gedcom-xml-to-sapling pipeline and generate files intended to aid human data quality checks.

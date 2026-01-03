@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pedigree>
+	<person id="I432064074593">
+		<persona>
+			<name>
+				<name>Lavinia</name>
+				<name>Judith</name>
+				<name family="yes">Burt</name>
+			</name>
+			<gender>Female</gender>
+		</persona>
+		<parents>
+			<person id="I430178615494">
+				<persona>
+					<name>
+						<name>Olive</name>
+						<name>Maud</name>
+						<name family="yes">Warr</name>
+					</name>
+					<gender>Female</gender>
+				</persona>		
+				<parents>
+					<person id="I430178620187">
+						<persona id="PSA-d120e462">
+							<name>
+								<name>Percy</name>
+								<name family="yes">Warr</name>
+							</name>
+							<gender>Male</gender>
+						</persona>		
+						<parents>
+							<person id="I432190383694">
+								<persona id="PSA-d120e24568">
+									<name>
+										<name>Charles</name>
+										<name>James</name>
+										<name family="yes">Warr</name>
+									</name>
+									<gender>Male</gender>
+								</persona>
+								<parents>
+									<person id="I432190419607">
+										<persona id="PSA-d120e26930">
+											<name>
+												<name>Mark</name>
+												<name family="yes">Warr</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I432190419610">
+										<persona id="PSA-d120e27056">
+											<name>
+												<name>Lavinia</name>
+												<name family="yes">Downton</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+							<person id="I432190404978">
+								<persona id="PSA-d120e25298">
+									<name>
+										<name>Grace</name>
+										<name>Elizabeth</name>
+										<name family="yes">Warr</name>
+									</name>
+									<gender>Female</gender>
+								</persona>
+								<parents>
+									<person id="I432190411054">
+										<persona id="PSA-d120e25529">
+											<name>
+												<name>Henry</name>
+												<name family="yes">Warr</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I432190411206">
+										<persona id="PSA-d120e25709">
+											<name>
+												<name>Bathiah</name>
+												<name family="yes">Mitchell</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+						</parents>
+					</person>
+					<person id="I430180703676">
+						<persona id="PSA-d120e11581">
+							<name>
+								<name>Maud</name>
+								<name family="yes">Baker</name>
+							</name>
+							<gender>Female</gender>
+						</persona>
+						<parents>
+							<person id="I432194663870">
+								<persona id="PSA-d120e31761">
+									<name>
+										<name>Henry</name>
+										<name family="yes">Baker</name>
+									</name>
+									<gender>Male</gender>
+								</persona>
+								<parents>
+									<person id="I432195376096">
+										<persona id="PSA-d120e37020">
+											<name>
+												<name>William</name>
+												<name family="yes">Baker</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I432195376098">
+										<persona id="PSA-d120e37162">
+											<name>
+												<name>Ann</name>
+												<name family="yes">Pheasant</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+							<person id="I432194660138">
+								<persona id="PSA-d120e31657">
+									<name>
+										<name>Eliza</name>
+										<name family="yes">Wills</name>
+									</name>
+									<gender>Female</gender>
+								</persona>
+								<parents>
+									<person id="I432195449530">
+										<persona id="PSA-d120e38119">
+											<name>
+												<name>William</name>
+												<name family="yes">Wills</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I432195449531">
+										<persona id="PSA-d120e38230">
+											<name>
+												<name>Sarah</name>
+												<name family="yes">Steers</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+						</parents>
+					</person>
+				</parents>				
+			</person>
+			<person id="I430178615496">
+				<persona id="PSA-d120e152">
+					<name>
+						<name>Albert</name>
+						<name>Sidney</name>
+						<name>Jack</name>
+						<name family="yes">Burt</name>
+					</name>
+					<gender>Male</gender>
+				</persona>
+				<parents>
+					<person id="I430180149206">
+						<persona id="PSA-d120e1721">
+							<name>
+								<name>William</name>
+								<name>Giles</name>
+								<name family="yes">Burt</name>
+							</name>
+							<gender>Male</gender>
+						</persona>		
+						<parents>
+							<person id="I430180357571">
+								<persona id="PSA-d120e3074">
+									<name>
+										<name>Lazarus</name>
+										<name family="yes">Burt</name>
+									</name>
+									<gender>Male</gender>
+								</persona>
+								<parents>
+									<person id="I430181040349">
+										<persona id="PSA-d120e14996">
+											<name>
+												<name>Harriet</name>
+												<name family="yes">Burt</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+									<person />
+								</parents>
+							</person>
+							<person id="I430180357572">
+								<persona id="PSA-d120e3274">
+									<name>
+										<name>Elizabeth</name>
+										<name family="yes">Pike</name>
+									</name>
+									<gender>Female</gender>
+								</persona>
+								<parents>
+									<person id="I432227140554">
+										<persona id="PSA-d120e91007">
+											<name>
+												<name>Charles</name>
+												<name family="yes">Pike</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I432227140556">
+										<persona id="PSA-d120e91087">
+											<name>
+												<name>Jane</name>
+												<name family="yes">Shire</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+						</parents>
+					</person>
+					<person id="I430178616879">
+						<persona id="PSA-d120e234">
+							<name>
+								<name>Bessie</name>
+								<name family="yes">Brown</name>
+							</name>
+							<gender>Female</gender>
+						</persona>	
+						<parents>
+							<person id="I430180149271">
+								<persona id="PSA-d120e1967">
+									<name>
+										<name>John</name>
+										<name family="yes">Brown</name>
+									</name>
+									<gender>Male</gender>
+								</persona>
+								<parents>
+									<person id="I430180360907">
+										<persona id="PSA-d120e4586">
+											<name>
+												<name>George</name>
+												<name family="yes">Brown</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I430180360908">
+										<persona id="PSA-d120e4760">
+											<name>
+												<name>Fanny</name>
+												<name family="yes">Hopkins</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+							<person id="I430180149272">
+								<persona id="PSA-d120e2148">
+									<name>
+										<name>Ann</name>
+										<name family="yes">Stokes</name>
+									</name>
+									<gender>Female</gender>
+								</persona>
+								<parents>
+									<person id="I430180360493">
+										<persona id="PSA-d120e4161">
+											<name>
+												<name>James</name>
+												<name family="yes">Stokes</name>
+											</name>
+											<gender>Male</gender>
+										</persona>
+									</person>
+									<person id="I430180360672">
+										<persona id="PSA-d120e4254">
+											<name>
+												<name>Harriet</name>
+												<name family="yes">Miles</name>
+											</name>
+											<gender>Female</gender>
+										</persona>
+									</person>
+								</parents>
+							</person>
+						</parents>
+					</person>
+				</parents>
+			</person>
+		</parents>
+	</person>	
+</pedigree>
