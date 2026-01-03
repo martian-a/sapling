@@ -5,17 +5,17 @@
 .classpath
 /*/**/.gitignore
 
-# Directories
 
-/temp
-/dist
-/data
-/archive
-/resources
-/json-in-xproc
-
-# Files
-
+# Ephemeral
+temp/
+dist/
+data/
+archive/
+resources/
+json-in-xproc/
+output/
 **/*.bak
-*.catalog.xml
+*-result.html
 
+# Environment-specific
+*.catalog.xml
