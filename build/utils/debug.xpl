@@ -15,7 +15,7 @@
 	<p:option name="file-extension" select="'xml'" required="false" />
     <p:option name="debug" select="'true'" />
 	
-	<p:variable name="inferred-file-name" select="(if (/*/@uuid) then concat('SAP-', /*/@uuid) else (), /*/prov:document/@xml:id)[1]" />
+	<p:variable name="inferred-file-name" select="(if (/*/@uuid) then concat('SAP-', /*/@uuid) else (), /*/prov:document/@xml:id, /*/prov:document/@uuid)[1]" />
     
     <p:choose name="debug-output">
         <p:when test="$debug = 'true'">
