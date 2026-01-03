@@ -4,7 +4,7 @@
     xmlns:prov="http://www.w3.org/ns/prov#"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="#all"
-    version="2.0">             
+    version="3.0">             
 	
 	<xsl:output indent="yes" />    
     
@@ -12,7 +12,7 @@
         <xsl:copy>
             <xsl:copy-of select="@*" />
         	<xsl:copy-of select="*[namespace-uri() != '']" />
-            <xsl:for-each-group select="line" group-starting-with="self::*[starts-with(., '0 ')]" >
+            <xsl:for-each-group select="line" group-starting-with="self::*[@level = '0']" >
                 <record>
                     <xsl:copy-of select="current-group()" />
                 </record>
