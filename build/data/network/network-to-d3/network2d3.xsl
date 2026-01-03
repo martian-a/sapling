@@ -40,6 +40,9 @@
     <xsl:template match="nodes/node">
     	<xsl:text>{</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
     	<xsl:text>&quot;id&quot;: &quot;</xsl:text><xsl:value-of select="@id" /><xsl:text>&quot;,</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
+    	<xsl:if test="@class">
+    		<xsl:text>&quot;class&quot;: &quot;</xsl:text><xsl:value-of select="@class" /><xsl:text>&quot;,</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
+    	</xsl:if>
     	<xsl:text>&quot;name&quot;: &quot;</xsl:text><xsl:value-of select="." /><xsl:text>&quot;</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9))" />
     	<xsl:text>}</xsl:text><xsl:if test="position() != last()">,</xsl:if><xsl:value-of select="codepoints-to-string((10, 9, 9))" />
     </xsl:template>	
@@ -47,6 +50,9 @@
 	<!-- Edges -->
 	<xsl:template match="edges/edge">
 		<xsl:text>{</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
+		<xsl:if test="@class">
+			<xsl:text>&quot;class&quot;: &quot;</xsl:text><xsl:value-of select="@class" /><xsl:text>&quot;,</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
+		</xsl:if>
 		<xsl:text>&quot;source&quot;: &quot;</xsl:text><xsl:value-of select="node[1]/@ref" /><xsl:text>&quot;,</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9, 9))" />
 		<xsl:text>&quot;target&quot;: &quot;</xsl:text><xsl:value-of select="node[2]/@ref" /><xsl:text>&quot;</xsl:text><xsl:value-of select="codepoints-to-string((10, 9, 9))" />
 		<xsl:text>}</xsl:text><xsl:if test="position() != last()">,</xsl:if><xsl:value-of select="codepoints-to-string((10, 9, 9))" />
